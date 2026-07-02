@@ -4,36 +4,36 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "GST Refund Calculator Online - Exports & Inverted Duty";
-const pageDesc = "Estimate your GST refund amount under Rule 89(4) for Zero-Rated Exports and Rule 89(5) for Inverted Duty Structures. Fast and compliant refund tool.";
+const pageTitle = "GST Refund Calculator Online India — Exports & Inverted Duty Refund Estimator";
+const pageDesc = "Estimate your GST refund under Rule 89(4) for Zero-Rated Exports and Rule 89(5) for Inverted Duty Structure. Free GST Refund Calculator online for Indian exporters and businesses with excess ITC.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Refund Calculator",
+  "name": "GST Refund Calculator Online India",
   "url": "https://gstcalculatoronline.in/tools/gst-refund-calculator",
-  "description": "Calculate refund claims for zero-rated supplies and inverted duty structures in India.",
+  "description": "Free GST refund calculator for India. Estimate refunds under Rule 89(4) for exports and Rule 89(5) for inverted duty structure.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "How is the GST refund calculated for exports?",
-    answer: "Under Rule 89(4) of the CGST Rules, the refund for exports (zero-rated supply under LUT/Bond) is calculated as:<br>**Refund = (Export Turnover × Net ITC) ÷ Adjusted Total Turnover**<br><br>Net ITC includes ITC accumulated on inputs and input services during the tax period."
-  },
-  {
-    question: "What is an Inverted Duty Structure?",
-    answer: "An inverted duty structure occurs when the tax rate on **inputs** (raw materials purchased) is higher than the tax rate on **outputs** (finished goods sold). This leads to accumulation of unutilized Input Tax Credit (ITC), which can be claimed as a refund."
-  },
-  {
-    question: "What is the formula for Inverted Duty refund?",
-    answer: "Under Rule 89(5), the refund formula for inverted duty structure is:<br>**Refund = [(Inverted Supply Turnover × Net ITC) ÷ Adjusted Total Turnover] - Tax Payable on Inverted Supply**."
-  }
+  { question: "What is a GST refund?", answer: "A GST refund is the amount of excess GST paid or accumulated Input Tax Credit (ITC) that a registered taxpayer can claim back from the government. Common refund situations include: exports (zero-rated supply), inverted duty structure (higher tax on inputs than outputs), excess cash balance in Electronic Cash Ledger, and deemed exports." },
+  { question: "How is the GST refund calculated for exports (Rule 89(4))?", answer: "Under Rule 89(4) of the CGST Rules, the refund for zero-rated exports is: Refund = (Zero-Rated Supply Turnover × Net ITC) ÷ Adjusted Total Turnover. Net ITC is the ITC on inputs and input services for the period minus ITC reversed. Adjusted Total Turnover is total turnover minus exempt supply turnover." },
+  { question: "What is the inverted duty structure in GST?", answer: "An inverted duty structure occurs when the GST rate on inputs (raw materials purchased) is higher than the GST rate on the finished output (goods sold). This results in accumulation of ITC that cannot be fully utilized, and the excess can be claimed as a cash refund from the government." },
+  { question: "What is the formula for inverted duty refund (Rule 89(5))?", answer: "Under Rule 89(5), the inverted duty refund formula is: Maximum Refund = [(Inverted Supply Turnover × Net ITC) ÷ Adjusted Total Turnover] − Tax Payable on Inverted Supply. The refund is the lesser of this formula result and the ITC accumulated due to the inverted duty." },
+  { question: "What is the time limit to apply for a GST refund?", answer: "Under Section 54 of the CGST Act, a GST refund application must be filed within 2 years from the relevant date. For exports, the relevant date is the date of export. For inverted duty, it is the end of the financial year in which the claim arises. Applications must be filed on the GST portal using Form RFD-01." },
+  { question: "What is RFD-01 in GST refund?", answer: "RFD-01 is the GST refund application form filed on the GST portal. It is used to claim refunds for exports under LUT (zero IGST), exports with IGST paid, inverted duty structure, and other scenarios. After filing RFD-01, the tax officer issues an acknowledgment (RFD-02) and then may either sanction (RFD-06) or reject the refund." },
+  { question: "What is a zero-rated supply in GST?", answer: "Zero-rated supply is a taxable supply on which the GST rate is 0%. All exports of goods and services are zero-rated under the IGST Act. Special Economic Zone (SEZ) supplies are also zero-rated. Exporters can claim refund of ITC accumulated on inputs used for zero-rated supplies." },
+  { question: "Can I get a refund of unutilized ITC?", answer: "Yes, but only in two specific situations: (1) Zero-rated exports where ITC accumulates because output is at 0% rate, (2) Inverted duty structure where tax on inputs is higher than tax on outputs. In all other situations, unutilized ITC cannot be claimed as a cash refund and must be carried forward." },
+  { question: "What is the Letter of Undertaking (LUT) for GST exports?", answer: "A Letter of Undertaking (LUT) is a document filed by an exporter on the GST portal (Form GST RFD-11) that allows them to export goods and services without paying IGST. Instead, they claim a refund of the accumulated ITC on inputs. This is the most common export method as it avoids the need to first pay IGST and then apply for refund." },
+  { question: "How long does a GST refund take to process?", answer: "Under Section 54, the GST officer must process a complete refund application within 60 days. If the refund is not sanctioned within 60 days, interest at 6% per annum is payable on the delayed refund. Exporters filing automated ITC refunds through GSTR-1 + GSTR-3B linkage can get faster refunds." },
+  { question: "Is this GST Refund Calculator free?", answer: "Yes, completely free. Select the refund type (Export/Zero-rated or Inverted Duty), enter the required turnover and ITC figures, and get your estimated refund amount instantly. No login, no registration, no charges." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="refund-form" class="space-y-6">
     <!-- Refund Scenario Selector -->
@@ -147,57 +147,86 @@ const faqs = [
   <!-- Results Block -->
   <ResultCard slot="results" title="Refund Summary" />
 
-  <!-- Educational content -->
+  <!-- Educational content: 1000+ words -->
   <div slot="content" class="prose max-w-none">
-    <h2>How to Calculate Your GST Refund Claim Amount</h2>
-    <p>Accumulating excess Input Tax Credit (ITC) can lock up vital working capital for export houses and manufacturers. The Indian GST framework allows claiming cash refunds for unutilized credits under Rule 89(4) (exports without paying tax) and Rule 89(5) (tax rates on purchases exceed tax rates on sales).</p>
-    
-    <h3>1. Zero-Rated Export Refund Formula (Rule 89(4))</h3>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-      <p>Maximum Refund Amount = (Turnover of Zero-rated supply of goods + Turnover of Zero-rated supply of services) × Net ITC ÷ Adjusted Total Turnover</p>
+    <h2>GST Refund Calculator Online — Exports & Inverted Duty Guide</h2>
+    <p>Two of the most common scenarios where Indian businesses accumulate excess GST and need refunds are: (1) <strong>Exports</strong> — where output is zero-rated but inputs attract GST, and (2) <strong>Inverted Duty Structure</strong> — where inputs attract higher GST than the finished output. Our free <strong>GST Refund Calculator online</strong> estimates your refund under both Rule 89(4) and Rule 89(5) of the CGST Rules, 2017.</p>
+
+    <h2>GST Refund Scenarios</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Scenario</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Rule</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Who Can Apply</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 text-body">Zero-Rated Exports (LUT)</td><td class="p-3 font-mono">Rule 89(4)</td><td class="p-3 text-body">Exporters of goods/services</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 text-body">Inverted Duty Structure</td><td class="p-3 font-mono">Rule 89(5)</td><td class="p-3 text-body">Businesses where input tax &gt; output tax</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 text-body">Excess Cash Ledger Balance</td><td class="p-3 font-mono">Section 54</td><td class="p-3 text-body">Any taxpayer with excess cash paid</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 text-body">Deemed Exports</td><td class="p-3 font-mono">Section 54(3)</td><td class="p-3 text-body">Suppliers to SEZ / EOU</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <h3>2. Inverted Duty Structure Refund Formula (Rule 89(5))</h3>
+    <h2>Rule 89(4) — Export Refund Formula</h2>
     <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-      <p>Maximum Refund Amount = [(Turnover of Inverted Rated Supply × Net ITC) ÷ Adjusted Total Turnover] - Tax Payable on Inverted Supply</p>
+      <p class="font-semibold text-brand-link mb-2">Formula (Rule 89(4)):</p>
+      <p>Refund = (Zero-Rated Turnover × Net ITC) ÷ Adjusted Total Turnover</p>
     </div>
-
-    <h3>Refund Calculation Example</h3>
-    <p>Suppose you have the following financials during a month:</p>
+    <p>Where:</p>
     <ul>
-      <li>Net ITC accumulated = ₹50,000</li>
-      <li>Adjusted Total Turnover = ₹5,000,000</li>
-      <li>Export (Zero-Rated) Turnover = ₹2,000,000</li>
+      <li><strong>Net ITC</strong> = ITC on inputs + ITC on input services (for the tax period)</li>
+      <li><strong>Zero-Rated Turnover</strong> = Value of zero-rated export supplies</li>
+      <li><strong>Adjusted Total Turnover</strong> = Total turnover − Exempt supply turnover</li>
     </ul>
-    <p>Applying the Zero-rated supply formula:</p>
-    <p class="font-mono text-sm">Refund = (₹2,000,000 × ₹50,000) ÷ ₹5,000,000 = <strong>₹20,000.00</strong>.</p>
+
+    <h3>Export Refund Example</h3>
+    <p>Monthly figures for an IT services exporter:</p>
+    <ul>
+      <li>Net ITC: ₹50,000</li>
+      <li>Zero-Rated Export Turnover: ₹20,00,000</li>
+      <li>Adjusted Total Turnover: ₹50,00,000</li>
+      <li>Refund: (20,00,000 × 50,000) ÷ 50,00,000 = <strong>₹20,000</strong></li>
+    </ul>
+
+    <h2>Rule 89(5) — Inverted Duty Refund Formula</h2>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+      <p class="font-semibold text-brand-link mb-2">Formula (Rule 89(5)):</p>
+      <p>Maximum Refund = [(Inverted Supply Turnover × Net ITC) ÷ Adjusted Total Turnover] − Tax Payable on Inverted Supply</p>
+    </div>
+
+    <h2>GST Refund Process — Step by Step</h2>
+    <ol>
+      <li><strong>File RFD-01</strong> — File the refund application online on the GST portal</li>
+      <li><strong>Receive RFD-02</strong> — Acknowledgment of your application</li>
+      <li><strong>Tax Officer Review</strong> — Officer scrutinizes your GSTR-1, GSTR-3B, and export documents</li>
+      <li><strong>Provisional Refund (RFD-04)</strong> — For exports, 90% of refund is given provisionally within 7 days</li>
+      <li><strong>Final Sanction (RFD-06)</strong> — Remaining 10% after verification</li>
+      <li><strong>Bank Credit</strong> — Refund credited directly to your registered bank account</li>
+    </ol>
+
+    <h2>Important Rules to Know</h2>
+    <ul>
+      <li><strong>Time limit:</strong> 2 years from the relevant date to apply for refund</li>
+      <li><strong>Processing time:</strong> 60 days; beyond that, 6% interest is payable by the government</li>
+      <li><strong>LUT for exporters:</strong> File Form GST RFD-11 annually to avoid paying IGST on exports</li>
+      <li><strong>GSTR-1 filing mandatory:</strong> Export refunds require GSTR-1 to be filed first</li>
+    </ul>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Tools</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="GST Interest Calculator" 
-          description="Calculate delayed cash filing interest (Sec 50)." 
-          url="/tools/interest-calculator"
-          icon="interest"
-        />
-        <ToolCard 
-          title="Late Fee Calculator" 
-          description="Compute GSTR-3B delayed filing fee penalties." 
-          url="/tools/late-fee-calculator"
-          icon="fee"
-        />
-        <ToolCard 
-          title="Online GST Calculator" 
-          description="Standard calculator to add or remove GST." 
-          url="/tools/gst-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/interest-calculator">GST Interest Calculator</a> — Calculate delayed refund interest (6% pa)</li>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Calculate GST on any transaction</li>
+      <li><a href="/tools/late-fee-calculator">GST Late Fee Calculator</a> — Calculate filing penalty fees</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>GST refunds can significantly improve cash flow for exporters and businesses with inverted duty structures. Use our free <strong>GST Refund Calculator online</strong> to estimate your eligible refund before filing RFD-01. Always verify the calculated figures with your actual GSTR data and consult a GST practitioner for complex multi-product refund scenarios.</p>
   </div>
 </CalculatorLayout>
 

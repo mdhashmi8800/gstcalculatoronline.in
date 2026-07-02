@@ -46,19 +46,21 @@ const blogCategories = [
           </svg>
         </button>
         <!-- Dropdown Panel -->
-        <div class="absolute left-1/2 -translate-x-1/2 mt-2 w-80 rounded-2xl border border-hairline bg-canvas p-4 shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
-          <div class="space-y-1.5">
-            <a href="/tools" class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
-              <span class="text-xs font-bold text-ink group-hover/link:text-primary transition-colors">All Calculators</span>
-              <span class="block text-[10px] text-mute leading-normal mt-0.5">Browse all 11 tax tools</span>
-            </a>
-            <div class="border-t border-hairline my-2"></div>
-            {categories.map(cat => (
-              <a href={cat.url} class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
-                <span class="text-xs font-bold text-ink group-hover/link:text-primary transition-colors">{cat.name}</span>
-                <span class="block text-[10px] text-mute leading-normal mt-0.5">{cat.desc}</span>
+        <div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-80 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
+          <div class="rounded-2xl border border-hairline bg-canvas p-4 shadow-xl">
+            <div class="space-y-1.5">
+              <a href="/tools" class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
+                <span class="text-xs font-bold text-ink group-hover/link:text-primary transition-colors">All Calculators</span>
+                <span class="block text-[10px] text-mute leading-normal mt-0.5">Browse all 11 tax tools</span>
               </a>
-            ))}
+              <div class="border-t border-hairline my-2"></div>
+              {categories.map(cat => (
+                <a href={cat.url} class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
+                  <span class="text-xs font-bold text-ink group-hover/link:text-primary transition-colors">{cat.name}</span>
+                  <span class="block text-[10px] text-mute leading-normal mt-0.5">{cat.desc}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -75,20 +77,22 @@ const blogCategories = [
           </svg>
         </button>
         <!-- Dropdown Panel -->
-        <div class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 rounded-2xl border border-hairline bg-canvas p-3 shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
-          <div class="space-y-1">
-            <a href="/blog" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-ink hover:text-primary transition-colors">
-              All Tax Articles
-            </a>
-            <div class="border-t border-hairline my-1.5"></div>
-            {blogCategories.map(cat => (
-              <a 
-                href={`/blog/category/${cat.slug}`} 
-                class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-body hover:text-primary transition-colors"
-              >
-                {cat.name}
+        <div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-56 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
+          <div class="rounded-2xl border border-hairline bg-canvas p-3 shadow-xl">
+            <div class="space-y-1">
+              <a href="/blog" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-ink hover:text-primary transition-colors">
+                All Tax Articles
               </a>
-            ))}
+              <div class="border-t border-hairline my-1.5"></div>
+              {blogCategories.map(cat => (
+                <a 
+                  href={`/blog/category/${cat.slug}`} 
+                  class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-body hover:text-primary transition-colors"
+                >
+                  {cat.name}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

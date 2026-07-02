@@ -3,37 +3,110 @@ import CalculatorLayout from '../../components/CalculatorLayout.astro';
 import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 
-const pageTitle = "Online GST Calculator India";
-const pageDesc = "Calculate GST (Central CGST, State SGST, and Integrated IGST) for any transaction amount. Supports custom rates, Add GST, and Remove GST modes. Free and accurate tool compliant with current Indian tax structures.";
+const pageTitle = "GST Calculator Online India – Free CGST, SGST & IGST Tool";
+const pageDesc = "Use our free GST Calculator Online India to instantly add or remove GST from any amount. Calculate CGST, SGST, and IGST for 5%, 12%, 18%, 28% slabs. Get correct invoice values in seconds — no sign-up needed.";
 
 // Schema for GST Calculator Page
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Indian GST Calculator Online",
+  "name": "GST Calculator Online India – Free CGST SGST IGST Tool",
   "url": "https://gstcalculatoronline.in/tools/gst-calculator",
-  "description": "Calculate CGST, SGST, IGST tax amounts in India using Net or Gross pricing.",
+  "description": "Free online GST calculator for India. Add or remove GST at 5%, 12%, 18%, 28% rates. Calculates CGST, SGST, and IGST splits automatically.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "featureList": [
+    "Add GST to base price",
+    "Remove GST from inclusive price",
+    "CGST and SGST split calculation",
+    "IGST calculation for interstate",
+    "Custom GST rate support",
+    "5%, 12%, 18%, 28% GST slabs"
+  ]
 };
 
 const faqs = [
   {
+    question: "What is a GST Calculator Online?",
+    answer: "A GST Calculator Online is a free digital tool that helps businesses, accountants, and individuals compute the Goods and Services Tax (GST) on any transaction amount. You simply enter the amount and select the GST rate — the calculator instantly shows the tax amount, CGST/SGST/IGST split, and the final invoice value."
+  },
+  {
+    question: "How do I calculate GST online in India?",
+    answer: "To calculate GST online: (1) Enter your transaction amount, (2) Select 'Add GST' if the price is exclusive of tax or 'Remove GST' if the price already includes tax, (3) Choose the applicable GST rate — 5%, 12%, 18%, or 28%, (4) Select Intrastate (CGST + SGST) or Interstate (IGST). The calculator shows the tax breakdown instantly."
+  },
+  {
     question: "What is the formula to calculate GST?",
-    answer: "To **Add GST**: GST Amount = (Amount × GST Rate) ÷ 100; Net Amount = Amount; Gross Amount = Net Amount + GST Amount.<br><br>To **Remove GST**: Net Amount = Amount ÷ (1 + (GST Rate ÷ 100)); GST Amount = Amount - Net Amount; Gross Amount = Amount."
+    answer: "To Add GST: GST Amount = (Base Price × GST Rate) ÷ 100; Total Invoice = Base Price + GST Amount. To Remove GST (inclusive price): Base Price = Inclusive Amount ÷ (1 + GST Rate ÷ 100); GST Amount = Inclusive Amount − Base Price. For CGST/SGST split, divide the total GST equally by 2."
   },
   {
     question: "What is the difference between CGST, SGST, and IGST?",
-    answer: "**CGST** (Central GST) and **SGST** (State GST) are levied on intrastate sales (within the same state). The tax rate is split 50:50 between the Central and State governments. **IGST** (Integrated GST) is levied on interstate transactions (between different states) and is collected by the Central government."
+    answer: "CGST (Central GST) is collected by the Central Government for intrastate transactions. SGST (State GST) is collected by the State Government for the same intrastate transactions — always equal to CGST. IGST (Integrated GST) is collected by the Centre for interstate transactions and imports, and equals the full combined rate (CGST + SGST combined)."
   },
   {
-    question: "What are the current GST tax slabs in India?",
-    answer: "The current standard GST slabs in India are **5%** (for essential goods), **12%** (standard goods/services), **18%** (most goods & services), and **28%** (luxury and demerit goods like cars or tobacco). Some items are exempted (0%) or attract custom rates (like gold at 3%)."
+    question: "How to calculate 18% GST on a product?",
+    answer: "To calculate 18% GST on, say, ₹10,000: GST Amount = 10,000 × 18 ÷ 100 = ₹1,800. Total Invoice = ₹10,000 + ₹1,800 = ₹11,800. For intrastate supply, CGST = ₹900 and SGST = ₹900. For interstate supply, IGST = ₹1,800. Our free 18% GST calculator online does this instantly."
+  },
+  {
+    question: "How to remove GST from an amount (reverse calculation)?",
+    answer: "To remove GST from an inclusive price of ₹11,800 at 18%: Base Price = 11,800 ÷ (1 + 18/100) = 11,800 ÷ 1.18 = ₹10,000. GST Amount = 11,800 − 10,000 = ₹1,800. This is known as the reverse GST calculation or inclusive GST calculation."
+  },
+  {
+    question: "What are the GST tax slabs in India?",
+    answer: "India has four primary GST slabs: 5% (essential goods like food items, medicines, transport), 12% (standard goods like computers, processed foods), 18% (most services, electronics, FMCG goods), and 28% (luxury items like cars, tobacco, aerated drinks). Some items are exempt (0%) and a few attract special rates like gold at 3%."
+  },
+  {
+    question: "Is this GST Calculator free to use?",
+    answer: "Yes, our GST Calculator Online is completely free to use. There is no registration, no login, no subscription, and no hidden charges. You can calculate GST for any amount, any rate, and any number of times without any cost."
+  },
+  {
+    question: "Can I use this GST calculator on my mobile phone?",
+    answer: "Absolutely. This GST Calculator Online is fully mobile responsive. It works perfectly on Android smartphones, iPhones, tablets, and all modern browsers. You get the same fast, accurate results on any device."
+  },
+  {
+    question: "What is CGST?",
+    answer: "CGST stands for Central Goods and Services Tax. It is the portion of GST collected by the Central Government of India on goods and services sold within the same state (intrastate supply). CGST is always equal to SGST and together they make up the total GST for intrastate transactions."
+  },
+  {
+    question: "What is SGST?",
+    answer: "SGST stands for State Goods and Services Tax. It is the portion of GST collected by the respective State Government on intrastate sales of goods and services. SGST equals CGST in rate, so for an 18% GST transaction, SGST = 9% and CGST = 9%."
+  },
+  {
+    question: "What is IGST?",
+    answer: "IGST stands for Integrated Goods and Services Tax. It is levied on all interstate transactions — when goods or services are sold from one state to another — and also on imports into India. IGST is collected by the Central Government and then distributed between the Centre and the destination state."
+  },
+  {
+    question: "How is GST calculated on a service invoice?",
+    answer: "GST on a service invoice is calculated the same way as goods. If a CA charges ₹50,000 for audit services (taxable at 18%), GST Amount = 50,000 × 18% = ₹9,000. Total Invoice = ₹59,000. If the service is provided within the state, split as CGST ₹4,500 + SGST ₹4,500."
+  },
+  {
+    question: "What is the GST rate for 12% slab?",
+    answer: "The 12% GST slab applies to goods and services like computers, mobile accessories, butter, cheese, frozen meat, medicines for certain categories, and various business services. For ₹10,000 at 12%: GST = ₹1,200; Total Invoice = ₹11,200; CGST = ₹600; SGST = ₹600."
+  },
+  {
+    question: "How to calculate GST inclusive amount?",
+    answer: "If a price is GST inclusive (meaning tax is already included in the listed price), use: Base Value = Inclusive Price ÷ (1 + Rate/100). Example: ₹5,900 inclusive of 18% GST → Base Value = 5,900 ÷ 1.18 = ₹5,000. GST = ₹900. Our 'Remove GST' mode handles this automatically."
+  },
+  {
+    question: "Which GST rate should I use for my business?",
+    answer: "The GST rate depends on the HSN code (for goods) or SAC code (for services) of your product/service. Most common rates: 5% for essential items, 12% for standard goods, 18% for most services and manufactured goods, 28% for luxury and demerit goods. Consult the official GST rate schedule or your CA to determine the correct slab."
+  },
+  {
+    question: "Can I calculate GST for custom rates not in standard slabs?",
+    answer: "Yes. Our GST Calculator supports custom rates. Apart from standard slabs (5%, 12%, 18%, 28%), you can enter any custom percentage — like 3% for gold or 0.25% for rough precious stones. Just click 'Custom' in the rate selector and type your rate."
+  },
+  {
+    question: "Does this calculator work for GST on exports?",
+    answer: "For exports, goods and services are zero-rated (0% GST). While this calculator focuses on domestic transactions, for interstate exports you would select Interstate (IGST) with a 0% rate. For detailed export refund calculations, use our GST Refund Calculator."
   }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Transaction Amount -->
@@ -131,41 +204,163 @@ const faqs = [
   <!-- Interactive Results Block -->
   <ResultCard slot="results" />
 
-  <!-- Educational content -->
+  <!-- Educational content (1400+ words, SEO-optimized) -->
   <div slot="content" class="prose max-w-none">
-    <h2>How to Calculate Goods & Services Tax (GST) in India</h2>
-    <p>Calculating the Goods and Services Tax (GST) manually or using online tools is simple once you grasp the underlying math. Indian transactions are categorized by location, meaning supply within a state is taxed under CGST (Central Goods and Services Tax) and SGST (State Goods and Services Tax), while supply to a different state falls under IGST (Integrated Goods and Services Tax).</p>
-    
-    <h3>Calculations Formulas</h3>
+    <h2>GST Calculator Online India — Everything You Need to Know</h2>
+    <p>Whether you are a business owner raising invoices, a Chartered Accountant preparing returns, or a shopper wanting to understand how much tax you are paying, a <strong>GST calculator online</strong> makes the process simple and instant. India's Goods and Services Tax system, launched on July 1, 2017, replaced a complex web of indirect taxes with one unified framework. Understanding how to calculate GST correctly is essential for accurate billing, compliance, and financial planning.</p>
+
+    <p>This free online GST calculator covers all standard Indian tax slabs — 5%, 12%, 18%, and 28% — along with custom rates for special categories like gold (3%) and rough precious stones (0.25%). You can calculate both <em>GST exclusive amounts</em> (adding GST to a base price) and <em>GST inclusive amounts</em> (removing GST from a total that already includes tax).</p>
+
+    <h2>What Is This GST Calculator?</h2>
+    <p>This tool is a free, web-based <strong>Indian GST calculator online</strong> designed to give you an instant and accurate breakdown of your tax liability for any transaction. The calculator supports:</p>
+    <ul>
+      <li><strong>Add GST mode</strong> — Enter the base (pre-tax) price and get the gross invoice total with tax</li>
+      <li><strong>Remove GST mode</strong> — Enter the GST-inclusive final price and extract the net taxable value</li>
+      <li><strong>Intrastate supply</strong> — Auto-splits total GST into equal CGST and SGST portions</li>
+      <li><strong>Interstate supply</strong> — Calculates the full amount as IGST</li>
+      <li><strong>Custom rate support</strong> — Beyond the four main slabs, enter any percentage</li>
+    </ul>
+
+    <h2>How the GST Calculator Works</h2>
+    <p>The calculator performs real-time computations as you type. There is no submit button — results update instantly every time you change the amount, rate, or calculation type. The underlying logic follows the official formulas prescribed by the GST Council of India.</p>
+
+    <h2>GST Formula — Adding and Removing Tax</h2>
     <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
       <div>
-        <p class="font-semibold text-brand-link">1. Adding GST to Base Price:</p>
-        <p>GST Amount = (Base Price × GST %) / 100</p>
+        <p class="font-semibold text-brand-link">1. Adding GST to Base Price (Exclusive):</p>
+        <p>GST Amount = (Base Price × GST Rate) ÷ 100</p>
         <p>Total Invoice (Gross) = Base Price + GST Amount</p>
+        <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
+        <p>IGST = GST Amount (for interstate)</p>
       </div>
       <div class="border-t border-hairline/50 pt-4">
-        <p class="font-semibold text-brand-link">2. Removing GST (Inclusive Pricing):</p>
-        <p>Base Taxable Value = Amount / (1 + (GST % / 100))</p>
-        <p>GST Amount = Amount - Base Taxable Value</p>
+        <p class="font-semibold text-brand-link">2. Removing GST from Inclusive Price:</p>
+        <p>Base (Net) Value = Inclusive Amount ÷ (1 + GST Rate ÷ 100)</p>
+        <p>GST Amount = Inclusive Amount − Base Value</p>
+        <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
       </div>
     </div>
 
-    <h3>Example Calculations</h3>
-    <p>Let's take a purchase transaction of ₹10,000 at a standard GST rate of 18%:</p>
+    <h2>Step-by-Step Guide — How to Use This Calculator</h2>
+    <ol>
+      <li><strong>Enter the transaction amount</strong> — Type the rupee value in the amount field. For "Add GST" this is the pre-tax price. For "Remove GST" this is the final inclusive price.</li>
+      <li><strong>Choose the GST Type</strong> — Select "Add GST" if you want to add tax on top of the base price. Select "Remove GST" if you want to find the original base price from a tax-inclusive figure.</li>
+      <li><strong>Select the GST Rate</strong> — Pick 5%, 12%, 18%, or 28% as per your product or service. For gold and other special categories, click "Custom" and type the rate (e.g., 3).</li>
+      <li><strong>Choose Supply Location</strong> — Select "Intrastate" for within-state transactions (shows CGST + SGST split). Select "Interstate" for cross-state or import transactions (shows IGST).</li>
+      <li><strong>View results instantly</strong> — The results panel on the right shows Net Taxable Value, GST Amount, CGST, SGST or IGST, and the Grand Total Invoice Value.</li>
+    </ol>
+
+    <h2>Calculation Examples</h2>
+    <h3>Example 1 — Adding 18% GST</h3>
+    <p>A Mumbai-based electronics store sells a laptop for a base price of ₹50,000 to a customer in Mumbai (intrastate).</p>
     <ul>
-      <li><strong>Add GST (18% on ₹10,000):</strong>
-        <br>GST Tax Amount = (10,000 × 18) / 100 = ₹1,800.
-        <br>Total Invoice Value = 10,000 + 1,800 = ₹11,800.
-        <br>For intrastate supply, this ₹1,800 split is CGST (₹900) + SGST (₹900). For interstate supply, IGST equals ₹1,800.
-      </li>
-      <li><strong>Remove GST (18% inclusive in ₹10,000):</strong>
-        <br>Base Taxable Price = 10,000 / (1 + 0.18) = ₹8,474.58.
-        <br>GST Tax Amount = 10,000 - 8,474.58 = ₹1,525.42.
-        <br>CGST & SGST Split = ₹762.71 each.
-      </li>
+      <li>GST Rate: 18%</li>
+      <li>GST Amount: 50,000 × 18 ÷ 100 = <strong>₹9,000</strong></li>
+      <li>CGST (9%): <strong>₹4,500</strong></li>
+      <li>SGST (9%): <strong>₹4,500</strong></li>
+      <li>Total Invoice: 50,000 + 9,000 = <strong>₹59,000</strong></li>
+    </ul>
+
+    <h3>Example 2 — Removing GST from Inclusive Price</h3>
+    <p>A restaurant bill shows ₹1,416 as the total (inclusive of 18% GST). What is the food cost before tax?</p>
+    <ul>
+      <li>Inclusive Price: ₹1,416</li>
+      <li>Base Value: 1,416 ÷ 1.18 = <strong>₹1,200</strong></li>
+      <li>GST Amount: 1,416 − 1,200 = <strong>₹216</strong></li>
+      <li>CGST (9%): <strong>₹108</strong></li>
+      <li>SGST (9%): <strong>₹108</strong></li>
+    </ul>
+
+    <h3>Business Example — Interstate B2B Sale</h3>
+    <p>A Bengaluru-based IT firm (Karnataka) provides software services worth ₹2,00,000 to a client in Delhi. Since it is an interstate transaction, IGST applies.</p>
+    <ul>
+      <li>Base Price: ₹2,00,000</li>
+      <li>GST Rate: 18%</li>
+      <li>IGST Amount: 2,00,000 × 18 ÷ 100 = <strong>₹36,000</strong></li>
+      <li>Total Invoice: ₹2,00,000 + ₹36,000 = <strong>₹2,36,000</strong></li>
+    </ul>
+
+    <h2>Common GST Rates in India (2024–25)</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">GST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Common Products / Services</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">0%</td><td class="p-3 text-body">Fresh vegetables, milk, eggs, bread, educational services, healthcare</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">3%</td><td class="p-3 text-body">Gold, silver, precious metals and stones</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Economy class air travel, packaged food, coffee (non-branded), transport services</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, processed food, butter, cheese, mobile phones (some), business services</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Most services, FMCG goods, electronics, banking services, restaurant food (non-AC)</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Luxury cars, tobacco, cement, aerated drinks, casinos, online gaming</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>CGST vs SGST vs IGST — Complete Comparison</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Feature</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">SGST</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">IGST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">Full Form</td><td class="p-3 text-body">Central Goods & Services Tax</td><td class="p-3 text-body">State Goods & Services Tax</td><td class="p-3 text-body">Integrated Goods & Services Tax</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Applicable On</td><td class="p-3 text-body">Intrastate supply</td><td class="p-3 text-body">Intrastate supply</td><td class="p-3 text-body">Interstate supply & imports</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">Collected By</td><td class="p-3 text-body">Central Government</td><td class="p-3 text-body">State Government</td><td class="p-3 text-body">Central Government</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Rate (at 18%)</td><td class="p-3 text-body font-mono">9%</td><td class="p-3 text-body font-mono">9%</td><td class="p-3 text-body font-mono">18%</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Governing Act</td><td class="p-3 text-body">CGST Act, 2017</td><td class="p-3 text-body">SGST Act, 2017</td><td class="p-3 text-body">IGST Act, 2017</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Benefits of Using an Online GST Calculator</h2>
+    <ul>
+      <li><strong>Saves time</strong> — No manual calculations; instant results for any amount and rate</li>
+      <li><strong>Reduces errors</strong> — Eliminates arithmetic mistakes that can cause compliance issues</li>
+      <li><strong>Works for all slabs</strong> — Handles 5%, 12%, 18%, 28%, and custom rates in one tool</li>
+      <li><strong>CGST/SGST auto-split</strong> — No need to manually halve the tax amount for intrastate transactions</li>
+      <li><strong>Inclusive and exclusive modes</strong> — Handles both "add GST" and "remove GST" scenarios</li>
+      <li><strong>Free and private</strong> — No data is stored or transmitted; all calculations happen on your device</li>
+    </ul>
+
+    <h2>Common Mistakes to Avoid</h2>
+    <ul>
+      <li><strong>Using the wrong GST rate</strong> — Always verify the HSN/SAC code for your product or service before applying a rate</li>
+      <li><strong>Confusing inclusive and exclusive pricing</strong> — If your price already includes GST, use the "Remove GST" mode, not "Add GST"</li>
+      <li><strong>Applying CGST+SGST on interstate sales</strong> — Interstate supplies must use IGST, not CGST+SGST</li>
+      <li><strong>Ignoring GST exemptions</strong> — Some goods and services are exempt (0% rate) or outside the purview of GST</li>
+      <li><strong>Rounding errors on invoices</strong> — Always round CGST and SGST to two decimal places as per GST invoice rules</li>
     </ul>
 
     <FAQ items={faqs} />
+
+    <h2>Related Tax Calculators</h2>
+    <p>Once you understand your basic GST liability, explore these specialised calculators for advanced tax scenarios:</p>
+    <ul>
+      <li><a href="/tools/reverse-gst-calculator">Reverse GST Calculator</a> — Find the original price before tax was added</li>
+      <li><a href="/tools/gst-inclusive-calculator">GST Inclusive Calculator</a> — Extract tax from a price that already includes GST</li>
+      <li><a href="/tools/gst-split-calculator">GST Split Calculator</a> — Divide total GST into CGST and SGST components</li>
+      <li><a href="/tools/igst-calculator">IGST Calculator</a> — Calculate integrated tax for interstate transactions</li>
+      <li><a href="/tools/interest-calculator">GST Interest Calculator</a> — Compute interest on late tax payments under Section 50</li>
+    </ul>
+
+    <h2>Related Articles</h2>
+    <ul>
+      <li><a href="/blog/what-is-gst">What is GST — Complete Guide for Indian Businesses</a></li>
+      <li><a href="/blog/cgst-sgst-igst-explained">CGST, SGST and IGST Explained — Differences and How They Work</a></li>
+      <li><a href="/blog/gst-rates-india-2026">GST Rates in India 2025–26 — Full Slab Chart</a></li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Using a <strong>GST calculator online free</strong> tool like this one removes all the complexity from Indian tax calculations. Whether you are preparing a sales invoice, checking a purchase bill, or reconciling your accounts, this <strong>online GST calculator India</strong> gives you the correct CGST, SGST, and IGST amounts in seconds. Bookmark this page and use it every time you need to calculate GST for any business transaction — it is always free, always accurate, and always up to date with India's current tax structure.</p>
   </div>
 </CalculatorLayout>
 
@@ -240,7 +435,6 @@ const faqs = [
     }
 
     if (!isAmountValid || !isRateValid) {
-      // Clear results on invalid inputs
       if (resTaxable) resTaxable.innerText = "₹0.00";
       if (resTotalTax) resTotalTax.innerText = "₹0.00";
       if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
@@ -272,20 +466,16 @@ const faqs = [
       grandTotal = amount;
     }
 
-    // Format currency function
     const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    // Update main outputs
     if (resTaxable) resTaxable.innerText = fmt(taxableValue);
     if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
     if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
 
-    // Update tax row splits
     if (isIntrastate) {
       resCgstRow?.classList.remove('hidden');
       resSgstRow?.classList.remove('hidden');
       resIgstRow?.classList.add('hidden');
-      
       const splitTax = totalTax / 2;
       if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
       if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
@@ -293,12 +483,10 @@ const faqs = [
       resCgstRow?.classList.add('hidden');
       resSgstRow?.classList.add('hidden');
       resIgstRow?.classList.remove('hidden');
-      
       if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
     }
   }
 
-  // Handle prefill from URL
   function loadFromUrl() {
     const params = new URLSearchParams(window.location.search);
     const amount = params.get('amount');
@@ -306,9 +494,7 @@ const faqs = [
     const type = params.get('type');
     const taxtype = params.get('taxtype');
 
-    if (amount && amountInput) {
-      amountInput.value = amount;
-    }
+    if (amount && amountInput) amountInput.value = amount;
 
     if (type) {
       const typeRadio = document.querySelector(`input[name="calc-type"][value="${type}"]`) as HTMLInputElement | null;
@@ -336,13 +522,11 @@ const faqs = [
     }
   }
 
-  // Add listeners
   if (gstForm) {
     gstForm.addEventListener('input', calculate);
     gstForm.addEventListener('change', calculate);
   }
 
-  // Monitor Custom Rate visibility
   const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
   rateRadios.forEach((radio) => {
     radio.addEventListener('change', (e) => {
@@ -361,8 +545,6 @@ const faqs = [
     });
   });
 
-  // Init
   loadFromUrl();
   calculate();
 </script>
-

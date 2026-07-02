@@ -5,14 +5,20 @@ import AdSense from './AdSense.astro';
 import type { SEOMetadata } from '../utils/seo';
 import { tools } from '../utils/tools';
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   title: string;
   description: string;
   seo?: SEOMetadata;
   schema?: Record<string, any>;
+  faqs?: FaqItem[];
 }
 
-const { title, description, seo, schema } = Astro.props;
+const { title, description, seo, schema, faqs } = Astro.props;
 
 // Infer the current tool from the pathname
 const currentPath = Astro.url.pathname;
@@ -50,8 +56,27 @@ if (relatedArticles.length < 3) {
 } else {
   relatedArticles = relatedArticles.slice(0, 3);
 }
+
+// Build FAQPage schema if faqs are provided
+const faqPageSchema = faqs && faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer.replace(/<[^>]*>/g, '') // strip HTML for schema
+    }
+  }))
+} : null;
+
+// Combine all page-level schemas into array
+const pageSchemas: Record<string, any>[] = [];
+if (schema) pageSchemas.push(schema);
+if (faqPageSchema) pageSchemas.push(faqPageSchema);
 ---
-<Layout seo={seo || { title, description }} schema={schema}>
+<Layout seo={seo || { title, description }} schemas={pageSchemas}>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <!-- Breadcrumbs -->
     <Breadcrumbs />

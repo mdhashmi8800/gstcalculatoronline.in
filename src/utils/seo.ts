@@ -7,6 +7,7 @@ export interface SEOMetadata {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  keywords?: string;
 }
 
 export const SITE_URL = 'https://gstcalculatoronline.in';

@@ -32,6 +32,22 @@ faqs:
     answer: "The time limit to claim ITC for any invoice is the earlier of November 30 following the end of the financial year, or the date of filing the relevant annual return."
   - question: "What happens if a supplier does not pay tax but issues an invoice?"
     answer: "Under Section 16, if the supplier does not deposit the tax with the government, the buyer cannot claim ITC, or must reverse it if already claimed, with interest."
+  - question: "What is the 180-day payment rule for ITC?"
+    answer: "Under Section 16(4), if a buyer does not pay the supplier within 180 days from the invoice date, the claimed ITC must be reversed along with interest at 18% per annum. Maintain a payment tracking ledger to avoid this."
+  - question: "What are blocked credits under Section 17(5)?"
+    answer: "ITC is blocked for motor vehicles (≤13 persons), food and beverages, outdoor catering, beauty treatment, health services, cosmetic/plastic surgery, club memberships, travel benefits to employees, and works contract for immovable property construction."
+  - question: "How does Rule 86B restrict ITC utilization?"
+    answer: "Rule 86B restricts taxpayers with taxable supplies exceeding ₹50 Lakhs per month from using more than 99% of ITC. At least 1% of output tax liability must be paid in cash via the Electronic Cash Ledger."
+  - question: "What is the difference between GSTR-2A and GSTR-2B?"
+    answer: "GSTR-2A is a dynamic, real-time statement that updates as suppliers file GSTR-1. GSTR-2B is a static statement generated on the 14th of each month. Only ITC reflected in GSTR-2B can be claimed."
+  - question: "Can ITC be claimed on capital goods?"
+    answer: "Yes, ITC on capital goods is allowed if used for business purposes. The full credit can be claimed in the month of receipt. However, if the capital goods are used partly for business and partly for personal use, only the business portion qualifies."
+  - question: "What happens if ITC is wrongly claimed?"
+    answer: "Wrongly claimed ITC must be reversed along with interest at 24% per annum under Section 50(3). Additionally, a penalty of ₹10,000 or 100% of the ITC claimed (whichever is higher) may be imposed under Section 122."
+  - question: "How do I claim ITC on opening stock when migrating to GST?"
+    answer: "ITC on closing stock as of July 1, 2017 was allowed under Section 142 of the CGST Act, provided the dealer was registered under the earlier VAT/Service Tax regime and had valid documents. The claim had to be made within prescribed time limits."
+  - question: "Can ITC be claimed on RCM payments?"
+    answer: "Yes, after paying GST under Reverse Charge Mechanism through the Electronic Cash Ledger, the recipient can claim the same amount as Input Tax Credit in the same tax period, provided the supply is used for business purposes."
 ---
 
 ## Introduction to Input Tax Credit (ITC)
@@ -119,6 +135,23 @@ A business entity, Alpha Corp, has the following tax ledger balances at the star
 - Cash Payment Required: **₹10,000** (SGST ledger)
 - Credit carried forward: **₹40,000** (CGST ledger)
 - Total Tax Liabilties Cleared: **₹2,20,000**
+
+---
+
+### GSTR-2A vs GSTR-2B Reconciliation
+
+Reconciliation of purchase invoices with portal data is the single most critical compliance task for claiming Input Tax Credit.
+- **GSTR-2A:** A dynamic, real-time statement. It updates continuously as suppliers file their GSTR-1 returns, even if filed late for previous periods.
+- **GSTR-2B:** A static, auto-drafted statement generated on the 14th of every month. It locks the ITC available for the preceding month. Under current rules, you can **only claim ITC that is reflected in GSTR-2B** for that month. Any invoice missing from GSTR-2B must be deferred to the next month, regardless of whether it appears in GSTR-2A.
+
+### The 99% Credit Utilization Limit: Rule 86B
+
+To prevent fake invoicing and tax evasion, the CBIC introduced **Rule 86B** of the CGST Rules. 
+- **Applicability:** Applies to registered persons whose value of taxable supply of goods or services (excluding exempt and zero-rated supply) exceeds **₹50 Lakhs** in a month.
+- **Restriction:** Such taxpayers cannot use the Electronic Credit Ledger (ITC) to discharge more than **99%** of their output tax liability. At least **1%** of the liability must be paid in cash via the Electronic Cash Ledger.
+- **Exceptions:** Does not apply if the Managing Director/Partners have paid more than ₹1 Lakh in Income Tax in the last two years, or if the taxpayer has received a refund of >₹1 Lakh for unutilized ITC under exports or inverted duty in the preceding year.
+
+---
 
 ## Expert Tips for GST Compliance and Auditing
 

@@ -4,36 +4,37 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "IGST Calculator Online - Interstate GST Tool";
-const pageDesc = "Calculate Integrated Goods and Services Tax (IGST) for interstate trade in India. Add or remove IGST with standard rates and get instant taxable calculations.";
+const pageTitle = "IGST Calculator Online India — Integrated GST for Interstate Transactions";
+const pageDesc = "Calculate Integrated GST (IGST) for interstate trade and imports in India. Add or remove IGST at 5%, 12%, 18%, 28% with instant results. Free IGST Calculator online for all Indian businesses.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "IGST Calculator Online",
+  "name": "IGST Calculator Online India",
   "url": "https://gstcalculatoronline.in/tools/igst-calculator",
-  "description": "Calculate Integrated GST tax liabilities for interstate transactions in India.",
+  "description": "Free IGST calculator for India. Calculate Integrated GST for interstate transactions and imports.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is IGST (Integrated Goods and Services Tax)?",
-    answer: "IGST is a tax levied under the GST regime on all interstate transactions of goods and services (between different states or union territories), as well as on imports and exports. It is collected by the Central government and shared with the destination state."
-  },
-  {
-    question: "When is IGST calculated instead of CGST & SGST?",
-    answer: "IGST applies whenever the supplier's location and the place of supply are in **different states**. If they are in the same state, it is an intrastate transaction, and CGST + SGST apply instead."
-  },
-  {
-    question: "How do I calculate IGST?",
-    answer: "To **Add IGST**: IGST Amount = (Base Amount × IGST Rate) ÷ 100.<br>To **Remove IGST**: Base Amount = Inclusive Amount ÷ (1 + (IGST Rate ÷ 100)); IGST Amount = Inclusive Amount - Base Amount."
-  }
+  { question: "What is IGST (Integrated Goods and Services Tax)?", answer: "IGST is a tax levied under the GST regime on all interstate transactions of goods and services (between different states or union territories), as well as on imports and exports. It is collected by the Central Government and then apportioned to the destination state." },
+  { question: "When is IGST applied instead of CGST and SGST?", answer: "IGST applies when the supplier's location and the place of supply are in different states (interstate transactions) or when goods are imported into India. If both the supplier and buyer are in the same state, it is an intrastate transaction and CGST + SGST apply instead." },
+  { question: "How is IGST calculated?", answer: "To Add IGST: IGST Amount = Base Price × (IGST Rate ÷ 100); Total Invoice = Base Price + IGST Amount. To Remove IGST: Taxable Value = Inclusive Price ÷ (1 + IGST Rate ÷ 100); IGST Amount = Inclusive Price − Taxable Value." },
+  { question: "How is IGST different from CGST and SGST?", answer: "CGST and SGST are levied together on intrastate (same-state) transactions — each at half the total rate. IGST is levied as a single tax on interstate transactions at the full combined rate. The total tax paid is the same amount; only the collection mechanism differs." },
+  { question: "Who collects IGST and how is it shared with states?", answer: "IGST is collected by the Central Government. It is then apportioned: the Centre retains its CGST-equivalent share and transfers the SGST-equivalent share to the destination state (not the origin state). This ensures tax flows to where the goods or services are consumed." },
+  { question: "Is IGST applicable on exports?", answer: "Exports are zero-rated under GST. IGST rate on exports is 0%. Exporters can either pay IGST and claim a refund, or export under a Letter of Undertaking (LUT) without paying IGST. This makes Indian exports globally competitive." },
+  { question: "Can IGST be used to offset CGST or SGST liability?", answer: "Yes. Under the ITC utilization rules, IGST credit can be used to pay CGST, SGST, or IGST output tax liabilities. This cross-state ITC mechanism is one of the key benefits of the IGST framework over the pre-GST CST regime." },
+  { question: "What is the IGST rate for common goods and services?", answer: "IGST rates mirror the combined GST rate: 5% (essential goods), 12% (standard goods), 18% (most services, electronics), 28% (luxury items). So an 18% GST on intrastate transaction = 9% CGST + 9% SGST; on interstate = 18% IGST." },
+  { question: "Is IGST applicable on e-commerce transactions?", answer: "Yes. When goods or services are sold through e-commerce platforms to buyers in other states, IGST applies on the transaction. The Tax Collected at Source (TCS) provisions under Section 52 of the CGST Act also apply to e-commerce operators." },
+  { question: "How is IGST reported in GST returns?", answer: "IGST on outward supplies is reported in GSTR-1 (Table 6 for interstate B2B, Table 7 for B2C). IGST paid in a month is reported in GSTR-3B. IGST ITC received from purchases is reported in GSTR-3B Table 4." },
+  { question: "What is the IGST Act, 2017?", answer: "The Integrated Goods and Services Tax Act, 2017 is the legislation governing IGST. It defines interstate supply, imports, exports, ITC on IGST, and the apportionment mechanism between Centre and states. It came into force on July 1, 2017, along with the CGST Act." },
+  { question: "Is this IGST Calculator free?", answer: "Yes, completely free. No login, no registration, no charges. Enter any amount, select the IGST rate (5%, 12%, 18%, 28%, or custom), choose Add or Remove IGST, and get instant results." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Transaction Amount -->
@@ -114,65 +115,93 @@ const faqs = [
   <!-- Interactive Results Block -->
   <ResultCard slot="results" title="IGST Summary" />
 
-  <!-- Educational content -->
+  <!-- Educational content: 1000+ words -->
   <div slot="content" class="prose max-w-none">
-    <h2>Interstate Transactions and IGST Calculations</h2>
-    <p>The Integrated Goods and Services Tax (IGST) is governed by the IGST Act 2017. In a federal tax system, IGST ensures that tax revenue goes directly to the state where the goods or services are consumed, rather than the state where they were manufactured or shipped from.</p>
-    
-    <h3>IGST Calculation Formulas</h3>
+    <h2>IGST Calculator Online India — Integrated GST for Interstate Business</h2>
+    <p>India's GST system has a dual structure — when goods or services move <em>within</em> a state, both CGST and SGST apply. But when they cross state borders or are imported, only <strong>IGST (Integrated GST)</strong> applies. Our free <strong>IGST Calculator online</strong> makes it easy to compute the exact IGST amount for any interstate transaction, import, or export scenario.</p>
+
+    <h2>What Is IGST?</h2>
+    <p>IGST stands for <strong>Integrated Goods and Services Tax</strong>. It is governed by the IGST Act, 2017, and is levied by the Central Government on:</p>
+    <ul>
+      <li><strong>Interstate supply of goods</strong> — goods crossing state boundaries</li>
+      <li><strong>Interstate supply of services</strong> — service provider and recipient in different states</li>
+      <li><strong>Imports into India</strong> — customs duty equivalent</li>
+      <li><strong>Export of goods/services</strong> — at 0% rate (zero-rated)</li>
+    </ul>
+    <p>The IGST rate is always equal to the sum of the applicable CGST and SGST rates for the same category of goods/services.</p>
+
+    <h2>IGST vs CGST & SGST — Key Differences</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Feature</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST + SGST</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">IGST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">Applicable On</td><td class="p-3 text-body">Intrastate (same state)</td><td class="p-3 text-body">Interstate (different states) &amp; imports</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Number of Tax Lines</td><td class="p-3 text-body">Two separate taxes</td><td class="p-3 text-body">One single tax</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">Collected By</td><td class="p-3 text-body">Centre (CGST) + State (SGST)</td><td class="p-3 text-body">Centre (shared later)</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-medium text-ink">At 18% Rate</td><td class="p-3 text-body">CGST 9% + SGST 9%</td><td class="p-3 text-body">IGST 18%</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-medium text-ink">ITC Utilization</td><td class="p-3 text-body">CGST can offset CGST &amp; IGST; SGST can offset SGST &amp; IGST</td><td class="p-3 text-body">IGST can offset IGST, CGST, or SGST</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>IGST Calculation Formulas</h2>
     <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
       <div>
-        <p class="font-semibold text-brand-link">1. Adding IGST (Tax-Exclusive):</p>
-        <p>IGST Tax = Base Price × (IGST Rate % / 100)</p>
-        <p>Total Invoice Value = Base Price + IGST Tax</p>
+        <p class="font-semibold text-brand-link">1. Adding IGST (Tax-Exclusive Base Price):</p>
+        <p>IGST Amount = Base Price × (IGST Rate ÷ 100)</p>
+        <p>Total Invoice = Base Price + IGST Amount</p>
       </div>
       <div class="border-t border-hairline/50 pt-4">
-        <p class="font-semibold text-brand-link">2. Removing IGST (Tax-Inclusive):</p>
-        <p>Taxable Value = Inclusive Amount / (1 + (IGST Rate % / 100))</p>
-        <p>IGST Tax = Inclusive Amount - Taxable Value</p>
+        <p class="font-semibold text-brand-link">2. Removing IGST (Tax-Inclusive Price):</p>
+        <p>Taxable Value = Inclusive Price ÷ (1 + IGST Rate ÷ 100)</p>
+        <p>IGST Amount = Inclusive Price − Taxable Value</p>
       </div>
     </div>
 
-    <h3>Example Calculations</h3>
-    <p>Let's calculate the IGST for a transaction of <strong>₹25,000</strong> at a standard tax rate of <strong>18%</strong>:</p>
+    <h2>IGST Calculation Examples</h2>
+    <h3>Example 1 — Adding IGST (Interstate B2B)</h3>
+    <p>A Mumbai supplier sells machinery worth ₹25,00,000 to a Delhi buyer (interstate).</p>
     <ul>
-      <li><strong>Add IGST (Base price is ₹25,000):</strong>
-        <br>IGST Tax Amount = (25,000 × 18) / 100 = <strong>₹4,500.00</strong>.
-        <br>Total Invoice Value = 25,000 + 4,500 = <strong>₹29,500.00</strong>.
-        <br>Note that CGST & SGST splits are zero since the full ₹4,500 is IGST.
-      </li>
-      <li><strong>Remove IGST (Inclusive price is ₹25,000):</strong>
-        <br>Base Taxable Price = 25,000 / (1 + 0.18) = 25,000 / 1.18 = <strong>₹21,186.44</strong>.
-        <br>IGST Tax Amount = 25,000 - 21,186.44 = <strong>₹3,813.56</strong>.
-      </li>
+      <li>Base Price: ₹25,00,000</li>
+      <li>IGST Rate: 18%</li>
+      <li>IGST Amount: 25,00,000 × 18% = <strong>₹4,50,000</strong></li>
+      <li>Total Invoice: <strong>₹29,50,000</strong></li>
+    </ul>
+
+    <h3>Example 2 — Removing IGST from an Inclusive Price</h3>
+    <p>An imported product costs ₹29,500 inclusive of 18% IGST. Find the custom value before IGST.</p>
+    <ul>
+      <li>Inclusive Price: ₹29,500</li>
+      <li>Taxable Value: 29,500 ÷ 1.18 = <strong>₹25,000</strong></li>
+      <li>IGST Amount: <strong>₹4,500</strong></li>
+    </ul>
+
+    <h2>Benefits of This IGST Calculator</h2>
+    <ul>
+      <li><strong>Both modes</strong> — Add IGST (exclusive) or remove IGST (inclusive)</li>
+      <li><strong>All standard rates</strong> — 5%, 12%, 18%, 28%, and custom rates</li>
+      <li><strong>No CGST/SGST confusion</strong> — Shows only IGST for clean interstate reporting</li>
+      <li><strong>Import-ready</strong> — Useful for calculating IGST on customs duty invoices</li>
+      <li><strong>Completely free</strong> — No login, no subscription required</li>
     </ul>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="Online GST Calculator" 
-          description="Calculate combined CGST, SGST, and IGST rates." 
-          url="/tools/gst-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Split Calculator" 
-          description="Split total GST liabilities between Central and State." 
-          url="/tools/gst-split-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Rate Calculator" 
-          description="Calculate tax rates from purchase transactions." 
-          url="/tools/gst-rate-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — General GST add/remove tool with CGST/SGST split</li>
+      <li><a href="/tools/gst-split-calculator">GST Split Calculator</a> — Split total GST into CGST and SGST</li>
+      <li><a href="/tools/reverse-gst-calculator">Reverse GST Calculator</a> — Extract GST from inclusive price</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Our free <strong>IGST Calculator online</strong> is the essential tool for any Indian business dealing with interstate commerce, imports, or exports. Whether you are raising an invoice for a cross-state client or verifying customs duties on imports, this calculator gives you the exact IGST amount in seconds. No formulas to remember, no errors — just instant, accurate results.</p>
   </div>
 </CalculatorLayout>
 

@@ -9,9 +9,10 @@ import type { SEOMetadata } from '../utils/seo';
 interface Props {
   seo?: SEOMetadata;
   schema?: Record<string, any>;
+  schemas?: Record<string, any>[];
 }
 
-const { seo, schema } = Astro.props;
+const { seo, schema, schemas } = Astro.props;
 ---
 
 <!doctype html>
@@ -33,7 +34,7 @@ const { seo, schema } = Astro.props;
     </noscript>
 
     <!-- SEO Meta & Schema -->
-    <SEO seo={seo} schema={schema} />
+    <SEO seo={seo} schema={schema} schemas={schemas} />
 
     <!-- Theme Inline Script to avoid theme flash -->
     <script is:inline>

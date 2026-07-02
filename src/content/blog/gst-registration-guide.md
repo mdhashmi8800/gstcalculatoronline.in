@@ -32,6 +32,22 @@ faqs:
     answer: "Under Section 122, a penalty of 100% of tax due or ₹10,000 (whichever is higher) is charged for escaping registration."
   - question: "How long does it take to get a GST registration certificate?"
     answer: "Normally, if all documents are clear, it takes 3 to 10 working days. If clarification is requested, it can take longer depending on response times."
+  - question: "Who must register for GST regardless of turnover?"
+    answer: "Interstate suppliers, e-commerce sellers, persons required to pay tax under RCM, non-resident taxable persons, and persons deducting TDS under GST must register regardless of their aggregate turnover."
+  - question: "Can I have multiple GST registrations in different states?"
+    answer: "Yes, businesses with operations in multiple states must obtain separate GST registration in each state, as GST registration is state-specific and based on the PAN."
+  - question: "What is the Aadhaar authentication process for GST registration?"
+    answer: "Aadhaar authentication is a mandatory step where promoters/partners verify identity through UIDAI OTP. Successful authentication typically leads to approval within 3-4 working days without physical verification."
+  - question: "What documents are needed for GST registration?"
+    answer: "PAN card, proof of business constitution (partnership deed or incorporation certificate), address proof of principal place of business (electricity bill or rental agreement), bank account details, and photographs of promoters/partners."
+  - question: "Can a GST registration be cancelled voluntarily?"
+    answer: "Yes, a taxpayer can voluntarily cancel GST registration if they close their business, transfer the business, or if their turnover falls below the threshold. Form GST REG-16 is used for voluntary cancellation."
+  - question: "What is the Composition Scheme and who is eligible?"
+    answer: "The Composition Scheme allows small taxpayers with turnover up to ₹1.5 Crores (₹50 Lakhs for services) to pay flat tax rates (1% traders, 5% restaurants, 6% service providers) without claiming ITC. They cannot collect GST from customers."
+  - question: "What happens if I don't update bank details after registration?"
+    answer: "Failure to update bank account details within 45 days of GST registration or before filing the first return (whichever is earlier) can lead to automatic suspension of your GSTIN."
+  - question: "How do I check my GST registration status online?"
+    answer: "Log in to the GST Portal at gst.gov.in, navigate to Services > Registration > Track Application Status. Enter your ARN to check the current status of your registration application."
 ---
 
 ## Introduction to GST Registration
@@ -50,8 +66,8 @@ Furthermore, the administrative machinery involves online ledgers: the Electroni
 
 ## Detailed Guide and Step-by-Step Procedure
 
-Setting up your GST registration online is a structured process that takes place on the GST Common Portal. Follow these exact steps:
-      
+Compliance under the GST regime requires a systematic execution of digital workflows. Follow this standard step-by-step guide:
+
 1. **TRN Generation (Part-A):**
    - Go to the GST Portal, select **Services > Registration > New Registration**.
    - Select 'Taxpayer' as the user type, enter your State, District, Legal Name of Business (as per PAN), PAN Number, Email Address, and Mobile Number.
@@ -62,13 +78,47 @@ Setting up your GST registration online is a structured process that takes place
    - The application dashboard opens, divided into multiple tabs: Business Details, Promoter/Partners, Authorized Signatory, Principal Place of Business, Commodity Details, and Verification.
    - Enter all details carefully. Upload the mandatory documents, including PAN Card of the company/promoters, proof of constitution (Partnership deed or Incorporation Certificate), proof of principal place of business (Electricity bill, rental agreement, or NOC), and bank account details (cancelled cheque or bank statement).
    
-3. **Verification and ARN Generation:**
+3. **Aadhaar Authentication (New Mandatory Step):**
+   - Choose whether you want to undergo Aadhaar Authentication for the promoters/partners and authorized signatories.
+   - If you opt-in (highly recommended), a verification link is sent to the Aadhaar-linked email and mobile of the designated persons after submitting Part-B.
+   - Click the link, enter the Aadhaar Number, and verify using the UIDAI OTP.
+   - *Note: If Aadhaar authentication is successful, the registration is typically approved within 3-4 working days without physical site verification.*
+   
+4. **Verification and ARN Generation:**
    - Go to the verification tab, select the authorized signatory, and submit the application using **Electronic Verification Code (EVC)** OTP or a **Digital Signature Certificate (DSC)** (compulsory for Companies and LLPs).
    - Once submitted, an **Application Reference Number (ARN)** is generated and sent to your registered email and mobile, allowing you to track the application status.
    
-4. **Clarification and Approval:**
+5. **Clarification and Approval:**
    - The tax officer reviews the application. If they require clarifications, they will issue a Show Cause Notice (SCN) via form GST REG-03 within 7 working days.
    - You must submit a reply via form GST REG-04 within 7 working days of receiving the notice. If the officer is satisfied, or if no notice is issued, the **GST Registration Certificate (GST REG-06)** is issued within 3-10 working days, containing your unique 15-digit GSTIN.
+
+6. **Post-Registration Bank Details Update (Mandatory):**
+    - Upon receiving your GSTIN, you must log in to the GST portal and update your business bank account details within **45 days** of registration or before filing your first return (whichever is earlier).
+    - Failure to update bank details within this time limit can lead to automatic suspension of your GSTIN registration.
+
+7. **Downloading the GST Registration Certificate (REG-06):**
+    - Log in using your new credentials. Go to **Services > User Services > View/Download Certificates**.
+    - Click the download link next to Form GST REG-06. The certificate contains three main pages: the main certificate, Annexure A (details of additional places of business), and Annexure B (details of promoters/partners). Keep this file safe for B2B trade.
+
+8. **Setting Up Digital Signature Certificate (DSC):**
+    - Companies and LLPs must mandatorily register a DSC on the GST portal for signing returns. Go to **Services > Registration > Digital Signature Certificate** and upload your Class 2 or Class 3 DSC.
+    - For proprietorships and partnerships, EVC (Electronic Verification Code) via OTP is an alternative to DSC.
+
+9. **Registering for E-Invoicing (If Applicable):**
+    - If your aggregate annual turnover exceeds ₹5 Crores, you must register on the Invoice Registration Portal (IRP) for E-invoicing within 30 days of crossing the threshold.
+    - Generate Invoice Reference Number (IRN) for all B2B invoices before issuing them to buyers.
+
+10. **Enrolling on E-Way Bill Portal:**
+    - For businesses transporting goods worth more than ₹50,000, enroll on the E-Way Bill portal (ewaybillgst.gov.in) using your GSTIN credentials.
+    - Generate E-way bills for every goods movement exceeding the threshold value.
+
+11. **Linking Aadhaar for Faster Authentication:**
+    - Link Aadhaar of all promoters, partners, and authorized signatories through the GST portal for faster processing of future applications and amendments.
+    - Go to **Services > Registration > Aadhaar Authentication** and complete the UIDAI OTP verification.
+
+12. **Setting Up Ledger Alerts and Notifications:**
+    - Configure email and SMS alerts on the GST portal for return due dates, demand notices, and ITC matching mismatches.
+    - Enable the notification service under **Services > User Services > Alerts/Notifications** to stay updated on compliance deadlines.
 
 ## Important Guidelines, Limits, and Thresholds
 

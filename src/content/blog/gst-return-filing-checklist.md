@@ -32,6 +32,22 @@ faqs:
     answer: "Late filing charges accrue daily (₹50/day standard, capped based on turnover), along with 18% per annum interest on the tax paid in cash."
   - question: "Can I revise a filed GST return?"
     answer: "No, a filed GSTR-1 or GSTR-3B cannot be revised. Any corrections must be reported in the returns of the subsequent period."
+  - question: "What is the due date for filing GSTR-1?"
+    answer: "GSTR-1 is due by the 11th of the following month for monthly filers and by the 13th of the month following the quarter for quarterly QRMP filers."
+  - question: "What is the due date for filing GSTR-3B?"
+    answer: "GSTR-3B is due by the 20th of the following month for monthly filers and by the 22nd or 24th (state-dependent) for quarterly QRMP filers."
+  - question: "What is GSTR-9 and who must file it?"
+    answer: "GSTR-9 is the annual consolidated return that must be filed by taxpayers with aggregate annual turnover exceeding ₹2 Crore. It is due by December 31st of the following financial year."
+  - question: "What is GSTR-9C?"
+    answer: "GSTR-9C is the self-certified reconciliation statement required for taxpayers with aggregate annual turnover exceeding ₹5 Crore. It reconciles the annual return with audited financial statements."
+  - question: "What is the Invoice Furnishing Facility (IFF)?"
+    answer: "IFF is an optional facility under QRMP that allows small taxpayers to upload B2B invoices monthly (up to ₹50 Lakhs) so buyers can claim ITC immediately without waiting for the quarterly GSTR-1."
+  - question: "What are the penalties for non-filing of GST returns?"
+    answer: "Late fee under Section 47: ₹50/day for taxable returns (₹25 CGST + ₹25 SGST) and ₹20/day for NIL returns, subject to turnover-based caps. Additionally, 18% per annum interest on net cash liability under Section 50."
+  - question: "How do I file NIL GST returns?"
+    answer: "If you have no outward supplies, inward supplies, or tax liability for a period, you can file NIL GSTR-1 and GSTR-3B. NIL returns attract lower late fees of ₹20/day instead of ₹50/day."
+  - question: "Can I file GST returns after the due date?"
+    answer: "Yes, but late fees and interest will accrue. You can file pending returns at any time. However, prolonged non-filing may lead to GST registration cancellation by the tax officer."
 ---
 
 ## Introduction to GST Return Filing
@@ -70,6 +86,31 @@ Filing your periodic GST returns is crucial to keeping your business compliant. 
    - Compute your Net GST Payable. The portal offsets the output tax liability against your Electronic Credit Ledger (ITC) balance.
    - If there is a shortfall, deposit the remaining tax in the Electronic Cash Ledger by generating a Challan (GST PMT-06) and paying via Net Banking/NEFT/RTGS.
    - Once the liability is balanced, click **Proceed to File**, verify with DSC or EVC, and submit your return by the 20th of the following month.
+
+### All Key GST Return Forms Reference Table
+
+Depending on the type of registration and business activity, different GST return forms are applicable:
+
+| Return Form | Purpose of the Form | Frequency | Who Must File | Standard Due Date |
+| --- | --- | --- | --- | --- |
+| **GSTR-1** | Details of outward B2B & B2C sales | Monthly or Quarterly | Regular registered taxpayers | 11th of next month (Monthly) or 13th (Quarterly) |
+| **GSTR-3B** | Summary return with self-assessed tax offset | Monthly or Quarterly | Regular registered taxpayers | 20th (Monthly) or 22nd/24th (Quarterly) |
+| **CMP-08** | Quarterly challan for tax payment | Quarterly | Composition dealers | 18th of month following the quarter |
+| **GSTR-4** | Detailed annual return | Annual | Composition dealers | 30th April of next financial year |
+| **GSTR-5** | Details of sales & purchases | Monthly | Non-Resident Foreign Taxpayers | 13th of next month |
+| **GSTR-6** | Distribution of input tax credit | Monthly | Input Service Distributors (ISD) | 13th of next month |
+| **GSTR-7** | Return of Tax Deducted at Source (TDS) | Monthly | Government/TDS deductors | 10th of next month |
+| **GSTR-8** | Return of Tax Collected at Source (TCS) | Monthly | E-commerce Operators | 10th of next month |
+| **GSTR-9** | Annual consolidated GST return | Annual | Taxpayers with AATO > ₹2 Crore | 31st December of next FY |
+| **GSTR-9C** | Self-certified reconciliation statement | Annual | Taxpayers with AATO > ₹5 Crore | 31st December of next FY |
+| **GSTR-10** | Final return for registration cancellation | Once | Taxpayers whose GSTIN is cancelled | Within 3 months of cancellation order |
+
+### Invoice Furnishing Facility (IFF) under QRMP
+
+For taxpayers who opt for the **QRMP (Quarterly Return Monthly Payment)** scheme:
+- **What is IFF?** The Invoice Furnishing Facility (IFF) is an optional online window that allows small taxpayers to upload B2B invoices on the portal during the first two months of a quarter.
+- **Why use IFF?** By uploading invoices monthly in IFF, the buyer can see the ITC in their GSTR-2B and claim credit immediately, without waiting for the supplier's quarterly GSTR-1.
+- **Limit:** Taxpayers can upload B2B invoices up to **₹50 Lakhs** in value per month in IFF. In the third month of the quarter, the remaining invoices are reported in the regular GSTR-1 return.
 
 ## Important Guidelines, Limits, and Thresholds
 

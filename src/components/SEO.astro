@@ -4,9 +4,10 @@ import { getSEOMetadata, type SEOMetadata, PUBLIC_ADSENSE_CLIENT } from '../util
 interface Props {
   seo?: SEOMetadata;
   schema?: Record<string, any>;
+  schemas?: Record<string, any>[];
 }
 
-const { seo, schema } = Astro.props;
+const { seo, schema, schemas } = Astro.props;
 
 // Determine unique canonical URL automatically, stripping trailing slash to prevent duplicates
 let cleanPath = Astro.url.pathname;
@@ -20,13 +21,19 @@ const metadata = getSEOMetadata({
   ...seo,
 });
 
-// Organization Schema (Required by SEO standards)
+// Combine all schemas into one list for rendering
+const allPageSchemas: Record<string, any>[] = [];
+if (schema) allPageSchemas.push(schema);
+if (schemas && Array.isArray(schemas)) allPageSchemas.push(...schemas);
+
+// Organization Schema (Required by SEO standards & EEAT)
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": "https://gstcalculatoronline.in/#organization",
   "name": "GST Calculator Online India",
   "url": "https://gstcalculatoronline.in",
+  "description": "Free online GST calculators for Indian taxpayers. Calculate CGST, SGST, IGST, GST interest, late fees, and refunds instantly.",
   "logo": {
     "@type": "ImageObject",
     "@id": "https://gstcalculatoronline.in/#logo",
@@ -35,7 +42,10 @@ const orgSchema = {
   },
   "image": {
     "@id": "https://gstcalculatoronline.in/#logo"
-  }
+  },
+  "sameAs": [
+    "https://gstcalculatoronline.in"
+  ]
 };
 
 // WebSite Schema with Search Action
@@ -45,9 +55,16 @@ const websiteSchema = {
   "@id": "https://gstcalculatoronline.in/#website",
   "name": "GST Calculator Online India",
   "url": "https://gstcalculatoronline.in",
+  "description": "India's most comprehensive free GST calculator platform with 11 tools and 30+ expert tax guides.",
+  "publisher": {
+    "@id": "https://gstcalculatoronline.in/#organization"
+  },
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://gstcalculatoronline.in/tools?search={search_term_string}",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://gstcalculatoronline.in/search?q={search_term_string}"
+    },
     "query-input": "required name=search_term_string"
   }
 };
@@ -57,7 +74,14 @@ const websiteSchema = {
 <title>{metadata.title}</title>
 <meta name="title" content={metadata.title} />
 <meta name="description" content={metadata.description} />
-<meta name="robots" content={metadata.noindex ? "noindex, nofollow" : "index, follow"} />
+<meta name="robots" content={metadata.noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+{seo?.keywords && <meta name="keywords" content={seo.keywords} />}
+{seo?.author && <meta name="author" content={seo.author} />}
+
+<!-- Geo & Language Targeting -->
+<meta property="og:locale" content="en_IN" />
+<meta name="geo.region" content="IN" />
+<meta name="geo.placename" content="India" />
 
 <!-- Canonical URL -->
 {metadata.canonical && <link rel="canonical" href={metadata.canonical} />}
@@ -70,24 +94,24 @@ const websiteSchema = {
 <meta property="og:image" content={metadata.ogImage} />
 <meta property="og:site_name" content="GST Calculator Online India" />
 
-<!-- Twitter -->
+<!-- Twitter Cards -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={metadata.canonical} />
 <meta property="twitter:title" content={metadata.ogTitle} />
 <meta property="twitter:description" content={metadata.ogDescription} />
 <meta property="twitter:image" content={metadata.ogImage} />
+<meta name="twitter:site" content="@gstcalconline" />
 
 <!-- Google AdSense Global Code -->
 {PUBLIC_ADSENSE_CLIENT && (
   <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${PUBLIC_ADSENSE_CLIENT}`} crossorigin="anonymous"></script>
 )}
 
-<!-- Structured Data (JSON-LD) -->
-{schema && (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-)}
+<!-- Page-specific Structured Data (JSON-LD) – supports multiple schemas -->
+{allPageSchemas.map(s => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
 
 <!-- Global site-wide schemas -->
 <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-

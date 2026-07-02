@@ -3,37 +3,86 @@ import CalculatorLayout from '../../components/CalculatorLayout.astro';
 import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 
-const pageTitle = "GST Composition Scheme Calculator";
-const pageDesc = "Calculate tax liabilities under the GST Composition Scheme for traders, manufacturers, restaurant service providers, and small service providers. Evaluates correct flat rates (1%, 5%, and 6%) and quarterly payouts.";
+const pageTitle = "GST Composition Scheme Calculator Online India — Flat Rate Estimator";
+const pageDesc = "Use our free GST Composition Scheme Calculator to estimate quarterly tax liability. Supports 1% rate for traders/manufacturers, 5% for restaurants, and 6% for service providers under Section 10.";
 
 // Schema for Composition Calculator Page
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Composition Scheme Calculator",
+  "name": "GST Composition Scheme Calculator India",
   "url": "https://gstcalculatoronline.in/tools/composition-calculator",
-  "description": "Calculate quarterly composition scheme tax liabilities in India for traders, restaurants, and services.",
+  "description": "Free GST composition calculator. Calculate quarterly composition tax liabilities at flat rates of 1%, 5%, or 6% under Section 10 of the CGST Act.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
   {
     question: "Who is eligible for the GST Composition Scheme?",
-    answer: "A taxpayer whose annual aggregate turnover does not exceed **₹1.5 Crores** (₹75 Lakhs for North-Eastern states and Himachal Pradesh) can opt for the composition scheme. For service providers, the turnover threshold is **₹50 Lakhs**."
+    answer: "A taxpayer whose annual aggregate turnover in the preceding financial year did not exceed ₹1.5 Crores (₹75 Lakhs for North-Eastern states and Himachal Pradesh) is eligible to opt for the GST Composition Scheme. For service providers, the turnover threshold is ₹50 Lakhs under Section 10(2A) of the CGST Act."
   },
   {
-    question: "What are the tax rates under the Composition Scheme?",
-    answer: "The flat tax rates on turnover are:<br>- **Manufacturers & Traders**: 1% (0.5% CGST + 0.5% SGST)<br>- **Restaurants (no alcohol)**: 5% (2.5% CGST + 2.5% SGST)<br>- **Service Providers**: 6% (3% CGST + 3% SGST)"
+    question: "What are the tax rates under the GST Composition Scheme?",
+    answer: "The flat tax rates on turnover are: (1) Manufacturers and Traders: 1% of turnover (0.5% CGST + 0.5% SGST), (2) Restaurants not serving alcohol: 5% of turnover (2.5% CGST + 2.5% SGST), (3) Service Providers and Mixed Suppliers: 6% of turnover (3% CGST + 3% SGST)."
   },
   {
     question: "Can a composition dealer make interstate sales?",
-    answer: "No. A major restriction of the GST composition scheme is that composition dealers **cannot make interstate outward supplies** (sales to other states). They can only make local (intrastate) sales. Consequently, they do not collect or pay IGST."
+    answer: "No. A key restriction of the GST composition scheme is that composition dealers cannot make interstate outward supplies (selling goods or services to other states). They must make only local (intrastate) supplies. However, they can purchase goods from other states (interstate purchases)."
+  },
+  {
+    question: "Can a composition dealer claim Input Tax Credit (ITC)?",
+    answer: "No. Taxpayers registered under the composition scheme are strictly barred from claiming Input Tax Credit (ITC) on their purchases. Any GST paid on purchases (raw materials, capital goods, services) is treated as a business cost."
+  },
+  {
+    question: "Can a composition dealer collect GST from customers?",
+    answer: "No. A composition dealer cannot collect GST from their customers. Since they cannot collect tax, they cannot issue a standard tax invoice. Instead, they must issue a 'Bill of Supply' for all sales transactions."
+  },
+  {
+    question: "How is composition tax calculated?",
+    answer: "Composition tax is calculated by applying the flat slab rate directly to the taxable turnover for the quarter. Example: A trader has a turnover of ₹10 Lakhs in Q1. The flat rate is 1%. Total Tax = 10,00,000 × 1% = ₹10,000. CGST = ₹5,000; SGST = ₹5,000."
+  },
+  {
+    question: "What is Form CMP-08?",
+    answer: "Form CMP-08 is a quarterly statement-cum-challan used by composition dealers to declare their self-assessed tax liability and pay the tax. The due date for filing CMP-08 is the 18th day of the month following the end of the quarter."
+  },
+  {
+    question: "What is Form GSTR-4?",
+    answer: "Form GSTR-4 is the annual return that composition dealers must file. It contains details of outward supplies, inward supplies (including those attracting reverse charge), and taxes paid. The due date for filing GSTR-4 is April 30th of the following financial year."
+  },
+  {
+    question: "Can a composition dealer supply services?",
+    answer: "Yes. Initially, services were restricted except for restaurants. However, under Section 10(2A) introduced in 2019, small service providers and mixed suppliers with aggregate turnover up to ₹50 Lakhs in the preceding year can opt for the scheme at a flat rate of 6%."
+  },
+  {
+    question: "Who cannot opt for the GST Composition Scheme?",
+    answer: "The scheme cannot be opted by: (1) Manufacturers of ice cream, pan masala, or tobacco, (2) Persons making interstate supplies, (3) Casual taxable persons or non-resident taxable persons, (4) Businesses supplying goods through e-commerce operators who collect TCS under Section 52."
+  },
+  {
+    question: "Can a business opt out of the Composition Scheme mid-year?",
+    answer: "Yes, a taxpayer can voluntarily opt out of the composition scheme at any time by filing Form GST CMP-04 on the portal. Additionally, if the turnover crosses the threshold limit (e.g., ₹1.5 Cr or ₹50 Lakhs) during the year, they automatically exit the scheme."
+  },
+  {
+    question: "What must be written on a composition dealer's bill of supply?",
+    answer: "A composition dealer must prominently mention the following words at the top of every Bill of Supply they issue: 'Composition taxable person, not eligible to collect tax on supplies'."
+  },
+  {
+    question: "Must a composition dealer display their status at their place of business?",
+    answer: "Yes. Under GST rules, a composition dealer must prominently display the words 'Composition Taxable Person' on every notice board or signboard at their principal place of business and every additional place of business."
+  },
+  {
+    question: "How is aggregate turnover calculated for the ₹1.5 Crore limit?",
+    answer: "Aggregate turnover includes the value of all taxable supplies, exempt supplies, exports of goods or services, and interstate supplies of persons having the same PAN, calculated on an all-India basis. It excludes GST taxes and the value of inward supplies attracting reverse charge."
+  },
+  {
+    question: "Is this GST Composition Scheme Calculator free?",
+    answer: "Yes, completely free. Select the business type (Trader/Manufacturer, Restaurant, or Service Provider), enter your quarterly taxable turnover, and get your estimated CGST and SGST liability instantly."
   }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="composition-form" class="space-y-6">
     <!-- Taxable Turnover -->
@@ -96,28 +145,223 @@ const faqs = [
   <!-- Interactive Results Block -->
   <ResultCard slot="results" title="Composition Liability" />
 
-  <!-- Educational content -->
+  <!-- Educational content: 1400+ words -->
   <div slot="content" class="prose max-w-none">
-    <h2>Guide to GST Composition Scheme Calculations</h2>
-    <p>The GST Composition Scheme is a simplified tax paying mechanism designed for small taxpayers. Under normal GST laws, taxpayers have to file multiple detailed returns monthly, track credit ledgers, and maintain complex records. The composition scheme offers relief from this overhead by allowing eligible taxpayers to pay a flat tax rate based on their quarterly sales turnover.</p>
-    
-    <h3>Key Restrictions of the Composition Scheme</h3>
-    <p>To prevent misuse, composition dealers are subject to strict statutory boundaries:</p>
+    <h2>GST Composition Scheme — A Simplified Guide for Small Businesses</h2>
+    <p>Compliance under the Goods and Services Tax (GST) can be challenging for small businesses, retailers, start-ups, and service providers. Maintaining detailed books of account, filing monthly or quarterly returns, reconciling input tax credit (ITC) with GSTR-2B, and issuing formal tax invoices require administrative resources. To ease this burden, the Government of India introduced the <strong>GST Composition Scheme</strong> under Section 10 of the CGST Act, 2017.</p>
+
+    <p>This scheme offers a simplified tax payment mechanism for eligible small businesses. Instead of paying tax at standard rates (like 5%, 12%, 18%, or 28%) and claiming input tax credit, composition dealers pay tax at a very low flat rate on their sales turnover. This free <strong>GST Composition Scheme Calculator online</strong> helps you estimate your quarterly tax liability and understand the cash flow impact of opting for the scheme.</p>
+
+    <h2>What is the GST Composition Scheme?</h2>
+    <p>The GST Composition Scheme is an alternative, optional method of tax payment designed for small taxpayers whose turnover is below a specified limit. Key features of the scheme include:</p>
     <ul>
-      <li><strong>No Interstate Sales:</strong> Outward supply must be strictly local (within the same state). Therefore, **IGST calculations do not apply**.</li>
-      <li><strong>No Input Tax Credit:</strong> Composition dealers cannot claim credit on their purchases.</li>
-      <li><strong>No Tax Collection:</strong> Dealers cannot collect GST from their customers or issue standard tax invoices; they issue a "Bill of Supply" instead.</li>
+      <li><strong>Low Flat Tax Rates:</strong> Dealers pay a nominal tax rate (ranging from 1% to 6%) on their sales turnover.</li>
+      <li><strong>Reduced Compliance:</strong> Instead of filing monthly GSTR-1 and GSTR-3B returns, composition dealers file a single quarterly statement (CMP-08) and one annual return (GSTR-4).</li>
+      <li><strong>No Input Tax Credit (ITC):</strong> Composition dealers cannot claim credit for taxes paid on purchases of goods or services.</li>
+      <li><strong>No Tax Collection:</strong> Dealers cannot charge or collect GST from their customers. Consequently, they cannot issue a 'Tax Invoice' and instead issue a 'Bill of Supply'.</li>
     </ul>
 
-    <h3>Tax Liability Formulas</h3>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-      <p class="font-semibold text-brand-link">Composition Tax Formula:</p>
-      <p>Total Composition Tax = Quarterly Taxable Turnover × Flat Rate %</p>
-      <p>CGST Portion = Total Tax / 2</p>
-      <p>SGST Portion = Total Tax / 2</p>
+    <h2>Composition Scheme Turnover Limits</h2>
+    <p>To qualify for the composition scheme, a taxpayer's annual aggregate turnover must be within the following limits:</p>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Business Category</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Eligible Turnover Limit</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Special States Limit*</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50">
+            <td class="p-3 text-body font-medium">Traders &amp; Manufacturers</td>
+            <td class="p-3 font-mono">₹1.5 Crores</td>
+            <td class="p-3 font-mono">₹75 Lakhs</td>
+          </tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Restaurants (Not serving alcohol)</td>
+            <td class="p-3 font-mono">₹1.5 Crores</td>
+            <td class="p-3 font-mono">₹75 Lakhs</td>
+          </tr>
+          <tr class="bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Service Providers &amp; Mixed Suppliers</td>
+            <td class="p-3 font-mono">₹50 Lakhs</td>
+            <td class="p-3 font-mono">₹50 Lakhs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-mute">*Special Category States include: Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura, and Uttarakhand. Himachal Pradesh has the higher limit of ₹1.5 Crores.</p>
+
+    <h2>Flat GST Rates Under the Composition Scheme</h2>
+    <p>Composition tax is paid as a percentage of the total turnover. It is split equally between CGST and SGST for intrastate sales. Since composition dealers cannot make interstate sales, IGST rates are not applicable:</p>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Business Type</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">SGST/UTGST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Total Flat Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50">
+            <td class="p-3 text-body font-medium">Manufacturers &amp; Traders</td>
+            <td class="p-3 font-mono">0.5%</td>
+            <td class="p-3 font-mono">0.5%</td>
+            <td class="p-3 font-mono font-bold text-primary">1%</td>
+          </tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Restaurants (not serving alcohol)</td>
+            <td class="p-3 font-mono">2.5%</td>
+            <td class="p-3 font-mono">2.5%</td>
+            <td class="p-3 font-mono font-bold text-primary">5%</td>
+          </tr>
+          <tr class="bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Service Providers &amp; Mixed Suppliers</td>
+            <td class="p-3 font-mono">3.0%</td>
+            <td class="p-3 font-mono">3.0%</td>
+            <td class="p-3 font-mono font-bold text-primary">6%</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
+    <h2>How to Calculate Composition Tax — Formulas</h2>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-brand-link mb-2">Composition Liability Formulas:</p>
+        <p>1. Total Tax Liability = Quarterly Taxable Turnover × Composition Rate</p>
+        <p>2. CGST Portion = Total Tax Liability ÷ 2</p>
+        <p>3. SGST Portion = Total Tax Liability ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Examples</h2>
+
+    <h3>Example 1 — Retail Trader (1% Flat Rate)</h3>
+    <p>A grocery store registered under the Composition Scheme has a taxable turnover of ₹12,00,000 in the first quarter of the financial year. Since the business is a retail trade, the flat rate is 1%:</p>
+    <ul>
+      <li>Quarterly Turnover: ₹12,00,000</li>
+      <li>Composition Rate: 1%</li>
+      <li>Total Tax Liability: 12,00,000 × 1% = <strong>₹12,000</strong></li>
+      <li>CGST Portion (0.5%): <strong>₹6,000</strong></li>
+      <li>SGST Portion (0.5%): <strong>₹6,000</strong></li>
+      <li>Net Out-of-Pocket Payment: ₹12,000 (no ITC credit offset allowed)</li>
+    </ul>
+
+    <h3>Example 2 — Small Restaurant (5% Flat Rate)</h3>
+    <p>A local family restaurant opting for the composition scheme has a quarterly turnover of ₹8,50,000. Restaurants attract a flat rate of 5%:</p>
+    <ul>
+      <li>Quarterly Turnover: ₹8,50,000</li>
+      <li>Composition Rate: 5%</li>
+      <li>Total Tax Liability: 8,50,000 × 5% = <strong>₹42,500</strong></li>
+      <li>CGST Portion (2.5%): <strong>₹21,250</strong></li>
+      <li>SGST Portion (2.5%): <strong>₹21,250</strong></li>
+    </ul>
+
+    <h3>Example 3 — Service Provider (6% Flat Rate)</h3>
+    <p>A freelance web development agency opting for the service provider composition scheme under Section 10(2A) has a quarterly turnover of ₹4,00,000. Service composition attracts a rate of 6%:</p>
+    <ul>
+      <li>Quarterly Turnover: ₹4,00,000</li>
+      <li>Composition Rate: 6%</li>
+      <li>Total Tax Liability: 4,00,000 × 6% = <strong>₹24,000</strong></li>
+      <li>CGST Portion (3%): <strong>₹12,000</strong></li>
+      <li>SGST Portion (3%): <strong>₹12,000</strong></li>
+    </ul>
+
+    <h2>Comparison: Composition Scheme vs. Regular Scheme</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Feature</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Regular Scheme</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Composition Scheme</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50">
+            <td class="p-3 text-body font-medium">GST Rate Charged</td>
+            <td class="p-3 text-body">Standard rate (5%, 12%, 18%, 28%)</td>
+            <td class="p-3 text-body">Nominal flat rate (1%, 5%, 6%)</td>
+          </tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Who Pays the Tax?</td>
+            <td class="p-3 text-body">Collected from buyer, paid to government</td>
+            <td class="p-3 text-body">Paid by dealer directly out of pocket</td>
+          </tr>
+          <tr class="border-b border-hairline/50">
+            <td class="p-3 text-body font-medium">Input Tax Credit (ITC)</td>
+            <td class="p-3 text-body">Yes, eligible to claim ITC on purchases</td>
+            <td class="p-3 text-body">No, blocked from claiming any ITC</td>
+          </tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Interstate Supply</td>
+            <td class="p-3 text-body">Allowed without restrictions</td>
+            <td class="p-3 text-body">Not allowed to make interstate outward sales</td>
+          </tr>
+          <tr class="border-b border-hairline/50">
+            <td class="p-3 text-body font-medium">Return Filings</td>
+            <td class="p-3 text-body">Monthly or quarterly (GSTR-1, GSTR-3B)</td>
+            <td class="p-3 text-body">Quarterly statement (CMP-08), Annual (GSTR-4)</td>
+          </tr>
+          <tr class="bg-canvas-soft/30">
+            <td class="p-3 text-body font-medium">Invoice Document</td>
+            <td class="p-3 text-body">Tax Invoice</td>
+            <td class="p-3 text-body">Bill of Supply</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Key Restrictions & Statutory Exclusions</h2>
+    <p>Opting for the composition scheme comes with strict conditions. Non-compliance can lead to penalties and automatic exclusion from the scheme. The primary restrictions are:</p>
+    <ul>
+      <li><strong>No Interstate Outward Supply:</strong> A composition dealer cannot make sales to buyers in other states. However, they are permitted to buy raw materials or services from other states.</li>
+      <li><strong>No B2B ITC Pass-through:</strong> Since a composition dealer cannot issue a tax invoice, B2B buyers purchasing from them cannot claim any Input Tax Credit. This makes composition dealers less attractive to regular GST-registered business clients.</li>
+      <li><strong>No E-commerce Sales:</strong> Dealers cannot sell goods or services through e-commerce operators who collect Tax Collected at Source (TCS) under Section 52 of the CGST Act.</li>
+      <li><strong>Exempted Goods Excluded:</strong> The flat rate applies to the entire turnover of the composition dealer, including both taxable and exempt goods (in case of traders).</li>
+      <li><strong>No Sin Goods Manufacturing:</strong> Manufacturers of tobacco, pan masala, aerated water, and ice cream cannot opt for this scheme.</li>
+    </ul>
+
+    <h2>Return Filing and Compliance Timeline</h2>
+    <p>Composition dealers enjoy simplified filing requirements compared to regular taxpayers:</p>
+    <ul>
+      <li><strong>Form CMP-08 (Quarterly Challan):</strong> This is a self-declaration of summary turnover and tax payment due by the <strong>18th of the month following the end of the quarter</strong> (e.g., July 18th for Q1).</li>
+      <li><strong>Form GSTR-4 (Annual Return):</strong> A comprehensive return detailing purchases and sales turnover, due by <strong>April 30th of the following financial year</strong>.</li>
+      <li><strong>Form GSTR-9A (Simplified Annual Return):</strong> An optional annual return that may be filed for auditing purposes.</li>
+    </ul>
+
+    <h2>Benefits of the Composition Scheme</h2>
+    <ul>
+      <li><strong>Less Compliance Burden:</strong> Filing only 5 forms a year instead of 24+ returns drastically reduces accounting fees and administrative overhead.</li>
+      <li><strong>Improved Cash Flow:</strong> Low tax rates mean less capital is locked up in taxes.</li>
+      <li><strong>Pricing Flexibility:</strong> Because dealers don't charge tax to buyers, they can price their products competitively for final consumers.</li>
+      <li><strong>Simplified Bookkeeping:</strong> No need to track and reconcile ITC details, credit ledger, or tax invoices.</li>
+    </ul>
+
+    <h2>Limitations of the Composition Scheme</h2>
+    <ul>
+      <li><strong>Limited Geographic Reach:</strong> Banned from making interstate sales, restricting business expansion.</li>
+      <li><strong>High Out-of-Pocket Expense:</strong> Inability to claim ITC on purchases increases the cost of materials.</li>
+      <li><strong>No B2B Attractiveness:</strong> Business buyers cannot claim credit on purchases from a composition dealer, so they prefer regular tax invoice suppliers.</li>
+      <li><strong>Slightly Higher Tax on Exempt Goods:</strong> For traders, tax is levied on the entire aggregate turnover, which includes exempt sales.</li>
+    </ul>
+
     <FAQ items={faqs} />
+
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — General GST add/remove tool</li>
+      <li><a href="/tools/gst-split-calculator">GST Split Calculator</a> — Split tax between CGST and SGST</li>
+      <li><a href="/tools/interest-calculator">GST Interest Calculator</a> — Calculate interest on delayed tax payment</li>
+      <li><a href="/tools/late-fee-calculator">GST Late Fee Calculator</a> — Calculate late return filing fees</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>The GST Composition Scheme is an excellent choice for local retail stores, small local manufacturers, and direct-to-consumer service providers who want to minimize compliance costs and focus on core business operations. Our free <strong>GST Composition Scheme Calculator</strong> helps you quickly estimate your quarterly liability to make informed business decisions. If your business primarily serves B2B clients or requires significant interstate trade, the Regular GST Scheme is generally more suitable.</p>
   </div>
 </CalculatorLayout>
 

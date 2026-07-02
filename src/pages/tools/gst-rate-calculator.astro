@@ -4,36 +4,36 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "GST Rate Calculator Online - Find Tax Percentage (%)";
-const pageDesc = "Identify the exact GST percentage rate applied on your invoices. Enter the original base price and the final gross price or tax amount to get the percentage rate.";
+const pageTitle = "GST Rate Calculator Online India — Find Applied GST Percentage on Any Invoice";
+const pageDesc = "Use our free GST Rate Calculator online to find the exact GST percentage applied on any invoice. Enter the base price and final price (or tax amount) to instantly calculate the applied GST rate — 5%, 12%, 18%, or 28%.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Rate Calculator Online",
+  "name": "GST Rate Calculator Online India",
   "url": "https://gstcalculatoronline.in/tools/gst-rate-calculator",
-  "description": "Calculate applied tax percentage rates from base prices and invoice totals.",
+  "description": "Free GST rate calculator. Find the exact GST percentage applied on any invoice by entering the base price and final price.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "How do I calculate the GST rate percentage?",
-    answer: "To calculate the GST percentage rate when you know the base price and the final price:<br>**GST Rate (%) = ((Final Price - Base Price) ÷ Base Price) × 100**<br><br>If you know the tax amount directly:<br>**GST Rate (%) = (GST Tax Amount ÷ Base Price) × 100**."
-  },
-  {
-    question: "Why do I need to calculate the GST rate?",
-    answer: "Calculated GST rates help verify if a vendor has applied the correct legal tax slab (e.g. 5%, 12%, 18%, or 28%) on your invoices, preventing overcharging and ensuring compliance during ITC reconciliation."
-  },
-  {
-    question: "What is an example of calculating GST rate?",
-    answer: "If a services bill shows a base price of ₹10,000 and a final amount of ₹11,800:<br>1. Tax Amount = ₹11,800 - ₹10,000 = ₹1,800.<br>2. GST Rate = (₹1,800 ÷ ₹10,000) × 100 = **18%**."
-  }
+  { question: "How do I calculate the GST rate from a price?", answer: "GST Rate (%) = ((Final Price − Base Price) ÷ Base Price) × 100. Or, if you know the tax amount: GST Rate (%) = (GST Amount ÷ Base Price) × 100. Example: Base ₹10,000, Final ₹11,800 → GST = 1,800; Rate = (1800 ÷ 10000) × 100 = 18%." },
+  { question: "Why do I need to calculate the applied GST rate?", answer: "You need to calculate the GST rate to: (1) Verify that a vendor has charged the correct legal GST slab, (2) Audit invoices for ITC reconciliation, (3) Determine the HSN code-based applicable rate when the supplier has not mentioned it, (4) Identify overcharging or tax fraud by suppliers." },
+  { question: "What are the standard GST rates in India?", answer: "India's GST has four main positive rates: 5% (essential goods, economy services), 12% (standard goods, processed foods), 18% (most services, electronics, FMCG), 28% (luxury goods, sin goods). There are also special rates of 3% (gold/silver), 0.25% (rough precious stones), and 0% (exempt goods)." },
+  { question: "What is the formula to find GST rate from invoice?", answer: "GST Rate from Invoice = ((Invoice Total − Base Price) ÷ Base Price) × 100. Or from tax amount: GST Rate = (Tax Amount ÷ Base Price) × 100. Our GST Rate Calculator automates this for both input methods." },
+  { question: "How to verify the GST rate on a purchase invoice?", answer: "Check the tax invoice for: (1) The HSN/SAC code, (2) The CGST rate and SGST rate separately (they should be equal), (3) Total GST rate = CGST rate + SGST rate. Then verify using this calculator: if the base price and total match the expected rate, the invoice is correct." },
+  { question: "What if the GST rate on an invoice doesn't match the standard slabs?", answer: "If the calculated rate doesn't match 5%, 12%, 18%, or 28%, there may be: (1) An incorrect HSN code on the invoice, (2) Mathematical errors in the invoice, (3) A special rate that applies (e.g., 3% for gold, 0.25% for rough diamonds), (4) Tax fraud. Consult the GST rate schedule or a tax professional." },
+  { question: "How do I find the GST rate for my product or service?", answer: "Look up the HSN (Harmonized System of Nomenclature) code for goods or SAC (Service Accounting Code) for services in the GST rate schedule published by the CBIC at gst.gov.in. The applicable GST rate is listed against each HSN/SAC code." },
+  { question: "What is the GST rate for services in India?", answer: "Most services attract 18% GST in India. Specific rates include: Restaurant services — 5% (without ITC) or 18% (AC restaurant with alcohol license); Healthcare services — 0% (exempt); Educational services — 0% (exempt); Financial services — 18%; IT and software services — 18%." },
+  { question: "How is CGST and SGST rate split for any GST rate?", answer: "CGST and SGST are always equal: each is half of the total GST rate. So at 18% total: CGST = 9% + SGST = 9%. At 12%: CGST = 6% + SGST = 6%. At 5%: CGST = 2.5% + SGST = 2.5%. For interstate transactions, the full rate is IGST." },
+  { question: "Can the GST rate be different for the same product in different states?", answer: "No. Under India's unified GST framework, the GST rate for a product or service is the same across all states. What differs is only the split: intrastate transactions use CGST + SGST (at same combined rate), while interstate uses IGST. The total tax burden is identical." },
+  { question: "Is this GST Rate Calculator free?", answer: "Yes, completely free. Enter the base price and final price (or tax amount), and get the exact GST percentage applied. No login, no registration, no charges. Useful for invoice auditing, ITC reconciliation, and tax compliance verification." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Input Mode -->
@@ -113,41 +113,69 @@ const faqs = [
         <p>GST Rate (%) = [GST Tax Amount / Base Price] × 100</p>
       </div>
     </div>
+    <h2>Find Applied GST Rate on Any Invoice</h2>
+    <p>Ever received an invoice and wondered: <em>is the GST rate correct?</em> Our free <strong>GST Rate Calculator online</strong> helps you instantly verify the applied GST percentage on any invoice. Just enter the base price and the final invoice amount (or the tax amount directly), and the calculator shows you the exact rate applied — whether it is 5%, 12%, 18%, 28%, or any custom rate.</p>
 
-    <h3>Example Calculations</h3>
-    <p>Suppose you have an invoice detailing a taxable base price of <strong>₹5,000</strong> and a final payment of <strong>₹5,900</strong>:</p>
+    <h2>GST Rate Formulas</h2>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-brand-link">Method 1 — Base Price & Final Price:</p>
+        <p>GST Amount = Final Price − Base Price</p>
+        <p>GST Rate (%) = (GST Amount ÷ Base Price) × 100</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-brand-link">Method 2 — Base Price & Tax Amount:</p>
+        <p>GST Rate (%) = (Tax Amount ÷ Base Price) × 100</p>
+      </div>
+    </div>
+
+    <h2>Calculation Examples</h2>
+    <h3>Example 1 — Services Invoice (18% GST)</h3>
     <ul>
-      <li><strong>Identify tax component:</strong> ₹5,900 - ₹5,000 = ₹900.</li>
-      <li><strong>Apply Rate Formula:</strong> (₹900 / ₹5,000) × 100 = <strong>18%</strong>.</li>
-      <li>Therefore, the applied GST rate on this invoice is exactly 18% (e.g. CGST 9% + SGST 9%).</li>
+      <li>Base Price: ₹10,000</li>
+      <li>Final Invoice: ₹11,800</li>
+      <li>GST Amount: 11,800 − 10,000 = <strong>₹1,800</strong></li>
+      <li>GST Rate: (1,800 ÷ 10,000) × 100 = <strong>18%</strong></li>
     </ul>
+
+    <h3>Example 2 — Packaged Foods (5% GST)</h3>
+    <ul>
+      <li>Base Price: ₹20,000</li>
+      <li>GST Amount: ₹1,000</li>
+      <li>GST Rate: (1,000 ÷ 20,000) × 100 = <strong>5%</strong></li>
+    </ul>
+
+    <h2>Standard GST Rates in India</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Example Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Essential food, economy transport, agricultural equipment</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, mobile phones, processed food, business services</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Most services, software, electronics, FMCG products</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Luxury cars, cement, aerated drinks, tobacco products</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">3%</td><td class="p-3 text-body">Gold, silver, precious metals</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">0%</td><td class="p-3 text-body">Fresh vegetables, milk, healthcare, education (exempt)</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="Online GST Calculator" 
-          description="Standard GST calculator to add or remove GST." 
-          url="/tools/gst-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Inclusive Calculator" 
-          description="Calculate base price for tax-inclusive goods." 
-          url="/tools/gst-inclusive-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Exclusive Calculator" 
-          description="Add GST on top of standard base prices." 
-          url="/tools/gst-exclusive-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Add or remove GST using a known rate</li>
+      <li><a href="/tools/gst-inclusive-calculator">GST Inclusive Calculator</a> — Extract GST from MRP price</li>
+      <li><a href="/tools/gst-exclusive-calculator">GST Exclusive Calculator</a> — Add GST to base price</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>The <strong>GST Rate Calculator online</strong> is your quick verification tool for any invoice. Whether you are a buyer auditing a supplier's bill, a CA reconciling ITC claims, or a business owner reviewing invoices, this tool ensures the correct GST rate has been applied every time. Use it alongside our complete suite of free GST calculators at gstcalculatoronline.in.</p>
   </div>
 </CalculatorLayout>
 

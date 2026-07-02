@@ -4,36 +4,37 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "GST Split Calculator Online - CGST, SGST & IGST Splits";
-const pageDesc = "Split any direct GST tax amount or total invoice value into CGST, SGST, and IGST components. Supports direct GST tax splitting and base value transaction calculations.";
+const pageTitle = "GST Split Calculator Online India — CGST, SGST & IGST Component Calculator";
+const pageDesc = "Use our free GST Split Calculator to split any GST amount or total invoice value into CGST, SGST, and IGST components. Supports direct tax amount splitting and base-value calculation. Instant, accurate, free.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Split Calculator Online",
+  "name": "GST Split Calculator Online India — CGST SGST IGST",
   "url": "https://gstcalculatoronline.in/tools/gst-split-calculator",
-  "description": "Calculate splits of central CGST, state SGST, and integrated IGST taxes.",
+  "description": "Free GST split calculator. Split any GST amount into CGST, SGST, and IGST for intrastate and interstate transactions in India.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is a GST split?",
-    answer: "A GST split refers to dividing the total GST levied on a transaction into Central GST (CGST) and State GST (SGST) for local transactions (intrastate), or declaring it fully under Integrated GST (IGST) for interstate trade."
-  },
-  {
-    question: "Why is GST split 50:50 between CGST and SGST?",
-    answer: "Under India's dual GST model, both the Central government and the State government simultaneously levy tax on local supplies of goods and services. To maintain balance, the total tax rate is shared equally (50% CGST and 50% SGST)."
-  },
-  {
-    question: "How do you split direct GST tax amount?",
-    answer: "If you have a total GST tax of ₹1,000 for local supply, you split it as:<br>**CGST = ₹500 (50%)** and **SGST = ₹500 (50%)**.<br>No complex formulas are required for direct splits, simply divide by 2."
-  }
+  { question: "What is GST CGST and SGST split?", answer: "Under India's dual GST structure, for intrastate (same-state) transactions, the total GST is split equally between the Central Government (CGST) and the State Government (SGST). If the total GST rate is 18%, then CGST = 9% and SGST = 9% of the taxable base value." },
+  { question: "Why is GST split 50:50 between CGST and SGST?", answer: "India's GST system is a dual-levy model: the Centre and the State simultaneously levy tax on the same transaction. To maintain fiscal balance and avoid dual-rate complexity, the GST Council decided that both Centre and State share the tax equally at 50:50 for all intrastate supplies." },
+  { question: "How do you split a GST amount into CGST and SGST?", answer: "Simply divide the total GST amount by 2. For ₹1,800 total GST at 18%: CGST = ₹900 (9%) and SGST = ₹900 (9%). The CGST amount goes to the Centre's account and SGST to the State's account." },
+  { question: "What is IGST and when is it used instead of CGST and SGST?", answer: "IGST (Integrated GST) is used for interstate transactions (buyer and seller in different states) and imports. Instead of splitting, the full GST amount is charged as IGST. The Centre collects it and then distributes the state's share to the destination state. No CGST or SGST is charged on interstate supplies." },
+  { question: "How to calculate CGST and SGST from the total invoice?", answer: "To find CGST and SGST from an inclusive invoice: Base Value = Invoice ÷ (1 + Rate/100). Total GST = Invoice − Base. CGST = SGST = Total GST ÷ 2. Example: ₹11,800 at 18% → Base = ₹10,000; Total GST = ₹1,800; CGST = SGST = ₹900." },
+  { question: "Can CGST and SGST rates be different?", answer: "No. Under the CGST Act and respective SGST Acts, the CGST and SGST rates are always equal for any given supply. If the combined GST rate is 18%, CGST is always 9% and SGST is always 9%." },
+  { question: "What is the GST CGST SGST split for 5%?", answer: "For 5% GST: CGST = 2.5% and SGST = 2.5%. On ₹10,000 base value: CGST = ₹250, SGST = ₹250, Total GST = ₹500, Final Invoice = ₹10,500." },
+  { question: "What is the GST CGST SGST split for 12%?", answer: "For 12% GST: CGST = 6% and SGST = 6%. On ₹10,000 base value: CGST = ₹600, SGST = ₹600, Total GST = ₹1,200, Final Invoice = ₹11,200." },
+  { question: "What is the GST CGST SGST split for 18%?", answer: "For 18% GST: CGST = 9% and SGST = 9%. On ₹10,000 base value: CGST = ₹900, SGST = ₹900, Total GST = ₹1,800, Final Invoice = ₹11,800. This is the most common rate for services in India." },
+  { question: "What is the GST CGST SGST split for 28%?", answer: "For 28% GST: CGST = 14% and SGST = 14%. On ₹10,000 base value: CGST = ₹1,400, SGST = ₹1,400, Total GST = ₹2,800, Final Invoice = ₹12,800." },
+  { question: "How to record CGST and SGST in accounting?", answer: "In business accounting, CGST and SGST are recorded as separate liability accounts. When you collect tax from a customer: Credit 'Output CGST Payable' and 'Output SGST Payable'. When you pay GST on purchases: Debit 'Input CGST' and 'Input SGST'. Net liability = Output CGST minus Input CGST, and similarly for SGST." },
+  { question: "Is this GST Split Calculator free?", answer: "Yes, completely free. No registration, no login, no fees. Enter any GST amount or transaction value, select the rate and split mode, and get instant CGST/SGST/IGST components. Use it as many times as needed." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Split Mode Selector -->
@@ -134,62 +135,85 @@ const faqs = [
 
   <!-- Results Block -->
   <ResultCard slot="results" title="Split Calculation Breakdown" />
-
-  <!-- Educational content -->
   <div slot="content" class="prose max-w-none">
-    <h2>Understanding Central (CGST), State (SGST), and Integrated (IGST) Splits</h2>
-    <p>Indian GST tax invoices require clear delineation of taxes according to the destination principle. This split is straightforward but essential for legal invoicing and filing returns on GSTR-1 and GSTR-3B dashboards.</p>
-    
-    <h3>Splitting Rules & Formulas</h3>
+    <h2>GST Calculator CGST and SGST — Complete Guide to GST Splits</h2>
+    <p>India's <strong>GST CGST and SGST calculator</strong> is one of the most searched tools for business accountants and tax professionals. The dual GST structure means that every domestic (intrastate) transaction generates two separate tax components — CGST for the Central Government and SGST for the State Government. This split must be recorded correctly in your GSTR-1, GSTR-3B, and accounting books.</p>
+
+    <p>Our free <strong>GST Split Calculator online</strong> makes this instant. Whether you have a known GST amount to split, or a transaction base value from which you need to derive CGST and SGST, this tool handles both modes with real-time computation.</p>
+
+    <h2>What Is the CGST, SGST, IGST Split?</h2>
+    <p>Under India's GST structure:</p>
     <ul>
-      <li><strong>Intrastate Sales (Within State boundaries):</strong> Split equally into <strong>CGST (50%)</strong> and <strong>SGST (50%)</strong>.
-        <br><code class="bg-canvas-soft-2 px-1.5 py-0.5 rounded font-mono text-xs">CGST Amount = Total GST Tax ÷ 2</code>
-        <br><code class="bg-canvas-soft-2 px-1.5 py-0.5 rounded font-mono text-xs">SGST Amount = Total GST Tax ÷ 2</code>
-      </li>
-      <li><strong>Interstate Sales (Across State boundaries):</strong> Levied as a single item under <strong>IGST (100%)</strong>.
-        <br><code class="bg-canvas-soft-2 px-1.5 py-0.5 rounded font-mono text-xs">IGST Amount = Total GST Tax</code>
-      </li>
+      <li><strong>Intrastate supply</strong> (buyer and seller in same state): Total GST is split equally — 50% CGST (Centre) + 50% SGST (State)</li>
+      <li><strong>Interstate supply</strong> (different states): Full GST is charged as IGST (Centre), then apportioned to destination state</li>
+      <li><strong>Imports</strong>: IGST applies (same as interstate)</li>
     </ul>
 
-    <h3>Calculation Examples</h3>
-    <p>Let's take a direct GST amount of <strong>₹1,800</strong> accumulated on an invoice:</p>
+    <h2>CGST SGST Split for All GST Rates</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Total GST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">SGST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">IGST Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 font-mono">2.5%</td><td class="p-3 font-mono">2.5%</td><td class="p-3 font-mono">5%</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 font-mono">6%</td><td class="p-3 font-mono">6%</td><td class="p-3 font-mono">12%</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 font-mono">9%</td><td class="p-3 font-mono">9%</td><td class="p-3 font-mono">18%</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 font-mono">14%</td><td class="p-3 font-mono">14%</td><td class="p-3 font-mono">28%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to Split GST — Step-by-Step Guide</h2>
     <ol>
-      <li><strong>Intrastate Split:</strong>
-        <br>CGST = ₹1,800 ÷ 2 = <strong>₹900.00</strong>.
-        <br>SGST = ₹1,800 ÷ 2 = <strong>₹900.00</strong>.
-      </li>
-      <li><strong>Interstate Allocation:</strong>
-        <br>IGST = ₹1,800 = <strong>₹1,800.00</strong>.
-        <br>CGST & SGST remain <strong>₹0.00</strong>.
-      </li>
+      <li><strong>Choose the Split Mode</strong> — &quot;Direct GST Amount&quot; if you already know the total GST amount, or &quot;From Base Value&quot; if you want to calculate GST from the transaction base price.</li>
+      <li><strong>Enter the Amount</strong> — Either the total GST amount or the base transaction value.</li>
+      <li><strong>Select the GST Rate</strong> — For base value mode. Not needed for direct split mode.</li>
+      <li><strong>Choose Supply Location</strong> — Intrastate for CGST+SGST, or Interstate for IGST only.</li>
+      <li><strong>View results</strong> — CGST, SGST, and IGST amounts appear instantly.</li>
     </ol>
+
+    <h2>Split Calculation Examples</h2>
+    <h3>Direct GST Split — 18% GST of ₹1,800</h3>
+    <ul>
+      <li>Total GST Amount: ₹1,800</li>
+      <li>CGST (intrastate): <strong>₹900</strong> &nbsp;|&nbsp; SGST: <strong>₹900</strong></li>
+      <li>Or IGST (interstate): <strong>₹1,800</strong></li>
+    </ul>
+
+    <h3>From Base Value — ₹50,000 at 12%</h3>
+    <ul>
+      <li>Total GST: 50,000 × 12% = ₹6,000</li>
+      <li>CGST (6%): <strong>₹3,000</strong> &nbsp;|&nbsp; SGST (6%): <strong>₹3,000</strong></li>
+      <li>Total Invoice: <strong>₹56,000</strong></li>
+    </ul>
+
+    <h2>Benefits of This GST Split Calculator</h2>
+    <ul>
+      <li><strong>Two split modes</strong> — Direct tax amount split OR compute from base transaction value</li>
+      <li><strong>All four GST slabs</strong> — 5%, 12%, 18%, 28% plus custom rates</li>
+      <li><strong>Intrastate and interstate</strong> — Correctly handles both CGST/SGST and IGST scenarios</li>
+      <li><strong>Accounting-ready</strong> — Perfect for journal entries and GST return ledger reconciliation</li>
+      <li><strong>Free and instant</strong> — No login, no fees</li>
+    </ul>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="IGST Calculator" 
-          description="Calculate Integrated GST on interstate items." 
-          url="/tools/igst-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Rate Calculator" 
-          description="Identify tax percentages from pricing parameters." 
-          url="/tools/gst-rate-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="Online GST Calculator" 
-          description="Comprehensive add or remove tax calculator tool." 
-          url="/tools/gst-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Standard GST add/remove tool</li>
+      <li><a href="/tools/igst-calculator">IGST Calculator</a> — Interstate GST calculations</li>
+      <li><a href="/tools/gst-exclusive-calculator">GST Exclusive Calculator</a> — Add GST to base price</li>
+      <li><a href="/tools/gst-inclusive-calculator">GST Inclusive Calculator</a> — Extract tax from MRP</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Understanding the <strong>GST CGST and SGST split</strong> is fundamental to accurate invoicing, return filing, and accounting in India. Our free <strong>GST Split Calculator online</strong> makes this split instant and error-free for any transaction amount and tax rate. Whether you are auditing invoices, preparing GSTR-3B entries, or verifying supplier bills, this tool ensures your tax allocations are always correct.</p>
   </div>
 </CalculatorLayout>
 

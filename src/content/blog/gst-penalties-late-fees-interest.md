@@ -32,6 +32,22 @@ faqs:
     answer: "Late fee for GSTR-1 and GSTR-3B is ₹50 per day (₹20 for NIL returns) of delay, capped at different limits depending on turnover, plus 18% per annum interest on net tax liability."
   - question: "How do I check my GST filing history?"
     answer: "Log into the official GST Portal, navigate to Services > Returns > View e-Filed Returns to check past filing status and forms."
+  - question: "What is the late fee cap for small businesses?"
+    answer: "For turnover up to ₹1.5 Crore, the late fee cap is ₹2,000 per return (₹1,000 CGST + ₹1,000 SGST). For turnover between ₹1.5 Crore and ₹5 Crore, the cap is ₹5,000 per return."
+  - question: "What is the interest rate on late GST payments?"
+    answer: "Under Section 50, interest at 18% per annum is charged on net cash liability for voluntary late filing. For wrongful ITC utilization, interest is charged at 24% per annum under Section 50(3)."
+  - question: "Are late fees charged on NIL returns?"
+    answer: "Yes, but at a reduced rate. NIL returns attract a late fee of ₹20/day (₹10 CGST + ₹10 SGST) capped at ₹500 per return, compared to ₹50/day for taxable returns."
+  - question: "What is the penalty for issuing fake invoices?"
+    answer: "Issuing fake invoices without actual supply attracts a penalty of ₹10,000 or 100% of the ITC passed (whichever is higher) under Section 122(1) of the CGST Act."
+  - question: "How is interest calculated on late payments?"
+    answer: "Interest is calculated as: Amount × (18%/365) × Number of days of delay. For example, on ₹20,000 net cash liability for 30 days: 20,000 × (0.18/365) × 30 = ₹295.89."
+  - question: "What happens if I collect GST but don't remit it?"
+    answer: "If a supplier collects GST from customers but fails to deposit it within 3 months, it attracts a penalty of ₹10,000 or 100% of tax collected (whichever is higher) under Section 122(1)(d)."
+  - question: "What is the penalty for not registering under GST?"
+    answer: "Operating without GST registration despite crossing the turnover threshold attracts a penalty of ₹10,000 or 100% of tax due (whichever is higher) under Section 122(1)(i)."
+  - question: "Can the GST officer waive late fees?"
+    answer: "Late fees and interest are statutory and generally cannot be waived by the officer. However, the GST Council has occasionally provided amnesty schemes for pending returns with reduced late fees."
 ---
 
 ## Introduction to GST Penalties and Late Fees
@@ -105,6 +121,29 @@ Let's calculate the penalty for Beta Ltd, which has delayed filing its GSTR-3B r
 - Total Late Fee (paid on subsequent return) = **₹1,500**
 - Total Interest Payable (paid in cash ledger) = **₹295.89**
 - Total penalty cost for 30-day delay = **₹1,795.89**
+
+---
+
+### Section 122 — General Offences & Penalties
+
+Apart from late fees for returns, Section 122 of the CGST Act lists 21 specific offences that attract direct penalty charges. For these offences, the penalty is **₹10,000 or the tax amount evaded/short-paid/wrongly-claimed, whichever is higher**.
+
+| Offence Category | Nature of Offence | Standard Penalty |
+| --- | --- | --- |
+| **Supply issues** | Supplying goods or services without issuing a tax invoice, or issuing a false invoice. | ₹10,000 or 100% of tax due (whichever is higher) |
+| **Fake Invoices** | Issuing an invoice without actual supply of goods/services to pass on fake ITC. | ₹10,000 or 100% of ITC passed (whichever is higher) |
+| **Collection default** | Collecting GST from a customer but failing to deposit it with the government within 3 months. | ₹10,000 or 100% of tax collected (whichever is higher) |
+| **Registration failure**| Operating a business without registering for GST, despite crossing turnover limits. | ₹10,000 or 100% of tax due (whichever is higher) |
+| **ITC Misuse** | Claiming or utilizing Input Tax Credit without actual receipt of goods/services. | ₹10,000 or 100% of ITC claimed (whichever is higher) |
+| **Information default** | Obstructing an officer in the course of their duties or submitting false information/records. | ₹10,000 fixed penalty |
+
+### Voluntary Filing vs. Department Tax Demands (Gross vs. Net Interest)
+
+A key distinction in Section 50 interest calculations is whether the taxpayer pays late tax voluntarily or under demand notices:
+- **Voluntary late filing:** If a taxpayer files their GSTR-3B late on their own, interest applies strictly on the **Net Cash Liability** (tax paid through cash ledger after offset of ITC).
+- **Tax demands / Audits:** If the tax delay is discovered by the department during audits, search, or assessments, and a demand notice is issued under Section 73 or 74, the net-cash concession does NOT apply. In this case, interest is charged on the **Gross Tax Liability** (including the ITC portion), which drastically increases the tax burden.
+
+---
 
 ## Expert Tips for GST Compliance and Auditing
 

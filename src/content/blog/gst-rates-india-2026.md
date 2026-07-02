@@ -32,6 +32,22 @@ faqs:
     answer: "Yes, basic public services, healthcare in hospitals, school and university education, and residential house rentals for residential use are exempt from GST."
   - question: "What is the tax rate on gold in India?"
     answer: "Gold, silver, and precious jewellery attract a special tax slab of 3% GST, which is split equally into 1.5% CGST and 1.5% SGST for local transactions."
+  - question: "How many tax slabs are there under GST in India?"
+    answer: "India has four primary GST tax slabs: 5%, 12%, 18%, and 28%. Additionally, essential goods are exempt at 0%, gold attracts 3%, and rough diamonds are taxed at 0.25%."
+  - question: "Which goods fall under the 0% (exempt) GST slab?"
+    answer: "Unpackaged food grains, fresh vegetables, milk, curd, salt, books, newspapers, and unbranded food items are fully exempt from GST at 0%."
+  - question: "What is the GST rate on restaurants?"
+    answer: "Restaurants without Input Tax Credit (ITC) attract 5% GST. Restaurants in hotels with room tariff above ₹7,500 per night attract 18% GST with ITC. Outdoor catering attracts 18% GST."
+  - question: "Which items are taxed at 28% GST?"
+    answer: "Luxury cars, yachts, air conditioners, tobacco products, pan masala, carbonated drinks, cement, and 5-star hotels (room tariff >₹7,500/night) attract the highest 28% GST slab."
+  - question: "What is the GST rate on under-construction properties?"
+    answer: "Affordable housing (cost up to ₹45 Lakhs) attracts 1% GST without ITC. Non-affordable residential housing attracts 5% GST without ITC. Ready-to-move properties with completion certificate are exempt."
+  - question: "Are medical supplies taxed under GST?"
+    answer: "Most life-saving drugs and medicines attract 5% or 12% GST depending on formulation. Surgical instruments and diagnostic kits are generally taxed at 12%. PPE kits and masks were temporarily taxed at 5%."
+  - question: "What is the GST rate on education services?"
+    answer: "School and university education is fully exempt from GST. Private coaching and tutorial services attract 18% GST. E-learning platforms and online courses also attract 18% GST."
+  - question: "How does GST apply to transport services?"
+    answer: "Metro and rail passenger transport are exempt. Economy air travel attracts 5% GST. Business class air travel attracts 12% GST. Goods transport by road (GTA) attracts 5% without ITC or 12% with forward charge."
 ---
 
 ## Introduction to GST Rates in India
@@ -80,6 +96,81 @@ The rate classification of goods and services is structured to place lower tax b
 | **28% GST** | Luxury & Sin Goods | Luxury cars, yachts, air conditioners, tobacco, pan masala, carbonated drinks. | 5-star hotels (>₹7,500/night), horse racing, casinos, online gaming. |
 
 *Note: Gold is taxed at a special rate of 3%, and rough diamonds/precious stones are taxed at 0.25%.*
+
+### Special GST Rates on Specific Categories
+
+Apart from the standard four tax slabs, the GST Council has introduced special concessional or specific flat tax rates for certain asset classes, including precious metals, stones, and residential real estate. Below is a comprehensive summary:
+
+| Goods/Services Category | Applicable GST Rate | CGST / SGST split | Remarks & Conditions |
+| --- | --- | --- | --- |
+| **Gold, Silver, and Jewellery** | 3% GST | 1.5% CGST + 1.5% SGST | Applicable on purchase value. Making charges attract 5% if outsourced separately. |
+| **Rough Precious & Semi-Precious Stones** | 0.25% GST | 0.125% CGST + 0.125% SGST | Applied on import or local supply of unworked stones to reduce blockages of input credit. |
+| **Affordable Housing (Under Construction)** | 1% GST | 0.5% CGST + 0.5% SGST | Without Input Tax Credit (ITC) benefits. Affordable defined as cost <₹45 Lakhs. |
+| **Non-Affordable Housing (Under Construction)**| 5% GST | 2.5% CGST + 2.5% SGST | Without Input Tax Credit (ITC) benefits. Ready properties with Completion Certificate are exempt (0%). |
+| **Commercial Property (Under Construction)** | 12% GST | 6% CGST + 6% SGST | Allowed with Input Tax Credit (ITC) benefits. |
+
+---
+
+### GST Compensation Cess Slabs (Luxury and Demerit Goods)
+
+Under the GST (Compensation to States) Act, 2017, a Compensation Cess is levied on certain luxury, demerit, and sin goods on top of the maximum standard rate of 28% GST. The revenue collected through this cess is used to compensate manufacturing states for any revenue shortfalls arising from the implementation of GST.
+
+| Product Category | Base GST Rate | Compensation Cess Rate | Total Tax Burden (Approx) |
+| --- | --- | --- | --- |
+| **Aerated Beverages (Cola, Sodas)** | 28% GST | 12% Cess | **40%** |
+| **Cigarettes and Tobacco Products** | 28% GST | Ad-valorem (up to 290%) or specific rates | **Up to 318%** |
+| **Coal, Briquettes, and Ovoids** | 5% GST | ₹400 per metric tonne | **Varies by weight** |
+| **Small Cars (Petrol < 1200cc)** | 28% GST | 1% Cess | **29%** |
+| **Mid-size Cars (Petrol/Diesel)** | 28% GST | 17% Cess | **45%** |
+| **SUVs (Sports Utility Vehicles)** | 28% GST | 22% Cess | **50%** |
+| **Motor Vehicles (Electric)** | 5% GST | Nil Cess | **5% (Concessional green rate)** |
+
+---
+
+### HSN & SAC Rate Reference Guide for Common Commercial Items
+
+The Harmonized System of Nomenclature (HSN) for goods and Service Accounting Codes (SAC) for services are utilized to classify items for tax calculation. Below is a quick rate lookup table for widely traded business commodities and services:
+
+| HSN/SAC Code | Product/Service Description | Applicable GST Rate | Primary Slab |
+| --- | --- | --- | --- |
+| **HSN 8471** | Computers, laptops, and data processing machinery | 18% GST | Standard (Higher) |
+| **HSN 8517** | Smart phones, telephone sets, and network transmitters | 18% GST | Standard (Higher) |
+| **HSN 3004** | Formulated medicines (for retail sale) | 12% or 5% GST | Standard (Lower) / Essential |
+| **HSN 2523** | Portland Cement, aluminous cement, and slag | 28% GST | Luxury / Sin (Industrial) |
+| **SAC 9973** | Licensing services for the right to use computer software | 18% GST | Standard (Higher) |
+| **SAC 9963** | Accommodation, food and beverage services (standard restaurants) | 5% or 18% GST | Concessional / Services |
+| **SAC 9983** | Professional consulting, legal, and accounting services | 18% GST | Standard (Higher) |
+
+
+### GST Rate Comparison by Industry Sector
+
+Understanding GST rates across different industries helps businesses plan pricing and compliance. Below is a sector-wise breakdown:
+
+| Industry Sector | Common Items | GST Rate Range | Key Notes |
+| --- | --- | --- | --- |
+| **FMCG & Food** | Packaged foods, beverages, edible oils | 0% - 18% | Unpackaged food is exempt; branded packaged food attracts 5% |
+| **Textiles & Apparel** | Fabrics, ready-made garments, footwear | 5% - 12% | Branded items above ₹1,000 attract 12%; footwear below ₹1,000 at 5% |
+| **Electronics & Appliances** | Mobile phones, TVs, refrigerators, ACs | 18% - 28% | Most electronics at 18%; ACs and large appliances at 28% |
+| **Automobiles** | Cars, motorcycles, trucks, EVs | 5% - 50% | Electric vehicles at 5%; SUVs attract 50% (28% + 22% cess) |
+| **Healthcare & Pharma** | Medicines, surgical equipment, hospital services | 0% - 12% | Hospital room charges above ₹5,000/night attract 5% GST |
+| **Real Estate** | Residential and commercial construction | 1% - 12% | Affordable housing at 1%; commercial at 12% with ITC |
+| **IT & Telecom** | Software, internet services, mobile plans | 18% | Uniform 18% rate across IT and telecom services |
+| **Banking & Insurance** | Financial services, insurance premiums | 18% | All banking and insurance services attract 18% GST |
+
+---
+
+### State-Wise GST Exemptions and Special Provisions
+
+Certain states have special provisions under GST for specific commodities. Below are notable exemptions:
+
+| State/Region | Special Exemption/Provision | Applicable Items | Effective Date |
+| --- | --- | --- | --- |
+| **Jammu & Kashmir** | Special industrial incentives | Specific manufacturing goods | Post-2017 transition |
+| **North-East States** | Reduced composition limit | ₹75 Lakhs turnover cap (vs ₹1.5 Cr) | July 1, 2017 |
+| **Andhra Pradesh** | Capital region incentives | Amaravati construction materials | Notification-based |
+| **Tamil Nadu** | Textile sector concessions | Specific textile inputs | Rate rationalization |
+
+---
 
 ## Practical Examples and Mathematical Calculations
 

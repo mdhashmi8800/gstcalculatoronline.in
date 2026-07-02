@@ -4,36 +4,40 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "GST Inclusive Calculator Online - Tax Inclusive Price Tool";
-const pageDesc = "Extract the original base taxable amount and CGST/SGST/IGST tax splits from a GST-inclusive product price. Free tax-inclusive calculator updated with standard slabs.";
+const pageTitle = "GST Inclusive Calculator Online India — Extract Tax from MRP Price";
+const pageDesc = "Use our free GST Inclusive Calculator online to extract the base price and CGST/SGST/IGST breakdown from any GST-inclusive (MRP) amount. Works for 5%, 12%, 18%, and 28% slabs. Accurate, fast, and free.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Inclusive Calculator Online",
+  "name": "GST Inclusive Calculator Online India",
   "url": "https://gstcalculatoronline.in/tools/gst-inclusive-calculator",
-  "description": "Calculate base prices and tax amounts from gross GST-inclusive values.",
+  "description": "Free GST inclusive calculator for India. Extract base price and CGST/SGST/IGST breakdown from any GST-inclusive amount.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is a GST inclusive price?",
-    answer: "A GST inclusive price is the final amount charged to a buyer that already includes the Goods and Services Tax (GST) component. No additional tax is added to this final price."
-  },
-  {
-    question: "How do you calculate GST inclusive value manually?",
-    answer: "To extract the GST amount from an inclusive price, use these steps:<br>1. **Base Value = Inclusive Price ÷ (1 + (GST Rate ÷ 100))**<br>2. **GST Tax = Inclusive Price - Base Value**."
-  },
-  {
-    question: "What is the difference between GST inclusive and exclusive?",
-    answer: "**GST Inclusive** means the listed price includes the tax (the customer pays exactly the listed price). **GST Exclusive** means the listed price does not include tax, so GST is added on top of it, increasing the final amount paid."
-  }
+  { question: "What is a GST inclusive price?", answer: "A GST inclusive price (also called MRP or gross price) is the final amount charged to a buyer that already includes the Goods and Services Tax component. The customer pays exactly the listed price — no additional tax is charged on top." },
+  { question: "How do you calculate GST from an inclusive price?", answer: "To extract GST from an inclusive price, use: Base Value = Inclusive Price ÷ (1 + GST Rate / 100). Then GST Amount = Inclusive Price − Base Value. Example: ₹5,600 at 12% → Base = 5,600 ÷ 1.12 = ₹5,000; GST = ₹600." },
+  { question: "What is the difference between GST inclusive and exclusive?", answer: "GST Inclusive means the listed price already includes the tax (MRP, restaurant bills). GST Exclusive means the listed price is the pre-tax base price and GST will be added on top, resulting in a higher final invoice amount." },
+  { question: "How to calculate 18% GST inclusive amount?", answer: "For 18% GST inclusive: divide the inclusive price by 1.18 to get the base price. Example: ₹59,000 ÷ 1.18 = ₹50,000 base; GST = ₹9,000. CGST = SGST = ₹4,500 each for intrastate." },
+  { question: "How to calculate 12% GST inclusive amount?", answer: "For 12% GST inclusive: divide by 1.12. Example: ₹11,200 ÷ 1.12 = ₹10,000 base; GST = ₹1,200; CGST = SGST = ₹600 each." },
+  { question: "How to calculate 5% GST from inclusive price?", answer: "For 5% GST inclusive: divide by 1.05. Example: ₹21,000 ÷ 1.05 = ₹20,000 base; GST = ₹1,000; CGST = SGST = ₹500 each." },
+  { question: "Is the GST Inclusive Calculator the same as Reverse GST Calculator?", answer: "Yes, both tools perform the same mathematical operation — extracting GST from a GST-inclusive price using the division formula. The GST Inclusive Calculator emphasizes extracting the base from MRP-type prices, while the Reverse GST Calculator is often described as working backwards from a total invoice." },
+  { question: "What is CGST and SGST in a GST inclusive price?", answer: "For intrastate (within the same state) transactions, the total GST embedded in an inclusive price is split equally: CGST = GST Amount ÷ 2 (collected by Centre) and SGST = GST Amount ÷ 2 (collected by State). For interstate, the entire amount is IGST." },
+  { question: "Why can't I simply multiply the inclusive price by the GST rate?", answer: "Because GST is calculated on the base price, not the total price. If you apply 18% to ₹11,800, you get ₹2,124, which is wrong. The correct GST embedded in ₹11,800 is ₹1,800 (₹10,000 base × 18%). Always use the division method." },
+  { question: "Can businesses claim ITC on GST inclusive purchases?", answer: "Yes. When you buy goods or services at a GST-inclusive price, you can claim the GST component as Input Tax Credit (ITC), provided you have a valid tax invoice with GSTIN details. The base value is used for your cost of goods, and the GST amount becomes your ITC claim." },
+  { question: "What is the GST inclusive price formula for 28%?", answer: "For 28% GST: Base Price = Inclusive Price ÷ 1.28. Example: ₹12,800 ÷ 1.28 = ₹10,000 base; GST = ₹2,800. For intrastate: CGST = SGST = ₹1,400 each." },
+  { question: "Are retail prices (MRP) in India GST inclusive?", answer: "Yes. Under Indian consumer protection laws, the Maximum Retail Price (MRP) printed on packaged goods is the maximum price inclusive of all taxes, including GST. So when you see a price tag in India, that is the GST inclusive price." },
+  { question: "How is GST inclusive calculation used in restaurant billing?", answer: "Restaurants typically display menu prices that are exclusive of GST. However, some include GST in their displayed price. If the menu price is GST inclusive, you can use this calculator to find the food charge and the GST component separately." },
+  { question: "Is this GST Inclusive Calculator free?", answer: "Yes, completely free. No sign-up, no subscription, no hidden fees. Enter any inclusive price, select the GST rate, and get instant results as many times as you need." },
+  { question: "How to use the GST Inclusive Calculator?", answer: "Step 1: Enter the total GST-inclusive price. Step 2: Select the GST rate (5%, 12%, 18%, 28%, or Custom). Step 3: Choose Intrastate or Interstate supply location. Step 4: Read the instant results — base value, total GST, CGST, SGST or IGST." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Gross Price (GST Inclusive) -->
@@ -117,60 +121,133 @@ const faqs = [
   <!-- Results Block -->
   <ResultCard slot="results" title="Inclusive Value Summary" />
 
-  <!-- Educational content -->
+  <!-- Educational content: 1200+ words -->
   <div slot="content" class="prose max-w-none">
-    <h2>How to Calculate Base Price from a GST Inclusive Amount</h2>
-    <p>Calculating the base price from a GST-inclusive price involves removing the tax proportion. Since the final price already has tax built into it, simply multiplying by the tax percentage will result in incorrect figures. The proper division formula must be applied.</p>
-    
-    <h3>Mathematical Formula</h3>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-3">
-      <p class="font-semibold text-brand-link">Inclusive Calculation Formula:</p>
-      <p>1. Base Taxable Cost = Inclusive Total / (1 + (GST % / 100))</p>
-      <p>2. Calculated Tax = Inclusive Total - Base Taxable Cost</p>
+    <h2>GST Inclusive Calculator Online — Complete Guide to Extracting Tax from MRP</h2>
+    <p>In India, the price you see on most product packaging, supermarket shelves, and restaurant menus is the <strong>GST inclusive price</strong> — also known as the Maximum Retail Price (MRP). This means the Goods and Services Tax is already embedded within the displayed price, and no extra tax is added at the checkout. While this simplifies transactions for consumers, it can be confusing when you need to know how much of the price was actual tax and how much was the product cost.</p>
+
+    <p>This free <strong>GST Inclusive Calculator online</strong> solves exactly that problem. Enter any GST-inclusive amount, select the applicable GST rate, and instantly see the net base price, the total GST embedded in it, and the CGST/SGST or IGST split — all calculated using the official formula from the CGST Act, 2017.</p>
+
+    <h2>What Is a GST Inclusive Price?</h2>
+    <p>A <strong>GST inclusive price</strong> is a price that already contains the Goods and Services Tax within it. This is different from a GST exclusive (ex-GST) price, which shows only the base value and requires GST to be added separately on top. In India:</p>
+    <ul>
+      <li><strong>MRP (Maximum Retail Price)</strong> on packaged goods is always GST inclusive</li>
+      <li><strong>Restaurant menu prices</strong> may or may not be GST inclusive</li>
+      <li><strong>E-commerce product prices</strong> are typically GST inclusive (the checkout shows the breakdown)</li>
+      <li><strong>B2B invoices</strong> usually show the GST exclusive price with GST added separately</li>
+    </ul>
+
+    <h2>GST Inclusive Formula — How to Extract Tax from an Inclusive Price</h2>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-brand-link">GST Inclusive Formula:</p>
+        <p>Base (Net) Value = Inclusive Price ÷ (1 + GST Rate ÷ 100)</p>
+        <p>GST Amount = Inclusive Price − Base Value</p>
+        <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
+        <p>IGST = GST Amount (for interstate)</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-brand-link">Quick Reference:</p>
+        <p>5% inclusive → ÷ 1.05 &nbsp;|&nbsp; 12% inclusive → ÷ 1.12</p>
+        <p>18% inclusive → ÷ 1.18 &nbsp;|&nbsp; 28% inclusive → ÷ 1.28</p>
+      </div>
     </div>
 
-    <h3>Step-by-Step Example</h3>
-    <p>Let's calculate the tax components for a retail invoice of <strong>₹5,000</strong> inclusive of <strong>12% GST</strong>:</p>
+    <h2>Step-by-Step Guide</h2>
+    <ol>
+      <li><strong>Enter the GST-inclusive price</strong> — The total MRP or final price shown on the product or invoice.</li>
+      <li><strong>Select the GST rate</strong> — Choose 5%, 12%, 18%, 28%, or enter a Custom rate (e.g., 3% for gold).</li>
+      <li><strong>Choose Supply Location</strong> — Intrastate for same-state transactions (CGST + SGST), or Interstate (IGST).</li>
+      <li><strong>View instant results</strong> — Net base value, total GST, and CGST/SGST or IGST split appear immediately.</li>
+    </ol>
+
+    <h2>Calculation Examples</h2>
+    <h3>Example 1 — 18% GST Inclusive (Electronics)</h3>
+    <p>A laptop has an MRP of ₹59,000 (18% GST inclusive). Find the base price and tax breakdown.</p>
     <ul>
-      <li><strong>Find Taxable Net Value:</strong>
-        <br>Net Value = ₹5,000 ÷ (1 + (12 / 100))
-        <br>Net Value = ₹5,000 ÷ 1.12 = <strong>₹4,464.29</strong>.
-      </li>
-      <li><strong>Find GST Tax Amount:</strong>
-        <br>GST Tax Amount = ₹5,000 - ₹4,464.29 = <strong>₹535.71</strong>.
-      </li>
-      <li><strong>Intrastate Splits (CGST & SGST):</strong>
-        <br>Central Tax (CGST) = ₹535.71 ÷ 2 = <strong>₹267.86</strong>.
-        <br>State Tax (SGST) = ₹535.71 ÷ 2 = <strong>₹267.86</strong>.
-      </li>
+      <li>Base Value: 59,000 ÷ 1.18 = <strong>₹50,000</strong></li>
+      <li>GST Amount: <strong>₹9,000</strong></li>
+      <li>CGST (9%): <strong>₹4,500</strong> &nbsp;|&nbsp; SGST (9%): <strong>₹4,500</strong></li>
+    </ul>
+
+    <h3>Example 2 — 12% GST Inclusive (Restaurant Bill)</h3>
+    <p>A restaurant bill shows ₹1,120 (12% GST inclusive). Find the food cost vs tax.</p>
+    <ul>
+      <li>Base Value: 1,120 ÷ 1.12 = <strong>₹1,000</strong></li>
+      <li>GST Amount: <strong>₹120</strong></li>
+      <li>CGST (6%): <strong>₹60</strong> &nbsp;|&nbsp; SGST (6%): <strong>₹60</strong></li>
+    </ul>
+
+    <h3>Business Example — ITC Claim Calculation</h3>
+    <p>A Delhi retailer buys 100 units of FMCG products at ₹1,18,000 inclusive of 18% GST from a Delhi wholesaler (intrastate). For ITC purposes:</p>
+    <ul>
+      <li>Net Purchase Value: 1,18,000 ÷ 1.18 = <strong>₹1,00,000</strong></li>
+      <li>Total GST Paid: <strong>₹18,000</strong></li>
+      <li>CGST ITC Claimable: <strong>₹9,000</strong> &nbsp;|&nbsp; SGST ITC Claimable: <strong>₹9,000</strong></li>
+    </ul>
+
+    <h2>Common GST Inclusive Rates Reference</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">GST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Common Items</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Divisor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Packaged food, economy travel</td><td class="p-3 font-mono">÷ 1.05</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, processed food, business services</td><td class="p-3 font-mono">÷ 1.12</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Electronics, FMCG, most services</td><td class="p-3 font-mono">÷ 1.18</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Luxury cars, cement, tobacco, aerated drinks</td><td class="p-3 font-mono">÷ 1.28</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>CGST vs SGST vs IGST in Inclusive Prices</h2>
+    <p>Once the total GST is extracted from the inclusive price, the distribution depends on whether the transaction is intrastate or interstate:</p>
+    <ul>
+      <li><strong>Intrastate (same state)</strong>: CGST = SGST = Total GST ÷ 2. Both collected separately.</li>
+      <li><strong>Interstate (different states)</strong>: IGST = Total GST. Collected by Centre, then apportioned to the destination state.</li>
+    </ul>
+
+    <h2>Benefits of Using This GST Inclusive Calculator</h2>
+    <ul>
+      <li><strong>Accurate extraction</strong> — Uses the correct division formula, not approximation</li>
+      <li><strong>Instant results</strong> — No submit button needed; calculations update in real time</li>
+      <li><strong>ITC-ready</strong> — Get exact CGST/SGST amounts for your input credit claims</li>
+      <li><strong>All slabs covered</strong> — 5%, 12%, 18%, 28%, and any custom rate</li>
+      <li><strong>Mobile-friendly</strong> — Works on all devices, no app download needed</li>
+      <li><strong>Completely free</strong> — No login, no subscription, no hidden charges</li>
+    </ul>
+
+    <h2>Common Mistakes to Avoid</h2>
+    <ul>
+      <li><strong>Multiplying by the GST rate</strong> instead of dividing gives the wrong answer</li>
+      <li><strong>Using the wrong GST rate</strong> for the category of goods — always verify the HSN code</li>
+      <li><strong>Ignoring interstate vs intrastate</strong> for ITC ledger entries</li>
     </ul>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="GST Exclusive Calculator" 
-          description="Calculate final prices by adding GST on top of base values." 
-          url="/tools/gst-exclusive-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="Reverse GST Calculator" 
-          description="Subtract tax to determine original base cost." 
-          url="/tools/reverse-gst-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="GST Rate Calculator" 
-          description="Calculate active GST slab percentage rates." 
-          url="/tools/gst-rate-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-exclusive-calculator">GST Exclusive Calculator</a> — Add GST on top of a base price</li>
+      <li><a href="/tools/reverse-gst-calculator">Reverse GST Calculator</a> — Extract tax from an invoice total</li>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Standard add/remove GST tool</li>
+      <li><a href="/tools/gst-split-calculator">GST Split Calculator</a> — Split total GST into CGST and SGST</li>
+    </ul>
+
+    <h2>Related Articles</h2>
+    <ul>
+      <li><a href="/blog/what-is-gst">What is GST — Complete Guide for Beginners</a></li>
+      <li><a href="/blog/input-tax-credit-itc-rules">Input Tax Credit (ITC) Rules — How to Claim GST on Purchases</a></li>
+      <li><a href="/blog/gst-rates-india-2026">GST Rates in India 2025–26 — Full Slab Chart</a></li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Understanding and extracting the tax from a <strong>GST inclusive price</strong> is a fundamental skill for any business owner, accountant, or consumer in India. Our free <strong>GST Inclusive Calculator online</strong> makes this process instant and error-free. Whether you are verifying an MRP, calculating ITC from purchase invoices, or reconciling accounts, this tool gives you the correct base price and tax breakdown every time — no formulas to remember, no errors to worry about.</p>
   </div>
 </CalculatorLayout>
 

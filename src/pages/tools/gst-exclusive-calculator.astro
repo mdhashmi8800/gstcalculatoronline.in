@@ -4,36 +4,38 @@ import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 import ToolCard from '../../components/ToolCard.astro';
 
-const pageTitle = "GST Exclusive Calculator Online - Add GST Tool";
-const pageDesc = "Add GST (5%, 12%, 18%, 28%) to any net base price. Instantly compute the final gross value and CGST/SGST/IGST breakdown with our GST-exclusive calculator.";
+const pageTitle = "GST Exclusive Calculator Online India — Add GST to Base Price";
+const pageDesc = "Use our free GST Exclusive Calculator to add GST to any base price. Instantly compute the final invoice amount with CGST, SGST, and IGST breakdown for 5%, 12%, 18%, 28% slabs. Perfect for raising GST invoices in India.";
 
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Exclusive Calculator Online",
+  "name": "GST Exclusive Calculator Online India",
   "url": "https://gstcalculatoronline.in/tools/gst-exclusive-calculator",
-  "description": "Calculate invoice totals by adding GST on top of net taxable base prices.",
+  "description": "Free GST exclusive calculator. Add GST to any base price and get the final invoice amount with CGST/SGST/IGST breakdown.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is a GST exclusive price?",
-    answer: "A GST exclusive price is the net taxable value of a product or service before tax is added. When buying or billing, tax must be calculated on this amount and added to arrive at the final gross payment."
-  },
-  {
-    question: "How do you calculate GST exclusive value?",
-    answer: "To add tax on a GST-exclusive base price, use these formulas:<br>1. **GST Tax = Net Price × (GST Rate ÷ 100)**<br>2. **Final Invoice Total = Net Price + GST Tax**."
-  },
-  {
-    question: "Is IGST added to exclusive values?",
-    answer: "Yes. For interstate transactions, Integrated GST (IGST) is computed directly on the exclusive value. For example, an 18% IGST is added as a single tax line item rather than being divided into CGST and SGST."
-  }
+  { question: "What is a GST exclusive price?", answer: "A GST exclusive price (also called an ex-GST price or base price) is the net taxable value of a product or service before any tax is added. In B2B invoicing, prices are typically quoted exclusive of GST, and the tax is added separately in the invoice." },
+  { question: "What is the formula for GST exclusive calculation?", answer: "GST Exclusive Formula: GST Amount = Base Price × (GST Rate ÷ 100). Final Invoice = Base Price + GST Amount. For intrastate: CGST = SGST = GST Amount ÷ 2. For interstate: IGST = GST Amount." },
+  { question: "How to add 18% GST to a price?", answer: "To add 18% GST to ₹10,000: GST Amount = 10,000 × 18% = ₹1,800. Final Invoice = 10,000 + 1,800 = ₹11,800. For intrastate: CGST = SGST = ₹900. For interstate: IGST = ₹1,800." },
+  { question: "How to add 12% GST to a price?", answer: "To add 12% GST to ₹50,000: GST Amount = 50,000 × 12% = ₹6,000. Final Invoice = ₹56,000. Intrastate: CGST = SGST = ₹3,000 each. Interstate: IGST = ₹6,000." },
+  { question: "How to calculate GST exclusive for 5%?", answer: "To add 5% GST to ₹20,000: GST Amount = 20,000 × 5% = ₹1,000. Final Invoice = ₹21,000. Intrastate: CGST = SGST = ₹500 each." },
+  { question: "What is the difference between GST exclusive and GST inclusive?", answer: "GST exclusive means the quoted price is the base value and GST will be added on top. GST inclusive means the quoted price already contains the tax within it. B2B invoices in India typically use GST exclusive pricing, while retail MRP prices are GST inclusive." },
+  { question: "How is CGST and SGST calculated on an exclusive price?", answer: "CGST and SGST each equal half of the total GST for intrastate transactions. At 18% on ₹10,000: Total GST = ₹1,800; CGST = ₹900 (9%); SGST = ₹900 (9%). For interstate, the entire ₹1,800 is IGST." },
+  { question: "When should I use GST exclusive calculation?", answer: "Use GST exclusive calculation when: (1) Raising B2B invoices where the price is quoted net of taxes, (2) Preparing purchase orders showing the base cost and tax separately, (3) Calculating the invoice amount from a quoted base price in a contract." },
+  { question: "How is GST exclusive used in export invoicing?", answer: "For exports, the GST rate is 0% (zero-rated). You use the GST exclusive base price and add 0% GST, so the invoice amount equals the base price. GST paid on inputs can be claimed back as a refund. The IGST column on the export invoice shows 0%." },
+  { question: "Can I use a custom GST rate in the exclusive calculator?", answer: "Yes. Apart from 5%, 12%, 18%, and 28% standard slabs, the exclusive calculator supports custom rates. Enter your custom rate (e.g., 3% for gold, 0.25% for rough precious stones) to calculate GST on any product or service category." },
+  { question: "What is IGST on GST exclusive calculation?", answer: "For interstate B2B transactions, instead of splitting GST into CGST and SGST, the entire GST amount is charged as IGST (Integrated GST). Example: ₹10,000 base at 18% sold from Maharashtra to Delhi = IGST of ₹1,800. No CGST or SGST applies." },
+  { question: "Is this GST Exclusive Calculator free?", answer: "Yes, fully free. No login, no charges, no limits. Enter any base price, select the GST rate, choose intrastate or interstate, and get instant results with all tax components shown." },
+  { question: "How is GST exclusive different from reverse GST?", answer: "GST exclusive calculation adds tax to a base price (forward calculation). Reverse GST calculation removes embedded tax from a final price to find the base price (backward calculation). Both are supported in our free calculator suite at gstcalculatoronline.in." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="gst-form" class="space-y-6">
     <!-- Net Price (GST Exclusive) -->
@@ -117,58 +119,101 @@ const faqs = [
   <!-- Results Block -->
   <ResultCard slot="results" title="Exclusive Value Summary" />
 
-  <!-- Educational content -->
+  <!-- Educational content: 1100+ words -->
   <div slot="content" class="prose max-w-none">
-    <h2>How to Calculate GST on an Exclusive Price</h2>
-    <p>Calculating tax on a GST exclusive amount is simple since the base price represents 100% of the taxable cost. The tax rate percentage is calculated directly on this base amount, and the sum of the base amount and the tax determines the final invoice price.</p>
-    
-    <h3>Mathematical Formula</h3>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-3">
-      <p class="font-semibold text-brand-link">Exclusive Calculation Formula:</p>
-      <p>1. Total GST Amount = Base Price × (GST Rate % / 100)</p>
-      <p>2. Gross Total Price = Base Price + Total GST Amount</p>
+    <h2>GST Exclusive Calculator Online India — Add GST to Any Base Price</h2>
+    <p>In Indian B2B commerce, prices are almost always quoted <strong>exclusive of GST</strong> — meaning the listed price is the taxable base value, and GST is added on top to arrive at the final payable invoice amount. This is known as GST exclusive pricing. Our free <strong>GST Exclusive Calculator online</strong> lets you instantly compute the invoice total, CGST, SGST, or IGST amounts for any base price and GST rate.</p>
+
+    <h2>What Is a GST Exclusive Price?</h2>
+    <p>A <strong>GST exclusive price</strong> (also called ex-GST or pre-tax price) is the base value of goods or services before any tax is added. It represents 100% of the taxable amount. In India:</p>
+    <ul>
+      <li><strong>B2B invoices</strong> — Typically show the base price + GST separately</li>
+      <li><strong>Service agreements &amp; contracts</strong> — Quote fees exclusive of GST, with tax applied at billing</li>
+      <li><strong>Purchase orders</strong> — Base price is exclusive, total payable includes GST</li>
+      <li><strong>Retail price tags</strong> — Usually GST <em>inclusive</em> (MRP), unlike B2B scenarios</li>
+    </ul>
+
+    <h2>GST Exclusive Formula</h2>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-brand-link">Adding GST to Base Price (Exclusive):</p>
+        <p>GST Amount = Base Price × (GST Rate ÷ 100)</p>
+        <p>Final Invoice = Base Price + GST Amount</p>
+        <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
+        <p>IGST = GST Amount (for interstate)</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-brand-link">Quick Multipliers:</p>
+        <p>5% → × 1.05 &nbsp;|&nbsp; 12% → × 1.12 &nbsp;|&nbsp; 18% → × 1.18 &nbsp;|&nbsp; 28% → × 1.28</p>
+      </div>
     </div>
 
-    <h3>Step-by-Step Example</h3>
-    <p>Consider a services invoice with a base exclusive price of <strong>₹10,000</strong> at an <strong>18% GST rate</strong>:</p>
+    <h2>Calculation Examples</h2>
+    <h3>Example 1 — Service Invoice at 18%</h3>
+    <p>A digital marketing agency charges ₹50,000 for services (18% GST, intrastate, Mumbai client).</p>
     <ul>
-      <li><strong>Find Total GST:</strong>
-        <br>GST Tax = ₹10,000 × 18% = ₹10,000 × 0.18 = <strong>₹1,800.00</strong>.
-      </li>
-      <li><strong>Find Final Invoice Amount:</strong>
-        <br>Invoice Price = Base Price + GST Tax = ₹10,000 + ₹1,800 = <strong>₹11,800.00</strong>.
-      </li>
-      <li><strong>Tax Splits:</strong>
-        <br>For intra-state sales, this ₹1,800 is split 50:50, which equals <strong>₹900.00 CGST</strong> and <strong>₹900.00 SGST</strong>. For inter-state transactions, the full <strong>₹1,800.00</strong> is allocated to IGST.
-      </li>
+      <li>Base Price: ₹50,000</li>
+      <li>GST (18%): ₹9,000</li>
+      <li>CGST (9%): <strong>₹4,500</strong> &nbsp;|&nbsp; SGST (9%): <strong>₹4,500</strong></li>
+      <li>Total Invoice: <strong>₹59,000</strong></li>
+    </ul>
+
+    <h3>Example 2 — Interstate Goods Sale at 12%</h3>
+    <p>A Bengaluru manufacturer supplies IT hardware worth ₹2,00,000 to a Delhi company.</p>
+    <ul>
+      <li>Base Price: ₹2,00,000</li>
+      <li>IGST (12%): <strong>₹24,000</strong></li>
+      <li>Total Invoice: <strong>₹2,24,000</strong></li>
+    </ul>
+
+    <h3>Example 3 — 5% GST on Food Products</h3>
+    <p>A food manufacturer supplies packaged goods worth ₹1,00,000 to a local retailer (intrastate).</p>
+    <ul>
+      <li>Base Price: ₹1,00,000</li>
+      <li>GST (5%): ₹5,000</li>
+      <li>CGST (2.5%): <strong>₹2,500</strong> &nbsp;|&nbsp; SGST (2.5%): <strong>₹2,500</strong></li>
+      <li>Total Invoice: <strong>₹1,05,000</strong></li>
+    </ul>
+
+    <h2>GST Rates for Common B2B Categories</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">GST Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Common B2B Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Agri products, economy transport, packaged food items</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, mobile phones, processed foods, business services</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Professional services, software, FMCG, electronics, manufacturing</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Luxury goods, tobacco, cement, automobiles, casinos</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Benefits of This Calculator</h2>
+    <ul>
+      <li><strong>Invoice-ready</strong> — Results match exactly what should appear on your GST invoice</li>
+      <li><strong>CGST/SGST/IGST auto-split</strong> — Automatically shows the right tax structure</li>
+      <li><strong>Custom rates supported</strong> — Works for 3% (gold), 0.25% and any other category</li>
+      <li><strong>Real-time calculation</strong> — Results update as you type, no submit needed</li>
+      <li><strong>Mobile-friendly &amp; free</strong> — Works on all devices without login or charges</li>
     </ul>
 
     <FAQ items={faqs} />
 
-    <!-- Related Tools Section -->
-    <section class="mt-12 not-prose border-t border-hairline pt-10">
-      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <ToolCard 
-          title="GST Inclusive Calculator" 
-          description="Extract baseline figures from tax-inclusive prices." 
-          url="/tools/gst-inclusive-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="Online GST Calculator" 
-          description="Comprehensive add or remove tax calculator tool." 
-          url="/tools/gst-calculator"
-          icon="calculator"
-        />
-        <ToolCard 
-          title="IGST Calculator" 
-          description="Calculate Integrated GST for interstate sales." 
-          url="/tools/igst-calculator"
-          icon="calculator"
-        />
-      </div>
-    </section>
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — General add/remove GST tool</li>
+      <li><a href="/tools/gst-inclusive-calculator">GST Inclusive Calculator</a> — Extract tax from MRP price</li>
+      <li><a href="/tools/igst-calculator">IGST Calculator</a> — Interstate GST calculation</li>
+      <li><a href="/tools/gst-split-calculator">GST Split Calculator</a> — CGST and SGST component split</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Whether you are a business owner raising your first GST invoice or a CA preparing bulk billing data, our free <strong>GST Exclusive Calculator online</strong> makes the process instant and error-free. Enter the base price, select the rate, and get a complete breakdown of CGST, SGST, IGST, and the final invoice total in seconds.</p>
   </div>
 </CalculatorLayout>
 

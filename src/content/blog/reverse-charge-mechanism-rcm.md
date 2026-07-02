@@ -24,14 +24,30 @@ suggestedArticles:
   - title: "E-Way Bill System: Applicability, Limits, Registration, and Generation"
     slug: "eway-bill-system-guide"
 faqs:
-  - question: "Who is liable to pay GST?"
-    answer: "Normally, the supplier of goods or services is liable. However, under RCM or e-commerce provisions, the recipient or marketplace operator is liable to pay tax."
-  - question: "Can I claim ITC on all purchases?"
-    answer: "No, ITC is only allowed on purchases used in the course or furtherance of business. Expenses like personal goods, catering, and motor vehicles are blocked under Section 17(5)."
-  - question: "What is the penalty for late GST filing?"
-    answer: "Late fee for GSTR-1 and GSTR-3B is ₹50 per day (₹20 for NIL returns) of delay, capped at different limits depending on turnover, plus 18% per annum interest on net tax liability."
-  - question: "How do I check my GST filing history?"
-    answer: "Log into the official GST Portal, navigate to Services > Returns > View e-Filed Returns to check past filing status and forms."
+  - question: "What is Reverse Charge Mechanism (RCM) in GST?"
+    answer: "RCM is a mechanism where the recipient (buyer) of goods or services is liable to pay GST instead of the supplier. It is governed by Sections 9(3) and 9(4) of the CGST Act for notified categories."
+  - question: "Can ITC be claimed on RCM payments?"
+    answer: "Yes, after paying GST under RCM through the Electronic Cash Ledger, the recipient can claim the same amount as Input Tax Credit in the same tax period, provided the supply is used for business purposes."
+  - question: "How do I pay tax under RCM?"
+    answer: "RCM tax must be paid in cash through the Electronic Cash Ledger. You cannot use Input Tax Credit to pay RCM liability. Generate a PMT-06 challan and pay via net banking on the GST portal."
+  - question: "Which services attract RCM?"
+    answer: "Services like Goods Transport Agency (GTA), legal services by advocates, director services, sponsorship services, security services, recovery agent services, and renting of residential dwellings attract RCM."
+  - question: "What is GTA under RCM?"
+    answer: "Goods Transport Agency (GTA) services attract RCM at 5% GST (without ITC) or 12% (with forward charge option). The recipient must pay tax if the GTA does not opt for forward charge."
+  - question: "Does RCM apply to purchases from unregistered dealers?"
+    answer: "Section 9(4) for purchases from unregistered persons has been largely rationalized. Currently, it primarily applies to specified categories like promoter-developers purchasing construction materials from unregistered suppliers."
+  - question: "What goods attract RCM?"
+    answer: "Goods like cashew nuts, tendu leaves, tobacco leaves, silk yarn, raw cotton (all from agriculturists), used vehicles, and priority sector lending certificates attract RCM under Section 9(3)."
+  - question: "How do I report RCM in GSTR-3B?"
+    answer: "Report RCM liability in Table 3.1(d) of GSTR-3B. The self-assessed RCM liability is auto-populated. Pay the tax via Electronic Cash Ledger and claim ITC in Table 4 of GSTR-3B."
+  - question: "Is E-way bill required for RCM supplies?"
+    answer: "Yes, E-way bill requirements apply to RCM supplies as well. If the consignment value exceeds ₹50,000, an E-way bill must be generated regardless of whether the supply is under forward charge or RCM."
+  - question: "What is the penalty for non-payment of RCM?"
+    answer: "If RCM is not paid within the due date, late fees of ₹50/day (₹25 CGST + ₹25 SGST) apply, along with interest at 18% per annum on the net cash liability under Section 50."
+  - question: "Do I need separate registration for RCM?"
+    answer: "No separate registration is required. Any person already registered under GST must pay RCM on notified supplies. However, non-resident taxable persons making supplies attract RCM and must register."
+  - question: "How does RCM affect e-commerce transactions?"
+    answer: "E-commerce operators may be required to collect TCS (Tax Collected at Source) under Section 52, while specific services provided through e-commerce platforms may attract RCM under Section 9(3)."
 ---
 
 ## Introduction to Reverse Charge Mechanism (RCM) in GST
@@ -89,6 +105,40 @@ Below is a reference guide on common limits, forms, and compliance thresholds un
 | **Wrong ITC Utilized Interest** | 24% per annum | DRC-01 Notice | Accrues from date of claim |
 
 It is crucial to remember that these thresholds are subject to change by notifications issued by the GST Council. Taxpayers must consult their CA or tax advisor to verify current limits.
+
+---
+
+### List of Goods Covered Under RCM (Section 9(3))
+
+The following goods attract RCM, meaning the buyer is liable to pay GST directly to the government:
+
+| Goods Description | Supplier of Goods | Recipient (Buyer) of Goods | Applicable GST Rate |
+| --- | --- | --- | --- |
+| **Cashew Nuts (in shell)** | Agriculturist | Any registered person | 5% GST |
+| **Bidi Wrapper Leaves (Tendu)** | Agriculturist | Any registered person | 18% GST |
+| **Tobacco Leaves** | Agriculturist | Any registered person | 5% GST |
+| **Silk Yarn** | Manufacturer/Rearer | Any registered person | 5% GST |
+| **Raw Cotton** | Agriculturist | Any registered person | 5% GST |
+| **Used Vehicles, Scrap, etc.**| Government/Local Authority | Any registered person | 12% or 18% GST |
+| **Priority Sector Lending Cert (PSLC)**| Any bank | Any registered person | 18% GST |
+
+---
+
+### List of Key Services Covered Under RCM (Section 9(3))
+
+For these services, the service recipient is liable to pay tax under RCM:
+
+| Service Category | Supplier of Service | Recipient (Buyer) of Service | Remarks |
+| --- | --- | --- | --- |
+| **Goods Transport Agency (GTA)**| GTA (who hasn't opted for forward charge) | Factories, Societies, Co-ops, Registered persons | 5% GST (without ITC) or 12% GST (with forward charge option) |
+| **Legal Services** | Individual Advocate or Firm | Any business entity with aggregate turnover > threshold | Includes advice, representation in courts/tribunals. |
+| **Services by Director** | Company Director (in personal capacity) | The Company or Body Corporate | Excludes regular director salary attracting TDS under Sec 192. |
+| **Sponsorship Services** | Any person | Any body corporate or partnership firm | GST is payable by the sponsored entity. |
+| **Renting of Residential Dwelling**| Any person (registered/unregistered) | Any registered person | 18% GST. Exempt if rented to unregistered person for residence. |
+| **Security Services** | Any person (other than a body corporate) | Any registered person | 18% GST. Not applicable to government departments. |
+| **Recovery Agent Services** | Recovery Agent | Banking company, FI, or NBFC | GST paid by the bank/FI. |
+
+---
 
 ## Practical Examples and Mathematical Calculations
 

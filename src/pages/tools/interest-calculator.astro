@@ -3,37 +3,41 @@ import CalculatorLayout from '../../components/CalculatorLayout.astro';
 import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 
-const pageTitle = "GST Interest Calculator - Section 50";
-const pageDesc = "Calculate interest on delayed GST payments online. Evaluates interest at 18% per annum for delayed cash payments and 24% per annum for wrongful utilization of Input Tax Credit (ITC) as per Section 50 of the CGST Act.";
+const pageTitle = "GST Interest Calculator Online India — Section 50 Interest on Late Tax Payment";
+const pageDesc = "Calculate interest on late GST payment using our free Section 50 Interest Calculator online. Computes 18% per annum on delayed tax and 24% per annum on wrongful ITC utilization. Instant results for any GST delay period in India.";
 
 // Schema for Interest Calculator Page
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Interest Calculator Section 50",
+  "name": "GST Interest Calculator Online — Section 50",
   "url": "https://gstcalculatoronline.in/tools/interest-calculator",
-  "description": "Calculate interest on delayed GST tax payment and wrong ITC ledger claims.",
+  "description": "Free online GST interest calculator for India. Calculate 18% or 24% per annum interest on delayed GST payments under Section 50 of the CGST Act.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is the interest rate for late payment of GST?",
-    answer: "Interest is levied at **18% per annum** on delayed tax payments made after the due date (under Section 50(1) of the CGST Act). If a taxpayer wrongly claims and **utilizes** Input Tax Credit (ITC), the interest rate is **24% per annum** (under Section 50(3))."
-  },
-  {
-    question: "Is interest calculated on Net Tax Liability or Gross Tax Liability?",
-    answer: "Interest is calculated on the **Net Tax Liability** paid through the Electronic Cash Ledger (i.e. cash payment). Interest is not levied on the portion of tax paid through the Electronic Credit Ledger (ITC), provided the return is filed before any tax proceedings are initiated."
-  },
-  {
-    question: "How is the number of delay days calculated for GST interest?",
-    answer: "The delay is calculated starting from the day immediately following the official due date of filing/payment, up to the actual date on which the tax is paid. For example, if the due date is Nov 20 and payment is made on Nov 30, the delay is exactly 10 days."
-  }
+  { question: "What is the interest rate for late payment of GST?", answer: "Under Section 50(1) of the CGST Act, interest is levied at 18% per annum on any delayed GST payment after the due date. If a taxpayer wrongly claims and utilizes Input Tax Credit (ITC), the interest rate is 24% per annum under Section 50(3). Interest accrues from the day after the due date until the actual date of payment." },
+  { question: "How is GST interest calculated?", answer: "GST Interest = (Tax Amount × Interest Rate × Number of Delay Days) ÷ 365. Example: Tax of ₹1,00,000 delayed by 30 days at 18% pa: Interest = (1,00,000 × 0.18 × 30) ÷ 365 = ₹1,479.45. This is our free interest on GST calculator online formula." },
+  { question: "Is interest calculated on net or gross GST liability?", answer: "Following the 2020 amendment to Section 50(1) of the CGST Act, interest is calculated on the net tax liability paid through the Electronic Cash Ledger (i.e., cash payment only). Interest is NOT levied on the portion of tax offset using Input Tax Credit from the Electronic Credit Ledger, provided the return is filed voluntarily before any tax proceedings." },
+  { question: "How is the delay period calculated for GST interest?", answer: "The delay period is counted starting from the day immediately after the official due date of filing/payment, up to (and including) the actual date on which the tax is paid. Example: If the due date is the 20th of a month and payment is made on the 30th, the delay is 10 days." },
+  { question: "What is Section 50 of the CGST Act?", answer: "Section 50 of the CGST Act, 2017 is the provision that mandates interest on delayed tax payments. Section 50(1) covers interest at 18% pa on late payment of tax. Section 50(3) covers interest at 24% pa on wrongful ITC claims that have been utilized. The 2020 Finance Act amended Section 50(1) to restrict interest to net cash liability." },
+  { question: "What is the interest rate on wrong ITC claim?", answer: "If a taxpayer claims and utilizes Input Tax Credit (ITC) to which they are not entitled, interest is levied at 24% per annum under Section 50(3) of the CGST Act. This is higher than the standard 18% rate for delayed tax payments. If the wrong ITC is merely claimed but not yet utilized, recent GST Council decisions indicate no interest applies." },
+  { question: "When does GST interest start and stop?", answer: "GST interest starts from the day immediately following the due date of filing/payment. It stops on the date the actual tax payment is made. For example, if the due date is November 20 and you pay on December 5, interest applies for 15 days (November 21 to December 5)." },
+  { question: "Is there any waiver or amnesty scheme for GST interest?", answer: "Yes. The GST Council has periodically announced amnesty schemes that waive or reduce interest and late fees for specific periods or categories of taxpayers. In 2021, Section 50 was amended to restrict interest to net cash liability. Always check the latest GST Council decisions and CBIC notifications for any current waivers." },
+  { question: "How much interest is charged per day for GST?", answer: "GST interest at 18% per annum works out to approximately 0.0493% per day (18 ÷ 365). For a tax liability of ₹1,00,000, this is about ₹49.32 per day. At 24% per annum (for ITC misuse), it is about ₹65.75 per day." },
+  { question: "Can GST interest be reduced or contested?", answer: "GST interest under Section 50 is statutory and auto-computed. However, taxpayers can contest interest demands through the GST appellate mechanism if the interest is levied incorrectly — for example, if interest is applied to the gross liability instead of the net cash liability. Consulting a GST practitioner is advisable for such disputes." },
+  { question: "Is GST interest deductible as a business expense?", answer: "No. GST interest paid under Section 50 of the CGST Act is not deductible as a business expense under the Income Tax Act. It is treated as a penalty or penal interest and is not allowable as a deduction when computing taxable business income." },
+  { question: "What is the GST interest formula?", answer: "GST Interest Formula: Interest = (Principal Tax Amount × Annual Rate × Delay Days) ÷ 365. For 18% rate: Interest = (Tax × 0.18 × Days) ÷ 365. For 24% rate (wrong ITC): Interest = (Tax × 0.24 × Days) ÷ 365." },
+  { question: "What happens if I don't pay GST on time?", answer: "If you don't pay GST by the due date, you will be liable for: (1) Interest at 18% per annum on the tax amount under Section 50, (2) Late fee under Section 47 (₹50/day for taxable returns, ₹20/day for NIL returns, subject to turnover-based caps), (3) Potential show-cause notices and penalties if non-payment is detected in audits." },
+  { question: "How to reduce GST interest liability?", answer: "To reduce GST interest: (1) Pay the tax liability before the due date, (2) Maximize use of available ITC to reduce the cash component (interest applies only to cash payment), (3) File your returns on time even if payment is delayed, (4) Check for any amnesty schemes that may reduce interest for past periods." },
+  { question: "Is this GST Interest Calculator free?", answer: "Yes, this GST Interest Calculator online is completely free. No registration, no login, no charges. Enter the tax amount, due date, actual payment date, and select the interest type (18% or 24%) to get instant interest calculations." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="interest-form" class="space-y-6">
     <!-- Tax Amount Payable -->
@@ -117,17 +121,82 @@ const faqs = [
       <p class="font-semibold text-brand-link">GST Interest Formula:</p>
       <p>Interest Amount = (Net Cash Tax Liability × Rate of Interest × Delay Days) / (365 × 100)</p>
     </div>
-
     <h3>Net vs Gross Interest Levies</h3>
-    <p>Following historical GST Council recommendation meetings and a retroactive amendment to Section 50(1), interest is calculated purely on the <strong>net tax liability</strong>. This refers to the tax paid through cash deposits, excluding the tax paid by offsetting input tax credits (Credit Ledger balance). However, this concession only applies if the taxpayer files the delayed return voluntarily; in cases of tax audits or recovery demands, interest applies to the gross liability.</p>
+    <p>Following the 2020 Finance Act amendment to Section 50(1) of the CGST Act, interest is calculated purely on the <strong>net tax liability</strong>. This refers to the tax paid through cash deposits, excluding the tax offset using Input Tax Credit from the Electronic Credit Ledger. However, this concession only applies if the taxpayer files the delayed return voluntarily before any tax proceedings are initiated.</p>
 
-    <h3>Interest Slabs</h3>
+    <h2>Section 50 Interest Rates — Complete Reference</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Scenario</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Interest Rate</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Section</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 text-body">Delayed GST payment (cash component)</td><td class="p-3 font-mono font-bold text-primary">18% per annum</td><td class="p-3 text-mute font-mono">Sec 50(1)</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 text-body">Wrongfully claimed AND utilized ITC</td><td class="p-3 font-mono font-bold text-primary">24% per annum</td><td class="p-3 text-mute font-mono">Sec 50(3)</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 text-body">ITC claimed but NOT utilized</td><td class="p-3 font-mono font-bold text-green-600">Nil (no interest)</td><td class="p-3 text-mute font-mono">GST Council Decision</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>GST Interest Calculation Examples</h2>
+    <h3>Example 1 — Delayed Tax Payment (18% Rate)</h3>
+    <p>A Pune-based manufacturer missed the GSTR-3B due date of November 20 and paid the tax of ₹50,000 on December 20 (30 days late).</p>
     <ul>
-      <li><strong>18% Per Annum:</strong> Standard interest rate applicable on delay in paying tax liability (taxpayer filed GSTR-3B after the due date).</li>
-      <li><strong>24% Per Annum:</strong> Interest rate applicable on wrong claims of input tax credit (ITC) which have been subsequently utilized to discharge liabilities. If credit is claimed in GSTR-3B but not utilized (remains in the credit ledger), no interest applies under recent rules.</li>
+      <li>Tax Amount: ₹50,000</li>
+      <li>Interest Rate: 18% per annum</li>
+      <li>Delay: 30 days</li>
+      <li>Interest = (50,000 × 0.18 × 30) ÷ 365 = <strong>₹739.73</strong></li>
+      <li>Total Payable: 50,000 + 739.73 = <strong>₹50,739.73</strong></li>
+    </ul>
+
+    <h3>Example 2 — Wrong ITC Utilization (24% Rate)</h3>
+    <p>A Delhi company wrongly claimed and utilized ITC of ₹20,000 in October. The tax authority identified this 90 days later.</p>
+    <ul>
+      <li>Wrong ITC Amount: ₹20,000</li>
+      <li>Interest Rate: 24% per annum</li>
+      <li>Delay: 90 days</li>
+      <li>Interest = (20,000 × 0.24 × 90) ÷ 365 = <strong>₹1,183.56</strong></li>
+      <li>Total Recovery: <strong>₹21,183.56</strong></li>
+    </ul>
+
+    <h2>Benefits of This GST Interest Calculator Online</h2>
+    <ul>
+      <li><strong>Accurate daily calculation</strong> — Computes interest for the exact number of delay days</li>
+      <li><strong>Both interest rates</strong> — Supports 18% (late payment) and 24% (wrong ITC) scenarios</li>
+      <li><strong>CGST/SGST split</strong> — Shows interest split between Central and State GST</li>
+      <li><strong>Section 50 compliant</strong> — Follows the net cash liability rule from the 2020 amendment</li>
+      <li><strong>Free and private</strong> — No data stored; fully browser-based computation</li>
+    </ul>
+
+    <h2>Common Mistakes to Avoid</h2>
+    <ul>
+      <li><strong>Calculating on gross liability</strong> — Post-2020 amendment, interest applies only to the cash component, not the ITC portion</li>
+      <li><strong>Forgetting interest on delayed ITC reversal</strong> — ITC reversed late can attract interest depending on circumstances</li>
+      <li><strong>Not paying interest with tax</strong> — Interest must be paid in the same challan along with the delayed tax amount</li>
     </ul>
 
     <FAQ items={faqs} />
+
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/late-fee-calculator">GST Late Fee Calculator</a> — Calculate GSTR-3B filing late fees separately</li>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Calculate your base GST liability</li>
+      <li><a href="/tools/gst-refund-calculator">GST Refund Calculator</a> — Estimate refunds for excess tax paid</li>
+    </ul>
+
+    <h2>Related Articles</h2>
+    <ul>
+      <li><a href="/blog/gst-penalties-late-fees-interest">GST Penalties, Late Fees and Interest — Complete Guide</a></li>
+      <li><a href="/blog/gst-return-filing-checklist">GST Return Filing Checklist — Avoid Delays and Penalties</a></li>
+      <li><a href="/blog/input-tax-credit-itc-rules">Input Tax Credit Rules — Avoid Wrong ITC Claims</a></li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Late GST payments can quickly become expensive due to compounding interest at 18% per annum. Using our free <strong>interest on GST calculator online</strong> lets you instantly determine exactly how much interest is owed, so you can plan your payment and avoid surprises during GST audits or assessments. For wrong ITC situations, the 24% rate makes timely corrections even more critical. Use this <strong>GST Interest Calculator</strong> regularly to stay compliant and avoid costly interest liabilities.</p>
   </div>
 </CalculatorLayout>
 

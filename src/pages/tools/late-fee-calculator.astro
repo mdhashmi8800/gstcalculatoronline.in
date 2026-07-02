@@ -3,37 +3,38 @@ import CalculatorLayout from '../../components/CalculatorLayout.astro';
 import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 
-const pageTitle = "GST Late Fee Calculator - GSTR-3B";
-const pageDesc = "Calculate GSTR-3B filing late fees for NIL returns and taxable returns online. Formulated with standard daily rates and turnover-based rationalized caps under section 47 of the CGST Act.";
+const pageTitle = "GST Late Fee Calculator Online India — GSTR-3B Late Fee under Section 47";
+const pageDesc = "Calculate GSTR-3B late fee online using our free GST Late Fee Calculator. Computes ₹50/day for taxable returns and ₹20/day for NIL returns with turnover-based caps. Section 47 CGST Act compliant.";
 
 // Schema for Late Fee Calculator Page
 const pageSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "GST Late Fee Calculator GSTR-3B",
+  "name": "GST Late Fee Calculator Online India — GSTR-3B Section 47",
   "url": "https://gstcalculatoronline.in/tools/late-fee-calculator",
-  "description": "Calculate GSTR-3B return filing delay fees, daily charges, and aggregate turnover caps.",
+  "description": "Free GST late fee calculator for GSTR-3B. Computes late fees under Section 47 of the CGST Act with turnover-based caps.",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "All",
-  "browserRequirements": "Requires JavaScript. Requires HTML5."
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
 };
 
 const faqs = [
-  {
-    question: "What is the late fee for GSTR-3B in India?",
-    answer: "The late fee for GSTR-3B is **₹50 per day** of delay for returns with tax liability (₹25 CGST + ₹25 SGST). For **NIL returns** (no tax liability), the late fee is **₹20 per day** (₹10 CGST + ₹10 SGST)."
-  },
-  {
-    question: "What is the maximum limit (cap) on GSTR-3B late fees?",
-    answer: "Late fees are capped based on Annual Aggregate Turnover (AATO):<br>- **NIL returns**: Capped at **₹500** total.<br>- **Taxable returns (AATO ≤ ₹1.5 Cr)**: Capped at **₹2,000** total.<br>- **Taxable returns (AATO ₹1.5 Cr to ₹5 Cr)**: Capped at **₹5,000** total.<br>- **Taxable returns (AATO > ₹5 Cr)**: Capped at **₹10,000** total."
-  },
-  {
-    question: "Can late fees be waived off?",
-    answer: "GST late fees can only be waived off if the Government announces a specific amnesty scheme or extends the due dates via official notifications. Otherwise, late fees are automatically calculated on the GST portal."
-  }
+  { question: "What is the late fee for GSTR-3B in 2025?", answer: "The late fee for GSTR-3B under Section 47 of the CGST Act is ₹50 per day (total) for taxable returns with tax liability: ₹25 CGST + ₹25 SGST. For NIL returns (no output tax, no ITC), the late fee is ₹20 per day total: ₹10 CGST + ₹10 SGST." },
+  { question: "What are the maximum caps on GSTR-3B late fee?", answer: "Late fees are capped based on Annual Aggregate Turnover (AATO): NIL returns — Max ₹500 (cap applies). Taxable returns, AATO up to ₹1.5 Crore — Max ₹2,000. AATO ₹1.5 Crore to ₹5 Crore — Max ₹5,000. AATO above ₹5 Crore — Max ₹10,000." },
+  { question: "What is Section 47 of the CGST Act?", answer: "Section 47 of the CGST Act, 2017 provides for the levy of late fees on taxpayers who fail to file their GST returns by the due date. The late fee accrues on a daily basis from the day after the due date until the actual date of filing." },
+  { question: "Can GSTR-3B late fee be waived off?", answer: "Late fees can only be waived off if the Government issues a specific notification under the CGST Act, usually through amnesty schemes or extensions. The GST Council has announced several such waivers in the past (2019, 2021). Without such a notification, late fees are mandatory." },
+  { question: "How is GST late fee calculated for GSTR-3B?", answer: "GST Late Fee = Daily Rate × Number of Delay Days (subject to cap). For a taxable return filed 20 days late: Late Fee = 50 × 20 = ₹1,000 (if below the cap for your turnover). CGST component = ₹500; SGST component = ₹500." },
+  { question: "Is there a late fee for GSTR-1?", answer: "Yes. GSTR-1 also has a late fee under Section 47: ₹50/day for taxable returns (₹25 CGST + ₹25 SGST) and ₹20/day for NIL returns, with similar turnover-based caps. Note: GSTR-1 late filing also blocks the buyer's ITC reconciliation." },
+  { question: "What is a NIL return for GST purposes?", answer: "A NIL GST return is one where the taxpayer has no outward supply (no sales), no inward supply (no purchases), no tax liability, and no ITC claim for the month. Such taxpayers can file NIL GSTR-3B at the lower late fee of ₹20/day." },
+  { question: "Does GST late fee apply if tax is already paid on time but return filed late?", answer: "Yes. The late fee under Section 47 is for the delay in filing the return, regardless of whether the tax was already deposited using a challan. Even if you have paid the tax, you must file the return by the due date to avoid the daily late fee accumulation." },
+  { question: "How is the late fee split between CGST and SGST?", answer: "The late fee is split equally between CGST and SGST. For taxable returns: CGST late fee = ₹25/day, SGST late fee = ₹25/day (total ₹50/day). For NIL returns: CGST = ₹10/day, SGST = ₹10/day (total ₹20/day)." },
+  { question: "Can I claim ITC on GST late fee paid?", answer: "No. GST late fee is a penal charge and is not an eligible input for ITC. It cannot be offset using the Electronic Credit Ledger (ITC balance). Late fees must be paid from the Electronic Cash Ledger only." },
+  { question: "When does GST late fee stop accumulating?", answer: "GST late fee stops accumulating on the date the return is actually filed on the GST portal. For example, if the due date was the 20th and you file on the 30th, the late fee applies for 10 days (days 21 through 30). Once the return is filed and the late fee is paid, no further fee accrues." },
+  { question: "Is this GST Late Fee Calculator free?", answer: "Yes, completely free. No login, no registration, no fees. Select the return type, enter the due date and actual filing date, select your annual turnover range, and get the instant late fee calculation including the CGST and SGST split." }
 ];
 ---
-<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
   <form id="latefee-form" class="space-y-6">
     <!-- Return Due Date -->
@@ -111,43 +112,88 @@ const faqs = [
   <div slot="content" class="prose max-w-none">
     <h2>GSTR-3B Late Fee Calculation Rules & Guidelines</h2>
     <p>Every registered person who fails to furnish returns including GSTR-3B by the due dates is liable to pay a late fee under Section 47 of the Central Goods and Services Tax (CGST) Act. The late fee is calculated from the day after the due date up to the date on which the return is filed.</p>
-    
-    <h3>Daily Late Fee Structure</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Return Category</th>
-          <th>CGST Daily Fee</th>
-          <th>SGST Daily Fee</th>
-          <th>Total Daily Fee</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>NIL Return</strong> (no output tax, no input credit)</td>
-          <td>₹10</td>
-          <td>₹10</td>
-          <td>₹20 / day</td>
-        </tr>
-        <tr>
-          <td><strong>Taxable / Liability Return</strong> (with output or input credit)</td>
-          <td>₹25</td>
-          <td>₹25</td>
-          <td>₹50 / day</td>
-        </tr>
-      </tbody>
-    </table>
+        <h2>Complete Guide to GST Late Fee — Section 47 CGST Act</h2>
+    <p>Filing your GST returns late can attract significant late fees that accumulate daily. Understanding the <strong>GST late fee structure</strong> under <strong>Section 47 of the CGST Act</strong> is essential for every registered taxpayer in India. Our free <strong>GST Late Fee Calculator online</strong> computes the exact fee for any delay period, based on your return type and annual turnover.</p>
 
-    <h3>Maximum Capping on GST Return Late Fees</h3>
-    <p>To reduce tax compliance burdens on small micro-businesses, the GST Council rationalized the late fee caps. The maximum late fee payable per return filing is capped based on the taxpayer's annual aggregate turnover (AATO):</p>
+    <h2>GST Late Fee Rate Structure (Section 47)</h2>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Return Type</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST/day</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">SGST/day</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Total/day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">NIL Return (no tax, no ITC)</td><td class="p-3 font-mono">₹10</td><td class="p-3 font-mono">₹10</td><td class="p-3 font-mono font-bold text-primary">₹20/day</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Taxable / Liability Return</td><td class="p-3 font-mono">₹25</td><td class="p-3 font-mono">₹25</td><td class="p-3 font-mono font-bold text-primary">₹50/day</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Turnover-Based Late Fee Caps</h2>
+    <p>To protect small businesses, the GST Council rationalized late fee caps based on Annual Aggregate Turnover (AATO):</p>
+    <div class="overflow-x-auto my-4">
+      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+        <thead class="bg-canvas-soft-2">
+          <tr>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Return Category</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">AATO</th>
+            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Max Late Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-hairline/50"><td class="p-3 text-body">NIL Returns</td><td class="p-3 text-body">Any turnover</td><td class="p-3 font-mono font-bold text-primary">₹500 per return</td></tr>
+          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">Up to ₹1.5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹2,000 per return</td></tr>
+          <tr class="border-b border-hairline/50"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">₹1.5 Crore to ₹5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹5,000 per return</td></tr>
+          <tr class="bg-canvas-soft/30"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">Above ₹5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹10,000 per return</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>GST Late Fee Calculation Examples</h2>
+    <h3>Example 1 — Small Trader (NIL Return, 25 Days Late)</h3>
     <ul>
-      <li><strong>NIL Return filings:</strong> Maximum fee is capped at <strong>₹500</strong> per return (₹250 CGST + ₹250 SGST).</li>
-      <li><strong>Taxable Return (Turnover up to ₹1.5 Crores):</strong> Maximum fee is capped at <strong>₹2,000</strong> per return (₹1,000 CGST + ₹1,000 SGST).</li>
-      <li><strong>Taxable Return (Turnover between ₹1.5 Crores and ₹5 Crores):</strong> Maximum fee is capped at <strong>₹5,000</strong> per return (₹2,500 CGST + ₹2,500 SGST).</li>
-      <li><strong>Taxable Return (Turnover above ₹5 Crores):</strong> Maximum fee is capped at <strong>₹10,000</strong> per return (₹5,000 CGST + ₹5,000 SGST).</li>
+      <li>Return Type: NIL</li>
+      <li>Delay: 25 days &times; ₹20/day = ₹500</li>
+      <li>Cap for NIL: ₹500 &rarr; Late Fee = <strong>₹500</strong> (at cap)</li>
+    </ul>
+
+    <h3>Example 2 — Mid-Size Business (Taxable Return, AATO ₹2 Crore, 60 Days Late)</h3>
+    <ul>
+      <li>Return Type: Taxable</li>
+      <li>Delay: 60 days &times; ₹50/day = ₹3,000</li>
+      <li>Cap (₹1.5 Cr–₹5 Cr range): ₹5,000 &rarr; Late Fee = <strong>₹3,000</strong> (below cap)</li>
+    </ul>
+
+    <h3>Example 3 — Large Business (Taxable Return, AATO ₹10 Crore, 10 Days Late)</h3>
+    <ul>
+      <li>Return Type: Taxable</li>
+      <li>Delay: 10 days &times; ₹50/day = ₹500</li>
+      <li>Cap (Above ₹5 Crore): ₹10,000 &rarr; Late Fee = <strong>₹500</strong> (below cap)</li>
+    </ul>
+
+    <h2>How to Minimize GST Late Fees</h2>
+    <ul>
+      <li><strong>File on time</strong> — Set calendar reminders for the 20th of each month (GSTR-3B monthly due date)</li>
+      <li><strong>File NIL returns promptly</strong> — Even if there's no business, file NIL to avoid daily accumulation</li>
+      <li><strong>Use GST portal alerts</strong> — The GST portal sends SMS/email reminders before due dates</li>
+      <li><strong>Check for amnesty schemes</strong> — Watch for GST Council notifications that waive or reduce fees</li>
     </ul>
 
     <FAQ items={faqs} />
+
+    <h2>Related Calculators</h2>
+    <ul>
+      <li><a href="/tools/interest-calculator">GST Interest Calculator</a> — Calculate 18% interest on delayed tax payment</li>
+      <li><a href="/tools/gst-calculator">GST Calculator Online</a> — Calculate your GST liability</li>
+      <li><a href="/tools/gst-refund-calculator">GST Refund Calculator</a> — Estimate excess GST refunds</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Late GST return filing results in penalties that compound daily. Our free <strong>GST Late Fee Calculator online</strong> gives you an instant, accurate view of how much fee you owe for any delay period, helping you plan your filing and budget for compliance costs. Always file on time — the late fee saved is always worth more than the effort of filing.</p>
   </div>
 </CalculatorLayout>
 
