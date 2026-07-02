@@ -11,13 +11,13 @@ export interface SEOMetadata {
 }
 
 export const SITE_URL = 'https://gstcalculatoronline.in';
-export const SITE_NAME = 'GST Calculator Online India';
+export const SITE_NAME = 'GST Calculator Online';
 
 export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: boolean } = {
-  title: 'GST Calculator Online India - Fast & Accurate GST Tools',
+  title: 'GST Calculator Online - Fast & Accurate GST Tools',
   description: 'Calculate GST (CGST, SGST, IGST), late fees, interest, and composition scheme taxes online. Free, fast, and highly accurate tools tailored for Indian businesses and taxpayers.',
   canonical: SITE_URL,
-  ogTitle: 'GST Calculator Online India - Fast & Accurate GST Tools',
+  ogTitle: 'GST Calculator Online - Fast & Accurate GST Tools',
   ogDescription: 'Calculate GST (CGST, SGST, IGST), late fees, interest, and composition scheme taxes online. Free, fast, and highly accurate tools tailored for Indian businesses and taxpayers.',
   ogImage: `${SITE_URL}/og-image.png`,
   ogType: 'website',
