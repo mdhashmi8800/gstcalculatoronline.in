@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
+import AdSense from './AdSense.astro';
 import type { SEOMetadata } from '../utils/seo';
 
 interface Props {
@@ -23,10 +24,8 @@ const { title, description, seo, schema } = Astro.props;
       <p class="mt-2 text-base text-body max-w-3xl">{description}</p>
     </header>
 
-    <!-- AdSense Top Banner -->
-    <div class="mb-8 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-2 text-center text-xs text-mute">
-      Ad Placement (Responsive Auto Ads)
-    </div>
+    <!-- AdSense Top Banner (Below Hero) -->
+    <AdSense type="below-hero" className="mb-8" />
 
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -40,9 +39,7 @@ const { title, description, seo, schema } = Astro.props;
         <slot name="results" />
 
         <!-- AdSense Sidebar Banner -->
-        <div class="rounded-xl border border-dashed border-hairline-strong bg-canvas-soft-2 p-6 text-center text-xs text-mute h-64 flex items-center justify-center">
-          Ad Slot (Sticky Sidebar / Skyscraper)
-        </div>
+        <AdSense type="sidebar-desktop" />
       </div>
     </div>
 
@@ -54,5 +51,8 @@ const { title, description, seo, schema } = Astro.props;
         </div>
       </div>
     )}
+
+    <!-- AdSense Before Footer Banner -->
+    <AdSense type="before-footer" className="mt-12" />
   </div>
 </Layout>

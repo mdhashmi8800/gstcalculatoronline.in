@@ -1,5 +1,5 @@
 ---
-import { getSEOMetadata, type SEOMetadata } from '../utils/seo';
+import { getSEOMetadata, type SEOMetadata, PUBLIC_ADSENSE_CLIENT } from '../utils/seo';
 
 interface Props {
   seo?: SEOMetadata;
@@ -7,7 +7,50 @@ interface Props {
 }
 
 const { seo, schema } = Astro.props;
-const metadata = getSEOMetadata(seo);
+
+// Determine unique canonical URL automatically, stripping trailing slash to prevent duplicates
+let cleanPath = Astro.url.pathname;
+if (cleanPath.endsWith('/') && cleanPath !== '/') {
+  cleanPath = cleanPath.slice(0, -1);
+}
+const canonicalUrl = `https://gstcalculatoronline.in${cleanPath}`;
+
+const metadata = getSEOMetadata({
+  canonical: canonicalUrl,
+  ...seo,
+});
+
+// Organization Schema (Required by SEO standards)
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://gstcalculatoronline.in/#organization",
+  "name": "GST Calculator Online India",
+  "url": "https://gstcalculatoronline.in",
+  "logo": {
+    "@type": "ImageObject",
+    "@id": "https://gstcalculatoronline.in/#logo",
+    "url": "https://gstcalculatoronline.in/favicon.svg",
+    "caption": "GST Calculator Online India"
+  },
+  "image": {
+    "@id": "https://gstcalculatoronline.in/#logo"
+  }
+};
+
+// WebSite Schema with Search Action
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://gstcalculatoronline.in/#website",
+  "name": "GST Calculator Online India",
+  "url": "https://gstcalculatoronline.in",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://gstcalculatoronline.in/tools?search={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
 ---
 
 <!-- Primary Meta Tags -->
@@ -34,22 +77,17 @@ const metadata = getSEOMetadata(seo);
 <meta property="twitter:description" content={metadata.ogDescription} />
 <meta property="twitter:image" content={metadata.ogImage} />
 
+<!-- Google AdSense Global Code -->
+{PUBLIC_ADSENSE_CLIENT && (
+  <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${PUBLIC_ADSENSE_CLIENT}`} crossorigin="anonymous"></script>
+)}
+
 <!-- Structured Data (JSON-LD) -->
 {schema && (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 )}
 
-<!-- Default site-wide schema -->
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "GST Calculator Online India",
-    "url": "https://gstcalculatoronline.in",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://gstcalculatoronline.in/tools?search={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-</script>
+<!-- Global site-wide schemas -->
+<script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+

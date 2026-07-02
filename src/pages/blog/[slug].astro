@@ -79,8 +79,28 @@ const post = posts[slug || ''];
 if (!post) {
   return Astro.redirect('/404');
 }
+
+// Dynamically enrich BlogPosting schema for SEO completeness
+const articleUrl = `https://gstcalculatoronline.in/blog/${slug}`;
+const enrichedSchema = {
+  ...post.schema,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": articleUrl
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GST Calculator Online India",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://gstcalculatoronline.in/favicon.svg"
+    }
+  },
+  "description": post.description,
+  "image": `https://gstcalculatoronline.in/og-image.png`
+};
 ---
-<Layout seo={{ title: post.title, description: post.description, ogType: 'article' }} schema={post.schema}>
+<Layout seo={{ title: post.title, description: post.description, ogType: 'article' }} schema={enrichedSchema}>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
 

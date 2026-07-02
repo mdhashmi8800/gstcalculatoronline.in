@@ -1,4 +1,6 @@
 ---
+import AdSense from './AdSense.astro';
+
 interface Props {
   title: string;
   date?: string;
@@ -50,26 +52,16 @@ const { title, date, author, readTime, description } = Astro.props;
     </div>
   </header>
 
-  <!-- Google AdSense Top Ad Slot Mockup -->
-  <div class="my-6 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center">
-    <span class="font-mono text-[9px] text-mute uppercase tracking-wider block mb-1">Sponsored Advertisement</span>
-    <div class="h-24 flex items-center justify-center text-xs text-mute font-medium">
-      Google AdSense Ad Slot (Responsive Banner)
-    </div>
-  </div>
+  <!-- Google AdSense Top Ad Slot (Middle of Content) -->
+  <AdSense type="middle-content" />
 
   <!-- Main Article Body -->
   <div class="prose dark:prose-invert max-w-none text-body">
     <slot />
   </div>
 
-  <!-- Google AdSense Bottom Ad Slot Mockup -->
-  <div class="my-8 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center">
-    <span class="font-mono text-[9px] text-mute uppercase tracking-wider block mb-1">Sponsored Advertisement</span>
-    <div class="h-32 flex items-center justify-center text-xs text-mute font-medium">
-      Google AdSense Ad Slot (Matched Content / Recommended Grid)
-    </div>
-  </div>
+  <!-- Google AdSense Bottom Ad Slot (Before Footer) -->
+  <AdSense type="before-footer" />
 
   <!-- Quick disclaimer for financial blogs -->
   <div class="mt-12 rounded-xl border border-hairline bg-canvas-soft p-5 text-xs text-body leading-relaxed">

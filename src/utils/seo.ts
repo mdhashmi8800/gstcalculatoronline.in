@@ -11,6 +11,7 @@ export interface SEOMetadata {
 
 export const SITE_URL = 'https://gstcalculatoronline.in';
 export const SITE_NAME = 'GST Calculator Online India';
+export const PUBLIC_ADSENSE_CLIENT = import.meta.env.PUBLIC_ADSENSE_CLIENT || 'ca-pub-8419827361928374'; // Replace with user's actual AdSense ID
 
 export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: boolean } = {
   title: 'GST Calculator Online India - Fast & Accurate GST Tools',
@@ -24,9 +25,10 @@ export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: bo
 };
 
 export function getSEOMetadata(metadata: SEOMetadata = {}): SEOMetadata {
-  const title = metadata.title 
-    ? `${metadata.title} | ${SITE_NAME}` 
-    : DEFAULT_SEO.title;
+  let title = metadata.title || DEFAULT_SEO.title;
+  if (metadata.title && !metadata.title.includes(SITE_NAME)) {
+    title = `${metadata.title} | ${SITE_NAME}`;
+  }
 
   return {
     title,

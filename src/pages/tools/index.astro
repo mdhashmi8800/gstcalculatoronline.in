@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSense from '../../components/AdSense.astro';
 
 const pageTitle = "All GST Calculators & Return Tools";
 const pageDesc = "Explore our complete suite of Indian GST calculators. Includes standard GST rate calculators, return late fee calculators, Section 50 interest calculators, and Composition Scheme liabilities.";
@@ -55,9 +56,7 @@ const pageDesc = "Explore our complete suite of Indian GST calculators. Includes
     </div>
 
     <!-- AdSense Top Banner -->
-    <div class="mb-8 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-2 text-center text-xs text-mute">
-      Ad Placement (Responsive Auto Banner)
-    </div>
+    <AdSense type="below-hero" className="mb-8" />
 
     <!-- Tools Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tools-grid-container">
@@ -154,6 +153,9 @@ const pageDesc = "Explore our complete suite of Indian GST calculators. Includes
         />
       </div>
     </div>
+
+    <!-- AdSense Before Footer -->
+    <AdSense type="before-footer" className="mt-12" />
   </div>
 </Layout>
 

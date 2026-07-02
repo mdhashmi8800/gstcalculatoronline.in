@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import ToolCard from '../components/ToolCard.astro';
 import FAQ from '../components/FAQ.astro';
+import AdSense from '../components/AdSense.astro';
 
 const pageTitle = "GST Calculator Online India - GST Rates & Return Tools";
 const pageDesc = "Free online GST calculators for Indian taxpayers. Easily calculate CGST, SGST, IGST, return late fees, interest on tax delays, and composition scheme liabilities according to current Indian tax regulations.";
@@ -54,6 +55,9 @@ const homepageFaqs = [
     </div>
   </section>
 
+  <!-- AdSense Below Hero -->
+  <AdSense type="below-hero" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8" />
+
   <!-- Tools Grid Section -->
   <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
     <div class="text-center sm:text-left mb-12">
@@ -104,12 +108,8 @@ const homepageFaqs = [
     </div>
   </section>
 
-  <!-- AdSense Banner Mockup -->
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8">
-    <div class="rounded-xl border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center text-xs text-mute">
-      Ad Placement (Home page Responsive Banner)
-    </div>
-  </div>
+  <!-- AdSense Middle of Content -->
+  <AdSense type="middle-content" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8" />
 
   <!-- Editorial Info Section -->
   <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto prose dark:prose-invert">
@@ -131,8 +131,14 @@ const homepageFaqs = [
       <li><strong>Net Cash Interest Calculations:</strong> Applies the Section 50 proviso to calculate interest only on cash liabilities, not input credits.</li>
     </ol>
 
+    <!-- AdSense Above FAQ -->
+    <AdSense type="above-faq" className="my-8" />
+
     <FAQ items={homepageFaqs} />
   </section>
+
+  <!-- AdSense Before Footer -->
+  <AdSense type="before-footer" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-12" />
 </Layout>
 
 <script>
