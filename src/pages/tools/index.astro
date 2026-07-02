@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import AdSense from '../../components/AdSense.astro';
 import { tools } from '../../utils/tools';
 
 const pageTitle = "All GST Calculators & Return Tools";
@@ -67,8 +66,7 @@ const categories = [
           </button>
         </div>
 
-        <!-- AdSense Top Banner -->
-        <AdSense type="below-hero" className="mb-4" />
+
 
         <!-- Tools Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="tools-grid-container">
@@ -109,13 +107,11 @@ const categories = [
           </div>
         </div>
 
-        <!-- AdSense Sidebar Banner -->
-        <AdSense type="sidebar-desktop" />
+
       </aside>
     </div>
 
-    <!-- AdSense Before Footer -->
-    <AdSense type="before-footer" className="mt-12" />
+
   </div>
 </Layout>
 

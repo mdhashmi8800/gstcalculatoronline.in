@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import ToolCard from '../components/ToolCard.astro';
 import FAQ from '../components/FAQ.astro';
-import AdSense from '../components/AdSense.astro';
 import { tools } from '../utils/tools';
 
 const pageTitle = "GST Calculator Online India - GST Rates & Return Tools";
@@ -169,8 +168,7 @@ const pageSchemas = [websiteSchema, faqSchema];
     </div>
   </section>
 
-  <!-- AdSense Below Hero -->
-  <AdSense type="below-hero" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8" />
+
 
   <!-- Popular Tools Grid Section -->
   <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -200,8 +198,7 @@ const pageSchemas = [websiteSchema, faqSchema];
     </div>
   </section>
 
-  <!-- AdSense Middle of Content -->
-  <AdSense type="middle-content" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8" />
+
 
   <!-- Latest Articles Section -->
   <section class="py-16 border-t border-b border-hairline bg-canvas-soft transition-colors duration-200">
@@ -267,14 +264,12 @@ const pageSchemas = [websiteSchema, faqSchema];
       <li><strong>Net Cash Interest Calculations:</strong> Applies the Section 50 proviso to calculate interest only on cash liabilities, not input credits.</li>
     </ol>
 
-    <!-- AdSense Above FAQ -->
-    <AdSense type="above-faq" className="my-8" />
+
 
     <FAQ items={homepageFaqs} />
   </section>
 
-  <!-- AdSense Before Footer -->
-  <AdSense type="before-footer" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-12" />
+
 </Layout>
 
 <script>

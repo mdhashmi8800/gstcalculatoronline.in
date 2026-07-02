@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
-import AdSense from './AdSense.astro';
 import type { SEOMetadata } from '../utils/seo';
 import { tools } from '../utils/tools';
 
@@ -87,8 +86,7 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
       <p class="mt-2 text-base text-body max-w-3xl leading-relaxed">{description}</p>
     </header>
 
-    <!-- AdSense Top Banner (Below Hero) -->
-    <AdSense type="below-hero" className="mb-8" />
+
 
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -142,8 +140,7 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
           </div>
         )}
 
-        <!-- AdSense Sidebar Banner -->
-        <AdSense type="sidebar-desktop" />
+
       </div>
     </div>
 
@@ -156,7 +153,6 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
       </div>
     )}
 
-    <!-- AdSense Before Footer Banner -->
-    <AdSense type="before-footer" className="mt-12" />
+
   </div>
 </Layout>

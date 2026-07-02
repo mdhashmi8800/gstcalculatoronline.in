@@ -12,7 +12,6 @@ export interface SEOMetadata {
 
 export const SITE_URL = 'https://gstcalculatoronline.in';
 export const SITE_NAME = 'GST Calculator Online India';
-export const PUBLIC_ADSENSE_CLIENT = import.meta.env.PUBLIC_ADSENSE_CLIENT || 'ca-pub-8419827361928374'; // Replace with user's actual AdSense ID
 
 export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: boolean } = {
   title: 'GST Calculator Online India - Fast & Accurate GST Tools',

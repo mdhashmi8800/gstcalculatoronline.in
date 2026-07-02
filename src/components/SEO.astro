@@ -1,5 +1,5 @@
 ---
-import { getSEOMetadata, type SEOMetadata, PUBLIC_ADSENSE_CLIENT } from '../utils/seo';
+import { getSEOMetadata, type SEOMetadata } from '../utils/seo';
 
 interface Props {
   seo?: SEOMetadata;
@@ -102,10 +102,7 @@ const websiteSchema = {
 <meta property="twitter:image" content={metadata.ogImage} />
 <meta name="twitter:site" content="@gstcalconline" />
 
-<!-- Google AdSense Global Code -->
-{PUBLIC_ADSENSE_CLIENT && (
-  <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${PUBLIC_ADSENSE_CLIENT}`} crossorigin="anonymous"></script>
-)}
+
 
 <!-- Page-specific Structured Data (JSON-LD) – supports multiple schemas -->
 {allPageSchemas.map(s => (
