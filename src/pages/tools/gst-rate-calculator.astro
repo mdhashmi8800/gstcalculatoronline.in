@@ -1,0 +1,312 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+import ResultCard from '../../components/ResultCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const pageTitle = "GST Rate Calculator Online - Find Tax Percentage (%)";
+const pageDesc = "Identify the exact GST percentage rate applied on your invoices. Enter the original base price and the final gross price or tax amount to get the percentage rate.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Rate Calculator Online",
+  "url": "https://gstcalculatoronline.in/tools/gst-rate-calculator",
+  "description": "Calculate applied tax percentage rates from base prices and invoice totals.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+const faqs = [
+  {
+    question: "How do I calculate the GST rate percentage?",
+    answer: "To calculate the GST percentage rate when you know the base price and the final price:<br>**GST Rate (%) = ((Final Price - Base Price) ÷ Base Price) × 100**<br><br>If you know the tax amount directly:<br>**GST Rate (%) = (GST Tax Amount ÷ Base Price) × 100**."
+  },
+  {
+    question: "Why do I need to calculate the GST rate?",
+    answer: "Calculated GST rates help verify if a vendor has applied the correct legal tax slab (e.g. 5%, 12%, 18%, or 28%) on your invoices, preventing overcharging and ensuring compliance during ITC reconciliation."
+  },
+  {
+    question: "What is an example of calculating GST rate?",
+    answer: "If a services bill shows a base price of ₹10,000 and a final amount of ₹11,800:<br>1. Tax Amount = ₹11,800 - ₹10,000 = ₹1,800.<br>2. GST Rate = (₹1,800 ÷ ₹10,000) × 100 = **18%**."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+  <!-- Calculator Input Form -->
+  <form id="gst-form" class="space-y-6">
+    <!-- Input Mode -->
+    <div>
+      <span class="block text-sm font-semibold text-ink">Calculation Method</span>
+      <div class="mt-2 grid grid-cols-2 gap-3">
+        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="calc-method" value="gross" checked class="sr-only" />
+          <span>Base & Gross Price</span>
+        </label>
+        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="calc-method" value="tax" class="sr-only" />
+          <span>Base & GST Amount</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Base Value (Exclusive of GST) -->
+    <div>
+      <label for="calc-base" class="block text-sm font-semibold text-ink">Base Taxable Price / Net Amount (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="baseAmount" 
+          id="calc-base" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 10000"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Secondary Input (Gross Price or Tax Amount) -->
+    <div>
+      <label for="calc-secondary" id="secondary-label" class="block text-sm font-semibold text-ink">Gross Final Price / Inclusive Amount (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="secondaryAmount" 
+          id="calc-secondary" 
+          value="11800" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 11800"
+          required
+        />
+      </div>
+    </div>
+  </form>
+
+  <!-- Results Block -->
+  <ResultCard slot="results" title="GST Rate Summary" />
+
+  <!-- Educational content -->
+  <div slot="content" class="prose max-w-none">
+    <h2>How to Calculate the Applied GST Rate Percentage</h2>
+    <p>Calculating the GST rate helps consumers and auditors verify if invoices have been computed accurately. In India, products and services are mapped to specific GST slabs. Any variance in the computed tax rate could indicate billing errors or non-compliance.</p>
+    
+    <h3>Calculations Formulas</h3>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-brand-link">1. Using Base & Gross Final Prices:</p>
+        <p>GST Rate (%) = [(Gross Price - Base Price) / Base Price] × 100</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-brand-link">2. Using Base Price & Direct GST Tax Amount:</p>
+        <p>GST Rate (%) = [GST Tax Amount / Base Price] × 100</p>
+      </div>
+    </div>
+
+    <h3>Example Calculations</h3>
+    <p>Suppose you have an invoice detailing a taxable base price of <strong>₹5,000</strong> and a final payment of <strong>₹5,900</strong>:</p>
+    <ul>
+      <li><strong>Identify tax component:</strong> ₹5,900 - ₹5,000 = ₹900.</li>
+      <li><strong>Apply Rate Formula:</strong> (₹900 / ₹5,000) × 100 = <strong>18%</strong>.</li>
+      <li>Therefore, the applied GST rate on this invoice is exactly 18% (e.g. CGST 9% + SGST 9%).</li>
+    </ul>
+
+    <FAQ items={faqs} />
+
+    <!-- Related Tools Section -->
+    <section class="mt-12 not-prose border-t border-hairline pt-10">
+      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Calculators</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <ToolCard 
+          title="Online GST Calculator" 
+          description="Standard GST calculator to add or remove GST." 
+          url="/tools/gst-calculator"
+          icon="calculator"
+        />
+        <ToolCard 
+          title="GST Inclusive Calculator" 
+          description="Calculate base price for tax-inclusive goods." 
+          url="/tools/gst-inclusive-calculator"
+          icon="calculator"
+        />
+        <ToolCard 
+          title="GST Exclusive Calculator" 
+          description="Add GST on top of standard base prices." 
+          url="/tools/gst-exclusive-calculator"
+          icon="calculator"
+        />
+      </div>
+    </section>
+  </div>
+</CalculatorLayout>
+
+<script>
+  const baseInput = document.getElementById('calc-base') as HTMLInputElement | null;
+  const secondaryInput = document.getElementById('calc-secondary') as HTMLInputElement | null;
+  const secondaryLabel = document.getElementById('secondary-label');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+  const methodRadios = document.querySelectorAll('input[name="calc-method"]');
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function updateFormUI() {
+    const methodRadio = document.querySelector('input[name="calc-method"]:checked') as HTMLInputElement | null;
+    if (!methodRadio || !secondaryLabel || !secondaryInput) return;
+
+    if (methodRadio.value === 'gross') {
+      secondaryLabel.innerText = "Gross Final Price / Inclusive Amount (₹)";
+      secondaryInput.value = "11800";
+    } else {
+      secondaryLabel.innerText = "GST Tax Amount (₹)";
+      secondaryInput.value = "1800";
+    }
+  }
+
+  function calculate() {
+    if (!baseInput || !secondaryInput) return;
+
+    const methodRadio = document.querySelector('input[name="calc-method"]:checked') as HTMLInputElement | null;
+    const method = methodRadio ? methodRadio.value : 'gross';
+
+    const isBaseValid = validateInput(
+      baseInput,
+      "Please enter a valid base price greater than 0",
+      () => parseFloat(baseInput.value) > 0
+    );
+
+    const isSecondaryValid = validateInput(
+      secondaryInput,
+      method === 'gross' 
+        ? "Please enter a gross price greater than base price" 
+        : "Please enter a valid GST tax amount greater than 0",
+      () => {
+        const base = parseFloat(baseInput.value) || 0;
+        const sec = parseFloat(secondaryInput.value) || 0;
+        if (method === 'gross') {
+          return sec > base;
+        }
+        return sec > 0;
+      }
+    );
+
+    if (!isBaseValid || !isSecondaryValid) {
+      if (resTaxable) resTaxable.innerText = "0.00%";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      return;
+    }
+
+    const base = parseFloat(baseInput.value) || 0;
+    const sec = parseFloat(secondaryInput.value) || 0;
+
+    let rate = 0;
+    let totalTax = 0;
+    let grandTotal = 0;
+
+    if (method === 'gross') {
+      totalTax = sec - base;
+      rate = (totalTax / base) * 100;
+      grandTotal = sec;
+    } else {
+      totalTax = sec;
+      rate = (totalTax / base) * 100;
+      grandTotal = base + totalTax;
+    }
+
+    // Format outputs
+    const fmtRate = (val: number) => val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+    const fmtCurrency = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmtRate(rate);
+    if (resCgstVal) resCgstVal.innerText = fmtCurrency(base);
+    if (resTotalTax) resTotalTax.innerText = fmtCurrency(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmtCurrency(grandTotal);
+  }
+
+  function customizeLabels() {
+    const labelTaxable = document.querySelector('#res-taxable-val')?.previousElementSibling as HTMLElement | null;
+    const labelCgst = document.querySelector('#res-cgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelTotalTax = document.querySelector('#res-total-tax')?.previousElementSibling as HTMLElement | null;
+    const labelGrandTotal = document.querySelector('#res-grand-total')?.previousElementSibling as HTMLElement | null;
+
+    if (labelTaxable) labelTaxable.innerText = "Calculated GST Rate";
+    if (labelCgst) labelCgst.innerText = "Taxable Base Value (Net)";
+    if (labelTotalTax) labelTotalTax.innerText = "Total GST Tax Amount";
+    if (labelGrandTotal) labelGrandTotal.innerText = "Gross Invoice Value";
+
+    // Hide SGST and IGST rows as we represent CGST/SGST collectively in the Base/Tax layout
+    document.getElementById('res-sgst-row')?.classList.add('hidden');
+    document.getElementById('res-igst-row')?.classList.add('hidden');
+  }
+
+  // Handle prefill from URL
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const base = params.get('base');
+    const sec = params.get('sec');
+    const method = params.get('method');
+
+    if (method) {
+      const radio = document.querySelector(`input[name="calc-method"][value="${method}"]`) as HTMLInputElement | null;
+      if (radio) radio.checked = true;
+    }
+
+    updateFormUI();
+
+    if (base && baseInput) baseInput.value = base;
+    if (sec && secondaryInput) secondaryInput.value = sec;
+  }
+
+  // Add listeners
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  methodRadios.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      updateFormUI();
+      calculate();
+    });
+  });
+
+  // Init
+  customizeLabels();
+  loadFromUrl();
+  calculate();
+</script>

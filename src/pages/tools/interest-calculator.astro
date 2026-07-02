@@ -154,8 +154,53 @@ const faqs = [
   if (dueDateInput && !dueDateInput.value) dueDateInput.value = dueStr;
   if (paymentDateInput && !paymentDateInput.value) paymentDateInput.value = todayStr;
 
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
   function calculate() {
     if (!taxPayableInput || !dueDateInput || !paymentDateInput) return;
+
+    // Validation
+    const isTaxValid = validateInput(
+      taxPayableInput,
+      "Please enter a valid tax payable amount greater than 0",
+      () => parseFloat(taxPayableInput.value) > 0
+    );
+
+    const isDateValid = validateInput(
+      paymentDateInput,
+      "Actual payment date cannot be earlier than payment due date",
+      () => {
+        const due = new Date(dueDateInput.value).getTime();
+        const pay = new Date(paymentDateInput.value).getTime();
+        return pay >= due;
+      }
+    );
+
+    if (!isTaxValid || !isDateValid) {
+      if (resTaxable) resTaxable.innerText = "0 Days";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      return;
+    }
 
     const taxAmount = parseFloat(taxPayableInput.value) || 0;
     const dueDate = new Date(dueDateInput.value);
@@ -197,6 +242,9 @@ const faqs = [
     if (labelSgst) labelSgst.innerText = "State GST Interest (SGST)";
     if (labelTotalTax) labelTotalTax.innerText = "Total Interest Amount";
     if (labelGrandTotal) labelGrandTotal.innerText = "Total Payable Value";
+
+    // Hide IGST row since interest is split between CGST and SGST
+    document.getElementById('res-igst-row')?.classList.add('hidden');
   }
 
   // Pre-load from URL query parameters
@@ -227,3 +275,4 @@ const faqs = [
   loadFromUrl();
   calculate();
 </script>
+

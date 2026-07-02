@@ -176,6 +176,25 @@ const faqs = [
   if (dueDateInput && !dueDateInput.value) dueDateInput.value = dueStr;
   if (filingDateInput && !filingDateInput.value) filingDateInput.value = todayStr;
 
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
   function updateFormUI() {
     const returnTypeRadio = document.querySelector('input[name="return-type"]:checked') as HTMLInputElement | null;
     if (returnTypeRadio?.value === 'taxable') {
@@ -187,6 +206,26 @@ const faqs = [
 
   function calculate() {
     if (!dueDateInput || !filingDateInput) return;
+
+    // Validation
+    const isFilingDateValid = validateInput(
+      filingDateInput,
+      "Filing date cannot be earlier than payment/return due date",
+      () => {
+        const due = new Date(dueDateInput.value).getTime();
+        const file = new Date(filingDateInput.value).getTime();
+        return file >= due;
+      }
+    );
+
+    if (!isFilingDateValid) {
+      if (resTaxable) resTaxable.innerText = "0 Days";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      return;
+    }
 
     const dueDate = new Date(dueDateInput.value);
     const filingDate = new Date(filingDateInput.value);
@@ -253,6 +292,9 @@ const faqs = [
     if (labelSgst) labelSgst.innerText = "State Late Fee (SGST)";
     if (labelTotalTax) labelTotalTax.innerText = "Uncapped Fee Calculated";
     if (labelGrandTotal) labelGrandTotal.innerText = "Total Late Fee (Capped)";
+
+    // Hide IGST row as late fee is split strictly 50:50 between CGST and SGST
+    document.getElementById('res-igst-row')?.classList.add('hidden');
   }
 
   // Pre-load from parameters
@@ -294,3 +336,4 @@ const faqs = [
   loadFromUrl();
   calculate();
 </script>
+

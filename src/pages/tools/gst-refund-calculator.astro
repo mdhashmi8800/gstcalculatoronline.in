@@ -1,0 +1,370 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+import ResultCard from '../../components/ResultCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import ToolCard from '../../components/ToolCard.astro';
+
+const pageTitle = "GST Refund Calculator Online - Exports & Inverted Duty";
+const pageDesc = "Estimate your GST refund amount under Rule 89(4) for Zero-Rated Exports and Rule 89(5) for Inverted Duty Structures. Fast and compliant refund tool.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Refund Calculator",
+  "url": "https://gstcalculatoronline.in/tools/gst-refund-calculator",
+  "description": "Calculate refund claims for zero-rated supplies and inverted duty structures in India.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+const faqs = [
+  {
+    question: "How is the GST refund calculated for exports?",
+    answer: "Under Rule 89(4) of the CGST Rules, the refund for exports (zero-rated supply under LUT/Bond) is calculated as:<br>**Refund = (Export Turnover × Net ITC) ÷ Adjusted Total Turnover**<br><br>Net ITC includes ITC accumulated on inputs and input services during the tax period."
+  },
+  {
+    question: "What is an Inverted Duty Structure?",
+    answer: "An inverted duty structure occurs when the tax rate on **inputs** (raw materials purchased) is higher than the tax rate on **outputs** (finished goods sold). This leads to accumulation of unutilized Input Tax Credit (ITC), which can be claimed as a refund."
+  },
+  {
+    question: "What is the formula for Inverted Duty refund?",
+    answer: "Under Rule 89(5), the refund formula for inverted duty structure is:<br>**Refund = [(Inverted Supply Turnover × Net ITC) ÷ Adjusted Total Turnover] - Tax Payable on Inverted Supply**."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+  <!-- Calculator Input Form -->
+  <form id="refund-form" class="space-y-6">
+    <!-- Refund Scenario Selector -->
+    <div>
+      <span class="block text-sm font-semibold text-ink">Refund Scenario</span>
+      <div class="mt-2 grid grid-cols-1 gap-2.5">
+        <label class="flex items-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="refund-scenario" value="export" checked class="mr-3 accent-primary" />
+          <div>
+            <span class="block">Exports / Zero-Rated Supplies (Rule 89(4))</span>
+            <span class="block text-xs text-mute font-normal mt-0.5">Refund of ITC on exports made without paying output GST.</span>
+          </div>
+        </label>
+        <label class="flex items-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="refund-scenario" value="inverted" class="mr-3 accent-primary" />
+          <div>
+            <span class="block">Inverted Duty Structure (Rule 89(5))</span>
+            <span class="block text-xs text-mute font-normal mt-0.5">Refund of ITC when tax on purchases (inputs) > tax on sales.</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Net ITC -->
+    <div>
+      <label for="calc-net-itc" class="block text-sm font-semibold text-ink">Net Input Tax Credit (ITC) (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="netItc" 
+          id="calc-net-itc" 
+          value="50000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 50000"
+          required
+        />
+      </div>
+      <p class="mt-1 text-xs text-mute">ITC accumulated on inputs/input services during the refund period.</p>
+    </div>
+
+    <!-- Turnovers (Zero-rated or Inverted) -->
+    <div>
+      <label for="calc-turnover" id="turnover-label" class="block text-sm font-semibold text-ink">Turnover of Zero-Rated Supply (Export) (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="supplyTurnover" 
+          id="calc-turnover" 
+          value="200000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 200000"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Adjusted Total Turnover -->
+    <div>
+      <label for="calc-adj-turnover" class="block text-sm font-semibold text-ink">Adjusted Total Turnover (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="adjTurnover" 
+          id="calc-adj-turnover" 
+          value="500000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 500000"
+          required
+        />
+      </div>
+      <p class="mt-1 text-xs text-mute">Total turnover of the entity excluding exempt supplies during the period.</p>
+    </div>
+
+    <!-- Output Tax on Inverted Supply (Conditional) -->
+    <div id="inverted-inputs-container" class="hidden">
+      <label for="calc-tax-payable" class="block text-sm font-semibold text-ink">Output Tax Payable on Inverted Supply (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="taxPayable" 
+          id="calc-tax-payable" 
+          value="10000" 
+          min="0" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 10000"
+        />
+      </div>
+      <p class="mt-1 text-xs text-mute">The actual tax liability generated on output sales under inverted duty.</p>
+    </div>
+  </form>
+
+  <!-- Results Block -->
+  <ResultCard slot="results" title="Refund Summary" />
+
+  <!-- Educational content -->
+  <div slot="content" class="prose max-w-none">
+    <h2>How to Calculate Your GST Refund Claim Amount</h2>
+    <p>Accumulating excess Input Tax Credit (ITC) can lock up vital working capital for export houses and manufacturers. The Indian GST framework allows claiming cash refunds for unutilized credits under Rule 89(4) (exports without paying tax) and Rule 89(5) (tax rates on purchases exceed tax rates on sales).</p>
+    
+    <h3>1. Zero-Rated Export Refund Formula (Rule 89(4))</h3>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+      <p>Maximum Refund Amount = (Turnover of Zero-rated supply of goods + Turnover of Zero-rated supply of services) × Net ITC ÷ Adjusted Total Turnover</p>
+    </div>
+
+    <h3>2. Inverted Duty Structure Refund Formula (Rule 89(5))</h3>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+      <p>Maximum Refund Amount = [(Turnover of Inverted Rated Supply × Net ITC) ÷ Adjusted Total Turnover] - Tax Payable on Inverted Supply</p>
+    </div>
+
+    <h3>Refund Calculation Example</h3>
+    <p>Suppose you have the following financials during a month:</p>
+    <ul>
+      <li>Net ITC accumulated = ₹50,000</li>
+      <li>Adjusted Total Turnover = ₹5,000,000</li>
+      <li>Export (Zero-Rated) Turnover = ₹2,000,000</li>
+    </ul>
+    <p>Applying the Zero-rated supply formula:</p>
+    <p class="font-mono text-sm">Refund = (₹2,000,000 × ₹50,000) ÷ ₹5,000,000 = <strong>₹20,000.00</strong>.</p>
+
+    <FAQ items={faqs} />
+
+    <!-- Related Tools Section -->
+    <section class="mt-12 not-prose border-t border-hairline pt-10">
+      <h3 class="text-xl font-bold tracking-tight text-ink mb-6">Related GST Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <ToolCard 
+          title="GST Interest Calculator" 
+          description="Calculate delayed cash filing interest (Sec 50)." 
+          url="/tools/interest-calculator"
+          icon="interest"
+        />
+        <ToolCard 
+          title="Late Fee Calculator" 
+          description="Compute GSTR-3B delayed filing fee penalties." 
+          url="/tools/late-fee-calculator"
+          icon="fee"
+        />
+        <ToolCard 
+          title="Online GST Calculator" 
+          description="Standard calculator to add or remove GST." 
+          url="/tools/gst-calculator"
+          icon="calculator"
+        />
+      </div>
+    </section>
+  </div>
+</CalculatorLayout>
+
+<script>
+  const netItcInput = document.getElementById('calc-net-itc') as HTMLInputElement | null;
+  const turnoverInput = document.getElementById('calc-turnover') as HTMLInputElement | null;
+  const adjTurnoverInput = document.getElementById('calc-adj-turnover') as HTMLInputElement | null;
+  const taxPayableInput = document.getElementById('calc-tax-payable') as HTMLInputElement | null;
+  const turnoverLabel = document.getElementById('turnover-label');
+  const invertedInputsContainer = document.getElementById('inverted-inputs-container');
+  const refundForm = document.getElementById('refund-form') as HTMLFormElement | null;
+  const scenarioRadios = document.querySelectorAll('input[name="refund-scenario"]');
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function updateFormUI() {
+    const scenarioRadio = document.querySelector('input[name="refund-scenario"]:checked') as HTMLInputElement | null;
+    if (!scenarioRadio || !turnoverLabel || !invertedInputsContainer) return;
+
+    if (scenarioRadio.value === 'export') {
+      turnoverLabel.innerText = "Turnover of Zero-Rated Supply (Export) (₹)";
+      invertedInputsContainer.classList.add('hidden');
+      if (taxPayableInput) taxPayableInput.required = false;
+    } else {
+      turnoverLabel.innerText = "Turnover of Inverted Rated Supply (₹)";
+      invertedInputsContainer.classList.remove('hidden');
+      if (taxPayableInput) taxPayableInput.required = true;
+    }
+  }
+
+  function calculate() {
+    if (!netItcInput || !turnoverInput || !adjTurnoverInput) return;
+
+    const scenarioRadio = document.querySelector('input[name="refund-scenario"]:checked') as HTMLInputElement | null;
+    const scenario = scenarioRadio ? scenarioRadio.value : 'export';
+
+    const isItcValid = validateInput(netItcInput, "ITC must be greater than 0", () => parseFloat(netItcInput.value) > 0);
+    
+    const isAdjValid = validateInput(
+      adjTurnoverInput, 
+      "Adjusted turnover must exceed purchase/supply turnovers", 
+      () => {
+        const adj = parseFloat(adjTurnoverInput.value) || 0;
+        const turn = parseFloat(turnoverInput.value) || 0;
+        return adj >= turn && adj > 0;
+      }
+    );
+
+    const isTurnoverValid = validateInput(turnoverInput, "Turnover must be greater than 0", () => parseFloat(turnoverInput.value) > 0);
+    
+    let isTaxValid = true;
+    if (scenario === 'inverted' && taxPayableInput) {
+      isTaxValid = validateInput(taxPayableInput, "Enter a valid tax payable amount (>= 0)", () => parseFloat(taxPayableInput.value) >= 0);
+    }
+
+    if (!isItcValid || !isAdjValid || !isTurnoverValid || !isTaxValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      return;
+    }
+
+    const netItc = parseFloat(netItcInput.value) || 0;
+    const turnover = parseFloat(turnoverInput.value) || 0;
+    const adjTurnover = parseFloat(adjTurnoverInput.value) || 0;
+    const taxPayable = scenario === 'inverted' && taxPayableInput ? (parseFloat(taxPayableInput.value) || 0) : 0;
+
+    // Refund calculation: (Turnover * Net ITC) / Adjusted Turnover
+    const baseRefund = (turnover * netItc) / adjTurnover;
+    
+    // Inverted structure subtracts tax payable
+    let maxRefund = baseRefund;
+    if (scenario === 'inverted') {
+      maxRefund = Math.max(0, baseRefund - taxPayable);
+    }
+
+    const splitRefund = maxRefund / 2;
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(adjTurnover);
+    if (resCgstVal) resCgstVal.innerText = fmt(splitRefund);
+    if (resSgstVal) resSgstVal.innerText = fmt(splitRefund);
+    if (resTotalTax) resTotalTax.innerText = fmt(maxRefund);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(maxRefund);
+  }
+
+  function customizeLabels() {
+    const labelTaxable = document.querySelector('#res-taxable-val')?.previousElementSibling as HTMLElement | null;
+    const labelCgst = document.querySelector('#res-cgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelSgst = document.querySelector('#res-sgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelTotalTax = document.querySelector('#res-total-tax')?.previousElementSibling as HTMLElement | null;
+    const labelGrandTotal = document.querySelector('#res-grand-total')?.previousElementSibling as HTMLElement | null;
+
+    if (labelTaxable) labelTaxable.innerText = "Adjusted Total Turnover";
+    if (labelCgst) labelCgst.innerText = "CGST Refund Share (50%)";
+    if (labelSgst) labelSgst.innerText = "SGST Refund Share (50%)";
+    if (labelTotalTax) labelTotalTax.innerText = "Total Eligible Tax Refund";
+    if (labelGrandTotal) labelGrandTotal.innerText = "Estimated Refund Claim";
+
+    // Hide IGST row as refund is claimed under split CGST/SGST shares
+    document.getElementById('res-igst-row')?.classList.add('hidden');
+  }
+
+  // Prefill
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const scenario = params.get('refund-scenario');
+    const itc = params.get('netItc');
+    const turnover = params.get('supplyTurnover');
+    const adj = params.get('adjTurnover');
+    const tax = params.get('taxPayable');
+
+    if (scenario) {
+      const radio = document.querySelector(`input[name="refund-scenario"][value="${scenario}"]`) as HTMLInputElement | null;
+      if (radio) radio.checked = true;
+    }
+
+    updateFormUI();
+
+    if (itc && netItcInput) netItcInput.value = itc;
+    if (turnover && turnoverInput) turnoverInput.value = turnover;
+    if (adj && adjTurnoverInput) adjTurnoverInput.value = adj;
+    if (tax && taxPayableInput) taxPayableInput.value = tax;
+  }
+
+  // Listeners
+  if (refundForm) {
+    refundForm.addEventListener('input', calculate);
+    refundForm.addEventListener('change', calculate);
+  }
+
+  scenarioRadios.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      updateFormUI();
+      calculate();
+    });
+  });
+
+  // Init
+  customizeLabels();
+  loadFromUrl();
+  calculate();
+</script>
