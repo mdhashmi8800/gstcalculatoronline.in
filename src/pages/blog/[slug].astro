@@ -2,88 +2,52 @@
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Article from '../../components/Article.astro';
+import FAQ from '../../components/FAQ.astro';
 
-export async function getStaticPaths() {
-  return [
-    { params: { slug: 'understanding-gst-rates-in-india-2026' } },
-    { params: { slug: 'how-to-file-gstr-1-step-by-step' } },
-    { params: { slug: 'gst-late-fees-interest-rates-penalties' } }
-  ];
-}
-
-const { slug } = Astro.params;
-
-// Rich Content Database
-const posts: Record<string, {
-  title: string;
-  date: string;
-  author: string;
-  readTime: string;
-  description: string;
-  schema: Record<string, any>;
-}> = {
-  'understanding-gst-rates-in-india-2026': {
-    title: "GST Rates in India: A Comprehensive Guide (2026)",
-    date: "June 25, 2026",
-    author: "CA Amit Sharma",
-    readTime: "6 min read",
-    description: "Learn about the latest updates to GST tax slabs (5%, 12%, 18%, 28%) and how they apply to different goods and services in India.",
-    schema: {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "GST Rates in India: A Comprehensive Guide (2026)",
-      "datePublished": "2026-06-25",
-      "author": {
-        "@type": "Person",
-        "name": "CA Amit Sharma"
-      }
-    }
+// CA & Advocate profiles mapping for author details
+const AUTHORS: Record<string, { name: string; designation: string; bio: string }> = {
+  "CA Amit Sharma": {
+    name: "CA Amit Sharma",
+    designation: "Chartered Accountant & Indirect Tax Advisor",
+    bio: "CA Amit Sharma is a seasoned Chartered Accountant with over 12 years of experience in GST advisory, corporate audits, and tax planning. He specializes in Input Tax Credit optimizations and structuring B2B transactions for SMEs."
   },
-  'how-to-file-gstr-1-step-by-step': {
-    title: "How to File GSTR-1: Step-by-Step Instructions",
-    date: "May 14, 2026",
-    author: "CA Neha Patel",
-    readTime: "8 min read",
-    description: "A comprehensive walkthrough for business owners and accountants on preparing, verifying, and filing GSTR-1 invoice returns.",
-    schema: {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "How to File GSTR-1: Step-by-Step Instructions",
-      "datePublished": "2026-05-14",
-      "author": {
-        "@type": "Person",
-        "name": "CA Neha Patel"
-      }
-    }
+  "CA Neha Patel": {
+    name: "CA Neha Patel",
+    designation: "Chartered Accountant & Compliance Expert",
+    bio: "CA Neha Patel holds a Master's in Finance and has guided over 500 startups and small businesses through GST registrations, GSTR-1 & 3B compliance, and composition scheme conversions."
   },
-  'gst-late-fees-interest-rates-penalties': {
-    title: "Understanding GST Late Fees, Interest Rates, and Penalties",
-    date: "March 02, 2026",
-    author: "Advocate Raj Malhotra",
-    readTime: "5 min read",
-    description: "Discover how GSTR-3B delayed filing late fees and Section 50 interest are computed on net cash liabilities.",
-    schema: {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "Understanding GST Late Fees, Interest Rates, and Penalties",
-      "datePublished": "2026-03-02",
-      "author": {
-        "@type": "Person",
-        "name": "Advocate Raj Malhotra"
-      }
-    }
+  "Advocate Raj Malhotra": {
+    name: "Advocate Raj Malhotra",
+    designation: "Senior GST Litigation Advocate",
+    bio: "Advocate Raj Malhotra practices before various High Courts and GST Appellate Tribunals. With a decade of litigation experience, he represents clients in complex tax assessment disputes, audits, and refund claims."
   }
 };
 
-const post = posts[slug || ''];
-if (!post) {
-  return Astro.redirect('/404');
+export async function getStaticPaths() {
+  const posts = import.meta.glob('../../content/blog/*.md', { eager: true });
+  return Object.values(posts).map((post: any) => ({
+    params: { slug: post.frontmatter.slug },
+    props: { post }
+  }));
 }
 
-// Dynamically enrich BlogPosting schema for SEO completeness
-const articleUrl = `https://gstcalculatoronline.in/blog/${slug}`;
+const { post } = Astro.props;
+const { Content } = post;
+const headings = post.getHeadings();
+
+// Dynamic SEO and Schemas
+const articleUrl = `https://gstcalculatoronline.in/blog/${post.frontmatter.slug}`;
 const enrichedSchema = {
-  ...post.schema,
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.frontmatter.metaTitle || post.frontmatter.title,
+  "description": post.frontmatter.metaDescription || post.frontmatter.description,
+  "datePublished": post.frontmatter.date,
+  "dateModified": post.frontmatter.lastUpdated || post.frontmatter.date,
+  "author": {
+    "@type": "Person",
+    "name": post.frontmatter.author
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": articleUrl
@@ -96,164 +60,138 @@ const enrichedSchema = {
       "url": "https://gstcalculatoronline.in/favicon.svg"
     }
   },
-  "description": post.description,
-  "image": `https://gstcalculatoronline.in/og-image.png`
+  "image": "https://gstcalculatoronline.in/og-image.png"
 };
+
+const authorDetails = AUTHORS[post.frontmatter.author] || null;
 ---
-<Layout seo={{ title: post.title, description: post.description, ogType: 'article' }} schema={enrichedSchema}>
+<Layout 
+  seo={{ 
+    title: post.frontmatter.metaTitle || post.frontmatter.title, 
+    description: post.frontmatter.metaDescription || post.frontmatter.description,
+    ogType: 'article'
+  }} 
+  schema={enrichedSchema}
+>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
 
-    <Article 
-      title={post.title} 
-      date={post.date} 
-      author={post.author} 
-      readTime={post.readTime}
-      description={post.description}
-    >
-      {slug === 'understanding-gst-rates-in-india-2026' && (
-        <>
-          <p>The Goods and Services Tax (GST) Council in India meets regularly to configure and rationalize the tax rates applied to various categories of products and services. In 2026, the tax slabs continue to remain divided into four primary taxable rates, along with special exemptions and additional compensation cesses for luxury categories.</p>
-          
-          <h2>The Four Standard GST Slabs</h2>
-          <p>GST is structured under four primary tax slabs to keep essential goods affordable while collecting higher taxes from luxury purchases:</p>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>Slab</th>
-                <th>Category Type</th>
-                <th>Major Included Goods & Services</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>5% GST</strong></td>
-                <td>Essential Goods & Services</td>
-                <td>Packaged food items, life-saving medicines, transport services (railways, app cabs), hotel rooms under ₹1,000.</td>
-              </tr>
-              <tr>
-                <td><strong>12% GST</strong></td>
-                <td>Standard Rate (Lower)</td>
-                <td>Processed foods, computers and mobile electronics, business class air tickets, standard hotel bookings.</td>
-              </tr>
-              <tr>
-                <td><strong>18% GST</strong></td>
-                <td>Standard Rate (Primary)</td>
-                <td>Capital goods, software and IT services, restaurants, financial services (banking/insurance), telecom services.</td>
-              </tr>
-              <tr>
-                <td><strong>28% GST</strong></td>
-                <td>Luxury & Sin Goods</td>
-                <td>Automobiles, high-end motorcycles, soft drinks, luxury yachts, tobacco, commercial betting/gambling services.</td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+      <!-- Main Content Column (8 Cols) -->
+      <main class="lg:col-span-8">
+        <Article 
+          title={post.frontmatter.title} 
+          date={post.frontmatter.date} 
+          author={post.frontmatter.author} 
+          readTime={post.frontmatter.readTime}
+          description={post.frontmatter.metaDescription}
+        >
+          <!-- Table of Contents for Mobile screens (Collapsible / hidden on large desktops) -->
+          <div class="block lg:hidden mb-8 rounded-xl border border-hairline bg-canvas-soft p-5">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-3">Table of Contents</h2>
+            <nav class="space-y-1.5 text-sm">
+              {headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
+                <a 
+                  href={`#${h.slug}`} 
+                  class="block text-link hover:underline transition-colors leading-normal" 
+                  class:list={[{ "pl-4 text-xs text-mute": h.depth === 3 }]}
+                >
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          </div>
 
-          <h2>Exempted Goods & Services (0% GST)</h2>
-          <p>To shield low-income households from tax burden, several daily essential items are exempted from GST:</p>
-          <ul>
-            <li>Fresh vegetables, milk, curd, organic honey, and unbranded grains.</li>
-            <li>Judicial services, public healthcare services, and basic educational services.</li>
-            <li>Government services and books/newspapers.</li>
-          </ul>
+          <!-- Main Markdown Article Body -->
+          <Content />
 
-          <h2>Special Custom GST Slabs</h2>
-          <p>Some items attract specialized custom tax rates to align with historical trade practices:</p>
-          <ul>
-            <li><strong>Gold & Silver Jewellery:</strong> Attracts a special rate of <strong>3% GST</strong>.</li>
-            <li><strong>Precious & Semi-precious Stones:</strong> Attracts a rate of <strong>0.25% GST</strong>.</li>
-          </ul>
+          <!-- FAQ Accordion section -->
+          {post.frontmatter.faqs && post.frontmatter.faqs.length > 0 && (
+            <FAQ items={post.frontmatter.faqs} />
+          )}
 
-          <h2>Compensation Cess on Demerit Goods</h2>
-          <p>For goods falling under the 28% slab, such as luxury SUVs, carbonated soft drinks, and cigarettes, an additional <strong>Compensation Cess</strong> is levied. This cess ranges from 1% to over 200%, depending on the item, and is used to compensate manufacturing states for revenue loss under the GST regime.</p>
-        </>
-      )}
+          <!-- Author Bio section -->
+          {authorDetails && (
+            <section class="mt-12 rounded-xl border border-hairline bg-canvas-soft p-6 flex flex-col sm:flex-row gap-4 items-start no-print">
+              <div class="h-12 w-12 rounded-full bg-brand-success/10 flex items-center justify-center text-link font-bold text-lg border border-hairline shrink-0 font-mono">
+                {authorDetails.name.split(' ').map((n) => n[0]).join('')}
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-ink">{authorDetails.name}</div>
+                <div class="text-xs text-mute font-mono">{authorDetails.designation}</div>
+                <p class="text-xs text-body mt-2 leading-relaxed">{authorDetails.bio}</p>
+              </div>
+            </section>
+          )}
 
-      {slug === 'how-to-file-gstr-1-step-by-step' && (
-        <>
-          <p>GSTR-1 is the monthly or quarterly return that every registered GST taxpayer in India must file to report details of outward supplies (sales). Filing GSTR-1 accurately is crucial because the buyer's Input Tax Credit (ITC) eligibility depends directly on the invoices uploaded by the supplier in GSTR-1 (which auto-populate in the buyer's GSTR-2B form).</p>
-          
-          <h2>Who Needs to File GSTR-1?</h2>
-          <p>Every normal registered taxpayer must file GSTR-1, either monthly or quarterly under the **QRMP Scheme** (Quarterly Return Monthly Payment). The due date is the 11th of the next month for monthly filers, and the 13th of the month following the quarter for quarterly filers.</p>
+          <!-- Related Guides section -->
+          {post.frontmatter.relatedArticles && post.frontmatter.relatedArticles.length > 0 && (
+            <section class="mt-12 border-t border-hairline pt-8 no-print">
+              <h3 class="text-lg font-bold text-ink mb-4">Related Reading</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {post.frontmatter.relatedArticles.map((art: any) => (
+                  <a 
+                    href={`/blog/${art.slug}`} 
+                    class="block p-4 rounded-xl border border-hairline bg-canvas hover:border-hairline-strong hover:bg-canvas-soft hover:shadow-xs transition-all group"
+                  >
+                    <span class="text-xs font-semibold text-link font-mono uppercase tracking-wider">Guide</span>
+                    <h4 class="text-sm font-semibold text-ink group-hover:text-link mt-1 line-clamp-2">{art.title}</h4>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </Article>
+      </main>
 
-          <h2>Step-by-Step Filing Guide</h2>
-          
-          <h3>Step 1: Login to the GST Portal</h3>
-          <p>Visit the official website <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer">gst.gov.in</a> and login using your credentials. Navigate to the <strong>Services > Returns > Returns Dashboard</strong> page.</p>
+      <!-- Sidebar Widget Column (4 Cols) - Sticky for Desktop -->
+      <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start no-print">
+        <!-- Table of Contents Desktop Widget -->
+        {headings && headings.length > 0 && (
+          <div class="hidden lg:block rounded-xl border border-hairline bg-canvas p-5">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Table of Contents</h2>
+            <nav class="space-y-2 text-sm max-h-[350px] overflow-y-auto pr-1">
+              {headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
+                <a 
+                  href={`#${h.slug}`} 
+                  class="block text-mute hover:text-link hover:underline transition-colors leading-relaxed" 
+                  class:list={[{ "pl-4 text-xs": h.depth === 3, "font-medium text-body": h.depth === 2 }]}
+                >
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        )}
 
-          <h3>Step 2: Choose Financial Year & Period</h3>
-          <p>Select the corresponding Financial Year, Quarter, and Return Filing Period (Month/Quarter) for which you are submitting records, and click Search. Click <strong>Prepare Online</strong> or <strong>Prepare Offline</strong> under GSTR-1.</p>
+        <!-- Recommended Calculators Widget -->
+        {post.frontmatter.relatedCalculators && post.frontmatter.relatedCalculators.length > 0 && (
+          <div class="rounded-xl border border-hairline bg-canvas p-5">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Recommended Calculators</h2>
+            <div class="space-y-3">
+              {post.frontmatter.relatedCalculators.map((calc: any) => (
+                <a 
+                  href={calc.url} 
+                  class="flex items-center justify-between p-3 rounded-lg border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 hover:shadow-xs transition-all group"
+                >
+                  <div class="shrink">
+                    <span class="text-xs font-semibold text-ink group-hover:text-link transition-colors block">{calc.name}</span>
+                    <span class="text-[10px] text-mute font-mono">Free Online Tool</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute group-hover:text-link group-hover:translate-x-0.5 transition-all">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
-          <h3>Step 3: Add Invoice Details in Respective Tables</h3>
-          <p>The GSTR-1 interface is structured in tables. Fill out the tables that apply to your quarterly transactions:</p>
-          <ul>
-            <li><strong>Table 4A, 4B, 4C, 6B, 6C - B2B Invoices:</strong> Report taxable sales made to other registered taxpayers. You must enter the buyer's GSTIN, invoice number, date, value, tax rate, and place of supply.</li>
-            <li><strong>Table 5 - B2C (Large) Invoices:</strong> Report sales to unregistered customers where the supply is interstate and the invoice value exceeds ₹2.5 Lakhs.</li>
-            <li><strong>Table 7 - B2C (Others):</strong> Enter consolidated interstate sales below ₹2.5 Lakhs and all local intrastate unregistered sales.</li>
-            <li><strong>Table 11 - Advances Received:</strong> Report advance payments received during the month for which invoices haven't been generated.</li>
-            <li><strong>Table 12 - HSN Code Summary:</strong> Provide a consolidated summary of items sold based on their Harmonized System of Nomenclature (HSN) codes.</li>
-          </ul>
-
-          <h3>Step 4: Generate Return Summary</h3>
-          <p>After saving all details, click the **Generate Summary** button. The GST portal will compile the records and display the total taxable value and tax amount calculations (CGST, SGST, IGST).</p>
-
-          <h3>Step 5: Verify & File with DSC/EVC</h3>
-          <p>Preview the return summary to double-check errors. Once verified, click **Proceed to File/Submit**. Complete the verification using digital signature certificates (DSC) or a mobile-received Electronic Verification Code (EVC) OTP.</p>
-        </>
-      )}
-
-      {slug === 'gst-late-fees-interest-rates-penalties' && (
-        <>
-          <p>Filing tax returns on time is key to avoiding penalties and preserving cash flow. Under the Goods and Services Tax (GST) framework in India, delaying returns or tax payments triggers dual penalties: late filing fees under Section 47 and interest charges under Section 50 of the CGST Act.</p>
-          
-          <h2>Section 47: Late Filing Fees</h2>
-          <p>When a taxpayer fails to submit GSTR-3B or GSTR-1 returns by their respective deadlines, late fees are automatically calculated for every day of delay. These fees are split into CGST and SGST and are added to the liability dashboard of the subsequent return.</p>
-          
-          <h3>Rationalized Late Fee Caps</h3>
-          <p>Late fees are charged at ₹50/day (₹20/day for NIL returns). The maximum caps protect small business entities:</p>
-          <ul>
-            <li><strong>NIL returns:</strong> Capped at a maximum of <strong>₹500</strong>.</li>
-            <li><strong>Turnover ≤ ₹1.5 Crore:</strong> Capped at a maximum of <strong>₹2,000</strong>.</li>
-            <li><strong>Turnover ₹1.5 Crore to ₹5 Crore:</strong> Capped at a maximum of <strong>₹5,000</strong>.</li>
-            <li><strong>Turnover > ₹5 Crore:</strong> Capped at a maximum of <strong>₹10,000</strong>.</li>
-          </ul>
-
-          <h2>Section 50: Interest on Delayed Tax Payments</h2>
-          <p>Unlike late fees which are flat daily charges, interest is a percentage penalty levied on the delayed tax amount. It is calculated per annum from the day following the return due date till the actual date of payment.</p>
-
-          <h3>Interest Rates Slabs</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Interest Rate</th>
-                <th>Interest Calculation Base</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Delayed Tax Payment</strong></td>
-                <td>18% per annum</td>
-                <td>Levied only on the Net Cash Liability (cash ledger payments).</td>
-              </tr>
-              <tr>
-                <td><strong>Wrong ITC Utilized</strong></td>
-                <td>24% per annum</td>
-                <td>Levied on the wrongly claimed and utilized Input Tax Credit amount.</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h2>How to Avoid Penalties</h2>
-          <p>Accountants recommend standard tax planning guidelines to mitigate penalties:</p>
-          <ol>
-            <li><strong>Use automated due-date reminders:</strong> Keep track of return filing calendars (usually the 11th for GSTR-1 and 20th for GSTR-3B).</li>
-            <li><strong>File NIL returns:</strong> Even if there is no business activity in a month, file a NIL GSTR-3B return immediately to avoid accruing the ₹20/day fine.</li>
-            <li><strong>Verify ITC Utilizations:</strong> Do not claim unverified or blocklisted input credits that could trigger the 24% interest rate under audit.</li>
-          </ol>
-        </>
-      )}
-    </Article>
+        <!-- AdSense Slot inside Sidebar -->
+        <div class="rounded-xl border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center text-xs text-mute h-64 flex items-center justify-center">
+          Ad Placement (Blog Sidebar Banner)
+        </div>
+      </aside>
+    </div>
   </div>
 </Layout>

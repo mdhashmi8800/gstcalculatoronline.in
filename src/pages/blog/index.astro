@@ -5,33 +5,28 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 const pageTitle = "GST Tax Blog & Filing Guides";
 const pageDesc = "Read current articles and educational guides about GST regulations in India, tax slabs, GSTR filings, late fee capping rules, and interest rates.";
 
-// Mock Blog Posts
-const blogPosts = [
-  {
-    title: "GST Rates in India: A Comprehensive Guide (2026)",
-    slug: "understanding-gst-rates-in-india-2026",
-    date: "June 25, 2026",
-    author: "CA Amit Sharma",
-    readTime: "6 min read",
-    desc: "An in-depth review of the standard GST rates (5%, 12%, 18%, 28%), exempt categories, and state compensation cesses applied under current Indian tax slabs."
-  },
-  {
-    title: "How to File GSTR-1: Step-by-Step Instructions",
-    slug: "how-to-file-gstr-1-step-by-step",
-    date: "May 14, 2026",
-    author: "CA Neha Patel",
-    readTime: "8 min read",
-    desc: "A practical guide for business owners and accountants explaining how to report outward supplies, format B2B invoices, and upload sales records in GSTR-1."
-  },
-  {
-    title: "Understanding GST Late Fees, Interest Rates, and Penalties",
-    slug: "gst-late-fees-interest-rates-penalties",
-    date: "March 02, 2026",
-    author: "Advocate Raj Malhotra",
-    readTime: "5 min read",
-    desc: "A simple explanation of late fees for GSTR-3B delays, aggregate turnover capping thresholds, and Section 50 interest on cash-payment defaults."
-  }
-];
+// Dynamically fetch all blog articles from src/content/blog using Vite import.meta.glob
+const posts = Object.values(import.meta.glob('../../content/blog/*.md', { eager: true })) as any[];
+
+// Format date helper (e.g. "2026-06-01" to "June 1, 2026")
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Map and sort blog posts by date descending
+const blogPosts = posts.map((post) => ({
+  title: post.frontmatter.title,
+  slug: post.frontmatter.slug,
+  date: post.frontmatter.date,
+  author: post.frontmatter.author,
+  readTime: post.frontmatter.readTime,
+  desc: post.frontmatter.metaDescription || post.frontmatter.description
+})).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }}>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -57,7 +52,7 @@ const blogPosts = [
           <div>
             <!-- Date & Read time -->
             <div class="flex items-center gap-2 text-xs font-mono text-mute">
-              <span>{post.date}</span>
+              <span>{formatDate(post.date)}</span>
               <span>&bull;</span>
               <span>{post.readTime}</span>
             </div>
@@ -78,7 +73,7 @@ const blogPosts = [
             <span class="text-xs font-medium text-ink font-mono">{post.author}</span>
             <span class="text-xs font-semibold text-link group-hover:text-brand-link-deep transition-colors inline-flex items-center gap-0.5">
               Read Guide
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3 w-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </span>
