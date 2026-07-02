@@ -1,21 +1,29 @@
 ---
-// Search.astro - Dynamic search overlay component
-const toolsList = [
-  { name: 'GST Calculator', desc: 'Add or remove GST with custom/standard tax rates (5%, 12%, 18%, 28%).', url: '/tools/gst-calculator', keywords: 'tax cgst sgst igst invoice add remove calculator' },
-  { name: 'Reverse GST Calculator', desc: 'Calculate the original price before GST was added.', url: '/tools/reverse-gst-calculator', keywords: 'reverse original price back calculate subtract remove tax' },
-  { name: 'GST Inclusive Calculator', desc: 'Calculate base value and GST from inclusive prices.', url: '/tools/gst-inclusive-calculator', keywords: 'inclusive base value remove tax total invoice gross' },
-  { name: 'GST Exclusive Calculator', desc: 'Add GST tax on top of exclusive net base prices.', url: '/tools/gst-exclusive-calculator', keywords: 'exclusive add tax base invoice price net' },
-  { name: 'GST Split Calculator', desc: 'Split total GST into CGST, SGST, and IGST components.', url: '/tools/gst-split-calculator', keywords: 'split divide cgst sgst igst tax local interstate sharing' },
-  { name: 'IGST Calculator', desc: 'Compute Integrated Goods and Services Tax (IGST) for interstate transactions.', url: '/tools/igst-calculator', keywords: 'igst integrated interstate transaction tax import export' },
-  { name: 'GST Rate Calculator', desc: 'Find the applied GST tax slab rate percentage (%) of any purchase.', url: '/tools/gst-rate-calculator', keywords: 'rate percentage slab percent figure out verify tax' },
-  { name: 'GST Refund Calculator', desc: 'Calculate eligible refunds for exports and inverted duty structures.', url: '/tools/gst-refund-calculator', keywords: 'refund claim rules export zero rated inverted duty rule 89' },
-  { name: 'Late Fee Calculator', desc: 'Estimate late fees for delayed GSTR-3B filings under GST law.', url: '/tools/late-fee-calculator', keywords: 'late fee return fine gstr-3b penalty penalty fee' },
-  { name: 'GST Interest Calculator', desc: 'Calculate interest on late GST tax payments (18% and 24% per annum).', url: '/tools/interest-calculator', keywords: 'interest penalty delayed tax payment input tax credit itc claim' },
-  { name: 'Composition Scheme Calculator', desc: 'Calculate tax liabilities for GST composition taxpayers.', url: '/tools/composition-calculator', keywords: 'composition scheme merchant trader rate 1% 5% 6% tax' }
+// Search.astro - Dynamic search overlay component for calculators & articles
+import { tools } from '../utils/tools';
+
+// Load blog posts at build-time
+const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
+
+const searchItems = [
+  ...tools.map(tool => ({
+    name: tool.name,
+    desc: tool.desc,
+    url: tool.url,
+    category: 'Calculator',
+    keywords: tool.keywords.toLowerCase()
+  })),
+  ...posts.map(post => ({
+    name: post.frontmatter.title,
+    desc: post.frontmatter.metaDescription || post.frontmatter.description,
+    url: `/blog/${post.frontmatter.slug}`,
+    category: 'Guide',
+    keywords: `${post.frontmatter.title} ${post.frontmatter.category || ''} ${post.frontmatter.metaDescription || ''}`.toLowerCase()
+  }))
 ];
 ---
-<div id="search-modal" class="fixed inset-0 z-50 hidden items-start justify-center bg-primary/20 p-4 pt-[15vh] backdrop-blur-sm dark:bg-black/50">
-  <div class="relative w-full max-w-lg overflow-hidden rounded-xl border border-hairline bg-canvas shadow-2xl transition-all">
+<div id="search-modal" class="fixed inset-0 z-50 hidden items-start justify-center bg-slate-900/40 p-4 pt-[15vh] backdrop-blur-xs dark:bg-black/80 select-none">
+  <div class="relative w-full max-w-lg overflow-hidden rounded-2xl border border-hairline bg-canvas shadow-2xl transition-all">
     <!-- Search Bar -->
     <div class="relative flex items-center border-b border-hairline p-4">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="absolute left-6 h-5 w-5 text-mute">
@@ -24,8 +32,8 @@ const toolsList = [
       <input 
         id="search-input"
         type="text" 
-        placeholder="Search for GST tools..." 
-        class="w-full bg-transparent pl-10 pr-4 text-sm text-ink outline-hidden placeholder-mute"
+        placeholder="Search for calculators, return guides..." 
+        class="w-full bg-transparent pl-10 pr-4 text-sm text-ink outline-hidden placeholder-mute font-medium"
       />
       <button 
         id="search-close-btn"
@@ -37,23 +45,42 @@ const toolsList = [
     </div>
 
     <!-- Search Results -->
-    <div id="search-results-list" class="max-h-[300px] overflow-y-auto p-2 space-y-1">
-      {toolsList.map((tool) => (
-        <a 
-          href={tool.url}
-          data-keywords={tool.keywords}
-          class="search-result-item block rounded-lg p-3 hover:bg-canvas-soft-2 transition-colors cursor-pointer group"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold text-ink group-hover:text-link transition-colors">{tool.name}</span>
-            <span class="font-mono text-[10px] text-mute group-hover:text-ink transition-colors">Tools</span>
-          </div>
-          <p class="text-xs text-mute mt-1 leading-normal">{tool.desc}</p>
-        </a>
-      ))}
+    <div id="search-results-list" class="max-h-[320px] overflow-y-auto p-2 space-y-1">
+      {searchItems.map((item) => {
+        const isTool = item.category === 'Calculator';
+        return (
+          <a 
+            href={item.url}
+            data-keywords={item.keywords}
+            class="search-result-item block rounded-xl p-3 hover:bg-canvas-soft-2 transition-colors cursor-pointer group"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-ink group-hover:text-primary transition-colors line-clamp-1">{item.name}</span>
+              <span 
+                class="font-mono text-[9px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
+                class:list={[
+                  isTool ? 'bg-primary/10 text-primary' : 'bg-brand-violet/10 text-brand-violet'
+                ]}
+              >
+                {item.category}
+              </span>
+            </div>
+            <p class="text-xs text-mute mt-1 leading-normal line-clamp-1">{item.desc}</p>
+          </a>
+        );
+      })}
+      
       <div id="search-no-results" class="hidden py-8 text-center text-sm text-mute">
-        No tools match your query. Try searching for 'calculator', 'fee', or 'interest'.
+        No resources match your query. Try searching for 'gst', 'late fee', or 'refund'.
       </div>
+    </div>
+
+    <!-- Sticky Footer Link -->
+    <div class="border-t border-hairline bg-canvas-soft p-3 text-center text-xs text-mute">
+      <span>Looking for advanced filters? </span>
+      <a href="/search" id="search-modal-go-page" class="font-semibold text-primary hover:underline ml-1">
+        Go to Search Page →
+      </a>
     </div>
   </div>
 </div>
@@ -65,6 +92,7 @@ const toolsList = [
   const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
   const resultItems = document.querySelectorAll('.search-result-item');
   const noResults = document.getElementById('search-no-results');
+  const modalGoPage = document.getElementById('search-modal-go-page') as HTMLAnchorElement | null;
 
   function openSearch() {
     searchModal?.classList.remove('hidden');
@@ -85,12 +113,18 @@ const toolsList = [
     let matchCount = 0;
     const cleanQuery = query.toLowerCase().trim();
 
+    // Update the Go Page link URL dynamically
+    if (modalGoPage) {
+      modalGoPage.href = cleanQuery ? `/search?q=${encodeURIComponent(cleanQuery)}` : '/search';
+    }
+
     resultItems.forEach((item) => {
       const htmlItem = item as HTMLElement;
       const text = htmlItem.innerText.toLowerCase();
       const keywords = htmlItem.dataset.keywords?.toLowerCase() || '';
       
       if (cleanQuery === '' || text.includes(cleanQuery) || keywords.includes(cleanQuery)) {
+        // Show item
         htmlItem.classList.remove('hidden');
         matchCount++;
       } else {
@@ -116,6 +150,13 @@ const toolsList = [
     filterResults((e.target as HTMLInputElement).value);
   });
 
+  // Handle Enter Key to redirect to search page
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && searchInput.value.trim() !== '') {
+      window.location.href = `/search?q=${encodeURIComponent(searchInput.value.trim())}`;
+    }
+  });
+
   // Modal backdrop click
   searchModal?.addEventListener('click', (e) => {
     if (e.target === searchModal) {
@@ -128,7 +169,7 @@ const toolsList = [
     if (e.key === 'Escape' && !searchModal?.classList.contains('hidden')) {
       closeSearch();
     }
-    // Command/Control + K to open search (typical shortcut)
+    // Command/Control + K to open search
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       if (searchModal?.classList.contains('hidden')) {

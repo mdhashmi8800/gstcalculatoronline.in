@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import AdSense from './AdSense.astro';
 import type { SEOMetadata } from '../utils/seo';
+import { tools } from '../utils/tools';
 
 interface Props {
   title: string;
@@ -12,6 +13,43 @@ interface Props {
 }
 
 const { title, description, seo, schema } = Astro.props;
+
+// Infer the current tool from the pathname
+const currentPath = Astro.url.pathname;
+const currentTool = tools.find(t => t.url === currentPath || `${t.url}/` === currentPath);
+
+// Related Calculators: other calculators in the same category, or fallback to popular tools
+const relatedCalculators = currentTool 
+  ? tools.filter(t => t.category === currentTool.category && t.id !== currentTool.id)
+  : tools.slice(0, 3);
+
+// Fetch all articles to find matching tax guides
+const allPosts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
+
+// Filter blog posts that explicitly reference this calculator or fall back to category posts
+let relatedArticles = currentTool
+  ? allPosts.filter(post => {
+      const postCalcs = post.frontmatter.relatedCalculators || [];
+      return postCalcs.some((c: any) => c.url === currentTool.url || c.name.toLowerCase() === currentTool.name.toLowerCase());
+    })
+  : [];
+
+// If we don't have enough matching guides, fill with posts matching similar keywords or GST Basics
+if (relatedArticles.length < 3) {
+  const existingSlugs = relatedArticles.map(p => p.frontmatter.slug);
+  const fallbackCategory = currentTool?.category === 'late-fees' || currentTool?.category === 'interest-penalties' 
+    ? 'GST Compliance' 
+    : 'GST Basics';
+
+  const fallbacks = allPosts.filter(post => 
+    !existingSlugs.includes(post.frontmatter.slug) && 
+    (post.frontmatter.category === fallbackCategory || post.frontmatter.category === 'GST Basics')
+  );
+
+  relatedArticles = [...relatedArticles, ...fallbacks].slice(0, 3);
+} else {
+  relatedArticles = relatedArticles.slice(0, 3);
+}
 ---
 <Layout seo={seo || { title, description }} schema={schema}>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -19,9 +57,9 @@ const { title, description, seo, schema } = Astro.props;
     <Breadcrumbs />
 
     <!-- Page Header -->
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">{title}</h1>
-      <p class="mt-2 text-base text-body max-w-3xl">{description}</p>
+    <header class="mb-8 mt-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
+      <p class="mt-2 text-base text-body max-w-3xl leading-relaxed">{description}</p>
     </header>
 
     <!-- AdSense Top Banner (Below Hero) -->
@@ -29,14 +67,55 @@ const { title, description, seo, schema } = Astro.props;
 
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      <!-- Left Column: Inputs (8 cols on large screen) -->
-      <div class="lg:col-span-7 bg-canvas rounded-xl border border-hairline p-6 shadow-xs">
+      <!-- Left Column: Inputs (7 cols on large screen) -->
+      <div class="lg:col-span-7 bg-canvas rounded-2xl border border-hairline p-6 shadow-xs">
         <slot />
       </div>
 
       <!-- Right Column: Results & Action Cards (5 cols on large screen) -->
-      <div class="lg:col-span-5 lg:sticky lg:top-20 space-y-6">
+      <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
         <slot name="results" />
+
+        <!-- Related Calculators Widget -->
+        {relatedCalculators.length > 0 && (
+          <div class="rounded-2xl border border-hairline bg-canvas p-6 shadow-xs no-print">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Calculators</h2>
+            <div class="space-y-3">
+              {relatedCalculators.slice(0, 4).map((calc) => (
+                <a 
+                  href={calc.url} 
+                  class="flex items-center justify-between p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
+                >
+                  <div class="shrink">
+                    <span class="text-xs font-semibold text-ink group-hover:text-primary transition-colors block">{calc.name}</span>
+                    <span class="text-[10px] text-mute font-mono">{calc.categoryName}</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Related Guides Widget -->
+        {relatedArticles.length > 0 && (
+          <div class="rounded-2xl border border-hairline bg-canvas p-6 shadow-xs no-print">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Tax Guides</h2>
+            <div class="space-y-3">
+              {relatedArticles.map((art) => (
+                <a 
+                  href={`/blog/${art.frontmatter.slug}`}
+                  class="block p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
+                >
+                  <span class="text-[9px] font-semibold text-primary font-mono uppercase tracking-wider">{art.frontmatter.category || 'Guide'}</span>
+                  <h3 class="text-xs font-semibold text-ink group-hover:text-primary transition-colors mt-1 line-clamp-2 leading-snug">{art.frontmatter.title}</h3>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <!-- AdSense Sidebar Banner -->
         <AdSense type="sidebar-desktop" />
@@ -46,7 +125,7 @@ const { title, description, seo, schema } = Astro.props;
     <!-- Bottom Section: Detailed content / formulas / rules -->
     {Astro.slots.has('content') && (
       <div class="mt-16 border-t border-hairline pt-12 max-w-3xl">
-        <div class="prose dark:prose-invert">
+        <div class="prose dark:prose-invert max-w-none">
           <slot name="content" />
         </div>
       </div>

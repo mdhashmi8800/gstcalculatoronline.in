@@ -1,0 +1,291 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AdSense from '../components/AdSense.astro';
+import { tools } from '../utils/tools';
+
+// Fetch all blog articles at build time
+const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
+
+const searchIndex = [
+  // Add tools
+  ...tools.map(t => ({
+    title: t.name,
+    desc: t.desc,
+    url: t.url,
+    category: t.categoryName,
+    type: 'tool',
+    keywords: t.keywords.toLowerCase(),
+    badge: t.badge
+  })),
+  // Add blog posts
+  ...posts.map(p => ({
+    title: p.frontmatter.title,
+    desc: p.frontmatter.metaDescription || p.frontmatter.description,
+    url: `/blog/${p.frontmatter.slug}`,
+    category: p.frontmatter.category || 'Tax Guides',
+    type: 'article',
+    keywords: `${p.frontmatter.title} ${p.frontmatter.category || ''} ${p.frontmatter.metaDescription || ''}`.toLowerCase(),
+    badge: p.frontmatter.readTime
+  }))
+];
+
+const pageTitle = "Search GST Calculators & Tax Guides";
+const pageDesc = "Search across our complete directory of Indian GST calculators, compliance filing late fees, Section 50 interest penalty estimators, and expert guide articles.";
+---
+
+<Layout seo={{ title: pageTitle, description: pageDesc }}>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <header class="mb-10 text-center max-w-2xl mx-auto mt-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Search Tax Resource Hub</h1>
+      <p class="mt-2 text-base text-body">Instant search across all 11 Indian GST calculators and 30+ compliance guides.</p>
+    </header>
+
+    <div class="max-w-3xl mx-auto mb-8">
+      <!-- Search Input Container -->
+      <div class="relative rounded-2xl shadow-xs border border-hairline bg-canvas-soft p-2 flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5 text-mute ml-3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+        </svg>
+        <input 
+          id="hub-search-input"
+          type="text" 
+          placeholder="Search for calculators, rules, categories, late fee..." 
+          class="w-full bg-transparent py-3 pr-4 text-base text-ink outline-hidden placeholder-mute font-medium"
+        />
+        <button 
+          id="hub-search-clear"
+          type="button"
+          class="hidden rounded-full p-1.5 hover:bg-canvas-soft-2 text-mute hover:text-ink transition-colors cursor-pointer mr-2"
+          aria-label="Clear search query"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="mt-4 flex flex-wrap gap-2 justify-center">
+        <button type="button" data-filter="all" class="search-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-primary bg-primary text-on-primary shadow-xs transition-all cursor-pointer">
+          All Results (<span id="count-all">0</span>)
+        </button>
+        <button type="button" data-filter="tool" class="search-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer">
+          Calculators (<span id="count-tool">0</span>)
+        </button>
+        <button type="button" data-filter="article" class="search-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer">
+          Articles & Guides (<span id="count-article">0</span>)
+        </button>
+      </div>
+    </div>
+
+    <!-- AdSense Top Banner -->
+    <AdSense type="below-hero" className="mb-8" />
+
+    <!-- Results Block -->
+    <div class="max-w-3xl mx-auto min-h-[400px]">
+      <div id="search-status-bar" class="text-xs text-mute font-mono mb-4 px-2 hidden">
+        Found <span id="match-count">0</span> matching resources.
+      </div>
+
+      <div id="search-results-container" class="space-y-4">
+        <!-- Results dynamically inserted here -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="search-empty-state" class="hidden text-center py-16 rounded-2xl border border-dashed border-hairline bg-canvas-soft p-6">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-mute mb-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+        </svg>
+        <h3 class="text-base font-semibold text-ink">No tax resources match your query</h3>
+        <p class="text-xs text-body mt-2">Try searching for keywords like "cgst", "interest", "penalty", "gstr-3b", or "invoice".</p>
+      </div>
+    </div>
+
+    <!-- Serialized JSON index data -->
+    <script id="search-index-json" type="application/json" raw-data={JSON.stringify(searchIndex)}></script>
+
+    <!-- Client-side Search Logic -->
+    <script>
+      interface SearchItem {
+        title: string;
+        desc: string;
+        url: string;
+        category: string;
+        type: 'tool' | 'article';
+        keywords: string;
+        badge?: string;
+      }
+
+      const input = document.getElementById('hub-search-input') as HTMLInputElement | null;
+      const clearBtn = document.getElementById('hub-search-clear');
+      const resultsContainer = document.getElementById('search-results-container');
+      const emptyState = document.getElementById('search-empty-state');
+      const statusBar = document.getElementById('search-status-bar');
+      const matchCountEl = document.getElementById('match-count');
+      const filterBtns = document.querySelectorAll('.search-filter-btn');
+      
+      const countAllEl = document.getElementById('count-all');
+      const countToolEl = document.getElementById('count-tool');
+      const countArticleEl = document.getElementById('count-article');
+
+      // Load search index from JSON script tag
+      const jsonEl = document.getElementById('search-index-json');
+      const searchIndex: SearchItem[] = jsonEl ? JSON.parse(jsonEl.getAttribute('raw-data') || '[]') : [];
+
+      let currentQuery = '';
+      let activeFilter = 'all';
+
+      function updateCounts() {
+        const query = currentQuery.toLowerCase().trim();
+        let allCount = 0;
+        let toolCount = 0;
+        let articleCount = 0;
+
+        searchIndex.forEach((item) => {
+          const isMatch = query === '' || 
+                          item.title.toLowerCase().includes(query) || 
+                          item.desc.toLowerCase().includes(query) || 
+                          item.category.toLowerCase().includes(query) || 
+                          item.keywords.includes(query);
+          
+          if (isMatch) {
+            allCount++;
+            if (item.type === 'tool') toolCount++;
+            if (item.type === 'article') articleCount++;
+          }
+        });
+
+        if (countAllEl) countAllEl.innerText = allCount.toString();
+        if (countToolEl) countToolEl.innerText = toolCount.toString();
+        if (countArticleEl) countArticleEl.innerText = articleCount.toString();
+      }
+
+      function renderResults() {
+        if (!resultsContainer || !emptyState || !statusBar || !matchCountEl) return;
+
+        const query = currentQuery.toLowerCase().trim();
+        resultsContainer.innerHTML = '';
+        updateCounts();
+
+        const filtered = searchIndex.filter((item) => {
+          // Keyword filter
+          const isMatch = query === '' || 
+                          item.title.toLowerCase().includes(query) || 
+                          item.desc.toLowerCase().includes(query) || 
+                          item.category.toLowerCase().includes(query) || 
+                          item.keywords.includes(query);
+          
+          if (!isMatch) return false;
+
+          // Type filter
+          if (activeFilter === 'all') return true;
+          return item.type === activeFilter;
+        });
+
+        matchCountEl.innerText = filtered.length.toString();
+        
+        if (query !== '') {
+          statusBar.classList.remove('hidden');
+        } else {
+          statusBar.classList.add('hidden');
+        }
+
+        if (filtered.length === 0) {
+          emptyState.classList.remove('hidden');
+          resultsContainer.classList.add('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+          resultsContainer.classList.remove('hidden');
+
+          filtered.forEach((item) => {
+            const isTool = item.type === 'tool';
+            const card = document.createElement('a');
+            card.href = item.url;
+            card.className = "block overflow-hidden rounded-2xl border border-hairline bg-canvas p-5 hover:border-hairline-strong hover:shadow-xs hover:bg-canvas-soft transition-all group cursor-pointer";
+            
+            card.innerHTML = `
+              <div class="flex items-start justify-between gap-4">
+                <div class="space-y-1 shrink">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold font-mono tracking-wider uppercase ${isTool ? 'bg-primary/10 text-primary' : 'bg-brand-violet/10 text-brand-violet'}">
+                      ${isTool ? 'Calculator' : 'Guide'}
+                    </span>
+                    <span class="text-[10px] text-mute font-mono tracking-wide">${item.category}</span>
+                  </div>
+                  <h3 class="text-base font-bold text-ink group-hover:text-primary transition-colors mt-2 leading-snug">
+                    ${item.title}
+                  </h3>
+                  <p class="text-xs text-body leading-relaxed line-clamp-2 mt-1">
+                    ${item.desc}
+                  </p>
+                </div>
+                ${item.badge ? `
+                  <span class="inline-flex items-center rounded-full bg-brand-success/10 px-2 py-0.5 text-[10px] font-semibold text-brand-success shrink-0 select-none">
+                    ${item.badge}
+                  </span>
+                ` : ''}
+              </div>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        }
+      }
+
+      // Input changes
+      input?.addEventListener('input', (e) => {
+        currentQuery = (e.target as HTMLInputElement).value;
+        if (currentQuery !== '') {
+          clearBtn?.classList.remove('hidden');
+        } else {
+          clearBtn?.classList.add('hidden');
+        }
+        renderResults();
+      });
+
+      // Clear button
+      clearBtn?.addEventListener('click', () => {
+        if (input) {
+          input.value = '';
+          currentQuery = '';
+          clearBtn.classList.add('hidden');
+          input.focus();
+          renderResults();
+        }
+      });
+
+      // Filter click handler
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const clickedBtn = e.currentTarget as HTMLButtonElement;
+          const filterValue = clickedBtn.dataset.filter || 'all';
+          activeFilter = filterValue;
+
+          // Highlight button
+          filterBtns.forEach((b) => {
+            b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+            b.classList.add('bg-canvas', 'text-body', 'border-hairline');
+          });
+          clickedBtn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+          clickedBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+
+          renderResults();
+        });
+      });
+
+      // Read parameter on mount
+      window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q');
+        if (query) {
+          currentQuery = query;
+          if (input) input.value = query;
+          clearBtn?.classList.remove('hidden');
+        }
+        renderResults();
+      });
+    </script>
+  </div>
+</Layout>
