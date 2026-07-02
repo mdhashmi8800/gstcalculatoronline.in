@@ -31,11 +31,19 @@ const segmentMap: Record<string, string> = {
 
 const items: BreadcrumbItem[] = customItems || [
   { name: 'Home', url: '/' },
-  ...pathSegments.map((segment, index) => {
-    const url = '/' + pathSegments.slice(0, index + 1).join('/');
-    const name = segmentMap[segment] || segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    return { name, url };
-  }),
+  ...(() => {
+    const list: BreadcrumbItem[] = [];
+    let cumulativePath = '';
+    pathSegments.forEach((segment) => {
+      cumulativePath += '/' + segment;
+      if (segment === 'category') {
+        return;
+      }
+      const name = segmentMap[segment] || segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      list.push({ name, url: cumulativePath });
+    });
+    return list;
+  })()
 ];
 ---
 

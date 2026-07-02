@@ -33,7 +33,36 @@ export const GET: APIRoute = async () => {
     priority: '0.6'
   }));
 
-  const pages = [...staticPages, ...dynamicBlogPages];
+  // Helper to slugify category names
+  const slugify = (text: string) => text.toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+
+  // Extract unique blog categories
+  const blogCategories = new Set<string>();
+  Object.values(postFiles).forEach((post: any) => {
+    const cat = post.frontmatter.category || 'General';
+    blogCategories.add(slugify(cat));
+  });
+
+  const dynamicBlogCategoryPages = Array.from(blogCategories).map((slug) => ({
+    url: `https://gstcalculatoronline.in/blog/category/${slug}`,
+    changefreq: 'weekly',
+    priority: '0.5'
+  }));
+
+  // Static tool categories
+  const toolCategoryPages = [
+    { url: 'https://gstcalculatoronline.in/tools/category/tax-slabs', changefreq: 'weekly', priority: '0.5' },
+    { url: 'https://gstcalculatoronline.in/tools/category/late-fees', changefreq: 'weekly', priority: '0.5' },
+    { url: 'https://gstcalculatoronline.in/tools/category/interest-penalties', changefreq: 'weekly', priority: '0.5' },
+    { url: 'https://gstcalculatoronline.in/tools/category/composition-scheme', changefreq: 'weekly', priority: '0.5' },
+  ];
+
+  const pages = [...staticPages, ...toolCategoryPages, ...dynamicBlogPages, ...dynamicBlogCategoryPages];
 
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
