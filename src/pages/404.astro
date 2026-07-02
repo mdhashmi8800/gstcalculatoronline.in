@@ -5,48 +5,100 @@ const pageTitle = "404 Page Not Found - GST Calculator Online India";
 const pageDesc = "The page you are looking for does not exist. Navigate back to our home page or select one of our free GST tools.";
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc, noindex: true }}>
-  <div class="mx-auto max-w-xl px-4 py-16 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center min-h-[70vh]">
-    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-error/10 text-brand-error mb-6 border border-brand-error/20">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-8 w-8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-      </svg>
+  <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 flex flex-col items-center">
+    
+    <!-- Error Content Stack -->
+    <div class="flex flex-col items-center justify-center text-center max-w-xl min-h-[55vh]">
+      <!-- Large 404 number -->
+      <div class="mb-4 select-none">
+        <h1 class="text-[120px] font-bold tracking-tight text-ink sm:text-[160px] md:text-[180px] leading-none">
+          404
+        </h1>
+      </div>
+
+      <!-- Error Title -->
+      <h2 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        Page Not Found
+      </h2>
+      
+      <!-- Description -->
+      <p class="mt-4 text-base text-body leading-relaxed max-w-md">
+        The page you are looking for does not exist or has been moved.<br class="hidden sm:inline" />
+        Try one of our popular tools below.
+      </p>
+
+      <!-- Actions Stack -->
+      <div class="mt-8 flex flex-col gap-3 w-full max-w-xs">
+        <a 
+          href="/" 
+          class="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-canvas hover:opacity-90 transition-all duration-200 cursor-pointer w-full text-center"
+        >
+          Go to Homepage
+        </a>
+        <a 
+          href="#popular-tools" 
+          class="inline-flex items-center justify-center rounded-full border border-hairline bg-canvas-soft px-6 py-3.5 text-sm font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink transition-all duration-200 cursor-pointer w-full text-center"
+        >
+          Browse All Tools
+        </a>
+      </div>
     </div>
 
-    <h1 class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">404 - Page Not Found</h1>
-    <p class="mt-4 text-base text-body leading-relaxed">
-      Oops! The page you are looking for has been moved, renamed, or does not exist. 
-    </p>
+    <!-- Quick Navigation / Calculator Grid -->
+    <div id="popular-tools" class="mt-20 w-full border-t border-hairline pt-16 scroll-mt-6">
+      <h3 class="text-xl font-bold text-ink text-center mb-10">
+        Popular Tools
+      </h3>
+      
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- GST Calculator Card -->
+        <a href="/tools/gst-calculator" class="group relative flex flex-col justify-between rounded-2xl border border-hairline bg-canvas-soft p-6 shadow-2xs hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all duration-200 cursor-pointer">
+          <div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-canvas-soft-2 border border-hairline text-ink">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75h.008v.008H15.75v-.008Zm0-2.25h.008v.008H15.75v-.008Zm0-2.25h.008v.008H15.75V11.25Zm0-2.25h.008v.008H15.75V9Zm-2.25 6.75h.008v.008h-.008v-.008Zm0-2.25h.008v.008h-.008v-.008Zm0-2.25h.008v.008h-.008V11.25Zm0-2.25h.008v.008h-.008V9m-2.25 6.75h.008v.008h-.008v-.008Zm0-2.25h.008v.008h-.008v-.008Zm0-2.25h.008v.008h-.008V11.25Zm0-2.25h.008v.008h-.008V9M8.25 6.75h12.502c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125H8.25a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125Zm-4.5 3h2.25a.75.75 0 0 0 .75-.75V6.75a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v2.25c0 .414.336.75.75.75Zm0 4.5h2.25a.75.75 0 0 0 .75-.75V11.25a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v2.25c0 .414.336.75.75.75Zm0 4.5h2.25a.75.75 0 0 0 .75-.75V15.75a.75.75 0 0 0-.75-.75H3.75a.75.75 0 0 0-.75.75v2.25c0 .414.336.75.75.75Z" />
+              </svg>
+            </div>
+            <h4 class="mt-4 text-base font-semibold text-ink group-hover:text-primary transition-colors duration-200">GST Calculator</h4>
+            <p class="mt-2 text-sm text-body leading-relaxed">Fast calculator for GST inclusive/exclusive rates (5%, 12%, 18%, 28%).</p>
+          </div>
+          <span class="mt-4 text-xs font-semibold text-primary inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200">
+            Open Calculator &rarr;
+          </span>
+        </a>
 
-    <!-- Popular links to keep users -->
-    <div class="mt-10 w-full rounded-xl border border-hairline bg-canvas p-6 shadow-xs text-left">
-      <h2 class="text-xs font-semibold text-mute uppercase tracking-widest border-b border-hairline pb-2 mb-4 font-mono">Popular GST Calculators</h2>
-      <ul class="space-y-3">
-        <li>
-          <a href="/tools/gst-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
-            <span>GST Calculator (CGST/SGST/IGST)</span>
-            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
-          </a>
-        </li>
-        <li>
-          <a href="/tools/late-fee-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
-            <span>GSTR-3B Late Fee Calculator</span>
-            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
-          </a>
-        </li>
-        <li>
-          <a href="/tools/interest-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
-            <span>GST Late Payment Interest Calculator</span>
-            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
-          </a>
-        </li>
-      </ul>
+        <!-- Late Fee Calculator Card -->
+        <a href="/tools/late-fee-calculator" class="group relative flex flex-col justify-between rounded-2xl border border-hairline bg-canvas-soft p-6 shadow-2xs hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all duration-200 cursor-pointer">
+          <div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-canvas-soft-2 border border-hairline text-ink">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <h4 class="mt-4 text-base font-semibold text-ink group-hover:text-brand-violet transition-colors duration-200">Late Fee Calculator</h4>
+            <p class="mt-2 text-sm text-body leading-relaxed">Check capped late filing fees for GSTR-3B based on your turnover.</p>
+          </div>
+          <span class="mt-4 text-xs font-semibold text-brand-violet inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200">
+            Open Calculator &rarr;
+          </span>
+        </a>
+
+        <!-- Interest Calculator Card -->
+        <a href="/tools/interest-calculator" class="group relative flex flex-col justify-between rounded-2xl border border-hairline bg-canvas-soft p-6 shadow-2xs hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all duration-200 cursor-pointer">
+          <div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-canvas-soft-2 border border-hairline text-ink">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+              </svg>
+            </div>
+            <h4 class="mt-4 text-base font-semibold text-ink group-hover:text-brand-cyan transition-colors duration-200">Interest Calculator</h4>
+            <p class="mt-2 text-sm text-body leading-relaxed">Compute net interest liabilities on delayed GST tax payments (Section 50).</p>
+          </div>
+          <span class="mt-4 text-xs font-semibold text-brand-cyan inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200">
+            Open Calculator &rarr;
+          </span>
+        </a>
+      </div>
     </div>
-
-    <a 
-      href="/" 
-      class="mt-8 inline-flex items-center justify-center rounded-full bg-primary py-2.5 px-6 text-sm font-semibold text-on-primary hover:opacity-90 transition-all cursor-pointer"
-    >
-      Back to Homepage
-    </a>
   </div>
 </Layout>
