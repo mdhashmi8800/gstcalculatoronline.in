@@ -1,0 +1,79 @@
+---
+interface Props {
+  title: string;
+  date?: string;
+  author?: string;
+  readTime?: string;
+  description?: string;
+}
+
+const { title, date, author, readTime, description } = Astro.props;
+---
+<article class="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Article Header -->
+  <header class="border-b border-hairline pb-8 mb-8">
+    <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl leading-tight">
+      {title}
+    </h1>
+    
+    {description && (
+      <p class="mt-4 text-lg text-body font-normal leading-relaxed">
+        {description}
+      </p>
+    )}
+
+    <div class="mt-6 flex flex-wrap items-center gap-4 text-xs font-mono text-mute">
+      {author && (
+        <span class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-3.5 w-3.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+          {author}
+        </span>
+      )}
+      {date && (
+        <span class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-3.5 w-3.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+          </svg>
+          {date}
+        </span>
+      )}
+      {readTime && (
+        <span class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-3.5 w-3.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          {readTime}
+        </span>
+      )}
+    </div>
+  </header>
+
+  <!-- Google AdSense Top Ad Slot Mockup -->
+  <div class="my-6 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center">
+    <span class="font-mono text-[9px] text-mute uppercase tracking-wider block mb-1">Sponsored Advertisement</span>
+    <div class="h-24 flex items-center justify-center text-xs text-mute font-medium">
+      Google AdSense Ad Slot (Responsive Banner)
+    </div>
+  </div>
+
+  <!-- Main Article Body -->
+  <div class="prose dark:prose-invert max-w-none text-body">
+    <slot />
+  </div>
+
+  <!-- Google AdSense Bottom Ad Slot Mockup -->
+  <div class="my-8 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center">
+    <span class="font-mono text-[9px] text-mute uppercase tracking-wider block mb-1">Sponsored Advertisement</span>
+    <div class="h-32 flex items-center justify-center text-xs text-mute font-medium">
+      Google AdSense Ad Slot (Matched Content / Recommended Grid)
+    </div>
+  </div>
+
+  <!-- Quick disclaimer for financial blogs -->
+  <div class="mt-12 rounded-xl border border-hairline bg-canvas-soft p-5 text-xs text-body leading-relaxed">
+    <p class="font-semibold text-ink mb-1">Financial & Legal Information Notice</p>
+    The information in this article is current as of publication. GST rules and guidelines in India are subject to amendments by the GST Council. While we endeavor to provide the most precise guidelines, taxpayers should consult the official <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" class="text-link hover:underline">GST Portal</a> or speak with a registered Chartered Accountant for final filings.
+  </div>
+</article>

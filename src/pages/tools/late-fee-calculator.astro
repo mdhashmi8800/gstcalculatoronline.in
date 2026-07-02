@@ -1,0 +1,296 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+import ResultCard from '../../components/ResultCard.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const pageTitle = "GST Late Fee Calculator - GSTR-3B";
+const pageDesc = "Calculate GSTR-3B filing late fees for NIL returns and taxable returns online. Formulated with standard daily rates and turnover-based rationalized caps under section 47 of the CGST Act.";
+
+// Schema for Late Fee Calculator Page
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Late Fee Calculator GSTR-3B",
+  "url": "https://gstcalculatoronline.in/tools/late-fee-calculator",
+  "description": "Calculate GSTR-3B return filing delay fees, daily charges, and aggregate turnover caps.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+const faqs = [
+  {
+    question: "What is the late fee for GSTR-3B in India?",
+    answer: "The late fee for GSTR-3B is **₹50 per day** of delay for returns with tax liability (₹25 CGST + ₹25 SGST). For **NIL returns** (no tax liability), the late fee is **₹20 per day** (₹10 CGST + ₹10 SGST)."
+  },
+  {
+    question: "What is the maximum limit (cap) on GSTR-3B late fees?",
+    answer: "Late fees are capped based on Annual Aggregate Turnover (AATO):<br>- **NIL returns**: Capped at **₹500** total.<br>- **Taxable returns (AATO ≤ ₹1.5 Cr)**: Capped at **₹2,000** total.<br>- **Taxable returns (AATO ₹1.5 Cr to ₹5 Cr)**: Capped at **₹5,000** total.<br>- **Taxable returns (AATO > ₹5 Cr)**: Capped at **₹10,000** total."
+  },
+  {
+    question: "Can late fees be waived off?",
+    answer: "GST late fees can only be waived off if the Government announces a specific amnesty scheme or extends the due dates via official notifications. Otherwise, late fees are automatically calculated on the GST portal."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+  <!-- Calculator Input Form -->
+  <form id="latefee-form" class="space-y-6">
+    <!-- Return Due Date -->
+    <div>
+      <label for="calc-due-date" class="block text-sm font-semibold text-ink">GST Return Due Date</label>
+      <input 
+        type="date" 
+        name="dueDate" 
+        id="calc-due-date" 
+        class="mt-2 block w-full rounded-lg border border-hairline bg-canvas py-3 px-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+        required
+      />
+    </div>
+
+    <!-- Actual Filing Date -->
+    <div>
+      <label for="calc-filing-date" class="block text-sm font-semibold text-ink">Actual Filing Date</label>
+      <input 
+        type="date" 
+        name="filingDate" 
+        id="calc-filing-date" 
+        class="mt-2 block w-full rounded-lg border border-hairline bg-canvas py-3 px-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+        required
+      />
+    </div>
+
+    <!-- Return Type -->
+    <div>
+      <span class="block text-sm font-semibold text-ink">Type of Return</span>
+      <div class="mt-2 grid grid-cols-2 gap-3">
+        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="return-type" value="nil" checked class="sr-only" />
+          <span>NIL Return</span>
+        </label>
+        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <input type="radio" name="return-type" value="taxable" class="sr-only" />
+          <span>Taxable Return</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Turnover Caps (Visible only for taxable returns) -->
+    <div id="turnover-container" class="hidden">
+      <span class="block text-sm font-semibold text-ink">Aggregate Annual Turnover (AATO) in Previous FY</span>
+      <div class="mt-2 space-y-2">
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="turnover-cap" value="1.5" checked class="mr-3 accent-primary" />
+            <span>Up to ₹1.5 Crores</span>
+          </div>
+          <span class="text-xs font-mono text-mute">Max Cap: ₹2,000</span>
+        </label>
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="turnover-cap" value="5" class="mr-3 accent-primary" />
+            <span>₹1.5 Crores to ₹5 Crores</span>
+          </div>
+          <span class="text-xs font-mono text-mute">Max Cap: ₹5,000</span>
+        </label>
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="turnover-cap" value="above" class="mr-3 accent-primary" />
+            <span>Above ₹5 Crores</span>
+          </div>
+          <span class="text-xs font-mono text-mute">Max Cap: ₹10,000</span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+  <!-- Interactive Results Block -->
+  <ResultCard slot="results" title="Late Fee Summary" />
+
+  <!-- Educational content -->
+  <div slot="content" class="prose max-w-none">
+    <h2>GSTR-3B Late Fee Calculation Rules & Guidelines</h2>
+    <p>Every registered person who fails to furnish returns including GSTR-3B by the due dates is liable to pay a late fee under Section 47 of the Central Goods and Services Tax (CGST) Act. The late fee is calculated from the day after the due date up to the date on which the return is filed.</p>
+    
+    <h3>Daily Late Fee Structure</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Return Category</th>
+          <th>CGST Daily Fee</th>
+          <th>SGST Daily Fee</th>
+          <th>Total Daily Fee</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>NIL Return</strong> (no output tax, no input credit)</td>
+          <td>₹10</td>
+          <td>₹10</td>
+          <td>₹20 / day</td>
+        </tr>
+        <tr>
+          <td><strong>Taxable / Liability Return</strong> (with output or input credit)</td>
+          <td>₹25</td>
+          <td>₹25</td>
+          <td>₹50 / day</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Maximum Capping on GST Return Late Fees</h3>
+    <p>To reduce tax compliance burdens on small micro-businesses, the GST Council rationalized the late fee caps. The maximum late fee payable per return filing is capped based on the taxpayer's annual aggregate turnover (AATO):</p>
+    <ul>
+      <li><strong>NIL Return filings:</strong> Maximum fee is capped at <strong>₹500</strong> per return (₹250 CGST + ₹250 SGST).</li>
+      <li><strong>Taxable Return (Turnover up to ₹1.5 Crores):</strong> Maximum fee is capped at <strong>₹2,000</strong> per return (₹1,000 CGST + ₹1,000 SGST).</li>
+      <li><strong>Taxable Return (Turnover between ₹1.5 Crores and ₹5 Crores):</strong> Maximum fee is capped at <strong>₹5,000</strong> per return (₹2,500 CGST + ₹2,500 SGST).</li>
+      <li><strong>Taxable Return (Turnover above ₹5 Crores):</strong> Maximum fee is capped at <strong>₹10,000</strong> per return (₹5,000 CGST + ₹5,000 SGST).</li>
+    </ul>
+
+    <FAQ items={faqs} />
+  </div>
+</CalculatorLayout>
+
+<script>
+  // Set default dates (due date: 20th of last month, actual filing date: today)
+  const d = new Date();
+  const todayStr = d.toISOString().split('T')[0];
+  
+  // Set due date to 20th of previous month
+  const prevMonth = new Date(d.getFullYear(), d.getMonth() - 1, 20);
+  const dueStr = prevMonth.toISOString().split('T')[0];
+
+  const dueDateInput = document.getElementById('calc-due-date') as HTMLInputElement | null;
+  const filingDateInput = document.getElementById('calc-filing-date') as HTMLInputElement | null;
+  const returnTypeRadios = document.querySelectorAll('input[name="return-type"]');
+  const turnoverContainer = document.getElementById('turnover-container');
+  const latefeeForm = document.getElementById('latefee-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  if (dueDateInput && !dueDateInput.value) dueDateInput.value = dueStr;
+  if (filingDateInput && !filingDateInput.value) filingDateInput.value = todayStr;
+
+  function updateFormUI() {
+    const returnTypeRadio = document.querySelector('input[name="return-type"]:checked') as HTMLInputElement | null;
+    if (returnTypeRadio?.value === 'taxable') {
+      turnoverContainer?.classList.remove('hidden');
+    } else {
+      turnoverContainer?.classList.add('hidden');
+    }
+  }
+
+  function calculate() {
+    if (!dueDateInput || !filingDateInput) return;
+
+    const dueDate = new Date(dueDateInput.value);
+    const filingDate = new Date(filingDateInput.value);
+    
+    // Difference in milliseconds
+    const diffTime = filingDate.getTime() - dueDate.getTime();
+    // Convert to days
+    const delayDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+
+    const returnTypeRadio = document.querySelector('input[name="return-type"]:checked') as HTMLInputElement | null;
+    const isNil = returnTypeRadio ? returnTypeRadio.value === 'nil' : true;
+
+    // Daily fee rates
+    const dailyRate = isNil ? 20 : 50;
+    
+    // Capping logic
+    let maxCap = 500; // NIL cap
+    if (!isNil) {
+      const turnoverRadio = document.querySelector('input[name="turnover-cap"]:checked') as HTMLInputElement | null;
+      const turnoverVal = turnoverRadio ? turnoverRadio.value : '1.5';
+      
+      if (turnoverVal === '1.5') {
+        maxCap = 2000;
+      } else if (turnoverVal === '5') {
+        maxCap = 5000;
+      } else {
+        maxCap = 10000;
+      }
+    }
+
+    const calculatedFee = delayDays * dailyRate;
+    const payableFee = Math.min(calculatedFee, maxCap);
+    const splitFee = payableFee / 2;
+
+    // Format currency function
+    const fmtVal = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    // Update Result labels on page mount / calculation
+    const labels = {
+      'res-taxable-val': `${delayDays} Day${delayDays === 1 ? '' : 's'}`,
+      'res-cgst-val': fmtVal(splitFee),
+      'res-sgst-val': fmtVal(splitFee),
+      'res-total-tax': fmtVal(payableFee),
+      'res-grand-total': fmtVal(payableFee)
+    };
+
+    if (resTaxable) resTaxable.innerText = labels['res-taxable-val'];
+    if (resCgstVal) resCgstVal.innerText = labels['res-cgst-val'];
+    if (resSgstVal) resSgstVal.innerText = labels['res-sgst-val'];
+    if (resTotalTax) resTotalTax.innerText = labels['res-total-tax'];
+    if (resGrandTotal) resGrandTotal.innerText = labels['res-grand-total'];
+  }
+
+  // Set visual text labels inside the result card to fit late fee terminology
+  function customizeLabels() {
+    const labelTaxable = document.querySelector('#res-taxable-val')?.previousElementSibling as HTMLElement | null;
+    const labelCgst = document.querySelector('#res-cgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelSgst = document.querySelector('#res-sgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelTotalTax = document.querySelector('#res-total-tax')?.previousElementSibling as HTMLElement | null;
+    const labelGrandTotal = document.querySelector('#res-grand-total')?.previousElementSibling as HTMLElement | null;
+
+    if (labelTaxable) labelTaxable.innerText = "Filing Delay Duration";
+    if (labelCgst) labelCgst.innerText = "Central Late Fee (CGST)";
+    if (labelSgst) labelSgst.innerText = "State Late Fee (SGST)";
+    if (labelTotalTax) labelTotalTax.innerText = "Uncapped Fee Calculated";
+    if (labelGrandTotal) labelGrandTotal.innerText = "Total Late Fee (Capped)";
+  }
+
+  // Pre-load from parameters
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const due = params.get('due');
+    const file = params.get('file');
+    const returnType = params.get('returntype');
+    const turnover = params.get('turnover');
+
+    if (due && dueDateInput) dueDateInput.value = due;
+    if (file && filingDateInput) filingDateInput.value = file;
+    if (returnType) {
+      const typeRadio = document.querySelector(`input[name="return-type"][value="${returnType}"]`) as HTMLInputElement | null;
+      if (typeRadio) typeRadio.checked = true;
+    }
+    if (turnover) {
+      const turnRadio = document.querySelector(`input[name="turnover-cap"][value="${turnover}"]`) as HTMLInputElement | null;
+      if (turnRadio) turnRadio.checked = true;
+    }
+    updateFormUI();
+  }
+
+  // Add listeners
+  if (latefeeForm) {
+    latefeeForm.addEventListener('input', calculate);
+    latefeeForm.addEventListener('change', calculate);
+  }
+
+  returnTypeRadios.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      updateFormUI();
+      calculate();
+    });
+  });
+
+  // Init
+  customizeLabels();
+  loadFromUrl();
+  calculate();
+</script>

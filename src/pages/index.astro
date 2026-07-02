@@ -1,11 +1,138 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import ToolCard from '../components/ToolCard.astro';
+import FAQ from '../components/FAQ.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const pageTitle = "GST Calculator Online India - GST Rates & Return Tools";
+const pageDesc = "Free online GST calculators for Indian taxpayers. Easily calculate CGST, SGST, IGST, return late fees, interest on tax delays, and composition scheme liabilities according to current Indian tax regulations.";
+
+const homepageFaqs = [
+  {
+    question: "How do I calculate GST online?",
+    answer: "You can calculate GST by entering the transaction amount and selecting the appropriate GST slab (5%, 12%, 18%, 28%) in our GST Calculator. It will automatically show the CGST, SGST, and IGST breakdowns for both 'Add GST' and 'Remove GST' types."
+  },
+  {
+    question: "Is this GST Calculator updated with the latest Indian tax laws?",
+    answer: "Yes, all our calculators are updated in accordance with the latest Central Goods and Services Tax (CGST) and State Goods and Services Tax (SGST) regulations, including rationalized late fees and Section 50 interest calculations."
+  },
+  {
+    question: "Can I use these calculators on my mobile device?",
+    answer: "Absolutely. Our website is built mobile-first, ensuring all financial calculators render beautifully and run extremely fast on any smartphone, tablet, or desktop browser."
+  }
+];
 ---
+<Layout seo={{ title: pageTitle, description: pageDesc }}>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8 text-center border-b border-hairline transition-colors duration-200">
+    <div class="mx-auto max-w-4xl">
+      <span class="inline-flex items-center rounded-full bg-brand-link/10 px-3 py-1 text-xs font-semibold text-brand-link font-mono uppercase tracking-wider mb-4 animate-pulse">
+        100% Free Tax Tools
+      </span>
+      <h1 class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl font-sans">
+        GST Calculator Online India
+      </h1>
+      <p class="mt-6 text-lg sm:text-xl text-body max-w-2xl mx-auto leading-relaxed">
+        Calculate transaction taxes, filing delay penalties, interest liabilities, and composition payouts in seconds. Built for Indian businesses, taxpayers, and CAs.
+      </p>
 
-<Layout>
-	<Welcome />
+      <!-- Instant Search Trigger -->
+      <div class="mt-10 max-w-md mx-auto">
+        <button 
+          id="hero-search-btn"
+          type="button" 
+          class="flex w-full items-center justify-between rounded-full border border-hairline bg-canvas/80 backdrop-blur-xs py-3.5 px-6 shadow-sm hover:border-hairline-strong transition-all hover:bg-canvas text-mute hover:text-ink cursor-pointer"
+        >
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+            </svg>
+            <span class="text-sm font-medium">Search tax calculators...</span>
+          </div>
+          <span class="hidden sm:inline-block border border-hairline rounded-md px-1.5 py-0.5 text-[10px] font-mono uppercase bg-canvas-soft">Ctrl + K</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools Grid Section -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center sm:text-left mb-12">
+      <h2 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Indian GST Return & Tax Calculators</h2>
+      <p class="mt-2 text-sm sm:text-base text-body">Select one of our specialized tools to start calculating.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <ToolCard 
+        title="GST Calculator" 
+        description="Add or remove GST with custom/standard rates (5%, 12%, 18%, 28%) and compute CGST/SGST/IGST splits." 
+        url="/tools/gst-calculator"
+        icon="calculator"
+        badge="Popular"
+      />
+      <ToolCard 
+        title="Late Fee Calculator" 
+        description="Determine daily late fees for delayed GSTR-3B filings with turnover-based maximum limits." 
+        url="/tools/late-fee-calculator"
+        icon="fee"
+        badge="Updated"
+      />
+      <ToolCard 
+        title="GST Interest Calculator" 
+        description="Calculate Section 50 interest at 18% p.a. for cash delays and 24% p.a. for wrong ITC claims." 
+        url="/tools/interest-calculator"
+        icon="interest"
+        badge="Section 50"
+      />
+      <ToolCard 
+        title="Composition Calculator" 
+        description="Calculate quarterly tax liabilities for dealers under the Composition Scheme (1%, 5%, 6% rates)." 
+        url="/tools/composition-calculator"
+        icon="composition"
+      />
+    </div>
+  </section>
+
+  <!-- AdSense Banner Mockup -->
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 my-8">
+    <div class="rounded-xl border border-dashed border-hairline-strong bg-canvas-soft-2 p-4 text-center text-xs text-mute">
+      Ad Placement (Home page Responsive Banner)
+    </div>
+  </div>
+
+  <!-- Editorial Info Section -->
+  <section class="py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto prose dark:prose-invert">
+    <h2>Understanding the Goods and Services Tax (GST) in India</h2>
+    <p>Launched on July 1, 2017, the Goods and Services Tax (GST) is a comprehensive, multi-stage, destination-based tax that replaced major indirect taxes in India, such as VAT, Service Tax, Excise Duty, and Octroi. The goal was to unify the country under a single tax system, eliminating cascading taxes and simplifying compliance.</p>
+    
+    <h3>Structure of Indian GST</h3>
+    <p>The GST regime divides transactions based on their physical supply location:</p>
+    <ul>
+      <li><strong>Intrastate Transactions (Within State):</strong> Subject to CGST (levied by the Central Government) and SGST (levied by the State Government). The standard tax rate is split equally (e.g., an 18% tax equals 9% CGST + 9% SGST).</li>
+      <li><strong>Interstate Transactions (Between States):</strong> Subject to IGST (Integrated GST), collected by the Center and distributed to the consumption state. The rate equals the combined total rate (e.g., 18% IGST).</li>
+    </ul>
+
+    <h3>Why Taxpayers Love Our Platform</h3>
+    <p>Navigating return deadlines and penalty rates can be complicated. Our calculators are built to simplify your tax workflow:</p>
+    <ol>
+      <li><strong>Instant Performance:</strong> Written in native JS, our calculator outputs load in real-time, matching portal numbers.</li>
+      <li><strong>Turnover-Capped Late Fees:</strong> Auto-computes rationalized late fee limits according to small business turnover.</li>
+      <li><strong>Net Cash Interest Calculations:</strong> Applies the Section 50 proviso to calculate interest only on cash liabilities, not input credits.</li>
+    </ol>
+
+    <FAQ items={homepageFaqs} />
+  </section>
 </Layout>
+
+<script>
+  // Open search overlay from Hero button
+  const heroSearchBtn = document.getElementById('hero-search-btn');
+  const searchInput = document.getElementById('search-input');
+  const searchModal = document.getElementById('search-modal');
+
+  heroSearchBtn?.addEventListener('click', () => {
+    searchModal?.classList.remove('hidden');
+    searchModal?.classList.add('flex');
+    setTimeout(() => (searchInput as HTMLElement | null)?.focus(), 50);
+    document.body.classList.add('overflow-hidden');
+  });
+</script>

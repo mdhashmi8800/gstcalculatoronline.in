@@ -1,0 +1,229 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+import ResultCard from '../../components/ResultCard.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const pageTitle = "GST Interest Calculator - Section 50";
+const pageDesc = "Calculate interest on delayed GST payments online. Evaluates interest at 18% per annum for delayed cash payments and 24% per annum for wrongful utilization of Input Tax Credit (ITC) as per Section 50 of the CGST Act.";
+
+// Schema for Interest Calculator Page
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Interest Calculator Section 50",
+  "url": "https://gstcalculatoronline.in/tools/interest-calculator",
+  "description": "Calculate interest on delayed GST tax payment and wrong ITC ledger claims.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+const faqs = [
+  {
+    question: "What is the interest rate for late payment of GST?",
+    answer: "Interest is levied at **18% per annum** on delayed tax payments made after the due date (under Section 50(1) of the CGST Act). If a taxpayer wrongly claims and **utilizes** Input Tax Credit (ITC), the interest rate is **24% per annum** (under Section 50(3))."
+  },
+  {
+    question: "Is interest calculated on Net Tax Liability or Gross Tax Liability?",
+    answer: "Interest is calculated on the **Net Tax Liability** paid through the Electronic Cash Ledger (i.e. cash payment). Interest is not levied on the portion of tax paid through the Electronic Credit Ledger (ITC), provided the return is filed before any tax proceedings are initiated."
+  },
+  {
+    question: "How is the number of delay days calculated for GST interest?",
+    answer: "The delay is calculated starting from the day immediately following the official due date of filing/payment, up to the actual date on which the tax is paid. For example, if the due date is Nov 20 and payment is made on Nov 30, the delay is exactly 10 days."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+  <!-- Calculator Input Form -->
+  <form id="interest-form" class="space-y-6">
+    <!-- Tax Amount Payable -->
+    <div>
+      <label for="calc-tax-payable" class="block text-sm font-semibold text-ink">Net Tax Liability Payable in Cash (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="taxAmount" 
+          id="calc-tax-payable" 
+          value="50000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 50000"
+          required
+        />
+      </div>
+      <p class="mt-1 text-xs text-mute">Interest applies only to the portion paid in cash, not through ITC ledger.</p>
+    </div>
+
+    <!-- Due Date -->
+    <div>
+      <label for="calc-due-date" class="block text-sm font-semibold text-ink">Payment Due Date</label>
+      <input 
+        type="date" 
+        name="dueDate" 
+        id="calc-due-date" 
+        class="mt-2 block w-full rounded-lg border border-hairline bg-canvas py-3 px-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+        required
+      />
+    </div>
+
+    <!-- Actual Payment Date -->
+    <div>
+      <label for="calc-payment-date" class="block text-sm font-semibold text-ink">Actual Payment Date</label>
+      <input 
+        type="date" 
+        name="paymentDate" 
+        id="calc-payment-date" 
+        class="mt-2 block w-full rounded-lg border border-hairline bg-canvas py-3 px-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+        required
+      />
+    </div>
+
+    <!-- Delay Reason (Interest Rate Selector) -->
+    <div>
+      <span class="block text-sm font-semibold text-ink">Interest Category (Section 50)</span>
+      <div class="mt-2 space-y-2">
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="interest-rate-type" value="standard" checked class="mr-3 accent-primary" />
+            <span>Delayed Payment of GST (Sec 50(1))</span>
+          </div>
+          <span class="text-xs font-mono text-brand-link">18% p.a.</span>
+        </label>
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="interest-rate-type" value="itc" class="mr-3 accent-primary" />
+            <span>Wrong ITC Claimed & Utilized (Sec 50(3))</span>
+          </div>
+          <span class="text-xs font-mono text-brand-link">24% p.a.</span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+  <!-- Interactive Results Block -->
+  <ResultCard slot="results" title="Interest Breakdown" />
+
+  <!-- Educational content -->
+  <div slot="content" class="prose max-w-none">
+    <h2>Understanding GST Interest Rules (Section 50)</h2>
+    <p>Interest on delayed GST payment is auto-calculated on the GST Portal during the generation of the subsequent month's GSTR-3B return. Under Section 50 of the CGST Act, 2017, paying GST after its due date attracts mandatory interest liabilities.</p>
+    
+    <h3>Interest Formula</h3>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+      <p class="font-semibold text-brand-link">GST Interest Formula:</p>
+      <p>Interest Amount = (Net Cash Tax Liability × Rate of Interest × Delay Days) / (365 × 100)</p>
+    </div>
+
+    <h3>Net vs Gross Interest Levies</h3>
+    <p>Following historical GST Council recommendation meetings and a retroactive amendment to Section 50(1), interest is calculated purely on the <strong>net tax liability</strong>. This refers to the tax paid through cash deposits, excluding the tax paid by offsetting input tax credits (Credit Ledger balance). However, this concession only applies if the taxpayer files the delayed return voluntarily; in cases of tax audits or recovery demands, interest applies to the gross liability.</p>
+
+    <h3>Interest Slabs</h3>
+    <ul>
+      <li><strong>18% Per Annum:</strong> Standard interest rate applicable on delay in paying tax liability (taxpayer filed GSTR-3B after the due date).</li>
+      <li><strong>24% Per Annum:</strong> Interest rate applicable on wrong claims of input tax credit (ITC) which have been subsequently utilized to discharge liabilities. If credit is claimed in GSTR-3B but not utilized (remains in the credit ledger), no interest applies under recent rules.</li>
+    </ul>
+
+    <FAQ items={faqs} />
+  </div>
+</CalculatorLayout>
+
+<script>
+  // Set default dates (due date: 20th of last month, payment date: today)
+  const d = new Date();
+  const todayStr = d.toISOString().split('T')[0];
+  
+  const prevMonth = new Date(d.getFullYear(), d.getMonth() - 1, 20);
+  const dueStr = prevMonth.toISOString().split('T')[0];
+
+  const taxPayableInput = document.getElementById('calc-tax-payable') as HTMLInputElement | null;
+  const dueDateInput = document.getElementById('calc-due-date') as HTMLInputElement | null;
+  const paymentDateInput = document.getElementById('calc-payment-date') as HTMLInputElement | null;
+  const interestForm = document.getElementById('interest-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  if (dueDateInput && !dueDateInput.value) dueDateInput.value = dueStr;
+  if (paymentDateInput && !paymentDateInput.value) paymentDateInput.value = todayStr;
+
+  function calculate() {
+    if (!taxPayableInput || !dueDateInput || !paymentDateInput) return;
+
+    const taxAmount = parseFloat(taxPayableInput.value) || 0;
+    const dueDate = new Date(dueDateInput.value);
+    const paymentDate = new Date(paymentDateInput.value);
+
+    // Difference in days
+    const diffTime = paymentDate.getTime() - dueDate.getTime();
+    const delayDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+
+    const rateRadio = document.querySelector('input[name="interest-rate-type"]:checked') as HTMLInputElement | null;
+    const isITC = rateRadio ? rateRadio.value === 'itc' : false;
+    const rate = isITC ? 0.24 : 0.18; // 24% or 18%
+
+    // Calculate Interest
+    const interestAmount = (taxAmount * rate * delayDays) / 365;
+    const grandTotal = taxAmount + interestAmount;
+
+    // Format currency
+    const fmtVal = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const splitInterest = interestAmount / 2;
+
+    if (resTaxable) resTaxable.innerText = `${delayDays} Day${delayDays === 1 ? '' : 's'}`;
+    if (resCgstVal) resCgstVal.innerText = fmtVal(splitInterest);
+    if (resSgstVal) resSgstVal.innerText = fmtVal(splitInterest);
+    if (resTotalTax) resTotalTax.innerText = fmtVal(interestAmount);
+    if (resGrandTotal) resGrandTotal.innerText = fmtVal(grandTotal);
+  }
+
+  function customizeLabels() {
+    const labelTaxable = document.querySelector('#res-taxable-val')?.previousElementSibling as HTMLElement | null;
+    const labelCgst = document.querySelector('#res-cgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelSgst = document.querySelector('#res-sgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelTotalTax = document.querySelector('#res-total-tax')?.previousElementSibling as HTMLElement | null;
+    const labelGrandTotal = document.querySelector('#res-grand-total')?.previousElementSibling as HTMLElement | null;
+
+    if (labelTaxable) labelTaxable.innerText = "Filing Delay Days";
+    if (labelCgst) labelCgst.innerText = "Central GST Interest (CGST)";
+    if (labelSgst) labelSgst.innerText = "State GST Interest (SGST)";
+    if (labelTotalTax) labelTotalTax.innerText = "Total Interest Amount";
+    if (labelGrandTotal) labelGrandTotal.innerText = "Total Payable Value";
+  }
+
+  // Pre-load from URL query parameters
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get('amount');
+    const due = params.get('due');
+    const payment = params.get('payment');
+    const rateType = params.get('ratetype');
+
+    if (amount && taxPayableInput) taxPayableInput.value = amount;
+    if (due && dueDateInput) dueDateInput.value = due;
+    if (payment && paymentDateInput) paymentDateInput.value = payment;
+    if (rateType) {
+      const radio = document.querySelector(`input[name="interest-rate-type"][value="${rateType}"]`) as HTMLInputElement | null;
+      if (radio) radio.checked = true;
+    }
+  }
+
+  // Event listeners
+  if (interestForm) {
+    interestForm.addEventListener('input', calculate);
+    interestForm.addEventListener('change', calculate);
+  }
+
+  // Init
+  customizeLabels();
+  loadFromUrl();
+  calculate();
+</script>

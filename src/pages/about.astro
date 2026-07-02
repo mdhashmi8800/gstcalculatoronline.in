@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const pageTitle = "About Us - GST Calculator Online India";
+const pageDesc = "Learn about gstcalculatoronline.in, our mission to simplify Indian tax compliance, and how we develop highly accurate, fast, and compliant tax tools.";
+---
+<Layout seo={{ title: pageTitle, description: pageDesc }}>
+  <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <header class="mb-10">
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">About Us</h1>
+      <p class="mt-2 text-base text-body">Simplifying goods and services tax math for Indian businesses.</p>
+    </header>
+
+    <div class="prose dark:prose-invert max-w-none text-body">
+      <p>Welcome to <strong>GST Calculator Online India</strong> (gstcalculatoronline.in). We are a dedicated platform providing free, fast, and highly precise financial tools designed specifically for the Indian tax ecosystem.</p>
+
+      <h2>Our Mission</h2>
+      <p>Tax compliance under the Goods and Services Tax (GST) regime can feel overwhelming for small business owners, traders, freelancers, and accounting professionals. With multiple tax slabs, quarterly schemes, daily late filing fines, and annual interest rates, manual computation is error-prone. Our mission is to make tax arithmetic accessible, transparent, and instantaneous.</p>
+
+      <h2>Why Choose Our Tools?</h2>
+      <ul>
+        <li><strong>Strict Compliance:</strong> Our algorithms are modeled strictly in accordance with Section 47 (late fee caps) and Section 50 (interest calculations on net cash ledger balance) of the CGST Act.</li>
+        <li><strong>Unrivaled Performance:</strong> Built on Astro and clean vanilla TypeScript, our site loads instantly on mobile and desktop, shipping zero unnecessary JavaScript payloads. This means you get results without waiting.</li>
+        <li><strong>Privacy First:</strong> All calculator operations execute locally in your web browser. We do not store, upload, or transmit any of your financial transaction figures.</li>
+        <li><strong>Zero Placeholders:</strong> We believe in providing real educational context, guides, and instructions alongside every tool, rather than empty templates.</li>
+      </ul>
+
+      <h2>Our Methodology</h2>
+      <p>We monitor notifications issued by the Central Board of Indirect Taxes and Customs (CBIC) and the GST Council. Whenever a tax slab changes, or a late fee cap is modified (such as the recent rationalized thresholds for small taxpayers), we update our core calculation logic. This ensures that the numbers you see here match what you will find on the official government GST Portal.</p>
+
+      <h2>Get in Touch</h2>
+      <p>We are constantly expanding our portfolio of tax utilities. If you have recommendations for new calculators, or if you spot any discrepancy in our numbers, please feel free to reach out to us through our <a href="/contact" class="text-link hover:underline">Contact Page</a>. We value your feedback!</p>
+    </div>
+  </div>
+</Layout>

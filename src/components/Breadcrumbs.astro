@@ -1,0 +1,74 @@
+---
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  customItems?: BreadcrumbItem[];
+}
+
+const { customItems } = Astro.props;
+
+// Auto-generate breadcrumbs from URL if not overridden
+const pathname = Astro.url.pathname;
+const pathSegments = pathname.split('/').filter(segment => segment !== '');
+
+// Map of segments to human-readable names
+const segmentMap: Record<string, string> = {
+  tools: 'GST Tools',
+  blog: 'Blog',
+  about: 'About Us',
+  contact: 'Contact Us',
+  'privacy-policy': 'Privacy Policy',
+  'terms-and-conditions': 'Terms & Conditions',
+  disclaimer: 'Disclaimer',
+  'gst-calculator': 'GST Calculator',
+  'late-fee-calculator': 'Late Fee Calculator',
+  'interest-calculator': 'GST Interest Calculator',
+  'composition-calculator': 'Composition Scheme Calculator',
+};
+
+const items: BreadcrumbItem[] = customItems || [
+  { name: 'Home', url: '/' },
+  ...pathSegments.map((segment, index) => {
+    const url = '/' + pathSegments.slice(0, index + 1).join('/');
+    const name = segmentMap[segment] || segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    return { name, url };
+  }),
+];
+---
+
+<nav aria-label="Breadcrumb" class="my-4 flex">
+  <ol class="flex items-center space-x-2 text-xs font-mono text-mute">
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="flex items-center">
+          {index > 0 && (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="mx-2 h-3 w-3 text-mute/50">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          )}
+          {isLast ? (
+            <span class="text-ink font-medium" aria-current="page">{item.name}</span>
+          ) : (
+            <a href={item.url} class="hover:text-ink hover:underline transition-colors">{item.name}</a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<!-- Inject breadcrumb schema markup -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": `https://gstcalculatoronline.in${item.url}`
+  }))
+})} />

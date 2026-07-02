@@ -1,0 +1,73 @@
+---
+const currentYear = new Date().getFullYear();
+---
+<footer class="border-t border-hairline bg-canvas-soft transition-colors duration-200">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+      
+      <!-- Brand column -->
+      <div class="space-y-4 xl:col-span-1">
+        <a href="/" class="flex items-center gap-2">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-on-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.752-.628a8.38 8.38 0 0 1 8.3-1.077M3.75 3.375c0-1.036.84-1.875 1.875-1.875h.375a3.75 3.75 0 0 1 3.75 3.75v1.875m0 0H5.625a1.875 1.875 0 0 1-1.875-1.875v-.375ZM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.375A3.75 3.75 0 0 1 15.75 10.5v1.875m0 0h-3.75a1.875 1.875 0 0 1-1.875-1.875v-.375Z" />
+            </svg>
+          </div>
+          <span class="font-sans text-base font-semibold tracking-tight text-ink">GST Calculator Online</span>
+        </a>
+        <p class="text-sm text-body max-w-md">
+          Providing businesses, CA professionals, and Indian taxpayers with reliable, fast, and precise tax calculators. Formulated according to the latest CGST/SGST acts.
+        </p>
+        <p class="text-xs text-mute">
+          Disclaimer: The calculations on this site are for illustrative purposes. Please verify calculations with a qualified chartered accountant before taking financial decisions.
+        </p>
+      </div>
+
+      <!-- Links Columns -->
+      <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0 sm:grid-cols-3">
+        <!-- GST Tools -->
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-ink">GST Calculators</h3>
+          <ul class="mt-4 space-y-2">
+            <li><a href="/tools/gst-calculator" class="text-sm text-body hover:text-ink transition-colors">GST Calculator</a></li>
+            <li><a href="/tools/late-fee-calculator" class="text-sm text-body hover:text-ink transition-colors">Late Fee Calculator</a></li>
+            <li><a href="/tools/interest-calculator" class="text-sm text-body hover:text-ink transition-colors">GST Interest Calculator</a></li>
+            <li><a href="/tools/composition-calculator" class="text-sm text-body hover:text-ink transition-colors">Composition Calculator</a></li>
+          </ul>
+        </div>
+        
+        <!-- Resources -->
+        <div>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-ink">Resources</h3>
+          <ul class="mt-4 space-y-2">
+            <li><a href="/blog" class="text-sm text-body hover:text-ink transition-colors">Tax Blog</a></li>
+            <li><a href="/tools" class="text-sm text-body hover:text-ink transition-colors">All Calculators</a></li>
+            <li><a href="/about" class="text-sm text-body hover:text-ink transition-colors">About Us</a></li>
+            <li><a href="/contact" class="text-sm text-body hover:text-ink transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div class="col-span-2 sm:col-span-1">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-ink">Legal Info</h3>
+          <ul class="mt-4 space-y-2">
+            <li><a href="/privacy-policy" class="text-sm text-body hover:text-ink transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms-and-conditions" class="text-sm text-body hover:text-ink transition-colors">Terms of Service</a></li>
+            <li><a href="/disclaimer" class="text-sm text-body hover:text-ink transition-colors">Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom border & copyright -->
+    <div class="mt-12 border-t border-hairline pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-mute">
+        &copy; {currentYear} gstcalculatoronline.in. All rights reserved.
+      </p>
+      <div class="flex items-center gap-2">
+        <span class="inline-block h-2 w-2 rounded-full bg-brand-success animate-pulse"></span>
+        <span class="text-xs font-mono text-mute">Designed for Indian Taxpayers</span>
+      </div>
+    </div>
+  </div>
+</footer>

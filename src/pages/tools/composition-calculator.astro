@@ -1,0 +1,214 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+import ResultCard from '../../components/ResultCard.astro';
+import FAQ from '../../components/FAQ.astro';
+
+const pageTitle = "GST Composition Scheme Calculator";
+const pageDesc = "Calculate tax liabilities under the GST Composition Scheme for traders, manufacturers, restaurant service providers, and small service providers. Evaluates correct flat rates (1%, 5%, and 6%) and quarterly payouts.";
+
+// Schema for Composition Calculator Page
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Composition Scheme Calculator",
+  "url": "https://gstcalculatoronline.in/tools/composition-calculator",
+  "description": "Calculate quarterly composition scheme tax liabilities in India for traders, restaurants, and services.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5."
+};
+
+const faqs = [
+  {
+    question: "Who is eligible for the GST Composition Scheme?",
+    answer: "A taxpayer whose annual aggregate turnover does not exceed **₹1.5 Crores** (₹75 Lakhs for North-Eastern states and Himachal Pradesh) can opt for the composition scheme. For service providers, the turnover threshold is **₹50 Lakhs**."
+  },
+  {
+    question: "What are the tax rates under the Composition Scheme?",
+    answer: "The flat tax rates on turnover are:<br>- **Manufacturers & Traders**: 1% (0.5% CGST + 0.5% SGST)<br>- **Restaurants (no alcohol)**: 5% (2.5% CGST + 2.5% SGST)<br>- **Service Providers**: 6% (3% CGST + 3% SGST)"
+  },
+  {
+    question: "Can a composition dealer make interstate sales?",
+    answer: "No. A major restriction of the GST composition scheme is that composition dealers **cannot make interstate outward supplies** (sales to other states). They can only make local (intrastate) sales. Consequently, they do not collect or pay IGST."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema}>
+  <!-- Calculator Input Form -->
+  <form id="composition-form" class="space-y-6">
+    <!-- Taxable Turnover -->
+    <div>
+      <label for="calc-turnover" class="block text-sm font-semibold text-ink">Taxable Turnover in Quarter (₹)</label>
+      <div class="relative mt-2 rounded-lg shadow-xs">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
+          <span class="text-xs font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="turnover" 
+          id="calc-turnover" 
+          value="500000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          placeholder="e.g. 500000"
+          required
+        />
+      </div>
+      <p class="mt-1 text-xs text-mute font-medium text-ink">Composition tax applies to aggregate quarterly turnover paid via CMP-08.</p>
+    </div>
+
+    <!-- Business Category -->
+    <div>
+      <span class="block text-sm font-semibold text-ink">Business Category & Flat Rate</span>
+      <div class="mt-2 space-y-2">
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="business-type" value="trader" checked class="mr-3 accent-primary" />
+            <span>Traders & Manufacturers</span>
+          </div>
+          <span class="text-xs font-mono text-brand-link">1.0% (0.5% + 0.5%)</span>
+        </label>
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="business-type" value="restaurant" class="mr-3 accent-primary" />
+            <span>Restaurants (Not serving Alcohol)</span>
+          </div>
+          <span class="text-xs font-mono text-brand-link">5.0% (2.5% + 2.5%)</span>
+        </label>
+        <label class="flex items-center justify-between rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-medium text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+          <div class="flex items-center">
+            <input type="radio" name="business-type" value="service" class="mr-3 accent-primary" />
+            <span>Service Providers / Mixed Supplies</span>
+          </div>
+          <span class="text-xs font-mono text-brand-link">6.0% (3.0% + 3.0%)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Eligibility Warning Banner -->
+    <div id="eligibility-notice" class="rounded-lg border border-hairline bg-canvas-soft p-4 text-xs text-body space-y-1">
+      <span class="font-semibold text-ink block">Scheme Eligibility Limits:</span>
+      <p id="eligibility-text">For this business type, the annual turnover limit is ₹1.5 Crores. Ensure your yearly turnover does not exceed this cap to remain eligible.</p>
+    </div>
+  </form>
+
+  <!-- Interactive Results Block -->
+  <ResultCard slot="results" title="Composition Liability" />
+
+  <!-- Educational content -->
+  <div slot="content" class="prose max-w-none">
+    <h2>Guide to GST Composition Scheme Calculations</h2>
+    <p>The GST Composition Scheme is a simplified tax paying mechanism designed for small taxpayers. Under normal GST laws, taxpayers have to file multiple detailed returns monthly, track credit ledgers, and maintain complex records. The composition scheme offers relief from this overhead by allowing eligible taxpayers to pay a flat tax rate based on their quarterly sales turnover.</p>
+    
+    <h3>Key Restrictions of the Composition Scheme</h3>
+    <p>To prevent misuse, composition dealers are subject to strict statutory boundaries:</p>
+    <ul>
+      <li><strong>No Interstate Sales:</strong> Outward supply must be strictly local (within the same state). Therefore, **IGST calculations do not apply**.</li>
+      <li><strong>No Input Tax Credit:</strong> Composition dealers cannot claim credit on their purchases.</li>
+      <li><strong>No Tax Collection:</strong> Dealers cannot collect GST from their customers or issue standard tax invoices; they issue a "Bill of Supply" instead.</li>
+    </ul>
+
+    <h3>Tax Liability Formulas</h3>
+    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+      <p class="font-semibold text-brand-link">Composition Tax Formula:</p>
+      <p>Total Composition Tax = Quarterly Taxable Turnover × Flat Rate %</p>
+      <p>CGST Portion = Total Tax / 2</p>
+      <p>SGST Portion = Total Tax / 2</p>
+    </div>
+
+    <FAQ items={faqs} />
+  </div>
+</CalculatorLayout>
+
+<script>
+  const turnoverInput = document.getElementById('calc-turnover') as HTMLInputElement | null;
+  const businessTypeRadios = document.querySelectorAll('input[name="business-type"]');
+  const eligibilityText = document.getElementById('eligibility-text');
+  const compositionForm = document.getElementById('composition-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function getFlatRateAndCap(): { rate: number; capText: string } {
+    const radio = document.querySelector('input[name="business-type"]:checked') as HTMLInputElement | null;
+    const type = radio ? radio.value : 'trader';
+    
+    if (type === 'trader') {
+      return { rate: 0.01, capText: 'For Traders & Manufacturers, the annual aggregate turnover limit is ₹1.5 Crores (₹75 Lakhs for Special Category States).' };
+    } else if (type === 'restaurant') {
+      return { rate: 0.05, capText: 'For Restaurant Services, the annual aggregate turnover limit is ₹1.5 Crores.' };
+    } else {
+      return { rate: 0.06, capText: 'For Service Providers, the annual aggregate turnover limit is ₹50 Lakhs (Section 10(2A)).' };
+    }
+  }
+
+  function calculate() {
+    if (!turnoverInput) return;
+
+    const turnover = parseFloat(turnoverInput.value) || 0;
+    const { rate, capText } = getFlatRateAndCap();
+
+    // Update eligibility warning text
+    if (eligibilityText) eligibilityText.innerText = capText;
+
+    const taxLiability = turnover * rate;
+    const splitTax = taxLiability / 2;
+
+    // Format currency
+    const fmtVal = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmtVal(turnover);
+    if (resCgstVal) resCgstVal.innerText = fmtVal(splitTax);
+    if (resSgstVal) resSgstVal.innerText = fmtVal(splitTax);
+    if (resTotalTax) resTotalTax.innerText = fmtVal(taxLiability);
+    // Grand total is the turnover + liability, or just the liability? In composition return, the dealer pays tax out of pocket, so the Grand total liability they owe is the tax itself! Let's display the tax itself as the total payable.
+    if (resGrandTotal) resGrandTotal.innerText = fmtVal(taxLiability);
+  }
+
+  function customizeLabels() {
+    const labelTaxable = document.querySelector('#res-taxable-val')?.previousElementSibling as HTMLElement | null;
+    const labelCgst = document.querySelector('#res-cgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelSgst = document.querySelector('#res-sgst-val')?.previousElementSibling as HTMLElement | null;
+    const labelTotalTax = document.querySelector('#res-total-tax')?.previousElementSibling as HTMLElement | null;
+    const labelGrandTotal = document.querySelector('#res-grand-total')?.previousElementSibling as HTMLElement | null;
+
+    if (labelTaxable) labelTaxable.innerText = "Taxable Turnover";
+    if (labelCgst) labelCgst.innerText = "CGST Composition Tax";
+    if (labelSgst) labelSgst.innerText = "SGST Composition Tax";
+    if (labelTotalTax) labelTotalTax.innerText = "Total Composition Tax";
+    if (labelGrandTotal) labelGrandTotal.innerText = "Total Tax Liability Owed";
+    
+    // Explicitly hide IGST for composition dealers
+    const igstRow = document.getElementById('res-igst-row');
+    if (igstRow) igstRow.classList.add('hidden');
+  }
+
+  // Pre-load from URL
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get('amount');
+    const type = params.get('type');
+
+    if (amount && turnoverInput) turnoverInput.value = amount;
+    if (type) {
+      const radio = document.querySelector(`input[name="business-type"][value="${type}"]`) as HTMLInputElement | null;
+      if (radio) radio.checked = true;
+    }
+  }
+
+  // Event listeners
+  if (compositionForm) {
+    compositionForm.addEventListener('input', calculate);
+    compositionForm.addEventListener('change', calculate);
+  }
+
+  // Init
+  customizeLabels();
+  loadFromUrl();
+  calculate();
+</script>

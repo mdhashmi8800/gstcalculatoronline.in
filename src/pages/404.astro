@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pageTitle = "404 Page Not Found - GST Calculator Online India";
+const pageDesc = "The page you are looking for does not exist. Navigate back to our home page or select one of our free GST tools.";
+---
+<Layout seo={{ title: pageTitle, description: pageDesc, noindex: true }}>
+  <div class="mx-auto max-w-xl px-4 py-16 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center min-h-[70vh]">
+    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-error/10 text-brand-error mb-6 border border-brand-error/20">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-8 w-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+      </svg>
+    </div>
+
+    <h1 class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">404 - Page Not Found</h1>
+    <p class="mt-4 text-base text-body leading-relaxed">
+      Oops! The page you are looking for has been moved, renamed, or does not exist. 
+    </p>
+
+    <!-- Popular links to keep users -->
+    <div class="mt-10 w-full rounded-xl border border-hairline bg-canvas p-6 shadow-xs text-left">
+      <h2 class="text-xs font-semibold text-mute uppercase tracking-widest border-b border-hairline pb-2 mb-4 font-mono">Popular GST Calculators</h2>
+      <ul class="space-y-3">
+        <li>
+          <a href="/tools/gst-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
+            <span>GST Calculator (CGST/SGST/IGST)</span>
+            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tools/late-fee-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
+            <span>GSTR-3B Late Fee Calculator</span>
+            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tools/interest-calculator" class="group flex items-center justify-between text-sm font-semibold text-ink hover:text-link transition-colors">
+            <span>GST Late Payment Interest Calculator</span>
+            <span class="text-link group-hover:translate-x-0.5 transition-transform font-mono text-xs">&rarr;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <a 
+      href="/" 
+      class="mt-8 inline-flex items-center justify-center rounded-full bg-primary py-2.5 px-6 text-sm font-semibold text-on-primary hover:opacity-90 transition-all cursor-pointer"
+    >
+      Back to Homepage
+    </a>
+  </div>
+</Layout>

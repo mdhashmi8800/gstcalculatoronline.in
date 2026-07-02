@@ -1,0 +1,239 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Article from '../../components/Article.astro';
+
+export async function getStaticPaths() {
+  return [
+    { params: { slug: 'understanding-gst-rates-in-india-2026' } },
+    { params: { slug: 'how-to-file-gstr-1-step-by-step' } },
+    { params: { slug: 'gst-late-fees-interest-rates-penalties' } }
+  ];
+}
+
+const { slug } = Astro.params;
+
+// Rich Content Database
+const posts: Record<string, {
+  title: string;
+  date: string;
+  author: string;
+  readTime: string;
+  description: string;
+  schema: Record<string, any>;
+}> = {
+  'understanding-gst-rates-in-india-2026': {
+    title: "GST Rates in India: A Comprehensive Guide (2026)",
+    date: "June 25, 2026",
+    author: "CA Amit Sharma",
+    readTime: "6 min read",
+    description: "Learn about the latest updates to GST tax slabs (5%, 12%, 18%, 28%) and how they apply to different goods and services in India.",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "GST Rates in India: A Comprehensive Guide (2026)",
+      "datePublished": "2026-06-25",
+      "author": {
+        "@type": "Person",
+        "name": "CA Amit Sharma"
+      }
+    }
+  },
+  'how-to-file-gstr-1-step-by-step': {
+    title: "How to File GSTR-1: Step-by-Step Instructions",
+    date: "May 14, 2026",
+    author: "CA Neha Patel",
+    readTime: "8 min read",
+    description: "A comprehensive walkthrough for business owners and accountants on preparing, verifying, and filing GSTR-1 invoice returns.",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "How to File GSTR-1: Step-by-Step Instructions",
+      "datePublished": "2026-05-14",
+      "author": {
+        "@type": "Person",
+        "name": "CA Neha Patel"
+      }
+    }
+  },
+  'gst-late-fees-interest-rates-penalties': {
+    title: "Understanding GST Late Fees, Interest Rates, and Penalties",
+    date: "March 02, 2026",
+    author: "Advocate Raj Malhotra",
+    readTime: "5 min read",
+    description: "Discover how GSTR-3B delayed filing late fees and Section 50 interest are computed on net cash liabilities.",
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Understanding GST Late Fees, Interest Rates, and Penalties",
+      "datePublished": "2026-03-02",
+      "author": {
+        "@type": "Person",
+        "name": "Advocate Raj Malhotra"
+      }
+    }
+  }
+};
+
+const post = posts[slug || ''];
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+<Layout seo={{ title: post.title, description: post.description, ogType: 'article' }} schema={post.schema}>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <Article 
+      title={post.title} 
+      date={post.date} 
+      author={post.author} 
+      readTime={post.readTime}
+      description={post.description}
+    >
+      {slug === 'understanding-gst-rates-in-india-2026' && (
+        <>
+          <p>The Goods and Services Tax (GST) Council in India meets regularly to configure and rationalize the tax rates applied to various categories of products and services. In 2026, the tax slabs continue to remain divided into four primary taxable rates, along with special exemptions and additional compensation cesses for luxury categories.</p>
+          
+          <h2>The Four Standard GST Slabs</h2>
+          <p>GST is structured under four primary tax slabs to keep essential goods affordable while collecting higher taxes from luxury purchases:</p>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Slab</th>
+                <th>Category Type</th>
+                <th>Major Included Goods & Services</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>5% GST</strong></td>
+                <td>Essential Goods & Services</td>
+                <td>Packaged food items, life-saving medicines, transport services (railways, app cabs), hotel rooms under ₹1,000.</td>
+              </tr>
+              <tr>
+                <td><strong>12% GST</strong></td>
+                <td>Standard Rate (Lower)</td>
+                <td>Processed foods, computers and mobile electronics, business class air tickets, standard hotel bookings.</td>
+              </tr>
+              <tr>
+                <td><strong>18% GST</strong></td>
+                <td>Standard Rate (Primary)</td>
+                <td>Capital goods, software and IT services, restaurants, financial services (banking/insurance), telecom services.</td>
+              </tr>
+              <tr>
+                <td><strong>28% GST</strong></td>
+                <td>Luxury & Sin Goods</td>
+                <td>Automobiles, high-end motorcycles, soft drinks, luxury yachts, tobacco, commercial betting/gambling services.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>Exempted Goods & Services (0% GST)</h2>
+          <p>To shield low-income households from tax burden, several daily essential items are exempted from GST:</p>
+          <ul>
+            <li>Fresh vegetables, milk, curd, organic honey, and unbranded grains.</li>
+            <li>Judicial services, public healthcare services, and basic educational services.</li>
+            <li>Government services and books/newspapers.</li>
+          </ul>
+
+          <h2>Special Custom GST Slabs</h2>
+          <p>Some items attract specialized custom tax rates to align with historical trade practices:</p>
+          <ul>
+            <li><strong>Gold & Silver Jewellery:</strong> Attracts a special rate of <strong>3% GST</strong>.</li>
+            <li><strong>Precious & Semi-precious Stones:</strong> Attracts a rate of <strong>0.25% GST</strong>.</li>
+          </ul>
+
+          <h2>Compensation Cess on Demerit Goods</h2>
+          <p>For goods falling under the 28% slab, such as luxury SUVs, carbonated soft drinks, and cigarettes, an additional <strong>Compensation Cess</strong> is levied. This cess ranges from 1% to over 200%, depending on the item, and is used to compensate manufacturing states for revenue loss under the GST regime.</p>
+        </>
+      )}
+
+      {slug === 'how-to-file-gstr-1-step-by-step' && (
+        <>
+          <p>GSTR-1 is the monthly or quarterly return that every registered GST taxpayer in India must file to report details of outward supplies (sales). Filing GSTR-1 accurately is crucial because the buyer's Input Tax Credit (ITC) eligibility depends directly on the invoices uploaded by the supplier in GSTR-1 (which auto-populate in the buyer's GSTR-2B form).</p>
+          
+          <h2>Who Needs to File GSTR-1?</h2>
+          <p>Every normal registered taxpayer must file GSTR-1, either monthly or quarterly under the **QRMP Scheme** (Quarterly Return Monthly Payment). The due date is the 11th of the next month for monthly filers, and the 13th of the month following the quarter for quarterly filers.</p>
+
+          <h2>Step-by-Step Filing Guide</h2>
+          
+          <h3>Step 1: Login to the GST Portal</h3>
+          <p>Visit the official website <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer">gst.gov.in</a> and login using your credentials. Navigate to the <strong>Services > Returns > Returns Dashboard</strong> page.</p>
+
+          <h3>Step 2: Choose Financial Year & Period</h3>
+          <p>Select the corresponding Financial Year, Quarter, and Return Filing Period (Month/Quarter) for which you are submitting records, and click Search. Click <strong>Prepare Online</strong> or <strong>Prepare Offline</strong> under GSTR-1.</p>
+
+          <h3>Step 3: Add Invoice Details in Respective Tables</h3>
+          <p>The GSTR-1 interface is structured in tables. Fill out the tables that apply to your quarterly transactions:</p>
+          <ul>
+            <li><strong>Table 4A, 4B, 4C, 6B, 6C - B2B Invoices:</strong> Report taxable sales made to other registered taxpayers. You must enter the buyer's GSTIN, invoice number, date, value, tax rate, and place of supply.</li>
+            <li><strong>Table 5 - B2C (Large) Invoices:</strong> Report sales to unregistered customers where the supply is interstate and the invoice value exceeds ₹2.5 Lakhs.</li>
+            <li><strong>Table 7 - B2C (Others):</strong> Enter consolidated interstate sales below ₹2.5 Lakhs and all local intrastate unregistered sales.</li>
+            <li><strong>Table 11 - Advances Received:</strong> Report advance payments received during the month for which invoices haven't been generated.</li>
+            <li><strong>Table 12 - HSN Code Summary:</strong> Provide a consolidated summary of items sold based on their Harmonized System of Nomenclature (HSN) codes.</li>
+          </ul>
+
+          <h3>Step 4: Generate Return Summary</h3>
+          <p>After saving all details, click the **Generate Summary** button. The GST portal will compile the records and display the total taxable value and tax amount calculations (CGST, SGST, IGST).</p>
+
+          <h3>Step 5: Verify & File with DSC/EVC</h3>
+          <p>Preview the return summary to double-check errors. Once verified, click **Proceed to File/Submit**. Complete the verification using digital signature certificates (DSC) or a mobile-received Electronic Verification Code (EVC) OTP.</p>
+        </>
+      )}
+
+      {slug === 'gst-late-fees-interest-rates-penalties' && (
+        <>
+          <p>Filing tax returns on time is key to avoiding penalties and preserving cash flow. Under the Goods and Services Tax (GST) framework in India, delaying returns or tax payments triggers dual penalties: late filing fees under Section 47 and interest charges under Section 50 of the CGST Act.</p>
+          
+          <h2>Section 47: Late Filing Fees</h2>
+          <p>When a taxpayer fails to submit GSTR-3B or GSTR-1 returns by their respective deadlines, late fees are automatically calculated for every day of delay. These fees are split into CGST and SGST and are added to the liability dashboard of the subsequent return.</p>
+          
+          <h3>Rationalized Late Fee Caps</h3>
+          <p>Late fees are charged at ₹50/day (₹20/day for NIL returns). The maximum caps protect small business entities:</p>
+          <ul>
+            <li><strong>NIL returns:</strong> Capped at a maximum of <strong>₹500</strong>.</li>
+            <li><strong>Turnover ≤ ₹1.5 Crore:</strong> Capped at a maximum of <strong>₹2,000</strong>.</li>
+            <li><strong>Turnover ₹1.5 Crore to ₹5 Crore:</strong> Capped at a maximum of <strong>₹5,000</strong>.</li>
+            <li><strong>Turnover > ₹5 Crore:</strong> Capped at a maximum of <strong>₹10,000</strong>.</li>
+          </ul>
+
+          <h2>Section 50: Interest on Delayed Tax Payments</h2>
+          <p>Unlike late fees which are flat daily charges, interest is a percentage penalty levied on the delayed tax amount. It is calculated per annum from the day following the return due date till the actual date of payment.</p>
+
+          <h3>Interest Rates Slabs</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Interest Rate</th>
+                <th>Interest Calculation Base</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Delayed Tax Payment</strong></td>
+                <td>18% per annum</td>
+                <td>Levied only on the Net Cash Liability (cash ledger payments).</td>
+              </tr>
+              <tr>
+                <td><strong>Wrong ITC Utilized</strong></td>
+                <td>24% per annum</td>
+                <td>Levied on the wrongly claimed and utilized Input Tax Credit amount.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>How to Avoid Penalties</h2>
+          <p>Accountants recommend standard tax planning guidelines to mitigate penalties:</p>
+          <ol>
+            <li><strong>Use automated due-date reminders:</strong> Keep track of return filing calendars (usually the 11th for GSTR-1 and 20th for GSTR-3B).</li>
+            <li><strong>File NIL returns:</strong> Even if there is no business activity in a month, file a NIL GSTR-3B return immediately to avoid accruing the ₹20/day fine.</li>
+            <li><strong>Verify ITC Utilizations:</strong> Do not claim unverified or blocklisted input credits that could trigger the 24% interest rate under audit.</li>
+          </ol>
+        </>
+      )}
+    </Article>
+  </div>
+</Layout>

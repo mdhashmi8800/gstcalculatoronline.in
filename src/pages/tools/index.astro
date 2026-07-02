@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const pageTitle = "All GST Calculators & Return Tools";
+const pageDesc = "Explore our complete suite of Indian GST calculators. Includes standard GST rate calculators, return late fee calculators, Section 50 interest calculators, and Composition Scheme liabilities.";
+---
+<Layout seo={{ title: pageTitle, description: pageDesc }}>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <header class="mb-10 text-center sm:text-left">
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">GST Calculators Directory</h1>
+      <p class="mt-2 text-base text-body max-w-3xl">Filter and select the exact GST calculation utility you need for your business or filing compliance.</p>
+    </header>
+
+    <!-- Filters -->
+    <div class="mb-8 flex flex-wrap gap-2 justify-center sm:justify-start">
+      <button 
+        type="button" 
+        data-filter="all"
+        class="tool-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-primary bg-primary text-on-primary shadow-xs transition-all cursor-pointer"
+      >
+        All Tools
+      </button>
+      <button 
+        type="button" 
+        data-filter="calculator"
+        class="tool-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer"
+      >
+        Tax Slab Calculators
+      </button>
+      <button 
+        type="button" 
+        data-filter="fee"
+        class="tool-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer"
+      >
+        Filing Late Fees
+      </button>
+      <button 
+        type="button" 
+        data-filter="interest"
+        class="tool-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer"
+      >
+        Interest Penalties
+      </button>
+      <button 
+        type="button" 
+        data-filter="composition"
+        class="tool-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer"
+      >
+        Composition Scheme
+      </button>
+    </div>
+
+    <!-- AdSense Top Banner -->
+    <div class="mb-8 rounded-lg border border-dashed border-hairline-strong bg-canvas-soft-2 p-2 text-center text-xs text-mute">
+      Ad Placement (Responsive Auto Banner)
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tools-grid-container">
+      <div data-category="calculator" class="tool-grid-item">
+        <ToolCard 
+          title="Online GST Calculator" 
+          description="Standard GST calculator to add or remove GST (5%, 12%, 18%, 28%) and compute CGST/SGST/IGST splits." 
+          url="/tools/gst-calculator"
+          icon="calculator"
+          badge="Popular"
+        />
+      </div>
+      <div data-category="fee" class="tool-grid-item">
+        <ToolCard 
+          title="GSTR-3B Late Fee Calculator" 
+          description="Calculate daily filing late fees for delayed GSTR-3B filings, optimized with aggregate turnover caps." 
+          url="/tools/late-fee-calculator"
+          icon="fee"
+          badge="Updated"
+        />
+      </div>
+      <div data-category="interest" class="tool-grid-item">
+        <ToolCard 
+          title="GST Interest Calculator (Section 50)" 
+          description="Compute interest at 18% per annum on delayed tax payments and 24% per annum for wrongly utilized ITC." 
+          url="/tools/interest-calculator"
+          icon="interest"
+          badge="Section 50"
+        />
+      </div>
+      <div data-category="composition" class="tool-grid-item">
+        <ToolCard 
+          title="Composition Scheme Calculator" 
+          description="Compute quarterly flat-rate tax liabilities for traders, restaurants, and small service providers." 
+          url="/tools/composition-calculator"
+          icon="composition"
+        />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const filterBtns = document.querySelectorAll('.tool-filter-btn');
+  const toolItems = document.querySelectorAll('.tool-grid-item');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const clickedBtn = e.currentTarget as HTMLButtonElement;
+      const filterValue = clickedBtn.dataset.filter || 'all';
+
+      // Reset button classes
+      filterBtns.forEach((b) => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('bg-canvas', 'text-body', 'border-hairline');
+      });
+
+      // Highlight clicked button
+      clickedBtn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+      clickedBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+
+      // Filter items
+      toolItems.forEach((item) => {
+        const htmlItem = item as HTMLElement;
+        const category = htmlItem.dataset.category;
+        if (filterValue === 'all' || category === filterValue) {
+          htmlItem.classList.remove('hidden');
+        } else {
+          htmlItem.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

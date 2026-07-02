@@ -1,0 +1,55 @@
+---
+import { getSEOMetadata, type SEOMetadata } from '../utils/seo';
+
+interface Props {
+  seo?: SEOMetadata;
+  schema?: Record<string, any>;
+}
+
+const { seo, schema } = Astro.props;
+const metadata = getSEOMetadata(seo);
+---
+
+<!-- Primary Meta Tags -->
+<title>{metadata.title}</title>
+<meta name="title" content={metadata.title} />
+<meta name="description" content={metadata.description} />
+<meta name="robots" content={metadata.noindex ? "noindex, nofollow" : "index, follow"} />
+
+<!-- Canonical URL -->
+{metadata.canonical && <link rel="canonical" href={metadata.canonical} />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={metadata.ogType} />
+<meta property="og:url" content={metadata.canonical} />
+<meta property="og:title" content={metadata.ogTitle} />
+<meta property="og:description" content={metadata.ogDescription} />
+<meta property="og:image" content={metadata.ogImage} />
+<meta property="og:site_name" content="GST Calculator Online India" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={metadata.canonical} />
+<meta property="twitter:title" content={metadata.ogTitle} />
+<meta property="twitter:description" content={metadata.ogDescription} />
+<meta property="twitter:image" content={metadata.ogImage} />
+
+<!-- Structured Data (JSON-LD) -->
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}
+
+<!-- Default site-wide schema -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "GST Calculator Online India",
+    "url": "https://gstcalculatoronline.in",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://gstcalculatoronline.in/tools?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+</script>

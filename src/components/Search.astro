@@ -1,0 +1,134 @@
+---
+// Search.astro - Dynamic search overlay component
+const toolsList = [
+  { name: 'GST Calculator', desc: 'Add or remove GST with custom/standard tax rates (5%, 12%, 18%, 28%).', url: '/tools/gst-calculator', keywords: 'tax cgst sgst igst invoice add remove calculator' },
+  { name: 'Late Fee Calculator', desc: 'Estimate late fees for delayed GSTR-3B filings under GST law.', url: '/tools/late-fee-calculator', keywords: 'late fee return fine gstr-3b penalty penalty fee' },
+  { name: 'GST Interest Calculator', desc: 'Calculate interest on late GST tax payments (18% and 24% per annum).', url: '/tools/interest-calculator', keywords: 'interest penalty delayed tax payment input tax credit itc claim' },
+  { name: 'Composition Scheme Calculator', desc: 'Calculate tax liabilities for GST composition taxpayers.', url: '/tools/composition-calculator', keywords: 'composition scheme merchant trader rate 1% 5% 6% tax' }
+];
+---
+<div id="search-modal" class="fixed inset-0 z-50 hidden items-start justify-center bg-primary/20 p-4 pt-[15vh] backdrop-blur-sm dark:bg-black/50">
+  <div class="relative w-full max-w-lg overflow-hidden rounded-xl border border-hairline bg-canvas shadow-2xl transition-all">
+    <!-- Search Bar -->
+    <div class="relative flex items-center border-b border-hairline p-4">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="absolute left-6 h-5 w-5 text-mute">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+      </svg>
+      <input 
+        id="search-input"
+        type="text" 
+        placeholder="Search for GST tools..." 
+        class="w-full bg-transparent pl-10 pr-4 text-sm text-ink outline-hidden placeholder-mute"
+      />
+      <button 
+        id="search-close-btn"
+        type="button" 
+        class="rounded-md border border-hairline px-2 py-0.5 font-mono text-[10px] text-mute hover:text-ink hover:bg-canvas-soft transition-all cursor-pointer"
+      >
+        ESC
+      </button>
+    </div>
+
+    <!-- Search Results -->
+    <div id="search-results-list" class="max-h-[300px] overflow-y-auto p-2 space-y-1">
+      {toolsList.map((tool) => (
+        <a 
+          href={tool.url}
+          data-keywords={tool.keywords}
+          class="search-result-item block rounded-lg p-3 hover:bg-canvas-soft-2 transition-colors cursor-pointer group"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-ink group-hover:text-link transition-colors">{tool.name}</span>
+            <span class="font-mono text-[10px] text-mute group-hover:text-ink transition-colors">Tools</span>
+          </div>
+          <p class="text-xs text-mute mt-1 leading-normal">{tool.desc}</p>
+        </a>
+      ))}
+      <div id="search-no-results" class="hidden py-8 text-center text-sm text-mute">
+        No tools match your query. Try searching for 'calculator', 'fee', or 'interest'.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchToggleBtn = document.getElementById('search-toggle-btn');
+  const searchModal = document.getElementById('search-modal');
+  const searchCloseBtn = document.getElementById('search-close-btn');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const resultItems = document.querySelectorAll('.search-result-item');
+  const noResults = document.getElementById('search-no-results');
+
+  function openSearch() {
+    searchModal?.classList.remove('hidden');
+    searchModal?.classList.add('flex');
+    setTimeout(() => searchInput?.focus(), 50);
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeSearch() {
+    searchModal?.classList.add('hidden');
+    searchModal?.classList.remove('flex');
+    if (searchInput) searchInput.value = '';
+    filterResults('');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function filterResults(query: string) {
+    let matchCount = 0;
+    const cleanQuery = query.toLowerCase().trim();
+
+    resultItems.forEach((item) => {
+      const htmlItem = item as HTMLElement;
+      const text = htmlItem.innerText.toLowerCase();
+      const keywords = htmlItem.dataset.keywords?.toLowerCase() || '';
+      
+      if (cleanQuery === '' || text.includes(cleanQuery) || keywords.includes(cleanQuery)) {
+        htmlItem.classList.remove('hidden');
+        matchCount++;
+      } else {
+        htmlItem.classList.add('hidden');
+      }
+    });
+
+    if (matchCount === 0 && cleanQuery !== '') {
+      noResults?.classList.remove('hidden');
+    } else {
+      noResults?.classList.add('hidden');
+    }
+  }
+
+  // Toggle button click
+  searchToggleBtn?.addEventListener('click', openSearch);
+
+  // Close button click
+  searchCloseBtn?.addEventListener('click', closeSearch);
+
+  // Input typing
+  searchInput?.addEventListener('input', (e) => {
+    filterResults((e.target as HTMLInputElement).value);
+  });
+
+  // Modal backdrop click
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      closeSearch();
+    }
+  });
+
+  // Keyboard listeners
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !searchModal?.classList.contains('hidden')) {
+      closeSearch();
+    }
+    // Command/Control + K to open search (typical shortcut)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchModal?.classList.contains('hidden')) {
+        openSearch();
+      } else {
+        closeSearch();
+      }
+    }
+  });
+</script>
