@@ -35,6 +35,16 @@ const { seo, schema, schemas } = Astro.props;
     <!-- SEO Meta & Schema -->
     <SEO seo={seo} schema={schema} schemas={schemas} />
 
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LC5EXYTHR3"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LC5EXYTHR3');
+    </script>
+
     <!-- Theme Inline Script to avoid theme flash -->
     <script is:inline>
       if (
