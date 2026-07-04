@@ -118,52 +118,42 @@ const pageSchemas = [websiteSchema, faqSchema];
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }} schemas={pageSchemas}>
   <!-- Hero Section -->
-  <section class="relative overflow-hidden py-24 px-4 sm:px-6 lg:px-8 text-center border-b border-hairline transition-colors duration-200">
-    <div class="mx-auto max-w-4xl relative z-10">
-      <div class="flex justify-center mb-6">
-        <div class="relative group">
-          <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-primary to-brand-cyan opacity-20 blur-md transition duration-300 group-hover:opacity-35"></div>
-          <img 
-            src="/favicon.png" 
-            alt="GST Calculator Online" 
-            class="relative h-20 w-20 sm:h-24 sm:w-24 rounded-3xl shadow-lg transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-      </div>
-      <span class="inline-flex items-center rounded-full bg-primary/10 px-3.5 py-1 text-xs font-bold text-primary font-mono uppercase tracking-wider mb-5">
-        100% Free Financial Tools
-      </span>
+  <section class="relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 text-center border-b border-hairline transition-colors duration-200">
+    <div class="mx-auto max-w-3xl relative z-10">
       <h1 class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl font-sans leading-tight">
         GST Calculator Online
       </h1>
-      <p class="mt-6 text-base sm:text-lg text-body max-w-2xl mx-auto leading-relaxed">
+      <p class="mt-4 text-base sm:text-lg text-body max-w-2xl mx-auto leading-relaxed">
         Instantly compute transaction taxes, filing late fees, Section 50 interest penalties, and composition liabilities. Tailored for Indian businesses, taxpayers, and CAs.
       </p>
 
-      <!-- Instant Search Trigger -->
-      <div class="mt-10 max-w-md mx-auto">
-        <button 
-          id="hero-search-btn"
-          type="button" 
-          class="flex w-full items-center justify-between rounded-2xl border border-hairline bg-canvas/80 backdrop-blur-xs py-4 px-6 shadow-sm hover:border-hairline-strong transition-all hover:bg-canvas text-mute hover:text-ink cursor-pointer"
+      <!-- Action Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a 
+          href="/tools/gst-calculator" 
+          class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-on-primary shadow-xs hover:bg-brand-link-deep transition-all duration-200 cursor-pointer"
         >
-          <div class="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5 text-primary">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
-            </svg>
-            <span class="text-sm font-semibold">Search 11 calculators & 30 articles...</span>
-          </div>
-          <span class="hidden sm:inline-block border border-hairline rounded-md px-1.5 py-0.5 text-[9px] font-bold font-mono uppercase bg-canvas-soft tracking-wider">Ctrl + K</span>
-        </button>
+          Start Calculating
+        </a>
+        <a 
+          href="/tools" 
+          class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl border border-hairline bg-canvas/80 backdrop-blur-xs px-6 py-3.5 text-sm font-semibold text-body hover:border-hairline-strong hover:bg-canvas transition-all duration-200 cursor-pointer"
+        >
+          View All Tools
+        </a>
       </div>
 
       <!-- Quick Category Chips -->
       <div class="mt-8 flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
-        <span class="text-xs font-bold text-mute self-center mr-2">Categories:</span>
-        <a href="/tools/category/tax-slabs" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink transition-colors">Tax Slabs</a>
-        <a href="/tools/category/late-fees" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink transition-colors">Late Fees</a>
-        <a href="/tools/category/interest-penalties" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink transition-colors">Interest</a>
-        <a href="/tools/category/composition-scheme" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink transition-colors">Composition</a>
+        <span class="text-xs font-bold text-mute self-center mr-2">Quick Access:</span>
+        <a href="/tools/gst-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">GST Calculator</a>
+        <a href="/tools/reverse-gst-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Reverse GST</a>
+        <a href="/tools/gst-split-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">GST Split</a>
+        <a href="/tools/late-fee-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Late Fee</a>
+        <a href="/tools/interest-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Interest</a>
+        <a href="/tools/composition-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Composition</a>
+        <a href="/blog/gst-invoice-rules-format" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Invoice</a>
+        <a href="/blog/hsn-code-guide-india" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">HSN</a>
       </div>
     </div>
   </section>
@@ -272,16 +262,4 @@ const pageSchemas = [websiteSchema, faqSchema];
 
 </Layout>
 
-<script>
-  // Open search overlay from Hero button
-  const heroSearchBtn = document.getElementById('hero-search-btn');
-  const searchInput = document.getElementById('search-input');
-  const searchModal = document.getElementById('search-modal');
 
-  heroSearchBtn?.addEventListener('click', () => {
-    searchModal?.classList.remove('hidden');
-    searchModal?.classList.add('flex');
-    setTimeout(() => (searchInput as HTMLElement | null)?.focus(), 50);
-    document.body.classList.add('overflow-hidden');
-  });
-</script>
