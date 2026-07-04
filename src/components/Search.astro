@@ -1,34 +1,5 @@
 ---
 // Search.astro - Premium command palette for calculators, guides, and FAQs
-import { tools } from '../utils/tools';
-import { faqs } from '../utils/faqs';
-
-// Load blog posts at build-time
-const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
-
-const searchItems = [
-  ...tools.map(tool => ({
-    title: tool.name,
-    desc: tool.desc,
-    url: tool.url,
-    category: 'Calculator',
-    keywords: tool.keywords.toLowerCase()
-  })),
-  ...posts.map(post => ({
-    title: post.frontmatter.title,
-    desc: post.frontmatter.metaDescription || post.frontmatter.description,
-    url: `/blog/${post.frontmatter.slug}`,
-    category: 'Guide',
-    keywords: `${post.frontmatter.title} ${post.frontmatter.category || ''} ${post.frontmatter.metaDescription || ''}`.toLowerCase()
-  })),
-  ...faqs.map(faq => ({
-    title: faq.question,
-    desc: faq.answer,
-    url: faq.url,
-    category: 'FAQ',
-    keywords: `${faq.question} ${faq.answer} ${faq.category}`.toLowerCase()
-  }))
-];
 ---
 
 <!-- Modal Overlay container -->
@@ -53,6 +24,7 @@ const searchItems = [
         placeholder="Search for calculators, return guides, FAQs..." 
         class="w-full bg-transparent pl-10 pr-12 text-base text-ink outline-hidden placeholder-mute font-medium"
         autocomplete="off"
+        aria-label="Search for calculators, return guides, and FAQs"
       />
       
       <div class="absolute right-18 flex items-center gap-1 text-[10px] font-bold text-mute border border-hairline bg-canvas-soft-2 px-1.5 py-0.5 rounded-md select-none pointer-events-none">
@@ -173,9 +145,6 @@ const searchItems = [
   </div>
 </div>
 
-<!-- Serialized Search Index data for Client -->
-<script id="search-modal-data" type="application/json" raw-data={JSON.stringify(searchItems)}></script>
-
 <script>
   interface SearchItem {
     title: string;
@@ -210,9 +179,36 @@ const searchItems = [
   const recentList = document.getElementById('recent-searches-list');
   const clearRecentBtn = document.getElementById('clear-recent-btn');
 
-  // Load data index
-  const dataEl = document.getElementById('search-modal-data');
-  const searchIndex: SearchItem[] = dataEl ? JSON.parse(dataEl.getAttribute('raw-data') || '[]') : [];
+  // Load data index asynchronously
+  let searchIndex: SearchItem[] = [];
+  let isIndexLoaded = false;
+  let isIndexFetching = false;
+
+  async function loadSearchIndex() {
+    if (isIndexLoaded || isIndexFetching) return;
+    isIndexFetching = true;
+    try {
+      const res = await fetch('/search-index.json');
+      const data = await res.json();
+      const categoryMap = {
+        tool: 'Calculator' as const,
+        article: 'Guide' as const,
+        faq: 'FAQ' as const
+      };
+      searchIndex = data.map((item: any) => ({
+        title: item.title,
+        desc: item.desc,
+        url: item.url,
+        category: categoryMap[item.type as 'tool' | 'article' | 'faq'] || 'Calculator',
+        keywords: item.keywords
+      }));
+      isIndexLoaded = true;
+    } catch (e) {
+      console.error('Failed to load search index', e);
+    } finally {
+      isIndexFetching = false;
+    }
+  }
 
   let activeFilter = 'all';
   let queryText = '';
@@ -235,7 +231,11 @@ const searchItems = [
     document.body.classList.add('overflow-hidden');
     
     renderRecentSearches();
-    renderResults();
+
+    // Lazy load the index
+    loadSearchIndex().then(() => {
+      renderResults();
+    });
   }
 
   function closeSearch() {
@@ -378,6 +378,14 @@ const searchItems = [
     defaultView.classList.add('hidden');
     dynamicResults.classList.remove('hidden');
 
+    if (!isIndexLoaded) {
+      dynamicResults.innerHTML = '<div class="py-6 text-center text-xs text-mute font-mono animate-pulse">Loading search resources...</div>';
+      noResults.classList.add('hidden');
+      visibleResultUrls = [];
+      selectedIndex = -1;
+      return;
+    }
+
     // Filter index
     const matches = searchIndex.filter((item) => {
       // Category pill filter
@@ -489,8 +497,12 @@ const searchItems = [
       if (searchInput && text) {
         searchInput.value = text;
         queryText = text;
-        renderResults();
-        searchInput.focus();
+        
+        // Lazy load dynamic index first
+        loadSearchIndex().then(() => {
+          renderResults();
+          searchInput.focus();
+        });
       }
     });
   });
@@ -563,9 +575,18 @@ const searchItems = [
   window.addEventListener('DOMContentLoaded', () => {
     // Look for global search trigger key presses
     document.addEventListener('keydown', (e) => {
-      // If typing normally on the body (not inside inputs, textareas)
+      // Avoid opening search modal when typing inside inputs, forms, textareas, selects, or buttons
       const target = e.target as HTMLElement;
-      const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+      const isInput = target && (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
+        target.tagName === 'BUTTON' ||
+        target.closest('label') !== null ||
+        target.closest('button') !== null ||
+        target.closest('form') !== null ||
+        target.isContentEditable
+      );
       
       if (isInput || e.metaKey || e.ctrlKey || e.altKey) return;
       
@@ -576,7 +597,11 @@ const searchItems = [
         if (searchInput) {
           searchInput.value = e.key;
           queryText = e.key;
-          renderResults();
+          
+          // Lazy load dynamic index first
+          loadSearchIndex().then(() => {
+            renderResults();
+          });
         }
       }
     });

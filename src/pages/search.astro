@@ -1,44 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { tools } from '../utils/tools';
-import { faqs } from '../utils/faqs';
-
-// Fetch all blog articles at build time
-const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
-
-const searchIndex = [
-  // Add tools
-  ...tools.map(t => ({
-    title: t.name,
-    desc: t.desc,
-    url: t.url,
-    category: t.categoryName,
-    type: 'tool',
-    keywords: t.keywords.toLowerCase(),
-    badge: t.badge
-  })),
-  // Add blog posts
-  ...posts.map(p => ({
-    title: p.frontmatter.title,
-    desc: p.frontmatter.metaDescription || p.frontmatter.description,
-    url: `/blog/${p.frontmatter.slug}`,
-    category: p.frontmatter.category || 'Tax Guides',
-    type: 'article',
-    keywords: `${p.frontmatter.title} ${p.frontmatter.category || ''} ${p.frontmatter.metaDescription || ''}`.toLowerCase(),
-    badge: p.frontmatter.readTime
-  })),
-  // Add FAQs
-  ...faqs.map(f => ({
-    title: f.question,
-    desc: f.answer,
-    url: f.url,
-    category: f.category,
-    type: 'faq',
-    keywords: `${f.question} ${f.answer} ${f.category} faq`.toLowerCase(),
-    badge: 'FAQ'
-  }))
-];
 
 const pageTitle = "Search GST Calculators & Tax Guides";
 const pageDesc = "Search across our complete directory of Indian GST calculators, compliance filing late fees, Section 50 interest penalty estimators, and expert guide articles.";
@@ -114,202 +76,231 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
       </div>
     </div>
 
-    <!-- Serialized JSON index data -->
-    <script id="search-index-json" type="application/json" raw-data={JSON.stringify(searchIndex)}></script>
+      <!-- Client-side Search Logic -->
+      <script>
+        interface SearchItem {
+          title: string;
+          desc: string;
+          url: string;
+          category: string;
+          type: 'tool' | 'article' | 'faq';
+          keywords: string;
+          badge?: string;
+        }
 
-    <!-- Client-side Search Logic -->
-    <script>
-      interface SearchItem {
-        title: string;
-        desc: string;
-        url: string;
-        category: string;
-        type: 'tool' | 'article' | 'faq';
-        keywords: string;
-        badge?: string;
-      }
+        const input = document.getElementById('hub-search-input') as HTMLInputElement | null;
+        const clearBtn = document.getElementById('hub-search-clear');
+        const resultsContainer = document.getElementById('search-results-container');
+        const emptyState = document.getElementById('search-empty-state');
+        const statusBar = document.getElementById('search-status-bar');
+        const matchCountEl = document.getElementById('match-count');
+        const filterBtns = document.querySelectorAll('.search-filter-btn');
+        
+        const countAllEl = document.getElementById('count-all');
+        const countToolEl = document.getElementById('count-tool');
+        const countArticleEl = document.getElementById('count-article');
+        const countFaqEl = document.getElementById('count-faq');
 
-      const input = document.getElementById('hub-search-input') as HTMLInputElement | null;
-      const clearBtn = document.getElementById('hub-search-clear');
-      const resultsContainer = document.getElementById('search-results-container');
-      const emptyState = document.getElementById('search-empty-state');
-      const statusBar = document.getElementById('search-status-bar');
-      const matchCountEl = document.getElementById('match-count');
-      const filterBtns = document.querySelectorAll('.search-filter-btn');
-      
-      const countAllEl = document.getElementById('count-all');
-      const countToolEl = document.getElementById('count-tool');
-      const countArticleEl = document.getElementById('count-article');
-      const countFaqEl = document.getElementById('count-faq');
+        // Load search index from JSON static file
+        let searchIndex: SearchItem[] = [];
+        let isIndexLoaded = false;
+        let isIndexFetching = false;
 
-      // Load search index from JSON script tag
-      const jsonEl = document.getElementById('search-index-json');
-      const searchIndex: SearchItem[] = jsonEl ? JSON.parse(jsonEl.getAttribute('raw-data') || '[]') : [];
+        async function loadSearchIndex() {
+          if (isIndexLoaded || isIndexFetching) return;
+          isIndexFetching = true;
+          try {
+            const res = await fetch('/search-index.json');
+            searchIndex = await res.json();
+            isIndexLoaded = true;
+          } catch (e) {
+            console.error('Failed to load search index', e);
+          } finally {
+            isIndexFetching = false;
+          }
+        }
 
-      let currentQuery = '';
-      let activeFilter = 'all';
+        let currentQuery = '';
+        let activeFilter = 'all';
 
-      function updateCounts() {
-        const query = currentQuery.toLowerCase().trim();
-        let allCount = 0;
-        let toolCount = 0;
-        let articleCount = 0;
-        let faqCount = 0;
+        function updateCounts() {
+          const query = currentQuery.toLowerCase().trim();
+          let allCount = 0;
+          let toolCount = 0;
+          let articleCount = 0;
+          let faqCount = 0;
 
-        searchIndex.forEach((item) => {
-          const isMatch = query === '' || 
-                          item.title.toLowerCase().includes(query) || 
-                          item.desc.toLowerCase().includes(query) || 
-                          item.category.toLowerCase().includes(query) || 
-                          item.keywords.includes(query);
+          searchIndex.forEach((item) => {
+            const isMatch = query === '' || 
+                            item.title.toLowerCase().includes(query) || 
+                            item.desc.toLowerCase().includes(query) || 
+                            item.category.toLowerCase().includes(query) || 
+                            item.keywords.includes(query);
+            
+            if (isMatch) {
+              allCount++;
+              if (item.type === 'tool') toolCount++;
+              if (item.type === 'article') articleCount++;
+              if (item.type === 'faq') faqCount++;
+            }
+          });
+
+          if (countAllEl) countAllEl.innerText = allCount.toString();
+          if (countToolEl) countToolEl.innerText = toolCount.toString();
+          if (countArticleEl) countArticleEl.innerText = articleCount.toString();
+          if (countFaqEl) countFaqEl.innerText = faqCount.toString();
+        }
+
+        function renderResults() {
+          if (!resultsContainer || !emptyState || !statusBar || !matchCountEl) return;
+
+          const query = currentQuery.toLowerCase().trim();
+          resultsContainer.innerHTML = '';
+
+          if (!isIndexLoaded) {
+            resultsContainer.innerHTML = '<div class="py-12 text-center text-xs text-mute font-mono animate-pulse">Loading search resources...</div>';
+            emptyState.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            statusBar.classList.add('hidden');
+            return;
+          }
+
+          updateCounts();
+
+          const filtered = searchIndex.filter((item) => {
+            // Keyword filter
+            const isMatch = query === '' || 
+                            item.title.toLowerCase().includes(query) || 
+                            item.desc.toLowerCase().includes(query) || 
+                            item.category.toLowerCase().includes(query) || 
+                            item.keywords.includes(query);
+            
+            if (!isMatch) return false;
+
+            // Type filter
+            if (activeFilter === 'all') return true;
+            return item.type === activeFilter;
+          });
+
+          matchCountEl.innerText = filtered.length.toString();
           
-          if (isMatch) {
-            allCount++;
-            if (item.type === 'tool') toolCount++;
-            if (item.type === 'article') articleCount++;
-            if (item.type === 'faq') faqCount++;
+          if (query !== '') {
+            statusBar.classList.remove('hidden');
+          } else {
+            statusBar.classList.add('hidden');
+          }
+
+          if (filtered.length === 0) {
+            emptyState.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+          } else {
+            emptyState.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            filtered.forEach((item) => {
+              const isTool = item.type === 'tool';
+              const isFaq = item.type === 'faq';
+              const card = document.createElement('a');
+              card.href = item.url;
+              card.className = "block overflow-hidden rounded-2xl border border-hairline bg-canvas p-5 hover:border-hairline-strong hover:shadow-xs hover:bg-canvas-soft transition-all group cursor-pointer";
+              
+              const badgeBg = isTool ? 'bg-primary/10 text-primary' : 
+                              isFaq ? 'bg-brand-cyan/10 text-brand-cyan' : 
+                              'bg-brand-violet/10 text-brand-violet';
+              
+              const typeText = isTool ? 'Calculator' : 
+                               isFaq ? 'FAQ' : 
+                               'Guide';
+
+              card.innerHTML = `
+                <div class="flex items-start justify-between gap-4">
+                  <div class="space-y-1 shrink min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold font-mono tracking-wider uppercase ${badgeBg}">
+                        ${typeText}
+                      </span>
+                      <span class="text-[10px] text-mute font-mono tracking-wide">${item.category}</span>
+                    </div>
+                    <h3 class="text-base font-bold text-ink group-hover:text-primary transition-colors mt-2 leading-snug">
+                      ${item.title}
+                    </h3>
+                    <p class="text-xs text-body leading-relaxed line-clamp-2 mt-1">
+                      ${item.desc}
+                    </p>
+                  </div>
+                  ${item.badge && !isFaq ? `
+                    <span class="inline-flex items-center rounded-full bg-brand-success/10 px-2 py-0.5 text-[10px] font-semibold text-brand-success shrink-0 select-none">
+                      ${item.badge}
+                    </span>
+                  ` : ''}
+                </div>
+              `;
+              
+              resultsContainer.appendChild(card);
+            });
+          }
+        }
+
+        // Input changes
+        input?.addEventListener('input', (e) => {
+          currentQuery = (e.target as HTMLInputElement).value;
+          if (currentQuery !== '') {
+            clearBtn?.classList.remove('hidden');
+          } else {
+            clearBtn?.classList.add('hidden');
+          }
+          loadSearchIndex().then(() => {
+            renderResults();
+          });
+        });
+
+        // Clear button
+        clearBtn?.addEventListener('click', () => {
+          if (input) {
+            input.value = '';
+            currentQuery = '';
+            clearBtn.classList.add('hidden');
+            input.focus();
+            loadSearchIndex().then(() => {
+              renderResults();
+            });
           }
         });
 
-        if (countAllEl) countAllEl.innerText = allCount.toString();
-        if (countToolEl) countToolEl.innerText = toolCount.toString();
-        if (countArticleEl) countArticleEl.innerText = articleCount.toString();
-        if (countFaqEl) countFaqEl.innerText = faqCount.toString();
-      }
+        // Filter click handler
+        filterBtns.forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            const clickedBtn = e.currentTarget as HTMLButtonElement;
+            const filterValue = clickedBtn.dataset.filter || 'all';
+            activeFilter = filterValue;
 
-      function renderResults() {
-        if (!resultsContainer || !emptyState || !statusBar || !matchCountEl) return;
+            // Highlight button
+            filterBtns.forEach((b) => {
+              b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+              b.classList.add('bg-canvas', 'text-body', 'border-hairline');
+            });
+            clickedBtn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+            clickedBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
 
-        const query = currentQuery.toLowerCase().trim();
-        resultsContainer.innerHTML = '';
-        updateCounts();
-
-        const filtered = searchIndex.filter((item) => {
-          // Keyword filter
-          const isMatch = query === '' || 
-                          item.title.toLowerCase().includes(query) || 
-                          item.desc.toLowerCase().includes(query) || 
-                          item.category.toLowerCase().includes(query) || 
-                          item.keywords.includes(query);
-          
-          if (!isMatch) return false;
-
-          // Type filter
-          if (activeFilter === 'all') return true;
-          return item.type === activeFilter;
+            loadSearchIndex().then(() => {
+              renderResults();
+            });
+          });
         });
 
-        matchCountEl.innerText = filtered.length.toString();
-        
-        if (query !== '') {
-          statusBar.classList.remove('hidden');
-        } else {
-          statusBar.classList.add('hidden');
-        }
-
-        if (filtered.length === 0) {
-          emptyState.classList.remove('hidden');
-          resultsContainer.classList.add('hidden');
-        } else {
-          emptyState.classList.add('hidden');
-          resultsContainer.classList.remove('hidden');
-
-          filtered.forEach((item) => {
-            const isTool = item.type === 'tool';
-            const isFaq = item.type === 'faq';
-            const card = document.createElement('a');
-            card.href = item.url;
-            card.className = "block overflow-hidden rounded-2xl border border-hairline bg-canvas p-5 hover:border-hairline-strong hover:shadow-xs hover:bg-canvas-soft transition-all group cursor-pointer";
-            
-            const badgeBg = isTool ? 'bg-primary/10 text-primary' : 
-                            isFaq ? 'bg-brand-cyan/10 text-brand-cyan' : 
-                            'bg-brand-violet/10 text-brand-violet';
-            
-            const typeText = isTool ? 'Calculator' : 
-                             isFaq ? 'FAQ' : 
-                             'Guide';
-
-            card.innerHTML = `
-              <div class="flex items-start justify-between gap-4">
-                <div class="space-y-1 shrink min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold font-mono tracking-wider uppercase ${badgeBg}">
-                      ${typeText}
-                    </span>
-                    <span class="text-[10px] text-mute font-mono tracking-wide">${item.category}</span>
-                  </div>
-                  <h3 class="text-base font-bold text-ink group-hover:text-primary transition-colors mt-2 leading-snug">
-                    ${item.title}
-                  </h3>
-                  <p class="text-xs text-body leading-relaxed line-clamp-2 mt-1">
-                    ${item.desc}
-                  </p>
-                </div>
-                ${item.badge && !isFaq ? `
-                  <span class="inline-flex items-center rounded-full bg-brand-success/10 px-2 py-0.5 text-[10px] font-semibold text-brand-success shrink-0 select-none">
-                    ${item.badge}
-                  </span>
-                ` : ''}
-              </div>
-            `;
-            
-            resultsContainer.appendChild(card);
+        // Read parameter on mount
+        window.addEventListener('DOMContentLoaded', () => {
+          const params = new URLSearchParams(window.location.search);
+          const query = params.get('q');
+          if (query) {
+            currentQuery = query;
+            if (input) input.value = query;
+            clearBtn?.classList.remove('hidden');
+          }
+          loadSearchIndex().then(() => {
+            renderResults();
           });
-        }
-      }
-
-      // Input changes
-      input?.addEventListener('input', (e) => {
-        currentQuery = (e.target as HTMLInputElement).value;
-        if (currentQuery !== '') {
-          clearBtn?.classList.remove('hidden');
-        } else {
-          clearBtn?.classList.add('hidden');
-        }
-        renderResults();
-      });
-
-      // Clear button
-      clearBtn?.addEventListener('click', () => {
-        if (input) {
-          input.value = '';
-          currentQuery = '';
-          clearBtn.classList.add('hidden');
-          input.focus();
-          renderResults();
-        }
-      });
-
-      // Filter click handler
-      filterBtns.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          const clickedBtn = e.currentTarget as HTMLButtonElement;
-          const filterValue = clickedBtn.dataset.filter || 'all';
-          activeFilter = filterValue;
-
-          // Highlight button
-          filterBtns.forEach((b) => {
-            b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
-            b.classList.add('bg-canvas', 'text-body', 'border-hairline');
-          });
-          clickedBtn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
-          clickedBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
-
-          renderResults();
         });
-      });
-
-      // Read parameter on mount
-      window.addEventListener('DOMContentLoaded', () => {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get('q');
-        if (query) {
-          currentQuery = query;
-          if (input) input.value = query;
-          clearBtn?.classList.remove('hidden');
-        }
-        renderResults();
-      });
-    </script>
+      </script>
   </div>
 </Layout>

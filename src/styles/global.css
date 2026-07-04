@@ -31,7 +31,7 @@
   --color-canvas-soft-2: #f1f5f9;
   --color-ink: #0f172a;
   --color-body: #334155;
-  --color-mute: #64748b;
+  --color-mute: #475569;
   --color-hairline: #e2e8f0;
   --color-hairline-strong: #cbd5e1;
   --color-primary: #059669;
@@ -47,7 +47,7 @@
   --color-canvas-soft-2: #1f2937;
   --color-ink: #f9fafb;
   --color-body: #9ca3af;
-  --color-mute: #6b7280;
+  --color-mute: #94a3b8;
   --color-hairline: #1f2937;
   --color-hairline-strong: #374151;
   --color-primary: #10b981;
@@ -247,5 +247,21 @@ input[type="number"] {
     background-color: #f9f9f9 !important;
     border: 1px solid #e5e5e5 !important;
   }
+}
+
+/* Accessibility Focus Rings */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Custom visual labels holding hidden sr-only checkboxes/radios */
+label:has(input.sr-only:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 

@@ -22,6 +22,8 @@ const blogCategories = [
       <img 
         src="/favicon.png" 
         alt="GST Calculator Online Logo" 
+        width="36"
+        height="36"
         class="h-9 w-9 rounded-xl shadow-sm transition-transform duration-200 group-hover:scale-105"
       />
       <div class="flex flex-col">
@@ -159,6 +161,8 @@ const blogCategories = [
           <img 
             src="/favicon.png" 
             alt="GST Calculator Online Logo" 
+            width="32"
+            height="32"
             class="h-8 w-8 rounded-lg shadow-sm"
           />
           <div class="flex flex-col">
@@ -188,6 +192,8 @@ const blogCategories = [
           <button 
             id="mobile-collapsible-calc-btn"
             type="button" 
+            aria-expanded="false"
+            aria-controls="mobile-collapsible-calc-panel"
             class="flex w-full items-center justify-between text-base font-bold text-body hover:text-primary py-3 px-4 rounded-xl hover:bg-canvas-soft-2 cursor-pointer"
           >
             <span>Calculators</span>
@@ -208,6 +214,8 @@ const blogCategories = [
           <button 
             id="mobile-collapsible-blog-btn"
             type="button" 
+            aria-expanded="false"
+            aria-controls="mobile-collapsible-blog-panel"
             class="flex w-full items-center justify-between text-base font-bold text-body hover:text-primary py-3 px-4 rounded-xl hover:bg-canvas-soft-2 cursor-pointer"
           >
             <span>Guides</span>
@@ -326,8 +334,9 @@ const blogCategories = [
   const calcIcon = document.getElementById('mobile-collapsible-calc-icon');
 
   calcBtn?.addEventListener('click', () => {
-    calcPanel?.classList.toggle('hidden');
+    const isHidden = calcPanel?.classList.toggle('hidden');
     calcIcon?.classList.toggle('rotate-180');
+    calcBtn.setAttribute('aria-expanded', (!isHidden).toString());
   });
 
   const blogBtn = document.getElementById('mobile-collapsible-blog-btn');
@@ -335,8 +344,9 @@ const blogCategories = [
   const blogIcon = document.getElementById('mobile-collapsible-blog-icon');
 
   blogBtn?.addEventListener('click', () => {
-    blogPanel?.classList.toggle('hidden');
+    const isHidden = blogPanel?.classList.toggle('hidden');
     blogIcon?.classList.toggle('rotate-180');
+    blogBtn.setAttribute('aria-expanded', (!isHidden).toString());
   });
 
   // Theme Toggler
