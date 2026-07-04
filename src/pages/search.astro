@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { tools } from '../utils/tools';
+import { faqs } from '../utils/faqs';
 
 // Fetch all blog articles at build time
 const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
@@ -26,6 +27,16 @@ const searchIndex = [
     type: 'article',
     keywords: `${p.frontmatter.title} ${p.frontmatter.category || ''} ${p.frontmatter.metaDescription || ''}`.toLowerCase(),
     badge: p.frontmatter.readTime
+  })),
+  // Add FAQs
+  ...faqs.map(f => ({
+    title: f.question,
+    desc: f.answer,
+    url: f.url,
+    category: f.category,
+    type: 'faq',
+    keywords: `${f.question} ${f.answer} ${f.category} faq`.toLowerCase(),
+    badge: 'FAQ'
   }))
 ];
 
@@ -39,7 +50,7 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
 
     <header class="mb-10 text-center max-w-2xl mx-auto mt-6">
       <h1 class="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Search Tax Resource Hub</h1>
-      <p class="mt-2 text-base text-body">Instant search across all 11 Indian GST calculators and 30+ compliance guides.</p>
+      <p class="mt-2 text-base text-body">Instant search across all 11 Indian GST calculators, 30+ compliance guides, and key FAQs.</p>
     </header>
 
     <div class="max-w-3xl mx-auto mb-8">
@@ -77,10 +88,11 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
         <button type="button" data-filter="article" class="search-filter-btn rounded-full px-4 py-2.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer">
           Articles & Guides (<span id="count-article">0</span>)
         </button>
+        <button type="button" data-filter="faq" class="search-filter-btn rounded-full px-4 py-2.5 text-xs font-semibold border border-hairline bg-canvas text-body hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer">
+          FAQs (<span id="count-faq">0</span>)
+        </button>
       </div>
     </div>
-
-
 
     <!-- Results Block -->
     <div class="max-w-3xl mx-auto min-h-[400px]">
@@ -112,7 +124,7 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
         desc: string;
         url: string;
         category: string;
-        type: 'tool' | 'article';
+        type: 'tool' | 'article' | 'faq';
         keywords: string;
         badge?: string;
       }
@@ -128,6 +140,7 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
       const countAllEl = document.getElementById('count-all');
       const countToolEl = document.getElementById('count-tool');
       const countArticleEl = document.getElementById('count-article');
+      const countFaqEl = document.getElementById('count-faq');
 
       // Load search index from JSON script tag
       const jsonEl = document.getElementById('search-index-json');
@@ -141,6 +154,7 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
         let allCount = 0;
         let toolCount = 0;
         let articleCount = 0;
+        let faqCount = 0;
 
         searchIndex.forEach((item) => {
           const isMatch = query === '' || 
@@ -153,12 +167,14 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
             allCount++;
             if (item.type === 'tool') toolCount++;
             if (item.type === 'article') articleCount++;
+            if (item.type === 'faq') faqCount++;
           }
         });
 
         if (countAllEl) countAllEl.innerText = allCount.toString();
         if (countToolEl) countToolEl.innerText = toolCount.toString();
         if (countArticleEl) countArticleEl.innerText = articleCount.toString();
+        if (countFaqEl) countFaqEl.innerText = faqCount.toString();
       }
 
       function renderResults() {
@@ -200,16 +216,25 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
 
           filtered.forEach((item) => {
             const isTool = item.type === 'tool';
+            const isFaq = item.type === 'faq';
             const card = document.createElement('a');
             card.href = item.url;
             card.className = "block overflow-hidden rounded-2xl border border-hairline bg-canvas p-5 hover:border-hairline-strong hover:shadow-xs hover:bg-canvas-soft transition-all group cursor-pointer";
             
+            const badgeBg = isTool ? 'bg-primary/10 text-primary' : 
+                            isFaq ? 'bg-brand-cyan/10 text-brand-cyan' : 
+                            'bg-brand-violet/10 text-brand-violet';
+            
+            const typeText = isTool ? 'Calculator' : 
+                             isFaq ? 'FAQ' : 
+                             'Guide';
+
             card.innerHTML = `
               <div class="flex items-start justify-between gap-4">
-                <div class="space-y-1 shrink">
+                <div class="space-y-1 shrink min-w-0">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold font-mono tracking-wider uppercase ${isTool ? 'bg-primary/10 text-primary' : 'bg-brand-violet/10 text-brand-violet'}">
-                      ${isTool ? 'Calculator' : 'Guide'}
+                    <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold font-mono tracking-wider uppercase ${badgeBg}">
+                      ${typeText}
                     </span>
                     <span class="text-[10px] text-mute font-mono tracking-wide">${item.category}</span>
                   </div>
@@ -220,13 +245,14 @@ const pageDesc = "Search across our complete directory of Indian GST calculators
                     ${item.desc}
                   </p>
                 </div>
-                ${item.badge ? `
+                ${item.badge && !isFaq ? `
                   <span class="inline-flex items-center rounded-full bg-brand-success/10 px-2 py-0.5 text-[10px] font-semibold text-brand-success shrink-0 select-none">
                     ${item.badge}
                   </span>
                 ` : ''}
               </div>
             `;
+            
             resultsContainer.appendChild(card);
           });
         }

@@ -1,0 +1,257 @@
+---
+// QuickCalculatorFloat.astro - Mobile floating calculator selection menu
+import { tools } from '../utils/tools';
+---
+
+<!-- Floating Action Button -->
+<button
+  id="quick-calc-float-btn"
+  type="button"
+  class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-on-primary shadow-2xl hover:scale-105 hover:bg-brand-link-deep transition-all duration-200 cursor-pointer lg:hidden active:scale-95"
+  aria-label="Quick Calculator Menu"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-6 w-6">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-3-3V18m-3-3V18M3 21h18M3 3h18v18H3V3ZM5.25 5.25h13.5v3H5.25v-3Zm0 6h13.5v3H5.25v-3Z" />
+  </svg>
+</button>
+
+<!-- Bottom Sheet / Modal Overlay -->
+<div 
+  id="quick-calc-modal" 
+  class="fixed inset-0 z-50 hidden items-end justify-center bg-slate-900/60 backdrop-blur-xs select-none p-0 sm:items-center sm:p-4 transition-all duration-300 opacity-0"
+>
+  <!-- Modal Content Container -->
+  <div 
+    id="quick-calc-content"
+    class="relative w-full max-w-lg rounded-t-3xl border border-hairline bg-canvas shadow-2xl transition-all duration-300 translate-y-full sm:rounded-2xl sm:translate-y-4"
+  >
+    <!-- Header with Indicator/Drag-bar on mobile -->
+    <div class="flex flex-col items-center pt-3 pb-2 sm:hidden border-b border-hairline/30">
+      <div class="h-1.5 w-12 rounded-full bg-hairline-strong"></div>
+    </div>
+
+    <!-- Title and Search Input -->
+    <div class="p-4 border-b border-hairline flex flex-col gap-3">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-extrabold text-ink flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5 text-primary">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-3-3V18m-3-3V18M3 21h18M3 3h18v18H3V3ZM5.25 5.25h13.5v3H5.25v-3Zm0 6h13.5v3H5.25v-3Z" />
+          </svg>
+          Quick Calculator
+        </h2>
+        <button
+          id="quick-calc-close-btn"
+          type="button"
+          class="rounded-lg p-1 text-mute hover:text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+          aria-label="Close menu"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Filter Search Input -->
+      <div class="relative flex items-center bg-canvas-soft border border-hairline rounded-xl px-3 py-2 hover:border-hairline-strong focus-within:border-primary transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4 text-mute">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+        </svg>
+        <input
+          id="quick-calc-search"
+          type="text"
+          placeholder="Filter calculators..."
+          class="w-full bg-transparent pl-2 text-sm text-ink outline-hidden placeholder-mute font-medium"
+        />
+        <button
+          id="quick-calc-search-clear"
+          type="button"
+          class="hidden rounded-full p-0.5 hover:bg-canvas-soft-2 text-mute hover:text-ink transition-colors cursor-pointer"
+          aria-label="Clear filter"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3 w-3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable Calculator List -->
+    <div id="quick-calc-list" class="max-h-[60vh] overflow-y-auto p-3 space-y-1 sm:max-h-[360px]">
+      {tools.map((tool) => {
+        return (
+          <a
+            href={tool.url}
+            data-keywords={tool.keywords.toLowerCase()}
+            data-name={tool.name.toLowerCase()}
+            class="quick-calc-item flex items-center gap-3.5 rounded-xl p-3 hover:bg-canvas-soft-2 transition-colors cursor-pointer group"
+          >
+            <!-- Custom Icon based on category -->
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-canvas-soft border border-hairline text-mute group-hover:text-primary group-hover:border-primary/30 group-hover:bg-primary/5 transition-all">
+              {tool.icon === 'calculator' && (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-3-3V18m-3-3V18M3 21h18M3 3h18v18H3V3ZM5.25 5.25h13.5v3H5.25v-3Zm0 6h13.5v3H5.25v-3Z" />
+                </svg>
+              )}
+              {tool.icon === 'fee' && (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                </svg>
+              )}
+              {tool.icon === 'interest' && (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                </svg>
+              )}
+              {tool.icon === 'composition' && (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h2.25m-2.25 0v-7.5m0 7.5h2.25m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                </svg>
+              )}
+            </div>
+
+            <!-- Details -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1.5 justify-between">
+                <span class="text-sm font-bold text-ink group-hover:text-primary transition-colors line-clamp-1">{tool.name}</span>
+                {tool.badge && (
+                  <span class="font-mono text-[9px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-1 rounded-md shrink-0">
+                    {tool.badge}
+                  </span>
+                )}
+              </div>
+              <p class="text-[11px] text-mute line-clamp-1 leading-normal mt-0.5">{tool.desc}</p>
+            </div>
+          </a>
+        );
+      })}
+
+      <!-- Empty State -->
+      <div id="quick-calc-empty" class="hidden py-8 text-center text-xs text-mute">
+        No calculators match your query.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // DOM Elements
+  const floatBtn = document.getElementById('quick-calc-float-btn');
+  const modal = document.getElementById('quick-calc-modal');
+  const modalContent = document.getElementById('quick-calc-content');
+  const closeBtn = document.getElementById('quick-calc-close-btn');
+  const searchInput = document.getElementById('quick-calc-search') as HTMLInputElement | null;
+  const searchClear = document.getElementById('quick-calc-search-clear');
+  const calcItems = document.querySelectorAll('.quick-calc-item');
+  const emptyState = document.getElementById('quick-calc-empty');
+
+  function openModal() {
+    if (!modal || !modalContent) return;
+    
+    // Display overlay
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Focus search input
+    setTimeout(() => {
+      searchInput?.focus();
+    }, 50);
+
+    // Run transition classes
+    requestAnimationFrame(() => {
+      modal.classList.add('opacity-100');
+      modalContent.classList.remove('translate-y-full', 'sm:translate-y-4');
+      modalContent.classList.add('translate-y-0', 'sm:translate-y-0');
+    });
+
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function closeModal() {
+    if (!modal || !modalContent) return;
+
+    // Run transitions backwards
+    modal.classList.remove('opacity-100');
+    modalContent.classList.remove('translate-y-0', 'sm:translate-y-0');
+    modalContent.classList.add('translate-y-full', 'sm:translate-y-4');
+
+    // Hide after animation finishes (300ms)
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      
+      // Reset input
+      if (searchInput) {
+        searchInput.value = '';
+      }
+      if (searchClear) {
+        searchClear.classList.add('hidden');
+      }
+      filterList('');
+    }, 300);
+
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  function filterList(query: string) {
+    const cleanQuery = query.toLowerCase().trim();
+    let visibleCount = 0;
+
+    calcItems.forEach((item) => {
+      const el = item as HTMLElement;
+      const name = el.dataset.name || '';
+      const keywords = el.dataset.keywords || '';
+
+      if (cleanQuery === '' || name.includes(cleanQuery) || keywords.includes(cleanQuery)) {
+        el.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        el.classList.add('hidden');
+      }
+    });
+
+    if (visibleCount === 0 && cleanQuery !== '') {
+      emptyState?.classList.remove('hidden');
+    } else {
+      emptyState?.classList.add('hidden');
+    }
+  }
+
+  // Bind Listeners
+  floatBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  
+  // Close on overlay backdrop click
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Filter input typing
+  searchInput?.addEventListener('input', (e) => {
+    const val = (e.target as HTMLInputElement).value;
+    if (val !== '') {
+      searchClear?.classList.remove('hidden');
+    } else {
+      searchClear?.classList.add('hidden');
+    }
+    filterList(val);
+  });
+
+  // Clear button click
+  searchClear?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = '';
+      searchClear.classList.add('hidden');
+      searchInput.focus();
+      filterList('');
+    }
+  });
+
+  // Key navigation for ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeModal();
+    }
+  });
+</script>

@@ -127,8 +127,27 @@ const pageSchemas = [websiteSchema, faqSchema];
         Instantly compute transaction taxes, filing late fees, Section 50 interest penalties, and composition liabilities. Tailored for Indian businesses, taxpayers, and CAs.
       </p>
 
+      <!-- Premium Hero Search Bar Trigger -->
+      <div class="mt-8 max-w-xl mx-auto px-4 sm:px-0">
+        <div 
+          id="hero-search-trigger"
+          class="relative w-full rounded-2xl border border-hairline bg-canvas/80 backdrop-blur-xs px-4 py-3.5 shadow-xs hover:border-hairline-strong hover:bg-canvas transition-all duration-200 cursor-pointer flex items-center justify-between group"
+        >
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5 text-mute group-hover:text-primary transition-colors">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
+            </svg>
+            <span class="text-sm font-medium text-mute select-none group-hover:text-body transition-colors">Search for calculators, return guides, FAQs...</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1 text-[10px] font-bold text-mute border border-hairline bg-canvas-soft-2 px-1.5 py-0.5 rounded-md select-none">
+            <span>Ctrl</span>
+            <span>K</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Action Buttons -->
-      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a 
           href="/tools/gst-calculator" 
           class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-on-primary shadow-xs hover:bg-brand-link-deep transition-all duration-200 cursor-pointer"
@@ -280,6 +299,12 @@ const pageSchemas = [websiteSchema, faqSchema];
           }
         });
       });
+    });
+
+    // Hero Search Trigger click mapping
+    const heroSearchTrigger = document.getElementById('hero-search-trigger');
+    heroSearchTrigger?.addEventListener('click', () => {
+      document.getElementById('search-toggle-btn')?.click();
     });
   </script>
 
