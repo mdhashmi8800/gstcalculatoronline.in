@@ -86,32 +86,26 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
       <p class="mt-2 text-base text-body max-w-3xl leading-relaxed">{description}</p>
     </header>
 
-    <!-- Top Ad Banner (Height locked to prevent CLS) -->
-    <div class="w-full mb-8 min-h-[90px] flex flex-col items-center justify-center rounded-2xl border border-dashed border-hairline bg-canvas-soft/40 p-3 select-none no-print">
-      <span class="text-[8px] font-mono font-bold tracking-widest text-mute uppercase mb-1">Advertisement</span>
-      <div class="w-full flex justify-center text-[10px] text-mute/60 font-medium">
-        Leaderboard Unit (728x90 / 970x90 / Auto)
-      </div>
-    </div>
-
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      <!-- Left Column: Inputs (7 cols on large screen) -->
-      <div class="lg:col-span-7 bg-canvas rounded-2xl border border-hairline p-4 sm:p-6 shadow-xs">
-        <slot />
+      <!-- Left Column: Inputs & Content (7 cols on large screen) -->
+      <div class="lg:col-span-7 space-y-8">
+        <div class="bg-canvas rounded-2xl border border-hairline p-4 sm:p-6 shadow-xs">
+          <slot />
+        </div>
+
+        {Astro.slots.has('content') && (
+          <div class="border-t border-hairline pt-8">
+            <div class="prose dark:prose-invert max-w-none">
+              <slot name="content" />
+            </div>
+          </div>
+        )}
       </div>
 
       <!-- Right Column: Results & Action Cards (5 cols on large screen) -->
       <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
         <slot name="results" />
-
-        <!-- Sidebar Ad Slot (Height locked to prevent CLS) -->
-        <div class="w-full min-h-[250px] flex flex-col items-center justify-center rounded-2xl border border-dashed border-hairline bg-canvas-soft/40 p-4 select-none no-print">
-          <span class="text-[8px] font-mono font-bold tracking-widest text-mute uppercase mb-1">Advertisement</span>
-          <div class="text-center text-[10px] text-mute/60 font-medium px-4">
-            Medium Rectangle / Sticky rail (300x250 / 300x600)
-          </div>
-        </div>
 
         <!-- Related Calculators Widget -->
         {relatedCalculators.length > 0 && (
@@ -153,20 +147,7 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
             </div>
           </div>
         )}
-
-
       </div>
     </div>
-
-    <!-- Bottom Section: Detailed content / formulas / rules -->
-    {Astro.slots.has('content') && (
-      <div class="mt-16 border-t border-hairline pt-12 max-w-3xl">
-        <div class="prose dark:prose-invert max-w-none">
-          <slot name="content" />
-        </div>
-      </div>
-    )}
-
-
   </div>
 </Layout>
