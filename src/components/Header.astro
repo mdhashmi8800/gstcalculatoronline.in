@@ -107,10 +107,10 @@ const blogCategories = [
       <button 
         id="search-toggle-btn"
         type="button" 
-        class="flex h-9 w-9 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+        class="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
         aria-label="Search tools"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
         </svg>
       </button>
@@ -119,15 +119,15 @@ const blogCategories = [
       <button 
         id="theme-toggle" 
         type="button" 
-        class="flex h-9 w-9 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+        class="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
         aria-label="Toggle theme"
       >
         <!-- Light Mode Icon (Sun) -->
-        <svg id="theme-toggle-light-icon" class="hidden h-4.5 w-4.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <svg id="theme-toggle-light-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.46 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
         </svg>
         <!-- Dark Mode Icon (Moon) -->
-        <svg id="theme-toggle-dark-icon" class="hidden h-4.5 w-4.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <svg id="theme-toggle-dark-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
         </svg>
       </button>
@@ -136,94 +136,106 @@ const blogCategories = [
       <button 
         id="mobile-menu-btn" 
         type="button" 
-        class="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+        class="md:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-hairline text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
         aria-label="Open main menu"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Drawer Overlay -->
-  <div id="mobile-drawer-overlay" class="fixed inset-0 z-45 hidden bg-slate-900/40 backdrop-blur-xs transition-opacity duration-300 opacity-0 md:hidden"></div>
+  <!-- Mobile Drawer Overlay (Fade transition) -->
+  <div id="mobile-drawer-overlay" class="fixed inset-0 z-45 hidden bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300 opacity-0 md:hidden"></div>
 
-  <!-- Mobile Drawer Menu (Right side slide-out) -->
-  <div id="mobile-drawer" class="fixed top-0 right-0 bottom-0 z-50 w-72 max-w-full bg-canvas border-l border-hairline shadow-2xl translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col justify-between">
+  <!-- Mobile Drawer Menu (Full-Screen Overlay) -->
+  <div id="mobile-drawer" class="fixed inset-0 z-50 w-full h-full bg-canvas/98 backdrop-blur-md translate-x-full transition-all duration-300 ease-in-out md:hidden flex flex-col justify-between invisible opacity-0">
     <!-- Top Bar -->
     <div>
       <div class="flex h-16 items-center justify-between px-6 border-b border-hairline">
-        <span class="font-sans text-sm font-extrabold tracking-tight text-ink uppercase">Menu Navigation</span>
+        <!-- Logo inside mobile drawer -->
+        <a href="/" class="flex items-center gap-2 group select-none">
+          <img 
+            src="/favicon.png" 
+            alt="GST Calculator Online Logo" 
+            class="h-8 w-8 rounded-lg shadow-sm"
+          />
+          <div class="flex flex-col">
+            <span class="font-sans text-sm font-extrabold tracking-tight text-ink">GST Calculator</span>
+            <span class="font-mono text-[8px] font-bold text-mute uppercase tracking-widest leading-none">Online</span>
+          </div>
+        </a>
+        
         <button 
           id="mobile-drawer-close"
           type="button"
-          class="rounded-xl border border-hairline p-2 text-mute hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+          class="rounded-xl border border-hairline flex h-11 w-11 items-center justify-center text-mute hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
           aria-label="Close menu"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
 
-      <!-- Links & Accordions -->
-      <nav class="p-6 space-y-4 overflow-y-auto max-h-[calc(100vh-10rem)]">
-        <a href="/" class="block text-sm font-bold text-body hover:text-primary transition-colors py-1">Home</a>
+      <!-- Links & Accordions with staggered slide animations -->
+      <nav class="p-6 space-y-3 overflow-y-auto max-h-[calc(100vh-12rem)]">
+        <a href="/" class="drawer-nav-item block text-base font-bold text-body hover:text-primary transition-all py-3 px-4 rounded-xl hover:bg-canvas-soft-2">Home</a>
         
         <!-- Collapsible Calculators -->
-        <div class="space-y-2">
+        <div class="drawer-nav-item space-y-1">
           <button 
             id="mobile-collapsible-calc-btn"
             type="button" 
-            class="flex w-full items-center justify-between text-sm font-bold text-body hover:text-primary py-1 cursor-pointer"
+            class="flex w-full items-center justify-between text-base font-bold text-body hover:text-primary py-3 px-4 rounded-xl hover:bg-canvas-soft-2 cursor-pointer"
           >
             <span>Calculators</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3 w-3 text-mute transition-transform duration-200" id="mobile-collapsible-calc-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute transition-transform duration-200" id="mobile-collapsible-calc-icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
-          <div id="mobile-collapsible-calc-panel" class="hidden pl-4 space-y-2 border-l border-hairline my-1">
-            <a href="/tools" class="block text-xs font-semibold text-mute hover:text-primary transition-colors py-1">All Tools</a>
+          <div id="mobile-collapsible-calc-panel" class="hidden pl-4 space-y-1 border-l border-hairline/80 my-1 ml-4">
+            <a href="/tools" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">All Tools</a>
             {categories.map(cat => (
-              <a href={cat.url} class="block text-xs font-semibold text-mute hover:text-primary transition-colors py-1">{cat.name}</a>
+              <a href={cat.url} class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">{cat.name}</a>
             ))}
           </div>
         </div>
 
         <!-- Collapsible Blog -->
-        <div class="space-y-2">
+        <div class="drawer-nav-item space-y-1">
           <button 
             id="mobile-collapsible-blog-btn"
             type="button" 
-            class="flex w-full items-center justify-between text-sm font-bold text-body hover:text-primary py-1 cursor-pointer"
+            class="flex w-full items-center justify-between text-base font-bold text-body hover:text-primary py-3 px-4 rounded-xl hover:bg-canvas-soft-2 cursor-pointer"
           >
             <span>Guides</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3 w-3 text-mute transition-transform duration-200" id="mobile-collapsible-blog-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute transition-transform duration-200" id="mobile-collapsible-blog-icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
-          <div id="mobile-collapsible-blog-panel" class="hidden pl-4 space-y-2 border-l border-hairline my-1">
-            <a href="/blog" class="block text-xs font-semibold text-mute hover:text-primary transition-colors py-1">All Articles</a>
+          <div id="mobile-collapsible-blog-panel" class="hidden pl-4 space-y-1 border-l border-hairline/80 my-1 ml-4">
+            <a href="/blog" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">All Articles</a>
             {blogCategories.map(cat => (
-              <a href={`/blog/category/${cat.slug}`} class="block text-xs font-semibold text-mute hover:text-primary transition-colors py-1">{cat.name}</a>
+              <a href={`/blog/category/${cat.slug}`} class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">{cat.name}</a>
             ))}
           </div>
         </div>
 
-        <a href="/about" class="block text-sm font-bold text-body hover:text-primary transition-colors py-1">About Us</a>
-        <a href="/contact" class="block text-sm font-bold text-body hover:text-primary transition-colors py-1">Contact</a>
+        <a href="/about" class="drawer-nav-item block text-base font-bold text-body hover:text-primary transition-all py-3 px-4 rounded-xl hover:bg-canvas-soft-2">About Us</a>
+        <a href="/contact" class="drawer-nav-item block text-base font-bold text-body hover:text-primary transition-all py-3 px-4 rounded-xl hover:bg-canvas-soft-2">Contact</a>
       </nav>
     </div>
 
     <!-- Mobile Drawer Footer -->
-    <div class="p-6 border-t border-hairline bg-canvas-soft flex flex-col gap-3">
+    <div class="p-6 border-t border-hairline bg-canvas-soft/85 flex flex-col gap-3">
       <button 
         id="mobile-drawer-search-btn"
         type="button"
-        class="flex w-full items-center justify-center gap-2 rounded-xl border border-hairline bg-canvas py-2.5 text-xs font-bold text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+        class="flex w-full items-center justify-center gap-2 rounded-xl border border-hairline bg-canvas py-3.5 text-xs font-bold text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer shadow-sm"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4.5 w-4.5 text-primary">
           <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
         </svg>
         Search Portal
@@ -232,6 +244,31 @@ const blogCategories = [
     </div>
   </div>
 </header>
+
+<style>
+  /* Staggered slide up & fade animation for menu items on open */
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item {
+    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+  
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item:nth-child(1) { animation-delay: 0.05s; }
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item:nth-child(2) { animation-delay: 0.1s; }
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item:nth-child(3) { animation-delay: 0.15s; }
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item:nth-child(4) { animation-delay: 0.2s; }
+  #mobile-drawer:not(.translate-x-full) .drawer-nav-item:nth-child(5) { animation-delay: 0.25s; }
+
+  @keyframes slideUpFade {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 
 <script>
   // Mobile drawer controls
@@ -245,12 +282,13 @@ const blogCategories = [
 
   function openDrawer() {
     drawerOverlay?.classList.remove('hidden');
+    drawerPanel?.classList.remove('invisible');
     // For transition timing
     setTimeout(() => {
       drawerOverlay?.classList.remove('opacity-0');
       drawerOverlay?.classList.add('opacity-100');
-      drawerPanel?.classList.remove('translate-x-full');
-      drawerPanel?.classList.add('translate-x-0');
+      drawerPanel?.classList.remove('translate-x-full', 'opacity-0');
+      drawerPanel?.classList.add('translate-x-0', 'opacity-100');
     }, 20);
     document.body.classList.add('overflow-hidden');
   }
@@ -258,11 +296,12 @@ const blogCategories = [
   function closeDrawer() {
     drawerOverlay?.classList.remove('opacity-100');
     drawerOverlay?.classList.add('opacity-0');
-    drawerPanel?.classList.remove('translate-x-0');
-    drawerPanel?.classList.add('translate-x-full');
+    drawerPanel?.classList.remove('translate-x-0', 'opacity-100');
+    drawerPanel?.classList.add('translate-x-full', 'opacity-0');
     
     setTimeout(() => {
       drawerOverlay?.classList.add('hidden');
+      drawerPanel?.classList.add('invisible');
     }, 300);
     document.body.classList.remove('overflow-hidden');
   }

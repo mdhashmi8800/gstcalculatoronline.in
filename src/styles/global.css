@@ -64,6 +64,7 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
+  overflow-x: clip;
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -158,7 +159,10 @@ input[type="number"] {
   margin-bottom: 0.5em;
 }
 .prose table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 1.5em 0;
 }
@@ -177,6 +181,17 @@ input[type="number"] {
 }
 .prose tr:hover td {
   background-color: var(--color-canvas-soft);
+}
+
+@media (max-width: 639px) {
+  .prose h1 { font-size: 1.75rem !important; }
+  .prose h2 { font-size: 1.4rem !important; }
+  .prose h3 { font-size: 1.2rem !important; }
+  .prose h4 { font-size: 1.05rem !important; }
+  .prose th, .prose td {
+    padding: 0.5rem 0.625rem !important;
+    font-size: 0.8rem;
+  }
 }
 
 /* Form Input Validation & Error Feedback */

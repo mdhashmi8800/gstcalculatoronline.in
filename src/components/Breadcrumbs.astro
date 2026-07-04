@@ -47,21 +47,21 @@ const items: BreadcrumbItem[] = customItems || [
 ];
 ---
 
-<nav aria-label="Breadcrumb" class="my-4 flex">
-  <ol class="flex items-center space-x-2 text-xs font-mono text-mute">
+<nav aria-label="Breadcrumb" class="my-4 flex overflow-x-auto no-scrollbar">
+  <ol class="flex items-center gap-1.5 text-[11px] font-mono text-mute whitespace-nowrap">
     {items.map((item, index) => {
       const isLast = index === items.length - 1;
       return (
         <li class="flex items-center">
           {index > 0 && (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="mx-2 h-3 w-3 text-mute/50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="mx-1 h-3 w-3 text-mute/50 shrink-0">
               <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
           )}
           {isLast ? (
-            <span class="text-ink font-medium" aria-current="page">{item.name}</span>
+            <span class="text-ink font-medium truncate max-w-[120px] sm:max-w-none" aria-current="page">{item.name}</span>
           ) : (
-            <a href={item.url} class="hover:text-ink hover:underline transition-colors">{item.name}</a>
+            <a href={item.url} class="hover:text-ink hover:underline transition-colors shrink-0">{item.name}</a>
           )}
         </li>
       );

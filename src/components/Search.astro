@@ -38,9 +38,12 @@ const searchItems = [
       <button 
         id="search-close-btn"
         type="button" 
-        class="rounded-md border border-hairline px-2 py-0.5 font-mono text-[10px] text-mute hover:text-ink hover:bg-canvas-soft transition-all cursor-pointer"
+        class="flex h-11 w-11 items-center justify-center rounded-xl border border-hairline text-mute hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+        aria-label="Close search overlay"
       >
-        ESC
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
       </button>
     </div>
 
