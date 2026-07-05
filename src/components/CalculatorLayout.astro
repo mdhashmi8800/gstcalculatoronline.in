@@ -76,37 +76,83 @@ if (schema) pageSchemas.push(schema);
 if (faqPageSchema) pageSchemas.push(faqPageSchema);
 ---
 <Layout seo={seo || { title, description }} schemas={pageSchemas}>
-  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 py-4 md:py-8 sm:px-6 lg:px-8">
     <!-- Breadcrumbs -->
     <Breadcrumbs />
 
     <!-- Page Header -->
-    <header class="mb-8 mt-6">
-      <h1 class="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
+    <header class="mb-5 mt-2 md:mb-8 md:mt-6">
+      <h1 class="text-2xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
       <p class="mt-2 text-base text-body max-w-3xl leading-relaxed">{description}</p>
     </header>
 
     <!-- Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      <!-- Left Column: Inputs & Content (7 cols on large screen) -->
-      <div class="lg:col-span-7 space-y-8">
-        <div class="bg-canvas rounded-2xl border border-hairline p-4 sm:p-6 shadow-xs">
-          <slot />
-        </div>
-
-        {Astro.slots.has('content') && (
-          <div class="border-t border-hairline pt-8">
-            <div class="prose dark:prose-invert max-w-none">
-              <slot name="content" />
-            </div>
-          </div>
-        )}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 items-start">
+      <!-- Inputs block (Order 1 on mobile, 7 cols on desktop) -->
+      <div class="order-1 lg:col-span-7 bg-canvas rounded-2xl border border-hairline p-4 sm:p-6 shadow-xs">
+        <slot />
       </div>
 
-      <!-- Right Column: Results & Action Cards (5 cols on large screen) -->
-      <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
+      <!-- Results block (Order 2 on mobile, 5 cols and sticky on desktop) -->
+      <div class="order-2 lg:col-span-5 lg:row-span-3 lg:sticky lg:top-24 space-y-6">
         <slot name="results" />
 
+        <!-- Related Widgets (Desktop Only) -->
+        <div class="hidden lg:block space-y-6">
+          <!-- Related Calculators Widget -->
+          {relatedCalculators.length > 0 && (
+            <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
+              <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Calculators</h2>
+              <div class="space-y-3">
+                {relatedCalculators.slice(0, 4).map((calc) => (
+                  <a 
+                    href={calc.url} 
+                    class="flex items-center justify-between p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
+                  >
+                    <div class="shrink">
+                      <span class="text-xs font-semibold text-ink group-hover:text-primary transition-colors block">{calc.name}</span>
+                      <span class="text-[10px] text-mute font-mono">{calc.categoryName}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Related Guides Widget -->
+          {relatedArticles.length > 0 && (
+            <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
+              <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Tax Guides</h2>
+              <div class="space-y-3">
+                {relatedArticles.map((art) => (
+                  <a 
+                    href={`/blog/${art.frontmatter.slug}`}
+                    class="block p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
+                  >
+                    <span class="text-[9px] font-semibold text-primary font-mono uppercase tracking-wider">{art.frontmatter.category || 'Guide'}</span>
+                    <h3 class="text-xs font-semibold text-ink group-hover:text-primary transition-colors mt-1 line-clamp-2 leading-snug">{art.frontmatter.title}</h3>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- Educational Content (Order 3 on mobile, 7 cols below inputs on desktop) -->
+      {Astro.slots.has('content') && (
+        <div class="order-3 lg:col-span-7 border-t border-hairline pt-6 md:pt-8">
+          <div class="prose dark:prose-invert max-w-none">
+            <slot name="content" />
+          </div>
+        </div>
+      )}
+
+      <!-- Related Widgets (Mobile Only, Order 4) -->
+      <div class="order-4 lg:hidden w-full space-y-6">
         <!-- Related Calculators Widget -->
         {relatedCalculators.length > 0 && (
           <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">

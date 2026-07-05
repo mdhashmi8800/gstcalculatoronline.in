@@ -40,7 +40,7 @@ const faqs = [
 ---
 <CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
-  <form id="gst-form" class="space-y-6">
+  <form id="gst-form" class="space-y-4 md:space-y-6">
     <!-- Gross Price (GST Inclusive) -->
     <div>
       <label for="calc-amount" class="block text-sm font-semibold text-ink">Total Final Price / Gross Amount (₹)</label>
@@ -66,7 +66,7 @@ const faqs = [
     <!-- GST Tax Slab Rates -->
     <div>
       <span class="block text-sm font-semibold text-ink">GST Tax Rate (%)</span>
-      <div class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-5">
+      <div class="rate-pill-container sm:grid sm:grid-cols-5 gap-2">
         {['5', '12', '18', '28'].map((rate) => (
           <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas py-2.5 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft-2 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink font-mono select-none">
             <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
@@ -103,17 +103,15 @@ const faqs = [
 
     <!-- Supply Destination -->
     <div>
-      <span class="block text-sm font-semibold text-ink">Supply Location</span>
-      <div class="mt-2 grid grid-cols-2 gap-3">
-        <label class="flex flex-col items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-center hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 select-none group">
+      <span class="block text-sm font-semibold text-ink mb-2">Supply Location</span>
+      <div class="segmented-control" role="group" aria-label="Transaction type">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
-          <span class="text-sm font-semibold text-body group-hover:text-ink group-has-checked:text-ink">Intrastate</span>
-          <span class="text-[10px] text-mute uppercase font-mono mt-0.5 group-has-checked:text-body">CGST + SGST</span>
+          <span>Intrastate <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
         </label>
-        <label class="flex flex-col items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-center hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 select-none group">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="tax-type" value="interstate" class="sr-only" />
-          <span class="text-sm font-semibold text-body group-hover:text-ink group-has-checked:text-ink">Interstate</span>
-          <span class="text-[10px] text-mute uppercase font-mono mt-0.5 group-has-checked:text-body">IGST Only</span>
+          <span>Interstate <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
         </label>
       </div>
     </div>

@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Search from '../components/Search.astro';
 import QuickCalculatorFloat from '../components/QuickCalculatorFloat.astro';
+import StickyBottomBar from '../components/StickyBottomBar.astro';
 import type { SEOMetadata } from '../utils/seo';
 
 interface Props {
@@ -70,5 +71,6 @@ const { seo, schema, schemas } = Astro.props;
     <Footer />
     <Search />
     <QuickCalculatorFloat />
+    <StickyBottomBar />
   </body>
 </html>

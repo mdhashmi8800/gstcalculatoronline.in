@@ -36,7 +36,7 @@ const faqs = [
 ---
 <CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
-  <form id="gst-form" class="space-y-6">
+  <form id="gst-form" class="space-y-4 md:space-y-6">
     <!-- Transaction Amount -->
     <div>
       <label for="calc-amount" class="block text-sm font-semibold text-ink">Transaction Amount (₹)</label>
@@ -60,13 +60,13 @@ const faqs = [
 
     <!-- Calculation Direction -->
     <div>
-      <span class="block text-sm font-semibold text-ink">IGST Calculation Mode</span>
-      <div class="mt-2 grid grid-cols-2 gap-3">
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+      <span class="block text-sm font-semibold text-ink mb-2">IGST Calculation Mode</span>
+      <div class="segmented-control" role="group" aria-label="IGST calculation direction">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="calc-type" value="add" checked class="sr-only" />
           <span>Add IGST (+)</span>
         </label>
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="calc-type" value="remove" class="sr-only" />
           <span>Remove IGST (-)</span>
         </label>
@@ -76,7 +76,7 @@ const faqs = [
     <!-- IGST Tax Slab Rates -->
     <div>
       <span class="block text-sm font-semibold text-ink">IGST Tax Rate (%)</span>
-      <div class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-5">
+      <div class="rate-pill-container sm:grid sm:grid-cols-5 gap-2">
         {['5', '12', '18', '28'].map((rate) => (
           <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas py-2.5 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft-2 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink font-mono select-none">
             <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />

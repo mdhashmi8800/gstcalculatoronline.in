@@ -604,3 +604,136 @@ label:has(input.sr-only:focus-visible) {
 .value-updated {
   animation: valueFlash 0.25s ease;
 }
+
+/* =====================================================
+   MOBILE-FIRST CALCULATOR REDESIGN STYLES
+   ===================================================== */
+
+/* Mobile-only Scrollable Rate Pills */
+@media (max-width: 639px) {
+  .rate-pill-container {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 0.5rem !important;
+    padding: 0.25rem 0.25rem 0.5rem 0.25rem !important;
+    margin: 0 -0.25rem !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* Hide scrollbars in Firefox */
+  }
+  .rate-pill-container::-webkit-scrollbar {
+    display: none !important; /* Hide scrollbars in Chrome/Safari */
+  }
+  .rate-pill-container > * {
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+    min-width: 72px !important;
+    min-height: 48px !important; /* Easy tap targets */
+  }
+}
+
+/* Ensure 48px minimum touch target for rate pills on all touch devices */
+.rate-pill {
+  min-height: 48px;
+}
+
+/* Responsive styles for ResultCard component elements */
+@media (max-width: 767px) {
+  #result-card-root {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem !important; /* Reduce card padding to 16px */
+  }
+  
+  /* Primary summary grid: 2-column cards on mobile */
+  #primary-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    order: 3;
+    margin-bottom: 0.75rem;
+  }
+  
+  .primary-summary-box {
+    background-color: var(--color-canvas-soft-2);
+    border: 1px solid var(--color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.15s ease;
+  }
+  
+  .primary-summary-box:hover {
+    background-color: var(--color-canvas-soft-2);
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Grand Total at the top on mobile */
+  #result-card-root .grand-total-row {
+    order: 2;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 100%);
+    text-align: center;
+    padding: 1.25rem 1rem;
+    border-radius: 1rem;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #result-card-root #res-grand-total {
+    font-size: 1.875rem !important; /* text-3xl */
+    line-height: 2.25rem !important;
+    margin-top: 0.25rem;
+  }
+
+  /* Detailed Collapsible section below primary grid */
+  #mobile-collapsible-breakdown {
+    order: 5;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 0.5rem;
+  }
+  
+  /* Mobile details toggle button placement */
+  #mobile-breakdown-toggle {
+    order: 4;
+  }
+
+  /* Action buttons order */
+  #result-card-root .grid.grid-cols-3 {
+    order: 6;
+    margin-top: 1rem !important;
+  }
+
+  /* Reset button order */
+  #result-card-root #reset-calculation-btn {
+    order: 7;
+    margin-top: 0.75rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  #primary-summary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .primary-summary-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border: none;
+    background: transparent;
+  }
+}
+

@@ -36,7 +36,7 @@ const faqs = [
 ---
 <CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
-  <form id="latefee-form" class="space-y-6">
+  <form id="latefee-form" class="space-y-4 md:space-y-6">
     <!-- Return Due Date -->
     <div>
       <label for="calc-due-date" class="block text-sm font-semibold text-ink">GST Return Due Date</label>
@@ -63,13 +63,13 @@ const faqs = [
 
     <!-- Return Type -->
     <div>
-      <span class="block text-sm font-semibold text-ink">Type of Return</span>
-      <div class="mt-2 grid grid-cols-2 gap-3">
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+      <span class="block text-sm font-semibold text-ink mb-2">Type of Return</span>
+      <div class="segmented-control" role="group" aria-label="Type of return">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="return-type" value="nil" checked class="sr-only" />
           <span>NIL Return</span>
         </label>
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="return-type" value="taxable" class="sr-only" />
           <span>Taxable Return</span>
         </label>

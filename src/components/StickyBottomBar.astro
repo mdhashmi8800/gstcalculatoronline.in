@@ -1,0 +1,111 @@
+---
+// StickyBottomBar.astro
+---
+<div id="sticky-bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-canvas border-t border-hairline px-4 py-3 shadow-lg translate-y-full transition-transform duration-300 md:hidden no-print">
+  <div class="flex items-center justify-between max-w-md mx-auto">
+    <div class="flex flex-col">
+      <span class="text-[10px] text-mute font-mono uppercase tracking-wider">Grand Total</span>
+      <span id="sticky-grand-val" class="text-lg font-extrabold text-ink font-mono">₹0.00</span>
+    </div>
+    <div class="flex flex-col items-end pr-4 border-r border-hairline mr-auto ml-6">
+      <span class="text-[9px] text-mute font-mono uppercase tracking-wider">GST (Tax)</span>
+      <span id="sticky-gst-val" class="text-sm font-bold text-primary font-mono">₹0.00</span>
+    </div>
+    <button 
+      id="sticky-view-details-btn" 
+      type="button" 
+      class="flex items-center gap-1 bg-primary text-on-primary text-xs font-bold px-3.5 py-2 rounded-xl hover:bg-primary/95 active:scale-95 transition-all cursor-pointer select-none"
+    >
+      Details
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  function setupStickyBar() {
+    const stickyBar = document.getElementById('sticky-bottom-bar');
+    if (!stickyBar) return;
+
+    // Detect calculator elements
+    const grandTotalEl = document.getElementById('res-grand-total') || document.getElementById('home-res-grand-total');
+    const gstAmountEl = document.getElementById('res-total-tax') || document.getElementById('home-res-total-tax');
+    const targetCard = document.getElementById('result-card-root') || document.getElementById('home-result-rows');
+
+    if (!grandTotalEl || !gstAmountEl) {
+      // Keep it hidden and clean up event listeners if any
+      stickyBar.classList.add('translate-y-full');
+      return;
+    }
+
+    const stickyGrandVal = document.getElementById('sticky-grand-val');
+    const stickyGstVal = document.getElementById('sticky-gst-val');
+    const viewDetailsBtn = document.getElementById('sticky-view-details-btn');
+
+    // Function to update sticky values
+    function updateStickyValues() {
+      if (stickyGrandVal && grandTotalEl) {
+        stickyGrandVal.textContent = grandTotalEl.textContent;
+      }
+      if (stickyGstVal && gstAmountEl) {
+        stickyGstVal.textContent = gstAmountEl.textContent;
+      }
+    }
+
+    // Run initial update
+    updateStickyValues();
+
+    // Set up MutationObserver to watch for changes to the main result elements
+    const observer = new MutationObserver(() => {
+      updateStickyValues();
+    });
+
+    observer.observe(grandTotalEl, { characterData: true, childList: true, subtree: true });
+    observer.observe(gstAmountEl, { characterData: true, childList: true, subtree: true });
+
+    // Show/Hide sticky bar based on scroll position and viewport visibility of the result card
+    function handleScroll() {
+      if (!targetCard) return;
+      const rect = targetCard.getBoundingClientRect();
+      // If the result card is in viewport, hide sticky bar. If it's scrolled out of view, show it!
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisible) {
+        stickyBar?.classList.add('translate-y-full');
+      } else {
+        stickyBar?.classList.remove('translate-y-full');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Run initial check
+    handleScroll();
+
+    // View Details button action
+    viewDetailsBtn?.addEventListener('click', () => {
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Also expand detailed breakdown if collapsed
+        const mobileToggle = document.getElementById('mobile-breakdown-toggle');
+        const breakdownSection = document.getElementById('mobile-collapsible-breakdown');
+        if (mobileToggle && breakdownSection && breakdownSection.classList.contains('hidden')) {
+          (mobileToggle as HTMLButtonElement).click();
+        }
+      }
+    });
+
+    // Clean up observer if needed on page transit (for Astro SPA style navigations)
+    document.addEventListener('astro:before-swap', () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    }, { once: true });
+  }
+
+  // Set up on page load and swap
+  document.addEventListener('astro:page-load', setupStickyBar);
+  // Also run immediately
+  setupStickyBar();
+</script>
