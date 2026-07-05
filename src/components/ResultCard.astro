@@ -182,6 +182,8 @@ const { title = "Calculation Summary", showEffectiveTax = true } = Astro.props;
 </div>
 
 <script>
+  import { generateCalculationPDF } from '../utils/pdfGenerator';
+
   const copyBtn = document.getElementById('copy-calculation-btn');
   const shareBtn = document.getElementById('share-calculation-btn');
   const pdfBtn = document.getElementById('pdf-calculation-btn');
@@ -242,86 +244,12 @@ const { title = "Calculation Summary", showEffectiveTax = true } = Astro.props;
   });
 
   pdfBtn?.addEventListener('click', async () => {
-    // Dynamically load jsPDF from CDN on demand
-    if (!(window as any).jspdf) {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-      document.head.appendChild(script);
-      await new Promise(resolve => script.onload = resolve);
+    try {
+      await generateCalculationPDF();
+      showToast(pdfToast);
+    } catch (err) {
+      console.error('Failed to generate PDF:', err);
     }
-    const { jsPDF } = (window as any).jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
-    
-    // Header
-    doc.setFillColor(5, 150, 105);
-    doc.rect(0, 0, 148, 18, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(13);
-    doc.setFont('helvetica', 'bold');
-    doc.text('GST Calculation Report', 10, 12);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`gstcalculatoronline.in`, 108, 12);
-
-    // Date
-    doc.setTextColor(80, 80, 80);
-    doc.setFontSize(8);
-    doc.text(`Generated: ${new Date().toLocaleString('en-IN')}`, 10, 26);
-
-    // Results table
-    const taxable = document.getElementById('res-taxable-val')?.innerText || '₹0.00';
-    const cgstRow = document.getElementById('res-cgst-row');
-    const sgstRow = document.getElementById('res-sgst-row');
-    const igstRow = document.getElementById('res-igst-row');
-    const cgst = cgstRow?.classList.contains('hidden') ? null : document.getElementById('res-cgst-val')?.innerText;
-    const sgst = sgstRow?.classList.contains('hidden') ? null : document.getElementById('res-sgst-val')?.innerText;
-    const igst = igstRow?.classList.contains('hidden') ? null : document.getElementById('res-igst-val')?.innerText;
-    const totalTax = document.getElementById('res-total-tax')?.innerText || '₹0.00';
-    const effectiveRate = document.getElementById('res-effective-rate')?.innerText || '0.00%';
-    const grandTotal = document.getElementById('res-grand-total')?.innerText || '₹0.00';
-
-    const rows: [string, string][] = [
-      ['Base Amount', taxable],
-    ];
-    if (cgst) rows.push(['CGST (Central Tax)', cgst]);
-    if (sgst) rows.push(['SGST (State Tax)', sgst]);
-    if (igst) rows.push(['IGST (Integrated Tax)', igst]);
-    rows.push(['Total GST', totalTax]);
-    rows.push(['Effective Tax Rate', effectiveRate]);
-
-    let y = 34;
-    doc.setFontSize(9);
-    rows.forEach(([label, val]) => {
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(60, 60, 60);
-      doc.text(label, 10, y);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(15, 23, 42);
-      doc.text(val, 138, y, { align: 'right' });
-      doc.setDrawColor(226, 232, 240);
-      doc.line(10, y + 2, 138, y + 2);
-      y += 10;
-    });
-
-    // Grand Total highlight
-    doc.setFillColor(240, 253, 244);
-    doc.roundedRect(8, y, 132, 14, 3, 3, 'F');
-    doc.setTextColor(5, 150, 105);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.text('GRAND TOTAL', 14, y + 9);
-    doc.setFontSize(12);
-    doc.text(grandTotal, 138, y + 9, { align: 'right' });
-
-    // Footer
-    doc.setFontSize(7);
-    doc.setTextColor(150, 150, 150);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Disclaimer: For illustrative purposes only. Verify with a qualified CA.', 10, 205);
-    doc.text('© gstcalculatoronline.in — Free Indian GST Calculator', 10, 210);
-
-    doc.save(`GST-Calculation-${Date.now()}.pdf`);
-    showToast(pdfToast);
   });
 
   printBtn?.addEventListener('click', () => window.print());

@@ -562,6 +562,8 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
 </Layout>
 
 <script>
+  import { generateCalculationPDF } from '../utils/pdfGenerator';
+
   // =====================================================
   // HOMEPAGE CALCULATOR LOGIC
   // =====================================================
@@ -772,50 +774,12 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
   });
 
   document.getElementById('home-pdf-btn')?.addEventListener('click', async () => {
-    if (!(window as any).jspdf) {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-      document.head.appendChild(s);
-      await new Promise(resolve => s.onload = resolve);
+    try {
+      await generateCalculationPDF();
+      showToast('✓ PDF downloaded!');
+    } catch (err) {
+      console.error('Failed to generate PDF:', err);
     }
-    const { jsPDF } = (window as any).jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
-    doc.setFillColor(5, 150, 105);
-    doc.rect(0, 0, 148, 18, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(13);
-    doc.setFont('helvetica', 'bold');
-    doc.text('GST Calculation Report', 10, 12);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'normal');
-    doc.text('gstcalculatoronline.in', 108, 12);
-    doc.setTextColor(80, 80, 80);
-    doc.setFontSize(8);
-    doc.text(`Generated: ${new Date().toLocaleString('en-IN')}`, 10, 26);
-    const rows: [string, string][] = [
-      ['Base Amount', rTaxable?.innerText || '₹0'],
-    ];
-    if (!rCgstRow?.classList.contains('hidden')) { rows.push(['CGST', rCgst?.innerText || '₹0']); rows.push(['SGST', rSgst?.innerText || '₹0']); }
-    else { rows.push(['IGST', rIgst?.innerText || '₹0']); }
-    rows.push(['Total GST', rTotalTax?.innerText || '₹0']);
-    rows.push(['Effective Rate', rEffective?.innerText || '0%']);
-    let y = 34;
-    doc.setFontSize(9);
-    rows.forEach(([label, val]) => {
-      doc.setFont('helvetica', 'normal'); doc.setTextColor(60, 60, 60); doc.text(label, 10, y);
-      doc.setFont('helvetica', 'bold'); doc.setTextColor(15, 23, 42); doc.text(val, 138, y, { align: 'right' });
-      doc.setDrawColor(226, 232, 240); doc.line(10, y + 2, 138, y + 2); y += 10;
-    });
-    doc.setFillColor(240, 253, 244);
-    doc.roundedRect(8, y, 132, 14, 3, 3, 'F');
-    doc.setTextColor(5, 150, 105); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
-    doc.text('GRAND TOTAL', 14, y + 9);
-    doc.setFontSize(12); doc.text(rGrandTotal?.innerText || '₹0', 138, y + 9, { align: 'right' });
-    doc.setFontSize(7); doc.setTextColor(150, 150, 150); doc.setFont('helvetica', 'normal');
-    doc.text('Disclaimer: For illustrative purposes. Verify with a qualified CA.', 10, 205);
-    doc.text('© gstcalculatoronline.in', 10, 210);
-    doc.save(`GST-${Date.now()}.pdf`);
-    showToast('✓ PDF downloaded!');
   });
 
   document.getElementById('home-reset-btn')?.addEventListener('click', () => {
