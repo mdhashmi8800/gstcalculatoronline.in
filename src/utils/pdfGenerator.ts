@@ -87,6 +87,63 @@ function numberToWordsIndian(num: number): string {
   return words.replace(/\s+/g, ' ');
 }
 
+// Variables to store loaded base64 fonts
+let robotoRegularBase64: string | null = null;
+let robotoBoldBase64: string | null = null;
+let robotoItalicBase64: string | null = null;
+
+// Convert ArrayBuffer to Base64 in browser
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
+}
+
+// Fetch and load Roboto fonts concurrently
+async function loadRobotoFonts() {
+  if (robotoRegularBase64 && robotoBoldBase64 && robotoItalicBase64) return;
+
+  const [regularRes, boldRes, italicRes] = await Promise.all([
+    fetch('/fonts/Roboto-Regular.ttf'),
+    fetch('/fonts/Roboto-Bold.ttf'),
+    fetch('/fonts/Roboto-Italic.ttf')
+  ]);
+
+  if (!regularRes.ok || !boldRes.ok || !italicRes.ok) {
+    throw new Error('Failed to fetch Roboto fonts from the server');
+  }
+
+  const [regularBuf, boldBuf, italicBuf] = await Promise.all([
+    regularRes.arrayBuffer(),
+    boldRes.arrayBuffer(),
+    italicRes.arrayBuffer()
+  ]);
+
+  robotoRegularBase64 = arrayBufferToBase64(regularBuf);
+  robotoBoldBase64 = arrayBufferToBase64(boldBuf);
+  robotoItalicBase64 = arrayBufferToBase64(italicBuf);
+}
+
+// Format numbers and values into clean Indian Currency Format
+function formatIndianCurrency(valueStrOrNum: string | number): string {
+  let num: number;
+  if (typeof valueStrOrNum === 'string') {
+    num = parseFloat(valueStrOrNum.replace(/[^\d.-]/g, '')) || 0;
+  } else {
+    num = valueStrOrNum;
+  }
+  
+  const formatter = new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  return `₹${formatter.format(num)}`;
+}
+
 export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   // 1. Load jsPDF and QRious if not present
   if (!(window as any).jspdf) {
@@ -101,6 +158,9 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
     document.head.appendChild(s);
     await new Promise(resolve => s.onload = resolve);
   }
+
+  // Load custom fonts before PDF construction
+  await loadRobotoFonts();
 
   const { jsPDF } = (window as any).jspdf;
   const QRious = (window as any).QRious;
@@ -117,14 +177,17 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
 
   const isHomepage = !!document.getElementById('home-res-taxable');
 
-  const baseAmount = customData?.baseAmount || 
+  const rawBase = customData?.baseAmount || 
     (isHomepage ? getElText('home-res-taxable') : getElText('res-taxable-val')) || '₹0.00';
+  const baseAmount = formatIndianCurrency(rawBase);
   
-  const totalGst = customData?.totalGst || 
+  const rawTotalGst = customData?.totalGst || 
     (isHomepage ? getElText('home-res-total-tax') : getElText('res-total-tax')) || '₹0.00';
+  const totalGst = formatIndianCurrency(rawTotalGst);
   
-  const grandTotal = customData?.grandTotal || 
+  const rawGrandTotal = customData?.grandTotal || 
     (isHomepage ? getElText('home-res-grand-total') : getElText('res-grand-total')) || '₹0.00';
+  const grandTotal = formatIndianCurrency(rawGrandTotal);
   
   const effectiveRate = customData?.effectiveRate || 
     (isHomepage ? getElText('home-res-effective') : getElText('res-effective-rate')) || '0.00%';
@@ -134,18 +197,21 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
 
   const cgst = customData?.cgst !== undefined ? customData.cgst :
     (isIntrastate ? (isHomepage ? getElText('home-res-cgst') : getElText('res-cgst-val')) : null);
+  const formattedCgst = cgst ? formatIndianCurrency(cgst) : null;
 
   const sgst = customData?.sgst !== undefined ? customData.sgst :
     (isIntrastate ? (isHomepage ? getElText('home-res-sgst') : getElText('res-sgst-val')) : null);
+  const formattedSgst = sgst ? formatIndianCurrency(sgst) : null;
 
   const igst = customData?.igst !== undefined ? customData.igst :
     (!isIntrastate ? (isHomepage ? getElText('home-res-igst') : getElText('res-igst-val')) : null);
+  const formattedIgst = igst ? formatIndianCurrency(igst) : null;
 
   // Calculate rate dynamically if not present
   let gstRate = customData?.gstRate;
   if (!gstRate) {
-    const baseNum = parseFloat(baseAmount.replace(/[₹,\s]/g, '')) || 0;
-    const taxNum = parseFloat(totalGst.replace(/[₹,\s]/g, '')) || 0;
+    const baseNum = parseFloat(baseAmount.replace(/[^\d.-]/g, '')) || 0;
+    const taxNum = parseFloat(totalGst.replace(/[^\d.-]/g, '')) || 0;
     const computedRate = baseNum > 0 ? (taxNum / baseNum * 100) : 0;
     gstRate = computedRate.toFixed(2).replace(/\.00$/, '') + '%';
   }
@@ -209,7 +275,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
       const calcTypeHidden = document.getElementById('calcTypeHidden') as HTMLInputElement | null;
       const taxTypeRadio = document.querySelector('input[name="home-tax-type"]:checked') as HTMLInputElement | null;
       if (amountInput) {
-        const rawAmount = amountInput.value.replace(/[₹,\s]/g, '');
+        const rawAmount = amountInput.value.replace(/[^\d.-]/g, '');
         url.searchParams.set('amount', rawAmount);
       }
       if (calcRateHidden) url.searchParams.set('rate', calcRateHidden.value);
@@ -235,12 +301,24 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   // Initialize jsPDF document (A4 size: 210mm x 297mm)
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
+  // Register embedded Roboto fonts
+  doc.addFileToVFS('Roboto-Regular.ttf', robotoRegularBase64!);
+  doc.addFileToVFS('Roboto-Bold.ttf', robotoBoldBase64!);
+  doc.addFileToVFS('Roboto-Italic.ttf', robotoItalicBase64!);
+
+  doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+  doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
+  doc.addFont('Roboto-Italic.ttf', 'Roboto', 'italic');
+
+  // Set default font to Roboto
+  doc.setFont('Roboto', 'normal');
+
   // --- BRANDED HEADER ---
   // Vector Logo Icon
   doc.setFillColor(16, 185, 129); // Emerald green (#10b981)
   doc.roundedRect(15, 15, 10, 10, 2, 2, 'F');
   doc.setTextColor(255, 255, 255);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(7);
   doc.text('GST', 20, 21.5, { align: 'center' });
 
@@ -254,35 +332,35 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
 
   // Subtitle
   doc.setTextColor(100, 116, 139); // Muted Slate (#64748b)
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(7.5);
   doc.text('PREMIUM TAX ACCOUNTING SUITE', 28, 25.5);
 
   // Document Title
   doc.setTextColor(15, 23, 42);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setFontSize(14.5);
   doc.text(title, 15, 36);
 
   // Report Meta details
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(100, 116, 139);
   doc.text('Report ID: ', 15, 41.5);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.text(reportId, 30, 41.5);
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(100, 116, 139);
   doc.text('Generated: ', 65, 41.5);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.text(generatedAt, 81, 41.5);
 
   // QR Code (verification link)
   doc.addImage(qrDataUrl, 'PNG', 170, 15, 25, 25);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(100, 116, 139);
   doc.setFontSize(6.5);
   doc.text('Scan to verify calculation', 182.5, 42.5, { align: 'center' });
@@ -308,11 +386,11 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   let gridY = 57;
 
   const drawPair = (key: string, val: string, kX: number, vX: number, curY: number) => {
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('Roboto', 'normal');
     doc.setTextColor(100, 116, 139);
     doc.setFontSize(8);
     doc.text(key, kX, curY);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('Roboto', 'bold');
     doc.setTextColor(15, 23, 42);
     doc.setFontSize(8.5);
     doc.text(val, vX, curY);
@@ -329,7 +407,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
 
   // --- FINANCIAL BREAKDOWN SUMMARY TABLE ---
   let tableY = 86;
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(10.5);
   doc.text('Financial Breakdown Statement', 15, tableY);
@@ -339,7 +417,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.rect(15, tableY + 4, 180, 8, 'F');
 
   // Header texts
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(71, 85, 105);
   doc.setFontSize(8);
   doc.text('PARTICULARS / TAX ITEM', 20, tableY + 9.5);
@@ -360,10 +438,10 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
 
   if (isIntrastate) {
     const rateHalf = (parseFloat(gstRate) / 2).toFixed(2).replace(/\.00$/, '') + '%';
-    tableRows.push({ label: 'CGST (Central Goods & Services Tax)', rate: rateHalf, val: cgst || '₹0.00' });
-    tableRows.push({ label: 'SGST (State Goods & Services Tax)', rate: rateHalf, val: sgst || '₹0.00' });
+    tableRows.push({ label: 'CGST (Central Goods & Services Tax)', rate: rateHalf, val: formattedCgst || '₹0.00' });
+    tableRows.push({ label: 'SGST (State Goods & Services Tax)', rate: rateHalf, val: formattedSgst || '₹0.00' });
   } else {
-    tableRows.push({ label: 'IGST (Integrated Goods & Services Tax)', rate: gstRate, val: igst || '₹0.00' });
+    tableRows.push({ label: 'IGST (Integrated Goods & Services Tax)', rate: gstRate, val: formattedIgst || '₹0.00' });
   }
 
   tableRows.push({ label: 'Total Tax Component (GST)', rate: gstRate, val: totalGst, isBold: true });
@@ -379,10 +457,10 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
     }
 
     if (row.isBold) {
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Roboto', 'bold');
       doc.setTextColor(15, 23, 42);
     } else {
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Roboto', 'normal');
       doc.setTextColor(51, 65, 85);
     }
 
@@ -409,34 +487,34 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.roundedRect(15, cardY, 180, 20, 1.5, 1.5, 'FD');
 
   // Label
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(4, 120, 87); // emerald-700
   doc.setFontSize(8.5);
   doc.text('GRAND TOTAL (IN WORDS)', 20, cardY + 6);
 
   // In Words text
-  const grandTotalNum = parseFloat(grandTotal.replace(/[₹,\s]/g, '')) || 0;
+  const grandTotalNum = parseFloat(grandTotal.replace(/[^\d.-]/g, '')) || 0;
   const inWords = numberToWordsIndian(grandTotalNum);
-  doc.setFont('helvetica', 'italic');
+  doc.setFont('Roboto', 'italic');
   doc.setTextColor(71, 85, 105);
   doc.setFontSize(7.5);
   const wrappedWords = doc.splitTextToSize(inWords, 115);
   doc.text(wrappedWords, 20, cardY + 11.5);
 
   // Large Amount Value
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(5, 150, 105); // emerald-600
   doc.setFontSize(16.5);
   doc.text(grandTotal, 190, cardY + 12.5, { align: 'right' });
 
   // --- TAX COMPOSITION BREAKDOWN GRAPH ---
   const chartY = cardY + 28;
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(10.5);
   doc.text('Tax Composition Breakdown', 15, chartY);
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(100, 116, 139);
   doc.setFontSize(8);
   doc.text('Visual representation of the ratio between base amount and total GST tax.', 15, chartY + 4);
@@ -446,8 +524,8 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   const barH = 6;
   const totalBarW = 180;
 
-  const baseNum = parseFloat(baseAmount.replace(/[₹,\s]/g, '')) || 0;
-  const taxNum = parseFloat(totalGst.replace(/[₹,\s]/g, '')) || 0;
+  const baseNum = parseFloat(baseAmount.replace(/[^\d.-]/g, '')) || 0;
+  const taxNum = parseFloat(totalGst.replace(/[^\d.-]/g, '')) || 0;
   const totalNum = baseNum + taxNum;
   const basePct = totalNum > 0 ? (baseNum / totalNum * 100) : 100;
   const gstPct = 100 - basePct;
@@ -482,7 +560,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   // Base Legend
   doc.setFillColor(30, 41, 59);
   doc.rect(20, legendY - 2, 3, 3, 'F');
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(51, 65, 85);
   doc.text(`Base Taxable Amount: ${basePct.toFixed(1)}% (${baseAmount})`, 25, legendY);
@@ -499,12 +577,12 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.setDrawColor(241, 245, 249);
   doc.roundedRect(15, notesY, 180, 24, 1.5, 1.5, 'S');
 
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.setFontSize(8);
   doc.text('Calculation Notes & Compliance', 20, notesY + 5.5);
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(71, 85, 105);
   doc.setFontSize(7);
   
@@ -515,7 +593,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.text(formulaStr, 20, notesY + 10);
   doc.text('Tax split and computations strictly follow CGST/SGST/IGST divisions under the Indian Goods and Services Tax (GST) Act, 2017.', 20, notesY + 14);
 
-  doc.setFont('helvetica', 'italic');
+  doc.setFont('Roboto', 'italic');
   doc.setTextColor(100, 116, 139);
   doc.text('Notice: This is an auto-generated accounting statement computed via gstcalculatoronline.in. No physical signature is required.', 20, notesY + 18.5);
 
@@ -526,7 +604,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.line(15, footerY - 5, 195, footerY - 5);
 
   // Disclaimer text
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(148, 163, 184); // slate-400
   doc.setFontSize(6.2);
   const disclaimerText = 'Disclaimer: This report is for information purposes and verification check only. The calculations are verified mathematically but should be double-checked with a certified Chartered Accountant (CA) or tax consultant before commercial filings.';
@@ -536,9 +614,9 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   // Metadata and links
   doc.setFontSize(7.5);
   doc.setTextColor(15, 23, 42);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('Roboto', 'bold');
   doc.text('www.gstcalculatoronline.in', 195, footerY, { align: 'right' });
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('Roboto', 'normal');
   doc.setTextColor(148, 163, 184);
   doc.text(`ID: ${reportId} | Version: 1.2.0 | Page 1 of 1`, 195, footerY + 4, { align: 'right' });
 
