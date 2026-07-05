@@ -4,8 +4,8 @@ import ToolCard from '../components/ToolCard.astro';
 import FAQ from '../components/FAQ.astro';
 import { tools } from '../utils/tools';
 
-const pageTitle = "GST Calculator Online - GST Rates & Return Tools";
-const pageDesc = "Free online GST calculators for Indian taxpayers. Easily calculate CGST, SGST, IGST, return late fees, interest on tax delays, and composition scheme liabilities according to current Indian tax regulations.";
+const pageTitle = "GST Calculator Online — Free CGST, SGST & IGST Calculator India";
+const pageDesc = "India's fastest GST calculator. Add or remove GST at 5%, 12%, 18%, 28% rates. Get CGST, SGST and IGST splits instantly. Free, accurate, and updated with latest GST rules. No login required.";
 
 // Load latest 3 articles from blog content
 const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
@@ -18,74 +18,43 @@ const latestArticles = posts.map(post => ({
   desc: post.frontmatter.metaDescription || post.frontmatter.description
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3);
 
-// Get popular calculators
-const popularCalculators = tools.filter(t => t.badge === 'Popular' || t.id === 'reverse-gst-calculator' || t.id === 'gst-inclusive-calculator' || t.id === 'late-fee-calculator' || t.id === 'interest-calculator');
-
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
 const homepageFaqs = [
   {
     question: "How do I calculate GST online?",
-    answer: "You can calculate GST by entering the transaction amount and selecting the appropriate GST slab (5%, 12%, 18%, 28%) in our GST Calculator. It will automatically show the CGST, SGST, and IGST breakdowns for both 'Add GST' and 'Remove GST' types."
-  },
-  {
-    question: "Is this GST Calculator updated with the latest Indian tax laws?",
-    answer: "Yes, all our calculators are updated in accordance with the latest Central Goods and Services Tax (CGST) and State Goods and Services Tax (SGST) regulations, including rationalized late fees and Section 50 interest calculations."
+    answer: "Enter the transaction amount, select 'Add GST' or 'Remove GST', pick the applicable slab (5%, 12%, 18%, or 28%), choose Intra-State or Inter-State, and get instant CGST, SGST, and IGST breakdowns."
   },
   {
     question: "What is the difference between CGST, SGST, and IGST?",
-    answer: "CGST (Central GST) and SGST (State GST) are levied on transactions within a single state (intrastate) and are shared equally between the Centre and State. IGST (Integrated GST) is levied on interstate transactions and imports, collected by the Centre and distributed to the consumption state."
+    answer: "CGST and SGST are levied on intrastate transactions, split equally between Centre and State (e.g., 18% GST = 9% CGST + 9% SGST). IGST applies to interstate transactions and is collected by the Centre in full."
   },
   {
-    question: "How is interest calculated on late GST payments?",
-    answer: "Under Section 50 of the CGST Act, interest is levied at 18% per annum on delayed tax payments made through the Electronic Cash Ledger (net tax liability). For wrongful utilization of Input Tax Credit (ITC), interest is charged at 24% per annum."
+    question: "What are the GST tax slabs in India?",
+    answer: "India has four primary GST slabs: 0% (essential goods), 5% (food, transport), 12% (computers, processed food), 18% (most services and electronics), and 28% (luxury items). Gold attracts 3% GST."
   },
   {
-    question: "What is the daily late fee for filing GSTR-3B late?",
-    answer: "The standard late fee for late filing of GSTR-3B is ₹50 per day for returns with tax liability (₹25 CGST + ₹25 SGST) and ₹20 per day for NIL returns. These fees are subject to turnover-based caps ranging from ₹500 to ₹10,000 per return."
+    question: "Is this GST Calculator free to use?",
+    answer: "Yes, all calculators on gstcalculatoronline.in are completely free. No registration, no login, no hidden charges. Calculate GST for any amount, any rate, unlimited times."
   },
   {
-    question: "What is the difference between GST inclusive and exclusive prices?",
-    answer: "A GST inclusive price already includes the tax component within the listed price (such as MRP retail prices). A GST exclusive price is the pre-tax base price, meaning GST will be calculated and added on top of it at checkout."
+    question: "How is GST calculated on a service invoice?",
+    answer: "For a CA charging ₹50,000 for audit services at 18% GST: GST = ₹9,000. Total Invoice = ₹59,000. Intrastate: CGST ₹4,500 + SGST ₹4,500. Interstate: IGST ₹9,000."
   },
   {
-    question: "Who is eligible for the GST Composition Scheme?",
-    answer: "Taxpayers with an annual aggregate turnover of up to ₹1.5 Crores (₹75 Lakhs for North-Eastern states) can opt for the Composition Scheme to pay tax at flat rates (1% for traders/manufacturers, 5% for restaurants). Service providers can opt for the scheme with a limit of ₹50 Lakhs at a flat rate of 6%."
+    question: "What is the GST formula for adding tax?",
+    answer: "Add GST: GST Amount = (Base Price × GST Rate) ÷ 100. Total Invoice = Base Price + GST Amount. CGST = SGST = GST Amount ÷ 2 (intrastate). IGST = full GST Amount (interstate)."
   },
   {
-    question: "Can a composition dealer claim Input Tax Credit (ITC)?",
-    answer: "No. A taxpayer opting for the Composition Scheme is barred from claiming Input Tax Credit (ITC) on purchases. They also cannot collect GST from their customers or issue tax invoices (they issue a 'Bill of Supply' instead)."
+    question: "How to remove GST from an inclusive price?",
+    answer: "Remove GST: Base Price = Inclusive Amount ÷ (1 + GST Rate ÷ 100). For ₹11,800 at 18%: Base = 11,800 ÷ 1.18 = ₹10,000. GST = ₹1,800. Use our 'Remove GST' mode for instant calculation."
   },
   {
-    question: "How do I extract the base price from a GST-inclusive amount?",
-    answer: "To extract the base price, divide the total GST inclusive amount by (1 + GST Rate/100). For example, to remove 18% GST from ₹11,800: Base Price = 11,800 ÷ 1.18 = ₹10,000. The GST amount is the remaining ₹1,800."
-  },
-  {
-    question: "Is this online GST calculator platform free to use?",
-    answer: "Yes, our website and all of its 11 calculators (GST, Reverse GST, Interest, Late Fees, Composition, Refund, etc.) are completely free to use. There are no limits, registrations, or hidden fees."
-  },
-  {
-    question: "What are the GST return filing due dates?",
-    answer: "GSTR-1 (outward supplies) is due by the 11th of the following month for monthly filers or the 13th for quarterly QRMP filers. GSTR-3B (summary return) is due by the 20th monthly or the 22nd/24th quarterly. Annual returns (GSTR-9) are due by December 31st."
-  },
-  {
-    question: "How does the Reverse Charge Mechanism (RCM) work?",
-    answer: "Under RCM, the recipient (buyer) pays GST instead of the supplier. This applies to specific notified goods and services like GTA, legal services, and director services. RCM tax must be paid in cash via the Electronic Cash Ledger, and the recipient can claim Input Tax Credit on the amount paid."
-  },
-  {
-    question: "How can I verify a GST number (GSTIN)?",
-    answer: "You can verify any GSTIN through the GST Portal's Search Taxpayer tool at gst.gov.in. Enter the 15-digit GSTIN to check the business name, registration date, status, and filing history of the taxpayer."
-  },
-  {
-    question: "What is E-invoicing and who needs it?",
-    answer: "E-invoicing is the electronic reporting of B2B invoices on the government IRP portal. It is mandatory for businesses with aggregate annual turnover exceeding ₹5 Crores. Invoices not generated through E-invoicing are treated as invalid for Input Tax Credit claims."
+    question: "What are the late fees for GSTR-3B?",
+    answer: "Standard late fee: ₹50/day with tax liability (₹25 CGST + ₹25 SGST), ₹20/day for NIL returns. Capped at ₹500–₹10,000 per return based on annual turnover. Use our Late Fee Calculator for precise amounts."
   }
 ];
 
@@ -107,159 +76,330 @@ const faqSchema = {
   "mainEntity": homepageFaqs.map(faq => ({
     "@type": "Question",
     "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
   }))
 };
 
-const pageSchemas = [websiteSchema, faqSchema];
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Calculate GST Online in India",
+  "description": "Step-by-step guide to calculate GST (CGST, SGST, IGST) on any transaction amount using the online GST calculator.",
+  "step": [
+    { "@type": "HowToStep", "name": "Enter Amount", "text": "Type the transaction amount in the amount field. For Add GST, enter the base price. For Remove GST, enter the final inclusive price." },
+    { "@type": "HowToStep", "name": "Select GST Type", "text": "Choose 'Add GST' to add tax on top of the base amount, or 'Remove GST' to extract tax from an inclusive total." },
+    { "@type": "HowToStep", "name": "Choose GST Rate", "text": "Select the applicable GST rate: 3%, 5%, 12%, 18%, 28%, or enter a custom rate for special categories like gold." },
+    { "@type": "HowToStep", "name": "Select Transaction Type", "text": "Choose Intra-State (CGST + SGST) for within-state transactions or Inter-State (IGST) for cross-state transactions." },
+    { "@type": "HowToStep", "name": "View Results", "text": "The calculator instantly shows Base Amount, CGST, SGST or IGST, Total GST, Effective Tax Rate, and Grand Total." }
+  ]
+};
+
+const pageSchemas = [websiteSchema, faqSchema, howToSchema];
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }} schemas={pageSchemas}>
-  <!-- Hero Section -->
-  <section class="relative overflow-hidden py-16 px-4 sm:px-6 lg:px-8 text-center border-b border-hairline transition-colors duration-200">
-    <div class="mx-auto max-w-3xl relative z-10">
-      <h1 class="text-4xl font-extrabold tracking-tight text-ink sm:text-5xl lg:text-6xl font-sans leading-tight">
-        GST Calculator Online
-      </h1>
-      <p class="mt-4 text-base sm:text-lg text-body max-w-2xl mx-auto leading-relaxed">
-        Instantly compute transaction taxes, filing late fees, Section 50 interest penalties, and composition liabilities. Tailored for Indian businesses, taxpayers, and CAs.
-      </p>
 
-      <!-- Premium Hero Search Bar Trigger -->
-      <div class="mt-8 max-w-xl mx-auto px-4 sm:px-0">
-        <div 
-          id="hero-search-trigger"
-          class="relative w-full rounded-2xl border border-hairline bg-canvas/80 backdrop-blur-xs px-4 py-3.5 shadow-xs hover:border-hairline-strong hover:bg-canvas transition-all duration-200 cursor-pointer flex items-center justify-between group"
-        >
-          <div class="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-5 w-5 text-mute group-hover:text-primary transition-colors">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z" />
-            </svg>
-            <span class="text-sm font-medium text-mute select-none group-hover:text-body transition-colors">Search for calculators, return guides, FAQs...</span>
+  <!-- Compact Hero Section -->
+  <section class="pt-10 pb-6 px-4 sm:px-6 lg:px-8 text-center">
+    <div class="mx-auto max-w-2xl">
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-ink leading-tight">
+        GST Calculator Online — Free &amp; Instant
+      </h1>
+      <p class="mt-2 text-sm text-body max-w-xl mx-auto leading-relaxed">
+        Calculate CGST, SGST &amp; IGST in seconds. Trusted by 50,000+ businesses, CAs, and taxpayers across India.
+      </p>
+      <!-- Trust Badges -->
+      <div class="mt-4 flex flex-wrap gap-2 justify-center">
+        <span class="trust-badge">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          Free Forever
+        </span>
+        <span class="trust-badge">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+          100% Accurate
+        </span>
+        <span class="trust-badge">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+          Updated GST Rules
+        </span>
+        <span class="trust-badge">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/></svg>
+          No Login
+        </span>
+        <span class="trust-badge">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3m-3 3h3m-6 3h.008v.008H6V16.5Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>
+          Mobile Friendly
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIMARY CALCULATOR — visible above the fold -->
+  <section class="px-4 sm:px-6 lg:px-8 pb-12" id="calculator">
+    <div class="mx-auto max-w-5xl">
+      <div class="homepage-calc-wrapper">
+        <!-- Calculator Header Bar -->
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-hairline bg-canvas-soft-2/60">
+          <div class="flex items-center gap-2">
+            <div class="flex gap-1.5">
+              <span class="w-3 h-3 rounded-full" style="background:#f87171"></span>
+              <span class="w-3 h-3 rounded-full" style="background:#fbbf24"></span>
+              <span class="w-3 h-3 rounded-full" style="background:#34d399"></span>
+            </div>
+            <span class="text-xs font-bold text-mute font-mono ml-2">GST Calculator</span>
           </div>
-          <div class="hidden sm:flex items-center gap-1 text-[10px] font-bold text-mute border border-hairline bg-canvas-soft-2 px-1.5 py-0.5 rounded-md select-none">
-            <span>Ctrl</span>
-            <span>K</span>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-mute font-mono hidden sm:block">Press <span class="kbd">ESC</span> to reset</span>
+            <a href="/tools/gst-calculator" class="text-xs font-semibold text-primary hover:underline flex items-center gap-1">
+              Full Page
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Two-Column Calculator Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+          <!-- LEFT: Inputs -->
+          <div class="p-5 sm:p-7 border-b lg:border-b-0 lg:border-r border-hairline">
+            <form id="home-gst-form" class="space-y-6" autocomplete="off">
+
+              <!-- Amount Input -->
+              <div>
+                <label for="home-calc-amount" class="block text-sm font-bold text-ink mb-2">Transaction Amount</label>
+                <div class="relative">
+                  <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+                    <span class="text-sm font-bold text-mute font-mono">₹</span>
+                  </div>
+                  <input
+                    type="text"
+                    id="home-calc-amount"
+                    name="amount"
+                    value="10,000"
+                    inputmode="numeric"
+                    class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-8 pr-4 text-base font-mono font-semibold text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-mute"
+                    placeholder="e.g. 10,000"
+                    required
+                    aria-label="Transaction Amount in Rupees"
+                  />
+                </div>
+
+                <!-- Quick Amount Chips -->
+                <div class="mt-3 flex flex-wrap gap-1.5" id="home-quick-chips" role="group" aria-label="Quick amount presets">
+                  {['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'].map(chip => (
+                    <button type="button" class="quick-chip" data-value={chip}>{`₹${chip}`}</button>
+                  ))}
+                </div>
+              </div>
+
+              <!-- GST Type Segmented Control -->
+              <div>
+                <label class="block text-sm font-bold text-ink mb-2">GST Direction</label>
+                <div class="segmented-control" role="group" aria-label="GST calculation direction">
+                  <button type="button" id="home-type-add" class="segmented-btn active" data-type="add" aria-pressed="true">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    Add GST
+                  </button>
+                  <button type="button" id="home-type-remove" class="segmented-btn" data-type="remove" aria-pressed="false">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
+                    Remove GST
+                  </button>
+                </div>
+                <input type="hidden" id="home-calc-type" name="calc-type" value="add" />
+              </div>
+
+              <!-- GST Rate Pills -->
+              <div>
+                <label class="block text-sm font-bold text-ink mb-2">GST Rate</label>
+                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" role="group" aria-label="GST rate selection">
+                  {['3', '5', '12', '18', '28'].map(rate => (
+                    <button
+                      type="button"
+                      class={`rate-pill ${rate === '18' ? 'active' : ''}`}
+                      data-rate={rate}
+                      aria-pressed={rate === '18' ? 'true' : 'false'}
+                    >
+                      {rate}%
+                    </button>
+                  ))}
+                  <button type="button" class="rate-pill" data-rate="custom" aria-pressed="false">Custom</button>
+                </div>
+                <input type="hidden" id="home-calc-rate" name="calc-rate" value="18" />
+
+                <!-- Custom Rate Input -->
+                <div id="home-custom-rate-wrap" class="hidden mt-3">
+                  <div class="relative">
+                    <input
+                      type="number"
+                      id="home-calc-rate-custom"
+                      name="custom-rate"
+                      min="0.1"
+                      max="100"
+                      step="any"
+                      value="18"
+                      class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm font-mono text-ink outline-none focus:border-primary"
+                      placeholder="e.g. 3"
+                      aria-label="Custom GST rate percentage"
+                    />
+                    <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transaction Type -->
+              <div>
+                <label class="block text-sm font-bold text-ink mb-2">Transaction Type</label>
+                <div class="grid grid-cols-2 gap-3" role="group" aria-label="Transaction type">
+                  <label class="flex flex-col items-center justify-center rounded-xl border-2 bg-canvas p-3.5 cursor-pointer text-center select-none transition-all duration-150 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary/5 border-hairline hover:border-hairline-strong">
+                    <input type="radio" name="home-tax-type" value="intrastate" checked class="sr-only" />
+                    <span class="text-sm font-bold text-ink">Intra-State</span>
+                    <span class="text-[10px] font-mono text-mute mt-0.5">CGST + SGST</span>
+                  </label>
+                  <label class="flex flex-col items-center justify-center rounded-xl border-2 bg-canvas p-3.5 cursor-pointer text-center select-none transition-all duration-150 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary/5 border-hairline hover:border-hairline-strong">
+                    <input type="radio" name="home-tax-type" value="interstate" class="sr-only" />
+                    <span class="text-sm font-bold text-ink">Inter-State</span>
+                    <span class="text-[10px] font-mono text-mute mt-0.5">IGST Only</span>
+                  </label>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- RIGHT: Live Results -->
+          <div class="p-5 sm:p-7 bg-canvas-soft/40 flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-sm font-bold uppercase tracking-wider text-ink">Live Results</h2>
+              <span class="inline-flex items-center gap-1 text-[10px] font-bold text-brand-success">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-success animate-pulse"></span>
+                Real-time
+              </span>
+            </div>
+
+            <!-- Result Rows -->
+            <div class="space-y-0.5 flex-1" id="home-result-rows">
+              <div class="result-row" id="home-res-taxable-row">
+                <span class="text-sm text-body">Base Amount</span>
+                <span id="home-res-taxable" class="result-value">₹10,000.00</span>
+              </div>
+              <div class="result-row" id="home-res-total-tax-row">
+                <span class="text-sm text-body font-medium">Total GST</span>
+                <span id="home-res-total-tax" class="result-value font-bold" style="color:var(--color-brand-link)">₹1,800.00</span>
+              </div>
+              <div class="result-row pl-3" id="home-res-cgst-row">
+                <span class="text-xs text-mute flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#059669"></span>
+                  CGST
+                </span>
+                <span id="home-res-cgst" class="font-mono text-xs text-mute">₹900.00</span>
+              </div>
+              <div class="result-row pl-3" id="home-res-sgst-row">
+                <span class="text-xs text-mute flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#10b981"></span>
+                  SGST
+                </span>
+                <span id="home-res-sgst" class="font-mono text-xs text-mute">₹900.00</span>
+              </div>
+              <div class="result-row pl-3 hidden" id="home-res-igst-row">
+                <span class="text-xs text-mute flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:#059669"></span>
+                  IGST
+                </span>
+                <span id="home-res-igst" class="font-mono text-xs text-mute">₹0.00</span>
+              </div>
+              <div class="result-row border-t border-hairline mt-1 pt-1">
+                <span class="text-xs text-body">Effective Rate</span>
+                <span id="home-res-effective" class="font-mono text-xs font-bold" style="color:var(--color-brand-link)">18.00%</span>
+              </div>
+            </div>
+
+            <!-- Grand Total Card -->
+            <div class="grand-total-row mt-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-bold text-ink">Grand Total</span>
+                <span id="home-res-grand-total" class="font-mono text-2xl font-extrabold text-ink">₹11,800.00</span>
+              </div>
+              <p class="text-[10px] text-mute mt-0.5 font-mono" id="home-grand-label">Inclusive of 18% GST (Intra-State)</p>
+            </div>
+
+            <!-- Mini Bar Chart -->
+            <div class="bar-chart-container">
+              <p class="bar-chart-label mb-3">Breakdown</p>
+              <div class="space-y-2">
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="bar-chart-label">Base</span>
+                    <span id="home-chart-base-pct" class="bar-chart-label">84.7%</span>
+                  </div>
+                  <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
+                    <div id="home-chart-base-bar" class="bar-chart-bar" style="background:var(--color-ink);opacity:0.2;width:84.7%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="bar-chart-label">GST</span>
+                    <span id="home-chart-gst-pct" class="bar-chart-label">15.3%</span>
+                  </div>
+                  <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
+                    <div id="home-chart-gst-bar" class="bar-chart-bar" style="background:var(--color-primary);width:15.3%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-5 grid grid-cols-2 gap-2">
+              <button id="home-copy-btn" type="button" class="flex items-center justify-center gap-1.5 rounded-xl border border-hairline bg-canvas py-2.5 text-xs font-semibold text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z"/></svg>
+                Copy
+              </button>
+              <button id="home-pdf-btn" type="button" class="flex items-center justify-center gap-1.5 rounded-xl border border-hairline bg-canvas py-2.5 text-xs font-semibold text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+                PDF
+              </button>
+              <button id="home-share-btn" type="button" class="flex items-center justify-center gap-1.5 rounded-xl border border-hairline bg-canvas py-2.5 text-xs font-semibold text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"/></svg>
+                Share
+              </button>
+              <button id="home-reset-btn" type="button" class="flex items-center justify-center gap-1.5 rounded-xl border border-hairline bg-canvas py-2.5 text-xs font-semibold text-mute hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                Reset
+              </button>
+            </div>
+            <div id="home-toast" class="hidden mt-3 text-center text-xs font-semibold text-brand-success py-1.5 rounded-lg bg-brand-success/10"></div>
           </div>
         </div>
       </div>
-
-      <!-- Action Buttons -->
-      <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a 
-          href="/tools/gst-calculator" 
-          class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl bg-primary px-6 py-3.5 text-sm font-semibold text-on-primary shadow-xs hover:bg-brand-link-deep transition-all duration-200 cursor-pointer"
-        >
-          Start Calculating
-        </a>
-        <a 
-          href="/tools" 
-          class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl border border-hairline bg-canvas/80 backdrop-blur-xs px-6 py-3.5 text-sm font-semibold text-body hover:border-hairline-strong hover:bg-canvas transition-all duration-200 cursor-pointer"
-        >
-          View All Tools
-        </a>
-      </div>
-
-      <!-- Quick Category Chips -->
-      <div class="mt-8 flex flex-wrap gap-2 justify-center max-w-2xl mx-auto">
-        <span class="text-xs font-bold text-mute self-center mr-2">Quick Access:</span>
-        <a href="/tools/gst-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">GST Calculator</a>
-        <a href="/tools/reverse-gst-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Reverse GST</a>
-        <a href="/tools/gst-split-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">GST Split</a>
-        <a href="/tools/late-fee-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Late Fee</a>
-        <a href="/tools/interest-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Interest</a>
-        <a href="/tools/composition-calculator" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Composition</a>
-        <a href="/blog/gst-invoice-rules-format" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">Invoice</a>
-        <a href="/blog/hsn-code-guide-india" class="rounded-full bg-canvas-soft border border-hairline px-3.5 py-1.5 text-xs font-semibold text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all">HSN</a>
-      </div>
     </div>
   </section>
 
-
-
-  <!-- Popular Tools Grid Section -->
-  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="text-center sm:text-left mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+  <!-- Quick Tools Grid -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-hairline/60">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
       <div>
-        <h2 class="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">Popular GST Calculators</h2>
-        <p class="mt-2 text-sm text-body font-normal">Select one of our frequently used calculators to compute GST liability or penalties.</p>
+        <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-ink">All GST Tools</h2>
+        <p class="mt-1 text-sm text-body">Complete suite of Indian tax calculators and utilities.</p>
       </div>
-      <a href="#all-calculators" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
-        View All 11 Calculators
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-        </svg>
+      <a href="/tools" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
+        View All
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
       </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {popularCalculators.map(tool => (
-        <ToolCard 
-          title={tool.name} 
-          description={tool.desc} 
-          url={tool.url}
-          icon={tool.icon}
-          badge={tool.badge}
-        />
-      ))}
-    </div>
-  </section>
-
-  <!-- View All Calculators Section -->
-  <section id="all-calculators" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-hairline/80 scroll-mt-20">
-    <div class="text-center sm:text-left mb-10">
-      <h2 class="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">All GST Calculators & Tools</h2>
-      <p class="mt-2 text-sm text-body font-normal">Browse our complete suite of specialized tools, filtered by category for quick access.</p>
+    <!-- Category Filter -->
+    <div class="mb-6 flex flex-wrap gap-2">
+      <button type="button" data-filter="all" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-bold border border-primary bg-primary text-on-primary shadow-xs transition-all cursor-pointer">All</button>
+      <button type="button" data-filter="tax-slabs" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 transition-all cursor-pointer">Tax Slabs</button>
+      <button type="button" data-filter="late-fees" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 transition-all cursor-pointer">Late Fees</button>
+      <button type="button" data-filter="interest-penalties" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 transition-all cursor-pointer">Interest</button>
+      <button type="button" data-filter="composition-scheme" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 transition-all cursor-pointer">Composition</button>
+      <button type="button" data-filter="utilities" class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 transition-all cursor-pointer">Utilities</button>
     </div>
 
-    <!-- Category Filter Chips -->
-    <div class="mb-8 flex flex-wrap gap-2 justify-center sm:justify-start">
-      <button 
-        type="button" 
-        data-filter="all"
-        class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-bold border border-primary bg-primary text-on-primary shadow-xs transition-all cursor-pointer active:scale-95 duration-100"
-      >
-        All Tools
-      </button>
-      <button 
-        type="button" 
-        data-filter="tax-slabs"
-        class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all cursor-pointer active:scale-95 duration-100"
-      >
-        Tax Slab Calculators
-      </button>
-      <button 
-        type="button" 
-        data-filter="late-fees"
-        class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all cursor-pointer active:scale-95 duration-100"
-      >
-        Filing Late Fees
-      </button>
-      <button 
-        type="button" 
-        data-filter="interest-penalties"
-        class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all cursor-pointer active:scale-95 duration-100"
-      >
-        Interest Penalties
-      </button>
-      <button 
-        type="button" 
-        data-filter="composition-scheme"
-        class="home-filter-btn rounded-full px-4 py-1.5 text-xs font-semibold border border-hairline bg-canvas-soft text-body hover:bg-canvas-soft-2 hover:text-ink hover:border-hairline-strong transition-all cursor-pointer active:scale-95 duration-100"
-      >
-        Composition Scheme
-      </button>
-    </div>
-
-    <!-- All Tools Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="home-tools-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="home-tools-grid">
       {tools.map(tool => (
-        <div data-category={tool.category} class="home-tool-item transition-all duration-300">
-          <ToolCard 
-            title={tool.name} 
-            description={tool.desc} 
+        <div data-category={tool.category} class="home-tool-item">
+          <ToolCard
+            title={tool.name}
+            description={tool.desc}
             url={tool.url}
             icon={tool.icon}
             badge={tool.badge}
@@ -269,117 +409,459 @@ const pageSchemas = [websiteSchema, faqSchema];
     </div>
   </section>
 
-  <script>
-    const homeFilterBtns = document.querySelectorAll('.home-filter-btn');
-    const homeToolItems = document.querySelectorAll('.home-tool-item');
+  <!-- Educational Content Section -->
+  <section class="py-14 px-4 sm:px-6 lg:px-8 border-t border-hairline/60 bg-canvas-soft/40">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-xl font-extrabold tracking-tight text-ink mb-6">GST Formulas & How It Works</h2>
 
-    homeFilterBtns.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const clickedBtn = e.currentTarget as HTMLButtonElement;
-        const filterValue = clickedBtn.dataset.filter || 'all';
-
-        // Reset button classes
-        homeFilterBtns.forEach((b) => {
-          b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
-          b.classList.add('bg-canvas-soft', 'text-body', 'border-hairline');
-        });
-
-        // Highlight clicked button
-        clickedBtn.classList.remove('bg-canvas-soft', 'text-body', 'border-hairline');
-        clickedBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
-
-        // Filter items
-        homeToolItems.forEach((item) => {
-          const htmlItem = item as HTMLElement;
-          const category = htmlItem.dataset.category;
-          if (filterValue === 'all' || category === filterValue) {
-            htmlItem.classList.remove('hidden');
-          } else {
-            htmlItem.classList.add('hidden');
-          }
-        });
-      });
-    });
-
-    // Hero Search Trigger click mapping
-    const heroSearchTrigger = document.getElementById('hero-search-trigger');
-    heroSearchTrigger?.addEventListener('click', () => {
-      document.getElementById('search-toggle-btn')?.click();
-    });
-  </script>
-
-
-
-  <!-- Latest Articles Section -->
-  <section class="py-16 border-t border-b border-hairline bg-canvas-soft transition-colors duration-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center sm:text-left mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">Latest Tax Guides & Insights</h2>
-          <p class="mt-2 text-sm text-body font-normal">Stay up to date with GSTR filing dates, penalties, slabs, and ITC rules.</p>
+      <!-- Formula Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="rounded-2xl border border-hairline bg-canvas p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs font-bold text-on-primary bg-primary px-2 py-0.5 rounded-full">Add GST</span>
+            <span class="text-xs text-mute">Exclusive pricing</span>
+          </div>
+          <div class="font-mono text-xs text-ink space-y-1.5">
+            <p>GST Amount = Base × Rate ÷ 100</p>
+            <p>Total = Base + GST Amount</p>
+            <p>CGST = SGST = GST ÷ 2 (Intra-State)</p>
+            <p>IGST = GST Amount (Inter-State)</p>
+          </div>
+          <div class="mt-3 pt-3 border-t border-hairline text-[10px] text-mute font-mono">
+            Example: ₹10,000 + 18% = ₹11,800
+          </div>
         </div>
-        <a href="/blog" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
-          Explore All Articles
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
+        <div class="rounded-2xl border border-hairline bg-canvas p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs font-bold text-on-primary bg-brand-link-deep px-2 py-0.5 rounded-full">Remove GST</span>
+            <span class="text-xs text-mute">Inclusive pricing</span>
+          </div>
+          <div class="font-mono text-xs text-ink space-y-1.5">
+            <p>Base = Inclusive ÷ (1 + Rate ÷ 100)</p>
+            <p>GST Amount = Inclusive − Base</p>
+            <p>CGST = SGST = GST ÷ 2 (Intra-State)</p>
+            <p>IGST = GST Amount (Inter-State)</p>
+          </div>
+          <div class="mt-3 pt-3 border-t border-hairline text-[10px] text-mute font-mono">
+            Example: ₹11,800 at 18% → Base ₹10,000
+          </div>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {latestArticles.map(art => (
-          <a 
-            href={`/blog/${art.slug}`}
-            class="flex flex-col justify-between overflow-hidden rounded-2xl border border-hairline bg-canvas p-6 hover:border-hairline-strong hover:shadow-xs transition-all duration-200 group"
-          >
-            <div>
-              <div class="flex items-center justify-between text-[10px] font-mono text-mute">
-                <span>{formatDate(art.date)}</span>
-                <span class="font-semibold text-primary">{art.category}</span>
-              </div>
-              <h3 class="mt-3 text-base font-bold text-ink group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                {art.title}
-              </h3>
-              <p class="mt-2.5 text-xs text-body leading-relaxed line-clamp-3">
-                {art.desc}
-              </p>
-            </div>
-            <div class="mt-6 border-t border-hairline pt-4 flex items-center justify-between text-[10px] font-mono text-mute">
-              <span>{art.readTime}</span>
-              <span class="text-xs font-semibold text-primary group-hover:underline">Read Guide</span>
-            </div>
+      <!-- GST Slab Table -->
+      <h2 class="text-xl font-extrabold tracking-tight text-ink mb-4">GST Rate Slabs — India 2025-26</h2>
+      <div class="overflow-x-auto rounded-2xl border border-hairline mb-8">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-canvas-soft-2">
+              <th class="text-left p-3.5 font-bold text-ink border-b border-hairline">Rate</th>
+              <th class="text-left p-3.5 font-bold text-ink border-b border-hairline">Common Products / Services</th>
+              <th class="text-left p-3.5 font-bold text-ink border-b border-hairline hidden sm:table-cell">CGST</th>
+              <th class="text-left p-3.5 font-bold text-ink border-b border-hairline hidden sm:table-cell">SGST</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { rate: '0%', items: 'Fresh vegetables, milk, eggs, bread, educational services, healthcare', cgst: '0%', sgst: '0%' },
+              { rate: '3%', items: 'Gold, silver, precious metals and stones', cgst: '1.5%', sgst: '1.5%' },
+              { rate: '5%', items: 'Economy class air travel, packaged food, coffee (non-branded), transport', cgst: '2.5%', sgst: '2.5%' },
+              { rate: '12%', items: 'Computers, processed food, butter, cheese, mobile phones', cgst: '6%', sgst: '6%' },
+              { rate: '18%', items: 'Most services, FMCG goods, electronics, banking services, restaurants', cgst: '9%', sgst: '9%' },
+              { rate: '28%', items: 'Luxury cars, tobacco, cement, aerated drinks, casinos, online gaming', cgst: '14%', sgst: '14%' },
+            ].map((row, i) => (
+              <tr class={i % 2 === 1 ? 'bg-canvas-soft/40' : ''}>
+                <td class="p-3.5 font-mono font-bold text-primary border-b border-hairline/50">{row.rate}</td>
+                <td class="p-3.5 text-body border-b border-hairline/50">{row.items}</td>
+                <td class="p-3.5 font-mono text-mute border-b border-hairline/50 hidden sm:table-cell">{row.cgst}</td>
+                <td class="p-3.5 font-mono text-mute border-b border-hairline/50 hidden sm:table-cell">{row.sgst}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Latest GST Updates -->
+      <h2 class="text-xl font-extrabold tracking-tight text-ink mb-4">Latest GST Updates</h2>
+      <div class="space-y-3 mb-8">
+        {[
+          { date: 'July 2025', update: 'GST Council reduces rate on insurance premiums — term life and health insurance premiums may attract reduced GST rates.' },
+          { date: 'June 2025', update: 'E-invoicing threshold reduced to ₹5 crore annual turnover — more businesses now required to generate IRN on government portal.' },
+          { date: 'April 2025', update: 'GSTR-1A enabled for all taxpayers — allows amendments to outward supply data before GSTR-3B filing.' },
+          { date: 'March 2025', update: 'New GST Amnesty Scheme announced — waiver of interest and penalties for pending returns from FY 2017-18 to 2019-20.' },
+        ].map(item => (
+          <div class="flex gap-4 p-4 rounded-xl border border-hairline bg-canvas hover:border-hairline-strong transition-colors">
+            <div class="shrink-0 text-[10px] font-mono font-bold text-primary bg-primary/8 px-2 py-1 rounded-lg h-fit mt-0.5">{item.date}</div>
+            <p class="text-sm text-body leading-relaxed">{item.update}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Internal Links -->
+      <h2 class="text-xl font-extrabold tracking-tight text-ink mb-4">Related Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+        {[
+          { name: 'Reverse GST Calculator', url: '/tools/reverse-gst-calculator' },
+          { name: 'GST Split Calculator', url: '/tools/gst-split-calculator' },
+          { name: 'IGST Calculator', url: '/tools/igst-calculator' },
+          { name: 'Late Fee Calculator', url: '/tools/late-fee-calculator' },
+          { name: 'Interest Calculator', url: '/tools/interest-calculator' },
+          { name: 'Composition Calculator', url: '/tools/composition-calculator' },
+          { name: 'GST Invoice Builder', url: '/tools/invoice-builder' },
+          { name: 'GST Rate Finder', url: '/tools/gst-rate-finder' },
+          { name: 'GST Refund Calculator', url: '/tools/gst-refund-calculator' },
+        ].map(link => (
+          <a href={link.url} class="flex items-center gap-2 p-3 rounded-xl border border-hairline bg-canvas hover:border-primary/40 hover:text-primary text-sm font-semibold text-body transition-all group">
+            <svg class="w-3.5 h-3.5 text-primary shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+            {link.name}
           </a>
         ))}
       </div>
+
+      <!-- FAQ -->
+      <FAQ items={homepageFaqs} />
     </div>
   </section>
 
-  <!-- Editorial Info Section -->
-  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto prose dark:prose-invert">
-    <h2>Understanding the Goods and Services Tax (GST) in India</h2>
-    <p>Launched on July 1, 2017, the Goods and Services Tax (GST) is a comprehensive, multi-stage, destination-based tax that replaced major indirect taxes in India, such as VAT, Service Tax, Excise Duty, and Octroi. The goal was to unify the country under a single tax system, eliminating cascading taxes and simplifying compliance.</p>
-    
-    <h3>Structure of Indian GST</h3>
-    <p>The GST regime divides transactions based on their physical supply location:</p>
-    <ul>
-      <li><strong>Intrastate Transactions (Within State):</strong> Subject to CGST (levied by the Central Government) and SGST (levied by the State Government). The standard tax rate is split equally (e.g., an 18% tax equals 9% CGST + 9% SGST).</li>
-      <li><strong>Interstate Transactions (Between States):</strong> Subject to IGST (Integrated GST), collected by the Center and distributed to the consumption state. The rate equals the combined total rate (e.g., 18% IGST).</li>
-    </ul>
-
-    <h3>Why Taxpayers Choose Our Platform</h3>
-    <p>Navigating return deadlines and penalty rates can be complicated. Our calculators are built to simplify your tax workflow:</p>
-    <ol>
-      <li><strong>Instant Performance:</strong> Written in native JS, our calculator outputs load in real-time, matching portal numbers.</li>
-      <li><strong>Turnover-Capped Late Fees:</strong> Auto-computes rationalized late fee limits according to small business turnover.</li>
-      <li><strong>Net Cash Interest Calculations:</strong> Applies the Section 50 proviso to calculate interest only on cash liabilities, not input credits.</li>
-    </ol>
-
-
-
-    <FAQ items={homepageFaqs} />
-  </section>
-
+  <!-- Latest Articles -->
+  {latestArticles.length > 0 && (
+    <section class="py-14 px-4 sm:px-6 lg:px-8 border-t border-hairline/60">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-ink">Latest Tax Guides</h2>
+            <p class="mt-1 text-sm text-body">Stay updated with GSTR filing dates, penalties, slabs, and ITC rules.</p>
+          </div>
+          <a href="/blog" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
+            All Articles
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {latestArticles.map(art => (
+            <a
+              href={`/blog/${art.slug}`}
+              class="flex flex-col justify-between overflow-hidden rounded-2xl border border-hairline bg-canvas p-5 hover:border-hairline-strong hover:shadow-xs transition-all duration-200 group"
+            >
+              <div>
+                <div class="flex items-center justify-between text-[10px] font-mono text-mute">
+                  <span>{formatDate(art.date)}</span>
+                  <span class="font-bold text-primary">{art.category}</span>
+                </div>
+                <h3 class="mt-3 text-sm font-bold text-ink group-hover:text-primary transition-colors line-clamp-2 leading-snug">{art.title}</h3>
+                <p class="mt-2 text-xs text-body leading-relaxed line-clamp-3">{art.desc}</p>
+              </div>
+              <div class="mt-5 border-t border-hairline pt-3.5 flex items-center justify-between text-[10px] font-mono text-mute">
+                <span>{art.readTime}</span>
+                <span class="text-xs font-semibold text-primary group-hover:underline">Read →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
 </Layout>
 
+<script>
+  // =====================================================
+  // HOMEPAGE CALCULATOR LOGIC
+  // =====================================================
 
+  // Chip value map
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+
+  const amountInput = document.getElementById('home-calc-amount') as HTMLInputElement | null;
+  const calcTypeHidden = document.getElementById('home-calc-type') as HTMLInputElement | null;
+  const calcRateHidden = document.getElementById('home-calc-rate') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('home-calc-rate-custom') as HTMLInputElement | null;
+  const customRateWrap = document.getElementById('home-custom-rate-wrap');
+
+  // Result elements
+  const rTaxable = document.getElementById('home-res-taxable');
+  const rTotalTax = document.getElementById('home-res-total-tax');
+  const rCgst = document.getElementById('home-res-cgst');
+  const rSgst = document.getElementById('home-res-sgst');
+  const rIgst = document.getElementById('home-res-igst');
+  const rEffective = document.getElementById('home-res-effective');
+  const rGrandTotal = document.getElementById('home-res-grand-total');
+  const rGrandLabel = document.getElementById('home-grand-label');
+  const rCgstRow = document.getElementById('home-res-cgst-row');
+  const rSgstRow = document.getElementById('home-res-sgst-row');
+  const rIgstRow = document.getElementById('home-res-igst-row');
+  const chartBaseBar = document.getElementById('home-chart-base-bar') as HTMLElement | null;
+  const chartBaseP = document.getElementById('home-chart-base-pct');
+  const chartGstBar = document.getElementById('home-chart-gst-bar') as HTMLElement | null;
+  const chartGstP = document.getElementById('home-chart-gst-pct');
+
+  function parseRawAmount(val: string): number {
+    return parseFloat(val.replace(/[₹,\s]/g, '')) || 0;
+  }
+
+  function formatIndian(val: number): string {
+    return '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function calculate() {
+    const rawAmount = amountInput?.value || '0';
+    const amount = parseRawAmount(rawAmount);
+    const rate = calcRateHidden?.value === 'custom'
+      ? parseFloat(customRateInput?.value || '0') || 0
+      : parseFloat(calcRateHidden?.value || '18') || 0;
+    const isAdd = (calcTypeHidden?.value || 'add') === 'add';
+    const taxTypeRadio = document.querySelector('input[name="home-tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = (taxTypeRadio?.value || 'intrastate') === 'intrastate';
+
+    if (amount <= 0) {
+      [rTaxable, rTotalTax, rCgst, rSgst, rIgst, rEffective, rGrandTotal].forEach(el => { if (el) el.innerText = el === rEffective ? '0.00%' : '₹0.00'; });
+      if (rGrandLabel) rGrandLabel.textContent = 'Enter an amount above';
+      if (chartBaseBar) chartBaseBar.style.width = '0%';
+      if (chartGstBar) chartGstBar.style.width = '0%';
+      return;
+    }
+
+    let taxable: number, totalTax: number, grandTotal: number;
+    if (isAdd) {
+      taxable = amount;
+      totalTax = amount * (rate / 100);
+      grandTotal = amount + totalTax;
+    } else {
+      taxable = amount / (1 + rate / 100);
+      totalTax = amount - taxable;
+      grandTotal = amount;
+    }
+
+    const effectivePct = grandTotal > 0 ? (totalTax / grandTotal) * 100 : 0;
+    const basePct = grandTotal > 0 ? (taxable / grandTotal) * 100 : 0;
+    const gstPct = 100 - basePct;
+
+    if (rTaxable) rTaxable.innerText = formatIndian(taxable);
+    if (rTotalTax) rTotalTax.innerText = formatIndian(totalTax);
+    if (rEffective) rEffective.innerText = effectivePct.toFixed(2) + '%';
+    if (rGrandTotal) rGrandTotal.innerText = formatIndian(grandTotal);
+
+    const supplyLabel = isIntrastate ? 'Intra-State' : 'Inter-State';
+    if (rGrandLabel) rGrandLabel.textContent = `Inclusive of ${rate}% GST (${supplyLabel})`;
+
+    if (isIntrastate) {
+      rCgstRow?.classList.remove('hidden');
+      rSgstRow?.classList.remove('hidden');
+      rIgstRow?.classList.add('hidden');
+      const half = totalTax / 2;
+      if (rCgst) rCgst.innerText = formatIndian(half);
+      if (rSgst) rSgst.innerText = formatIndian(half);
+    } else {
+      rCgstRow?.classList.add('hidden');
+      rSgstRow?.classList.add('hidden');
+      rIgstRow?.classList.remove('hidden');
+      if (rIgst) rIgst.innerText = formatIndian(totalTax);
+    }
+
+    // Update chart bars
+    if (chartBaseBar) chartBaseBar.style.width = Math.min(basePct, 100).toFixed(1) + '%';
+    if (chartGstBar) chartGstBar.style.width = Math.min(gstPct, 100).toFixed(1) + '%';
+    if (chartBaseP) chartBaseP.textContent = basePct.toFixed(1) + '%';
+    if (chartGstP) chartGstP.textContent = gstPct.toFixed(1) + '%';
+  }
+
+  // Auto-format amount input as Indian number while typing
+  amountInput?.addEventListener('input', () => {
+    const raw = parseRawAmount(amountInput.value);
+    // Only reformat if it's a valid number
+    if (!isNaN(raw) && raw > 0) {
+      const pos = amountInput.selectionStart || 0;
+      const formatted = raw.toLocaleString('en-IN');
+      // Only update if different to avoid cursor jump issues
+      if (amountInput.value !== formatted) {
+        amountInput.value = formatted;
+      }
+    }
+    calculate();
+  });
+
+  // Quick Amount Chips
+  document.querySelectorAll<HTMLButtonElement>('#home-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.value || ''] || 0;
+      if (amountInput) amountInput.value = val.toLocaleString('en-IN');
+      document.querySelectorAll('#home-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  // Segmented Control — GST Type
+  document.querySelectorAll<HTMLButtonElement>('.segmented-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.segmented-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      if (calcTypeHidden) calcTypeHidden.value = btn.dataset.type || 'add';
+      calculate();
+    });
+  });
+
+  // Rate Pills
+  document.querySelectorAll<HTMLButtonElement>('.rate-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.rate-pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-pressed', 'true');
+      const rate = pill.dataset.rate || '18';
+      if (calcRateHidden) calcRateHidden.value = rate;
+      if (rate === 'custom') {
+        customRateWrap?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateWrap?.classList.add('hidden');
+      }
+      calculate();
+    });
+  });
+
+  // Custom rate input
+  customRateInput?.addEventListener('input', calculate);
+
+  // Tax type radio change
+  document.querySelectorAll<HTMLInputElement>('input[name="home-tax-type"]').forEach(radio => {
+    radio.addEventListener('change', calculate);
+  });
+
+  // Action buttons
+  function showToast(msg: string) {
+    const toast = document.getElementById('home-toast');
+    if (toast) {
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2500);
+    }
+  }
+
+  document.getElementById('home-copy-btn')?.addEventListener('click', () => {
+    const lines = [
+      `GST Calculation — gstcalculatoronline.in`,
+      `${'─'.repeat(30)}`,
+      `Base Amount:    ${rTaxable?.innerText || '₹0'}`,
+      rCgstRow?.classList.contains('hidden') ? `IGST:           ${rIgst?.innerText || '₹0'}` : `CGST:           ${rCgst?.innerText || '₹0'}`,
+      rSgstRow?.classList.contains('hidden') ? '' : `SGST:           ${rSgst?.innerText || '₹0'}`,
+      `Total GST:      ${rTotalTax?.innerText || '₹0'}`,
+      `Effective Rate: ${rEffective?.innerText || '0%'}`,
+      `${'─'.repeat(30)}`,
+      `Grand Total:    ${rGrandTotal?.innerText || '₹0'}`,
+    ].filter(Boolean).join('\n');
+    navigator.clipboard.writeText(lines).then(() => showToast('✓ Copied to clipboard!'));
+  });
+
+  document.getElementById('home-share-btn')?.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.hash = '#calculator';
+    const rawAmount = parseRawAmount(amountInput?.value || '0');
+    url.searchParams.set('amount', rawAmount.toString());
+    url.searchParams.set('rate', calcRateHidden?.value || '18');
+    url.searchParams.set('type', calcTypeHidden?.value || 'add');
+    const taxType = (document.querySelector('input[name="home-tax-type"]:checked') as HTMLInputElement | null)?.value || 'intrastate';
+    url.searchParams.set('taxtype', taxType);
+    navigator.clipboard.writeText(url.toString()).then(() => showToast('✓ Link copied!'));
+  });
+
+  document.getElementById('home-pdf-btn')?.addEventListener('click', async () => {
+    if (!(window as any).jspdf) {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      document.head.appendChild(s);
+      await new Promise(resolve => s.onload = resolve);
+    }
+    const { jsPDF } = (window as any).jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
+    doc.setFillColor(5, 150, 105);
+    doc.rect(0, 0, 148, 18, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.text('GST Calculation Report', 10, 12);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text('gstcalculatoronline.in', 108, 12);
+    doc.setTextColor(80, 80, 80);
+    doc.setFontSize(8);
+    doc.text(`Generated: ${new Date().toLocaleString('en-IN')}`, 10, 26);
+    const rows: [string, string][] = [
+      ['Base Amount', rTaxable?.innerText || '₹0'],
+    ];
+    if (!rCgstRow?.classList.contains('hidden')) { rows.push(['CGST', rCgst?.innerText || '₹0']); rows.push(['SGST', rSgst?.innerText || '₹0']); }
+    else { rows.push(['IGST', rIgst?.innerText || '₹0']); }
+    rows.push(['Total GST', rTotalTax?.innerText || '₹0']);
+    rows.push(['Effective Rate', rEffective?.innerText || '0%']);
+    let y = 34;
+    doc.setFontSize(9);
+    rows.forEach(([label, val]) => {
+      doc.setFont('helvetica', 'normal'); doc.setTextColor(60, 60, 60); doc.text(label, 10, y);
+      doc.setFont('helvetica', 'bold'); doc.setTextColor(15, 23, 42); doc.text(val, 138, y, { align: 'right' });
+      doc.setDrawColor(226, 232, 240); doc.line(10, y + 2, 138, y + 2); y += 10;
+    });
+    doc.setFillColor(240, 253, 244);
+    doc.roundedRect(8, y, 132, 14, 3, 3, 'F');
+    doc.setTextColor(5, 150, 105); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.text('GRAND TOTAL', 14, y + 9);
+    doc.setFontSize(12); doc.text(rGrandTotal?.innerText || '₹0', 138, y + 9, { align: 'right' });
+    doc.setFontSize(7); doc.setTextColor(150, 150, 150); doc.setFont('helvetica', 'normal');
+    doc.text('Disclaimer: For illustrative purposes. Verify with a qualified CA.', 10, 205);
+    doc.text('© gstcalculatoronline.in', 10, 210);
+    doc.save(`GST-${Date.now()}.pdf`);
+    showToast('✓ PDF downloaded!');
+  });
+
+  document.getElementById('home-reset-btn')?.addEventListener('click', () => {
+    if (amountInput) amountInput.value = '10,000';
+    if (calcTypeHidden) calcTypeHidden.value = 'add';
+    if (calcRateHidden) calcRateHidden.value = '18';
+    customRateWrap?.classList.add('hidden');
+    document.getElementById('home-type-add')?.classList.add('active');
+    document.getElementById('home-type-remove')?.classList.remove('active');
+    document.querySelectorAll('.rate-pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+    document.querySelector('.rate-pill[data-rate="18"]')?.classList.add('active');
+    const intra = document.querySelector('input[name="home-tax-type"][value="intrastate"]') as HTMLInputElement | null;
+    if (intra) intra.checked = true;
+    document.querySelectorAll('#home-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+    calculate();
+  });
+
+  // ESC key to reset
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      document.getElementById('home-reset-btn')?.click();
+    }
+  });
+
+  // Filter buttons
+  const filterBtns = document.querySelectorAll('.home-filter-btn');
+  const toolItems = document.querySelectorAll('.home-tool-item');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter || 'all';
+      filterBtns.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('bg-canvas-soft', 'text-body', 'border-hairline');
+      });
+      btn.classList.remove('bg-canvas-soft', 'text-body', 'border-hairline');
+      btn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+      toolItems.forEach(item => {
+        const cat = (item as HTMLElement).dataset.category;
+        if (filter === 'all' || cat === filter) item.classList.remove('hidden');
+        else item.classList.add('hidden');
+      });
+    });
+  });
+
+  // Initial calculation on load
+  calculate();
+</script>

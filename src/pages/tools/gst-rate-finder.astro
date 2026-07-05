@@ -1,0 +1,478 @@
+---
+import CalculatorLayout from '../../components/CalculatorLayout.astro';
+
+const pageTitle = "GST Rate Finder — Search GST Rates for Goods & Services India";
+const pageDesc = "Find GST rates for any product or service instantly. Search by name, HSN code, or category. Filter by 0%, 5%, 12%, 18%, 28% slabs. Free GST rate directory updated for India 2025-26.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GST Rate Finder",
+  "url": "https://gstcalculatoronline.in/tools/gst-rate-finder",
+  "description": "Search GST rates for 100+ goods and services. Filter by category and rate. Free Indian GST rate directory.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+};
+
+const faqs = [
+  {
+    question: "What are the GST rates in India?",
+    answer: "India has four main GST slabs: 5% for essential goods, 12% for standard goods, 18% for most services and electronics, and 28% for luxury items. Gold attracts 3% and some essential items are at 0%."
+  },
+  {
+    question: "How do I find the GST rate for my product?",
+    answer: "Use our GST Rate Finder: search by product name or HSN code in the search box, or filter by category (Food, Electronics, Services, etc.) or by rate slab to find the applicable rate."
+  },
+  {
+    question: "What is an HSN code?",
+    answer: "HSN (Harmonised System of Nomenclature) is an internationally standardized system of names and numbers to classify traded products. In India, HSN codes are mandatory on GST invoices for goods, while SAC codes are used for services."
+  },
+  {
+    question: "Are GST rates the same across all states?",
+    answer: "Yes. GST rates are uniform across all Indian states as they are set by the GST Council. Only the split differs: for intrastate, the rate is split into equal CGST and SGST portions; for interstate, the full rate applies as IGST."
+  }
+];
+
+// GST Rate Data
+const gstRates = [
+  // 0% — Essential Goods & Services
+  { name: "Fresh Vegetables", category: "Food", hsn: "0701-0714", rate: 0 },
+  { name: "Fresh Fruits", category: "Food", hsn: "0801-0814", rate: 0 },
+  { name: "Milk and Cream", category: "Food", hsn: "0401", rate: 0 },
+  { name: "Eggs (fresh)", category: "Food", hsn: "0407", rate: 0 },
+  { name: "Bread (non-packaged)", category: "Food", hsn: "1905", rate: 0 },
+  { name: "Salt (table)", category: "Food", hsn: "2501", rate: 0 },
+  { name: "Wheat Flour (non-branded)", category: "Food", hsn: "1101", rate: 0 },
+  { name: "Rice (non-branded)", category: "Food", hsn: "1006", rate: 0 },
+  { name: "Educational Services", category: "Education", hsn: "9992", rate: 0 },
+  { name: "Healthcare Services", category: "Healthcare", hsn: "9993", rate: 0 },
+  { name: "Books (printed)", category: "Education", hsn: "4901", rate: 0 },
+  { name: "Newspapers", category: "Media", hsn: "4902", rate: 0 },
+  { name: "Children's Drawing Books", category: "Education", hsn: "4904", rate: 0 },
+  // 3% — Gold & Precious
+  { name: "Gold (articles)", category: "Jewellery", hsn: "7113", rate: 3 },
+  { name: "Silver (articles)", category: "Jewellery", hsn: "7114", rate: 3 },
+  { name: "Diamond (cut/polished)", category: "Jewellery", hsn: "7102", rate: 0.25 },
+  { name: "Precious Stones", category: "Jewellery", hsn: "7103", rate: 0.25 },
+  { name: "Imitation Jewellery", category: "Jewellery", hsn: "7117", rate: 3 },
+  // 5% — Essential Goods
+  { name: "Packaged Food Items", category: "Food", hsn: "2106", rate: 5 },
+  { name: "Coffee (non-branded)", category: "Food", hsn: "0901", rate: 5 },
+  { name: "Tea (non-branded)", category: "Food", hsn: "0902", rate: 5 },
+  { name: "Coal", category: "Energy", hsn: "2701", rate: 5 },
+  { name: "Kerosene (PDS)", category: "Energy", hsn: "2770", rate: 5 },
+  { name: "Economy Air Travel", category: "Transport", hsn: "9964", rate: 5 },
+  { name: "Railway Transport (non-AC)", category: "Transport", hsn: "9964", rate: 5 },
+  { name: "Road Transport Services", category: "Transport", hsn: "9966", rate: 5 },
+  { name: "Life Insurance Premium", category: "Insurance", hsn: "9971", rate: 5 },
+  { name: "Fertilisers", category: "Agriculture", hsn: "3102", rate: 5 },
+  { name: "Handmade Carpets", category: "Textiles", hsn: "5701", rate: 5 },
+  { name: "Tailoring Services", category: "Services", hsn: "9988", rate: 5 },
+  // 12% — Standard Goods
+  { name: "Computers & Laptops", category: "Electronics", hsn: "8471", rate: 12 },
+  { name: "Mobile Phones (≤12K)", category: "Electronics", hsn: "8517", rate: 12 },
+  { name: "Processed Cheese", category: "Food", hsn: "0406", rate: 12 },
+  { name: "Butter and Ghee", category: "Food", hsn: "0405", rate: 12 },
+  { name: "Frozen Meat", category: "Food", hsn: "0204", rate: 12 },
+  { name: "Spices (branded)", category: "Food", hsn: "0910", rate: 12 },
+  { name: "Hotels (tariff ₹1000-7500)", category: "Hospitality", hsn: "9963", rate: 12 },
+  { name: "Business Class Air Travel", category: "Transport", hsn: "9964", rate: 12 },
+  { name: "Textile Fabric (man-made)", category: "Textiles", hsn: "5407", rate: 12 },
+  { name: "Medicines (under DPCO)", category: "Healthcare", hsn: "3004", rate: 12 },
+  { name: "Construction Services (residential)", category: "Real Estate", hsn: "9954", rate: 12 },
+  // 18% — Standard Rate
+  { name: "Restaurants (AC)", category: "Food & Dining", hsn: "9963", rate: 18 },
+  { name: "Banking & Financial Services", category: "Financial Services", hsn: "9971", rate: 18 },
+  { name: "IT Services (Software)", category: "IT & Software", hsn: "9983", rate: 18 },
+  { name: "Professional Services (CA/Legal)", category: "Services", hsn: "9982", rate: 18 },
+  { name: "FMCG Goods", category: "Consumer Goods", hsn: "3304", rate: 18 },
+  { name: "Refrigerators", category: "Appliances", hsn: "8418", rate: 18 },
+  { name: "Washing Machines", category: "Appliances", hsn: "8450", rate: 18 },
+  { name: "Air Conditioners", category: "Appliances", hsn: "8415", rate: 18 },
+  { name: "Mobile Phones (>12K)", category: "Electronics", hsn: "8517", rate: 18 },
+  { name: "Televisions (≤32 inch)", category: "Electronics", hsn: "8528", rate: 18 },
+  { name: "Televisions (>32 inch)", category: "Electronics", hsn: "8528", rate: 18 },
+  { name: "Cameras & Lenses", category: "Electronics", hsn: "9006", rate: 18 },
+  { name: "Printing Services", category: "Services", hsn: "9988", rate: 18 },
+  { name: "Insurance (non-life)", category: "Insurance", hsn: "9971", rate: 18 },
+  { name: "Hotels (tariff >7500)", category: "Hospitality", hsn: "9963", rate: 18 },
+  { name: "Outdoor Catering", category: "Food & Dining", hsn: "9963", rate: 18 },
+  { name: "Advertising Services", category: "Media", hsn: "9983", rate: 18 },
+  { name: "Courier Services", category: "Logistics", hsn: "9967", rate: 18 },
+  { name: "Audit/Consultancy Services", category: "Services", hsn: "9982", rate: 18 },
+  { name: "Construction (commercial)", category: "Real Estate", hsn: "9954", rate: 18 },
+  { name: "Security Services", category: "Services", hsn: "9985", rate: 18 },
+  { name: "Event Management", category: "Services", hsn: "9985", rate: 18 },
+  { name: "Gym / Fitness Services", category: "Wellness", hsn: "9996", rate: 18 },
+  { name: "Paints and Varnishes", category: "Building Materials", hsn: "3208", rate: 18 },
+  { name: "Steel Products (non-CRGO)", category: "Metals", hsn: "7208", rate: 18 },
+  // 28% — Luxury & Demerit
+  { name: "Luxury Cars (>4m)", category: "Automobiles", hsn: "8703", rate: 28 },
+  { name: "SUVs (>4m, >1500cc, >170mm GC)", category: "Automobiles", hsn: "8703", rate: 28 },
+  { name: "Motorcycles (>350cc)", category: "Automobiles", hsn: "8711", rate: 28 },
+  { name: "Tobacco Products", category: "Tobacco", hsn: "2401", rate: 28 },
+  { name: "Cigarettes", category: "Tobacco", hsn: "2402", rate: 28 },
+  { name: "Aerated Drinks", category: "Beverages", hsn: "2202", rate: 28 },
+  { name: "Cement", category: "Building Materials", hsn: "2523", rate: 28 },
+  { name: "Paint (wall/decorative)", category: "Building Materials", hsn: "3210", rate: 28 },
+  { name: "Online Gaming (real money)", category: "Gaming", hsn: "9984", rate: 28 },
+  { name: "Casinos", category: "Gaming", hsn: "9996", rate: 28 },
+  { name: "Horse Racing Clubs", category: "Sports & Recreation", hsn: "9996", rate: 28 },
+  { name: "Private Jets", category: "Transport", hsn: "8802", rate: 28 },
+  { name: "Yachts", category: "Transport", hsn: "8903", rate: 28 },
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+
+  <div class="space-y-4">
+    <!-- Search Bar -->
+    <div class="relative">
+      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+        <svg class="w-4.5 h-4.5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z"/>
+        </svg>
+      </div>
+      <input
+        type="search"
+        id="rate-search"
+        class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-11 pr-4 text-sm text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-mute"
+        placeholder="Search product, service, or HSN code..."
+        autocomplete="off"
+        aria-label="Search GST rates"
+      />
+      <div id="search-count" class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs font-mono text-mute"></div>
+    </div>
+
+    <!-- Popular Searches -->
+    <div class="flex flex-wrap gap-2 items-center">
+      <span class="text-[10px] font-bold text-mute uppercase tracking-wider">Popular:</span>
+      {['Mobile Phone', 'Restaurant', 'Gold', 'Software', 'Cement', 'Car', 'Medicine', 'Hotel'].map(term => (
+        <button type="button" class="popular-search text-xs font-semibold text-body bg-canvas-soft-2 border border-hairline rounded-full px-3 py-1 hover:bg-primary hover:text-on-primary hover:border-primary transition-all cursor-pointer" data-search={term}>
+          {term}
+        </button>
+      ))}
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-4">
+      <!-- Category Filter -->
+      <div class="flex flex-wrap gap-1.5" id="category-filters" role="group" aria-label="Filter by category">
+        <span class="text-[10px] font-bold text-mute self-center uppercase tracking-wider">Category:</span>
+        {['All', 'Food', 'Electronics', 'Services', 'Automobiles', 'Healthcare', 'Textiles', 'Jewellery'].map((cat, i) => (
+          <button type="button" class={`cat-filter rounded-full px-3 py-1 text-xs font-semibold border transition-all cursor-pointer ${i === 0 ? 'bg-primary text-on-primary border-primary' : 'bg-canvas-soft text-body border-hairline hover:bg-canvas-soft-2'}`} data-cat={cat}>
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Rate Filters -->
+    <div class="flex flex-wrap gap-2" id="rate-filters" role="group" aria-label="Filter by GST rate">
+      <span class="text-[10px] font-bold text-mute self-center uppercase tracking-wider">Rate:</span>
+      {[{label:'All', val:''},{label:'0%', val:'0'},{label:'3%', val:'3'},{label:'5%', val:'5'},{label:'12%', val:'12'},{label:'18%', val:'18'},{label:'28%', val:'28'}].map((r, i) => (
+        <button type="button" class={`rate-filter rounded-full px-3 py-1 text-xs font-semibold border transition-all cursor-pointer ${i === 0 ? 'bg-primary text-on-primary border-primary' : 'bg-canvas-soft text-body border-hairline hover:bg-canvas-soft-2'}`} data-rate={r.val}>
+          {r.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Rate Table -->
+    <div class="rounded-xl border border-hairline overflow-hidden">
+      <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+        <table class="rate-finder-table w-full" id="rate-table" aria-label="GST Rate Directory">
+          <thead>
+            <tr>
+              <th>Product / Service</th>
+              <th>Category</th>
+              <th>HSN / SAC</th>
+              <th>GST Rate</th>
+              <th>CGST</th>
+              <th>SGST</th>
+              <th>IGST</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="rate-tbody">
+            <!-- Rows rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="rate-no-results" class="hidden text-center py-12 text-mute">
+        <svg class="w-10 h-10 mx-auto mb-3 text-hairline-strong" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.602 10.602Z"/></svg>
+        <p class="text-sm font-semibold">No results found</p>
+        <p class="text-xs mt-1">Try a different search term or filter</p>
+      </div>
+    </div>
+
+    <!-- Bookmarks -->
+    <div id="bookmarks-section" class="hidden">
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24"><path d="m17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/></svg>
+        <h3 class="text-sm font-bold text-ink">Bookmarked Rates</h3>
+        <button type="button" id="clear-bookmarks" class="text-xs text-mute hover:text-red-500 transition-colors cursor-pointer ml-auto">Clear all</button>
+      </div>
+      <div id="bookmarks-list" class="flex flex-wrap gap-2"></div>
+    </div>
+  </div>
+
+  <!-- Right Column Summary -->
+  <div slot="results">
+    <div class="rounded-2xl border border-hairline bg-canvas-soft p-5 shadow-xs">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-ink border-b border-hairline pb-3 mb-4">Directory Stats</h3>
+      <div class="space-y-2">
+        <div class="flex justify-between text-sm"><span class="text-body">Total Items</span><span id="stat-total" class="font-mono font-bold text-ink">0</span></div>
+        <div class="flex justify-between text-sm"><span class="text-body">Showing</span><span id="stat-showing" class="font-mono font-bold text-ink">0</span></div>
+        <div class="flex justify-between text-sm"><span class="text-body">Bookmarked</span><span id="stat-bookmarks" class="font-mono font-bold text-ink">0</span></div>
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-hairline">
+        <h4 class="text-xs font-bold text-ink mb-3">Rate Distribution</h4>
+        <div class="space-y-2" id="rate-distribution">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <div class="mt-5 pt-4 border-t border-hairline">
+        <h4 class="text-xs font-bold text-ink mb-2">Recently Viewed</h4>
+        <div id="recently-viewed" class="space-y-1">
+          <p class="text-xs text-mute">Nothing yet</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</CalculatorLayout>
+
+<script define:vars={{ gstRates }}>
+  // =====================================================
+  // GST RATE FINDER LOGIC
+  // =====================================================
+
+  let searchTerm = '';
+  let activeCategory = 'All';
+  let activeRate = '';
+  let bookmarks = new Set(JSON.parse(localStorage.getItem('gst_bookmarks') || '[]'));
+  let recentlyViewed = JSON.parse(localStorage.getItem('gst_recent') || '[]');
+
+  const tbody = document.getElementById('rate-tbody');
+  const noResults = document.getElementById('rate-no-results');
+  const searchInput = document.getElementById('rate-search');
+  const searchCount = document.getElementById('search-count');
+
+  function rateClass(rate) {
+    if (rate === 0) return 'rate-badge rate-badge-0';
+    if (rate <= 0.25) return 'rate-badge rate-badge-3';
+    if (rate === 3) return 'rate-badge rate-badge-3';
+    if (rate === 5) return 'rate-badge rate-badge-5';
+    if (rate === 12) return 'rate-badge rate-badge-12';
+    if (rate === 18) return 'rate-badge rate-badge-18';
+    return 'rate-badge rate-badge-28';
+  }
+
+  function highlight(text, term) {
+    if (!term) return text;
+    const re = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(re, '<mark class="search-highlight">$1</mark>');
+  }
+
+  function renderTable() {
+    const filtered = gstRates.filter(item => {
+      const matchSearch = !searchTerm ||
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.hsn.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchCat = activeCategory === 'All' || item.category === activeCategory;
+      const matchRate = activeRate === '' || item.rate === parseFloat(activeRate);
+      return matchSearch && matchCat && matchRate;
+    });
+
+    if (tbody) {
+      tbody.innerHTML = '';
+      filtered.forEach(item => {
+        const half = item.rate / 2;
+        const bookmarked = bookmarks.has(item.name);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="font-medium text-ink">${highlight(item.name, searchTerm)}</td>
+          <td class="text-mute">${highlight(item.category, searchTerm)}</td>
+          <td><span class="font-mono text-xs">${item.hsn}</span></td>
+          <td><span class="${rateClass(item.rate)}">${item.rate}%</span></td>
+          <td class="font-mono text-xs text-mute">${half.toFixed(item.rate < 1 ? 3 : 1)}%</td>
+          <td class="font-mono text-xs text-mute">${half.toFixed(item.rate < 1 ? 3 : 1)}%</td>
+          <td class="font-mono text-xs text-mute">${item.rate}%</td>
+          <td>
+            <button type="button" class="bookmark-btn text-${bookmarked ? 'primary' : 'mute'} hover:text-primary transition-colors cursor-pointer" data-name="${item.name}" aria-label="${bookmarked ? 'Remove bookmark' : 'Bookmark'}">
+              ${bookmarked ? '★' : '☆'}
+            </button>
+          </td>
+        `;
+        // Click to view detail & add to recently viewed
+        tr.addEventListener('click', (e) => {
+          if ((e.target).classList.contains('bookmark-btn')) return;
+          addRecentlyViewed(item);
+        });
+        tr.querySelector('.bookmark-btn')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleBookmark(item.name);
+        });
+        tbody?.appendChild(tr);
+      });
+    }
+
+    const hasResults = filtered.length > 0;
+    noResults?.classList.toggle('hidden', hasResults);
+    if (searchCount) searchCount.textContent = filtered.length > 0 ? `${filtered.length} results` : '';
+    
+    // Update stats
+    const statShowing = document.getElementById('stat-showing');
+    if (statShowing) statShowing.textContent = String(filtered.length);
+    
+    updateRateDistribution(filtered);
+  }
+
+  function updateRateDistribution(filtered) {
+    const dist = document.getElementById('rate-distribution');
+    if (!dist) return;
+    const counts = { '0%': 0, '3%': 0, '5%': 0, '12%': 0, '18%': 0, '28%': 0 };
+    filtered.forEach(item => {
+      const key = item.rate <= 0.25 ? '0%' : item.rate === 3 ? '3%' : `${item.rate}%`;
+      if (counts[key] !== undefined) counts[key]++;
+    });
+    dist.innerHTML = Object.entries(counts).map(([rate, count]) => {
+      const pct = filtered.length > 0 ? Math.round(count / filtered.length * 100) : 0;
+      return `<div class="flex items-center gap-2 text-xs">
+        <span class="font-mono font-bold text-mute w-8">${rate}</span>
+        <div class="flex-1 h-1.5 rounded-full bg-canvas-soft-2 overflow-hidden">
+          <div class="h-full rounded-full" style="background:var(--color-primary);opacity:${0.3 + pct/100*0.7};width:${pct}%"></div>
+        </div>
+        <span class="font-mono text-mute w-6 text-right">${count}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleBookmark(name) {
+    if (bookmarks.has(name)) bookmarks.delete(name);
+    else bookmarks.add(name);
+    localStorage.setItem('gst_bookmarks', JSON.stringify([...bookmarks]));
+    renderTable();
+    renderBookmarks();
+    const statBookmarks = document.getElementById('stat-bookmarks');
+    if (statBookmarks) statBookmarks.textContent = String(bookmarks.size);
+  }
+
+  function renderBookmarks() {
+    const section = document.getElementById('bookmarks-section');
+    const list = document.getElementById('bookmarks-list');
+    if (!list || !section) return;
+    if (bookmarks.size === 0) { section.classList.add('hidden'); return; }
+    section.classList.remove('hidden');
+    list.innerHTML = [...bookmarks].map(name => {
+      const item = gstRates.find(r => r.name === name);
+      if (!item) return '';
+      return `<div class="flex items-center gap-2 text-xs bg-canvas-soft-2 border border-hairline rounded-full px-3 py-1.5">
+        <span class="font-medium text-ink">${name}</span>
+        <span class="${rateClass(item.rate)} text-[10px] px-1.5 py-0.5">${item.rate}%</span>
+        <button type="button" class="remove-bm text-mute hover:text-red-500 cursor-pointer" data-name="${name}">✕</button>
+      </div>`;
+    }).join('');
+    list.querySelectorAll('.remove-bm').forEach(btn => {
+      btn.addEventListener('click', () => toggleBookmark(btn.dataset.name));
+    });
+  }
+
+  function addRecentlyViewed(item) {
+    recentlyViewed = recentlyViewed.filter(r => r.name !== item.name);
+    recentlyViewed.unshift({ name: item.name, rate: item.rate });
+    recentlyViewed = recentlyViewed.slice(0, 5);
+    localStorage.setItem('gst_recent', JSON.stringify(recentlyViewed));
+    renderRecentlyViewed();
+  }
+
+  function renderRecentlyViewed() {
+    const el = document.getElementById('recently-viewed');
+    if (!el) return;
+    if (recentlyViewed.length === 0) { el.innerHTML = '<p class="text-xs text-mute">Nothing yet</p>'; return; }
+    el.innerHTML = recentlyViewed.map(item => `
+      <div class="flex items-center justify-between text-xs py-1">
+        <button type="button" class="recent-item text-left text-body hover:text-primary cursor-pointer transition-colors" data-search="${item.name}">${item.name}</button>
+        <span class="${rateClass(item.rate)} text-[10px] px-1.5 py-0.5">${item.rate}%</span>
+      </div>
+    `).join('');
+    el.querySelectorAll('.recent-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (searchInput) (searchInput).value = btn.dataset.search;
+        searchTerm = btn.dataset.search || '';
+        renderTable();
+      });
+    });
+  }
+
+  // Search (debounced)
+  let debounceTimer;
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      searchTerm = (searchInput).value;
+      renderTable();
+    }, 200);
+  });
+
+  // Popular searches
+  document.querySelectorAll('.popular-search').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const term = btn.dataset.search || '';
+      if (searchInput) (searchInput).value = term;
+      searchTerm = term;
+      renderTable();
+    });
+  });
+
+  // Category filter
+  document.querySelectorAll('.cat-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-filter').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('bg-canvas-soft', 'text-body', 'border-hairline');
+      });
+      btn.classList.remove('bg-canvas-soft', 'text-body', 'border-hairline');
+      btn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+      activeCategory = btn.dataset.cat || 'All';
+      renderTable();
+    });
+  });
+
+  // Rate filter
+  document.querySelectorAll('.rate-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rate-filter').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('bg-canvas-soft', 'text-body', 'border-hairline');
+      });
+      btn.classList.remove('bg-canvas-soft', 'text-body', 'border-hairline');
+      btn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+      activeRate = btn.dataset.rate || '';
+      renderTable();
+    });
+  });
+
+  // Clear bookmarks
+  document.getElementById('clear-bookmarks')?.addEventListener('click', () => {
+    bookmarks.clear();
+    localStorage.setItem('gst_bookmarks', '[]');
+    renderTable();
+    renderBookmarks();
+    const statBookmarks = document.getElementById('stat-bookmarks');
+    if (statBookmarks) statBookmarks.textContent = '0';
+  });
+
+  // Init
+  const statTotal = document.getElementById('stat-total');
+  if (statTotal) statTotal.textContent = String(gstRates.length);
+  const statBookmarks = document.getElementById('stat-bookmarks');
+  if (statBookmarks) statBookmarks.textContent = String(bookmarks.size);
+
+  renderTable();
+  renderBookmarks();
+  renderRecentlyViewed();
+</script>

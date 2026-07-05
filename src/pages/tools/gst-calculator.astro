@@ -108,13 +108,13 @@ const faqs = [
 ---
 <CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
   <!-- Calculator Input Form -->
-  <form id="gst-form" class="space-y-6">
+  <form id="gst-form" class="space-y-6" autocomplete="off">
     <!-- Transaction Amount -->
     <div>
-      <label for="calc-amount" class="block text-sm font-semibold text-ink">Transaction Amount (₹)</label>
-      <div class="relative mt-2 rounded-lg shadow-xs">
-        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-mute">
-          <span class="text-xs font-mono">₹</span>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Transaction Amount (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
         </div>
         <input 
           type="number" 
@@ -123,48 +123,57 @@ const faqs = [
           value="10000" 
           min="1" 
           step="any"
-          class="block w-full rounded-lg border border-hairline bg-canvas py-3 pl-8 pr-4 text-base text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary font-mono transition-all"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
           placeholder="e.g. 10000"
           required
+          aria-label="Transaction Amount in Rupees"
         />
+      </div>
+      <!-- Quick Amount Chips -->
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group" aria-label="Quick amount presets">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
       </div>
     </div>
 
     <!-- Calculation Direction -->
     <div>
-      <span class="block text-sm font-semibold text-ink">GST Type</span>
-      <div class="mt-2 grid grid-cols-2 gap-3">
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+      <span class="block text-sm font-bold text-ink mb-2">GST Direction</span>
+      <div class="segmented-control" role="group" aria-label="GST calculation direction">
+        <label class="segmented-btn active [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm cursor-pointer">
           <input type="radio" name="calc-type" value="add" checked class="sr-only" />
-          <span>Add GST (+)</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add GST
         </label>
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
           <input type="radio" name="calc-type" value="remove" class="sr-only" />
-          <span>Remove GST (-)</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
+          Remove GST
         </label>
       </div>
     </div>
 
     <!-- GST Tax Slab Rates -->
     <div>
-      <span class="block text-sm font-semibold text-ink">GST Tax Rate (%)</span>
-      <div class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-5">
-        {['5', '12', '18', '28'].map((rate) => (
-          <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas py-2.5 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft-2 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink font-mono select-none">
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" role="group" aria-label="GST rate selection">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
             <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
-            <span>{rate}%</span>
+            {rate}%
           </label>
         ))}
-        <label class="flex items-center justify-center rounded-lg border border-hairline bg-canvas py-2.5 cursor-pointer text-sm font-semibold text-body hover:bg-canvas-soft-2 [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 [&:has(input:checked)]:text-ink select-none">
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
           <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
-          <span>Custom</span>
+          Custom
         </label>
       </div>
       
       <!-- Custom Rate Input (Hidden by default) -->
       <div id="custom-rate-container" class="hidden mt-3">
         <label for="calc-rate-custom" class="sr-only">Custom GST Rate (%)</label>
-        <div class="relative rounded-lg shadow-xs">
+        <div class="relative">
           <input 
             type="number" 
             name="custom-rate" 
@@ -173,31 +182,35 @@ const faqs = [
             max="100" 
             step="any"
             value="18"
-            class="block w-full rounded-lg border border-hairline bg-canvas py-2 px-3 text-sm text-ink outline-hidden focus:border-hairline-strong font-mono"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
             placeholder="Enter custom rate e.g. 3"
           />
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute">
-            <span class="text-xs font-mono">%</span>
-          </div>
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
         </div>
       </div>
     </div>
 
     <!-- Supply Destination -->
     <div>
-      <span class="block text-sm font-semibold text-ink">Supply Location</span>
-      <div class="mt-2 grid grid-cols-2 gap-3">
-        <label class="flex flex-col items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-center hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 select-none group">
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="grid grid-cols-2 gap-3" role="group" aria-label="Transaction type">
+        <label class="flex flex-col items-center justify-center rounded-xl border-2 bg-canvas p-3.5 cursor-pointer text-center select-none transition-all [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary/5 border-hairline hover:border-hairline-strong">
           <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
-          <span class="text-sm font-semibold text-body group-hover:text-ink group-has-checked:text-ink">Intrastate</span>
-          <span class="text-[10px] text-mute uppercase font-mono mt-0.5 group-has-checked:text-body">CGST + SGST</span>
+          <span class="text-sm font-bold text-ink">Intra-State</span>
+          <span class="text-[10px] text-mute font-mono mt-0.5">CGST + SGST</span>
         </label>
-        <label class="flex flex-col items-center justify-center rounded-lg border border-hairline bg-canvas p-3 cursor-pointer text-center hover:bg-canvas-soft [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-canvas-soft-2 select-none group">
+        <label class="flex flex-col items-center justify-center rounded-xl border-2 bg-canvas p-3.5 cursor-pointer text-center select-none transition-all [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary/5 border-hairline hover:border-hairline-strong">
           <input type="radio" name="tax-type" value="interstate" class="sr-only" />
-          <span class="text-sm font-semibold text-body group-hover:text-ink group-has-checked:text-ink">Interstate</span>
-          <span class="text-[10px] text-mute uppercase font-mono mt-0.5 group-has-checked:text-body">IGST Only</span>
+          <span class="text-sm font-bold text-ink">Inter-State</span>
+          <span class="text-[10px] text-mute font-mono mt-0.5">IGST Only</span>
         </label>
       </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="flex items-center gap-3 text-[10px] text-mute font-mono pt-1">
+      <span class="kbd">ESC</span><span>Reset</span>
+      <span class="kbd ml-2">Tab</span><span>Navigate fields</span>
     </div>
   </form>
 
@@ -545,6 +558,52 @@ const faqs = [
     });
   });
 
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (amountInput) amountInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  // Sync ResultCard chart bars after each calculation
+  const origCalculate = calculate;
+  function calculateAndSync() {
+    origCalculate();
+    const amt = parseFloat(amountInput?.value || '0') || 0;
+    const rateRad = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    const rate = rateRad?.value === 'custom' ? parseFloat(customRateInput?.value || '0') || 0 : parseFloat(rateRad?.value || '18') || 0;
+    const typeRad = document.querySelector('input[name="calc-type"]:checked') as HTMLInputElement | null;
+    const isAdd = (typeRad?.value || 'add') === 'add';
+    let taxable: number, totalTax: number, grand: number;
+    if (isAdd) { taxable = amt; totalTax = amt * rate / 100; grand = amt + totalTax; }
+    else { taxable = amt / (1 + rate / 100); totalTax = amt - taxable; grand = amt; }
+    const basePct = grand > 0 ? (taxable / grand * 100) : 0;
+    const gstPct = 100 - basePct;
+    const baseBar = document.getElementById('chart-base-bar') as HTMLElement | null;
+    const gstBar = document.getElementById('chart-gst-bar') as HTMLElement | null;
+    const basePctEl = document.getElementById('chart-base-pct');
+    const gstPctEl = document.getElementById('chart-gst-pct');
+    const effectiveEl = document.getElementById('res-effective-rate');
+    if (baseBar) baseBar.style.width = Math.min(basePct, 100).toFixed(1) + '%';
+    if (gstBar) gstBar.style.width = Math.min(gstPct, 100).toFixed(1) + '%';
+    if (basePctEl) basePctEl.textContent = basePct.toFixed(1) + '%';
+    if (gstPctEl) gstPctEl.textContent = gstPct.toFixed(1) + '%';
+    const effectivePct = grand > 0 ? (totalTax / grand * 100) : 0;
+    if (effectiveEl) effectiveEl.textContent = effectivePct.toFixed(2) + '%';
+  }
+  if (gstForm) {
+    gstForm.addEventListener('input', calculateAndSync);
+    gstForm.addEventListener('change', calculateAndSync);
+  }
+
   loadFromUrl();
-  calculate();
+  calculateAndSync();
 </script>

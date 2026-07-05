@@ -3,9 +3,9 @@ export interface Tool {
   name: string;
   desc: string;
   url: string;
-  icon: 'calculator' | 'fee' | 'interest' | 'composition';
-  category: 'tax-slabs' | 'late-fees' | 'interest-penalties' | 'composition-scheme';
-  categoryName: 'Tax Slab Calculators' | 'Filing Late Fees' | 'Interest Penalties' | 'Composition Scheme';
+  icon: 'calculator' | 'fee' | 'interest' | 'composition' | 'invoice' | 'finder';
+  category: 'tax-slabs' | 'late-fees' | 'interest-penalties' | 'composition-scheme' | 'utilities';
+  categoryName: 'Tax Slab Calculators' | 'Filing Late Fees' | 'Interest Penalties' | 'Composition Scheme' | 'Utilities';
   keywords: string;
   badge?: string;
 }
@@ -124,6 +124,28 @@ export const tools: Tool[] = [
     category: 'composition-scheme',
     categoryName: 'Composition Scheme',
     keywords: 'composition scheme merchant trader rate 1% 5% 6% tax liability small business'
+  },
+  {
+    id: 'invoice-builder',
+    name: 'GST Invoice Builder',
+    desc: 'Create professional GST invoices with auto CGST/SGST/IGST split, PDF export, and print-ready layout.',
+    url: '/tools/invoice-builder',
+    icon: 'invoice',
+    category: 'utilities',
+    categoryName: 'Utilities',
+    keywords: 'invoice builder gst invoice cgst sgst igst pdf print tax invoice professional',
+    badge: 'New'
+  },
+  {
+    id: 'gst-rate-finder',
+    name: 'GST Rate Finder',
+    desc: 'Search and filter GST rates for 100+ goods and services by category, HSN code, or product name.',
+    url: '/tools/gst-rate-finder',
+    icon: 'finder',
+    category: 'utilities',
+    categoryName: 'Utilities',
+    keywords: 'gst rate finder hsn sac code search directory goods services tax rate lookup',
+    badge: 'New'
   }
 ];
 
