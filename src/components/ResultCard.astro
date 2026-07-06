@@ -2,9 +2,10 @@
 interface Props {
   title?: string;
   showEffectiveTax?: boolean;
+  showChart?: boolean;
 }
 
-const { title = "Calculation Summary", showEffectiveTax = true } = Astro.props;
+const { title = "Calculation Summary", showEffectiveTax = true, showChart = true } = Astro.props;
 ---
 <div class="rounded-2xl border border-hairline bg-canvas-soft p-4 sm:p-6 shadow-xs transition-colors duration-200" id="result-card-root">
   <div class="flex items-center justify-between border-b border-hairline pb-2.5 mb-3">
@@ -77,37 +78,46 @@ const { title = "Calculation Summary", showEffectiveTax = true } = Astro.props;
 
     {showEffectiveTax && (
       <div class="result-row border-t border-hairline/60 mt-1 pt-1">
-        <span class="text-xs text-body font-medium">Effective Tax Rate</span>
+        <span class="text-xs text-body font-medium flex items-center gap-1.5">
+          Effective Tax Rate
+          <span class="tooltip-container">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 text-mute hover:text-ink cursor-help transition-colors">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.083.984l-.04.02-.116.06c-.198.113-.33.32-.33.565v1.5a.75.75 0 001.5 0v-1.5c0-.022.01-.044.028-.06l.041-.02a2.25 2.25 0 00-.115-3.832L12 8.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="tooltip-content">Effective Rate represents GST as a percentage of the final amount after tax inclusion.</span>
+          </span>
+        </span>
         <span id="res-effective-rate" class="font-mono text-xs font-bold" style="color: var(--color-brand-link);">0.00%</span>
       </div>
     )}
 
-    <!-- Live Bar Chart -->
-    <div class="bar-chart-container" id="bar-chart-area">
-      <p class="bar-chart-label mb-3">Tax Breakdown</p>
-      <div class="space-y-2.5">
-        <!-- Base Bar -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <span class="bar-chart-label">Base</span>
-            <span id="chart-base-pct" class="bar-chart-label">0%</span>
+    {showChart && (
+      <div class="bar-chart-container" id="bar-chart-area">
+        <p class="bar-chart-label mb-3">Tax Breakdown</p>
+        <div class="space-y-2.5">
+          <!-- Base Bar -->
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="bar-chart-label">Base</span>
+              <span id="chart-base-pct" class="bar-chart-label">0%</span>
+            </div>
+            <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
+              <div id="chart-base-bar" class="bar-chart-bar h-2 rounded-full" style="background: var(--color-ink); opacity: 0.2; width: 0%"></div>
+            </div>
           </div>
-          <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
-            <div id="chart-base-bar" class="bar-chart-bar h-2 rounded-full" style="background: var(--color-ink); opacity: 0.2; width: 0%"></div>
-          </div>
-        </div>
-        <!-- GST Bar -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <span class="bar-chart-label">GST</span>
-            <span id="chart-gst-pct" class="bar-chart-label">0%</span>
-          </div>
-          <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
-            <div id="chart-gst-bar" class="bar-chart-bar h-2 rounded-full" style="background: var(--color-primary); width: 0%"></div>
+          <!-- GST Bar -->
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="bar-chart-label">GST</span>
+              <span id="chart-gst-pct" class="bar-chart-label">0%</span>
+            </div>
+            <div class="h-2 rounded-full overflow-hidden bg-canvas-soft-2">
+              <div id="chart-gst-bar" class="bar-chart-bar h-2 rounded-full" style="background: var(--color-primary); width: 0%"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )}
   </div>
 
   <!-- Action buttons -->
@@ -304,4 +314,56 @@ const { title = "Calculation Summary", showEffectiveTax = true } = Astro.props;
 
   document.addEventListener('astro:page-load', setupCollapsibleBreakdown);
   setupCollapsibleBreakdown();
+
+  function setupAutoSync() {
+    const resTaxableVal = document.getElementById('res-taxable-val');
+    const resTotalTax = document.getElementById('res-total-tax');
+    const resGrandTotal = document.getElementById('res-grand-total');
+    const resEffectiveRate = document.getElementById('res-effective-rate');
+    const chartBaseBar = document.getElementById('chart-base-bar');
+    const chartGstBar = document.getElementById('chart-gst-bar');
+    const chartBasePct = document.getElementById('chart-base-pct');
+    const chartGstPct = document.getElementById('chart-gst-pct');
+
+    function parseVal(el: HTMLElement | null): number {
+      if (!el) return 0;
+      return parseFloat(el.innerText.replace(/[₹,\s%]/g, '')) || 0;
+    }
+
+    function syncChartAndEffective() {
+      const taxable = parseVal(resTaxableVal);
+      const tax = parseVal(resTotalTax);
+      const grand = parseVal(resGrandTotal);
+
+      if (grand > 0) {
+        const basePct = (taxable / grand) * 100;
+        const gstPct = 100 - basePct;
+        const effectivePct = (tax / grand) * 100;
+
+        if (chartBaseBar) chartBaseBar.style.width = Math.min(basePct, 100).toFixed(1) + '%';
+        if (chartGstBar) chartGstBar.style.width = Math.min(gstPct, 100).toFixed(1) + '%';
+        if (chartBasePct) chartBasePct.textContent = basePct.toFixed(1) + '%';
+        if (chartGstPct) chartGstPct.textContent = gstPct.toFixed(1) + '%';
+        if (resEffectiveRate) resEffectiveRate.textContent = effectivePct.toFixed(2) + '%';
+      } else {
+        if (chartBaseBar) chartBaseBar.style.width = '0%';
+        if (chartGstBar) chartGstBar.style.width = '0%';
+        if (chartBasePct) chartBasePct.textContent = '0%';
+        if (chartGstPct) chartGstPct.textContent = '0%';
+        if (resEffectiveRate) resEffectiveRate.textContent = '0.00%';
+      }
+    }
+
+    if (resTaxableVal && resTotalTax && resGrandTotal) {
+      const observer = new MutationObserver(syncChartAndEffective);
+      const config = { characterData: true, childList: true, subtree: true };
+      observer.observe(resTaxableVal, config);
+      observer.observe(resTotalTax, config);
+      observer.observe(resGrandTotal, config);
+      syncChartAndEffective();
+    }
+  }
+
+  document.addEventListener('astro:page-load', setupAutoSync);
+  setupAutoSync();
 </script>

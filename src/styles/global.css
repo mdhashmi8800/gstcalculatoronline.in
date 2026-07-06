@@ -289,22 +289,146 @@ input[type="number"] {
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s ease;
-  border: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1.5px solid transparent;
   background: transparent;
   color: var(--color-mute);
   user-select: none;
   min-height: 44px;
 }
-.segmented-btn.active {
-  background-color: var(--color-canvas-soft);
-  color: var(--color-ink);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+
+/* Premium Selected State (Default for Transaction Type and other selectors) */
+.segmented-btn.active,
+.segmented-btn:has(input:checked) {
+  background-color: var(--color-primary) !important;
+  color: var(--color-on-primary) !important;
+  border-color: var(--color-brand-link-deep) !important;
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.15) !important;
 }
-.segmented-btn:hover:not(.active) {
+.segmented-btn.active span,
+.segmented-btn:has(input:checked) span {
+  color: var(--color-on-primary) !important;
+}
+
+.dark .segmented-btn.active,
+.dark .segmented-btn:has(input:checked) {
+  background-color: var(--color-primary) !important;
+  color: var(--color-on-primary) !important;
+  border-color: var(--color-brand-link) !important;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25) !important;
+}
+.dark .segmented-btn.active span,
+.dark .segmented-btn:has(input:checked) span {
+  color: var(--color-on-primary) !important;
+}
+
+/* Specific Style overrides for GST Direction - Add GST (Success Green) */
+.segmented-btn.btn-add-gst.active,
+.segmented-btn.btn-add-gst:has(input:checked) {
+  background-color: var(--color-brand-success) !important;
+  color: #ffffff !important;
+  border-color: var(--color-brand-link-deep) !important;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2) !important;
+}
+.segmented-btn.btn-add-gst.active svg,
+.segmented-btn.btn-add-gst:has(input:checked) svg {
+  color: #ffffff !important;
+}
+
+.dark .segmented-btn.btn-add-gst.active,
+.dark .segmented-btn.btn-add-gst:has(input:checked) {
+  background-color: #10b981 !important;
+  color: #090d16 !important;
+  border-color: #34d399 !important;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35) !important;
+}
+.dark .segmented-btn.btn-add-gst.active svg,
+.dark .segmented-btn.btn-add-gst:has(input:checked) svg {
+  color: #090d16 !important;
+}
+
+/* Specific Style overrides for GST Direction - Remove GST (Orange/Red) */
+.segmented-btn.btn-remove-gst.active,
+.segmented-btn.btn-remove-gst:has(input:checked) {
+  background-color: #ea580c !important; /* Orange */
+  color: #ffffff !important;
+  border-color: #c2410c !important;
+  box-shadow: 0 4px 10px rgba(234, 88, 12, 0.2) !important;
+}
+.segmented-btn.btn-remove-gst.active svg,
+.segmented-btn.btn-remove-gst:has(input:checked) svg {
+  color: #ffffff !important;
+}
+
+.dark .segmented-btn.btn-remove-gst.active,
+.dark .segmented-btn.btn-remove-gst:has(input:checked) {
+  background-color: #f97316 !important; /* Vibrant Orange */
+  color: #090d16 !important;
+  border-color: #fb923c !important;
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35) !important;
+}
+.dark .segmented-btn.btn-remove-gst.active svg,
+.dark .segmented-btn.btn-remove-gst:has(input:checked) svg {
+  color: #090d16 !important;
+}
+
+/* Hover state for non-active buttons */
+.segmented-btn:hover:not(.active):not(:has(input:checked)) {
   color: var(--color-ink);
   background-color: var(--color-canvas-soft);
 }
+
+/* Keyboard accessibility focus styling */
+.segmented-btn:focus-within {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Tooltip styles */
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.tooltip-content {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-ink);
+  color: var(--color-canvas);
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.725rem;
+  font-weight: 400;
+  line-height: 1.35;
+  width: 220px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+  pointer-events: none;
+  border: 1px solid var(--color-hairline-strong);
+}
+.tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--color-ink) transparent transparent transparent;
+}
+.tooltip-container:hover .tooltip-content,
+.tooltip-container:focus-within .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
 
 /* Rate Pills */
 .rate-pill {
@@ -735,5 +859,10 @@ label:has(input.sr-only:focus-visible) {
     border: none;
     background: transparent;
   }
+}
+
+/* Helper utility to ensure hidden class works regardless of specificity */
+.hidden {
+  display: none !important;
 }
 

@@ -141,12 +141,12 @@ const faqs = [
     <div>
       <span class="block text-sm font-bold text-ink mb-2">GST Direction</span>
       <div class="segmented-control" role="group" aria-label="GST calculation direction">
-        <label class="segmented-btn active [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm cursor-pointer">
+        <label class="segmented-btn btn-add-gst cursor-pointer">
           <input type="radio" name="calc-type" value="add" checked class="sr-only" />
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
           Add GST
         </label>
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn btn-remove-gst cursor-pointer">
           <input type="radio" name="calc-type" value="remove" class="sr-only" />
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
           Remove GST
@@ -194,11 +194,11 @@ const faqs = [
     <div>
       <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
       <div class="segmented-control" role="group" aria-label="Transaction type">
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
           <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
         </label>
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="tax-type" value="interstate" class="sr-only" />
           <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
         </label>
@@ -571,37 +571,11 @@ const faqs = [
     });
   });
 
-  // Sync ResultCard chart bars after each calculation
-  const origCalculate = calculate;
-  function calculateAndSync() {
-    origCalculate();
-    const amt = parseFloat(amountInput?.value || '0') || 0;
-    const rateRad = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
-    const rate = rateRad?.value === 'custom' ? parseFloat(customRateInput?.value || '0') || 0 : parseFloat(rateRad?.value || '18') || 0;
-    const typeRad = document.querySelector('input[name="calc-type"]:checked') as HTMLInputElement | null;
-    const isAdd = (typeRad?.value || 'add') === 'add';
-    let taxable: number, totalTax: number, grand: number;
-    if (isAdd) { taxable = amt; totalTax = amt * rate / 100; grand = amt + totalTax; }
-    else { taxable = amt / (1 + rate / 100); totalTax = amt - taxable; grand = amt; }
-    const basePct = grand > 0 ? (taxable / grand * 100) : 0;
-    const gstPct = 100 - basePct;
-    const baseBar = document.getElementById('chart-base-bar') as HTMLElement | null;
-    const gstBar = document.getElementById('chart-gst-bar') as HTMLElement | null;
-    const basePctEl = document.getElementById('chart-base-pct');
-    const gstPctEl = document.getElementById('chart-gst-pct');
-    const effectiveEl = document.getElementById('res-effective-rate');
-    if (baseBar) baseBar.style.width = Math.min(basePct, 100).toFixed(1) + '%';
-    if (gstBar) gstBar.style.width = Math.min(gstPct, 100).toFixed(1) + '%';
-    if (basePctEl) basePctEl.textContent = basePct.toFixed(1) + '%';
-    if (gstPctEl) gstPctEl.textContent = gstPct.toFixed(1) + '%';
-    const effectivePct = grand > 0 ? (totalTax / grand * 100) : 0;
-    if (effectiveEl) effectiveEl.textContent = effectivePct.toFixed(2) + '%';
-  }
   if (gstForm) {
-    gstForm.addEventListener('input', calculateAndSync);
-    gstForm.addEventListener('change', calculateAndSync);
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
   }
 
   loadFromUrl();
-  calculateAndSync();
+  calculate();
 </script>

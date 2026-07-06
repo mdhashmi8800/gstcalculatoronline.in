@@ -40,11 +40,11 @@ const faqs = [
     <div>
       <span class="block text-sm font-semibold text-ink mb-2">Calculation Method</span>
       <div class="segmented-control" role="group" aria-label="Calculation method">
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="calc-method" value="gross" checked class="sr-only" />
           <span>Base & Gross Price</span>
         </label>
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="calc-method" value="tax" class="sr-only" />
           <span>Base & GST Amount</span>
         </label>
@@ -95,7 +95,7 @@ const faqs = [
   </form>
 
   <!-- Results Block -->
-  <ResultCard slot="results" title="GST Rate Summary" />
+  <ResultCard slot="results" title="GST Rate Summary" showEffectiveTax={false} showChart={false} />
 
   <!-- Educational content -->
   <div slot="content" class="prose max-w-none">

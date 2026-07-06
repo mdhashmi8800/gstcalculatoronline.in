@@ -65,11 +65,11 @@ const faqs = [
     <div>
       <span class="block text-sm font-semibold text-ink mb-2">Type of Return</span>
       <div class="segmented-control" role="group" aria-label="Type of return">
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="return-type" value="nil" checked class="sr-only" />
           <span>NIL Return</span>
         </label>
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn cursor-pointer">
           <input type="radio" name="return-type" value="taxable" class="sr-only" />
           <span>Taxable Return</span>
         </label>
@@ -106,7 +106,7 @@ const faqs = [
   </form>
 
   <!-- Interactive Results Block -->
-  <ResultCard slot="results" title="Late Fee Summary" />
+  <ResultCard slot="results" title="Late Fee Summary" showEffectiveTax={false} showChart={false} />
 
   <!-- Educational content -->
   <div slot="content" class="prose max-w-none">

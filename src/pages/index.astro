@@ -194,11 +194,11 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
               <div>
                 <label class="block text-sm font-bold text-ink mb-2">GST Direction</label>
                 <div class="segmented-control" role="group" aria-label="GST calculation direction">
-                  <button type="button" id="home-type-add" class="segmented-btn active" data-type="add" aria-pressed="true">
+                  <button type="button" id="home-type-add" class="segmented-btn active btn-add-gst" data-type="add" aria-pressed="true">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     Add GST
                   </button>
-                  <button type="button" id="home-type-remove" class="segmented-btn" data-type="remove" aria-pressed="false">
+                  <button type="button" id="home-type-remove" class="segmented-btn btn-remove-gst" data-type="remove" aria-pressed="false">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
                     Remove GST
                   </button>
@@ -248,11 +248,11 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
               <div>
                 <label class="block text-sm font-bold text-ink mb-2">Transaction Type</label>
                 <div class="segmented-control" role="group" aria-label="Transaction type">
-                  <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+                  <label class="segmented-btn cursor-pointer">
                     <input type="radio" name="home-tax-type" value="intrastate" checked class="sr-only" />
                     <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
                   </label>
-                  <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+                  <label class="segmented-btn cursor-pointer">
                     <input type="radio" name="home-tax-type" value="interstate" class="sr-only" />
                     <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
                   </label>
@@ -304,7 +304,15 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
                 <span id="home-res-igst" class="font-mono text-xs text-mute">₹0.00</span>
               </div>
               <div class="result-row border-t border-hairline mt-1 pt-1">
-                <span class="text-xs text-body">Effective Rate</span>
+                <span class="text-xs text-body flex items-center gap-1.5">
+                  Effective Rate
+                  <span class="tooltip-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 text-mute hover:text-ink cursor-help transition-colors">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.083.984l-.04.02-.116.06c-.198.113-.33.32-.33.565v1.5a.75.75 0 001.5 0v-1.5c0-.022.01-.044.028-.06l.041-.02a2.25 2.25 0 00-.115-3.832L12 8.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="tooltip-content">Effective Rate represents GST as a percentage of the final amount after tax inclusion.</span>
+                  </span>
+                </span>
                 <span id="home-res-effective" class="font-mono text-xs font-bold" style="color:var(--color-brand-link)">18.00%</span>
               </div>
             </div>
@@ -694,9 +702,9 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
   });
 
   // Segmented Control — GST Type
-  document.querySelectorAll<HTMLButtonElement>('.segmented-btn').forEach(btn => {
+  document.querySelectorAll<HTMLButtonElement>('[aria-label="GST calculation direction"] .segmented-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.segmented-btn').forEach(b => {
+      document.querySelectorAll('[aria-label="GST calculation direction"] .segmented-btn').forEach(b => {
         b.classList.remove('active');
         b.setAttribute('aria-pressed', 'false');
       });

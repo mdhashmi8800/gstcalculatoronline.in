@@ -62,11 +62,11 @@ const faqs = [
     <div>
       <span class="block text-sm font-semibold text-ink mb-2">IGST Calculation Mode</span>
       <div class="segmented-control" role="group" aria-label="IGST calculation direction">
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn btn-add-gst cursor-pointer">
           <input type="radio" name="calc-type" value="add" checked class="sr-only" />
           <span>Add IGST (+)</span>
         </label>
-        <label class="segmented-btn cursor-pointer [&:has(input:checked)]:bg-canvas-soft [&:has(input:checked)]:text-ink [&:has(input:checked)]:shadow-sm">
+        <label class="segmented-btn btn-remove-gst cursor-pointer">
           <input type="radio" name="calc-type" value="remove" class="sr-only" />
           <span>Remove IGST (-)</span>
         </label>
