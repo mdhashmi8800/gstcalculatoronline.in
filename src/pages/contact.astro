@@ -6,66 +6,198 @@ const pageTitle = "Contact Us - GST Calculator Online";
 const pageDesc = "Get in touch with the team at gstcalculatoronline.in. Submit feedback, suggest new tax calculators, or report calculation issues.";
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }}>
-  <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
 
     <header class="mb-10">
-      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">Contact Us</h1>
-      <p class="mt-2 text-base text-body">Have suggestions or spotted a bug? Send us a message.</p>
+      <h1 class="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Get In Touch.</h1>
+      <p class="mt-3 text-base text-body leading-relaxed max-w-2xl">
+        Have a question, suggestion, partnership opportunity, or found an issue? Feel free to reach out. We usually respond as soon as possible.
+      </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
-      <!-- Contact Info -->
-      <div class="md:col-span-5 space-y-6">
-        <div>
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-ink">Support Email</h2>
-          <p class="mt-2 text-sm text-body">
-            <a href="mailto:support@gstcalculatoronline.in" class="text-link hover:underline font-mono">support@gstcalculatoronline.in</a>
-          </p>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-8">
+      <!-- Contact Info Cards -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Email Card -->
+        <a 
+          href="mailto:mdhashmi8800@gmail.com" 
+          class="relative overflow-hidden block rounded-2xl border border-hairline bg-canvas-soft p-5 shadow-xs hover:shadow-md hover:border-hairline-strong transition-all duration-300 group hover:-translate-y-0.5"
+        >
+          <!-- Top Gradient Accent Bar -->
+          <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <!-- Icon Box -->
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/5 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                </svg>
+              </div>
+
+              <!-- Text -->
+              <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-mute">Email</span>
+                <span class="text-sm font-bold text-ink mt-0.5 font-mono select-all">mdhashmi8800@gmail.com</span>
+                <span class="text-xs text-mute mt-0.5">Send us a direct message</span>
+              </div>
+            </div>
+
+            <!-- Arrow Icon -->
+            <div class="text-mute group-hover:text-primary group-hover:translate-x-1 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Instagram Card -->
+        <a 
+          href="https://instagram.com/oye_hasmi" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="relative overflow-hidden block rounded-2xl border border-hairline bg-canvas-soft p-5 shadow-xs hover:shadow-md hover:border-hairline-strong transition-all duration-300 group hover:-translate-y-0.5"
+        >
+          <!-- Top Gradient Accent Bar -->
+          <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <!-- Icon Box -->
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-500/5 text-pink-600 dark:bg-pink-500/10 dark:text-pink-400 border border-pink-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                </svg>
+              </div>
+
+              <!-- Text -->
+              <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-mute">Instagram</span>
+                <span class="text-sm font-bold text-ink mt-0.5">@oye_hasmi</span>
+                <span class="text-xs text-mute mt-0.5">Follow or direct message</span>
+              </div>
+            </div>
+
+            <!-- Arrow Icon -->
+            <div class="text-mute group-hover:text-primary group-hover:translate-x-1 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Twitter / X Card -->
+        <a 
+          href="https://x.com/Oye_hasmi" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="relative overflow-hidden block rounded-2xl border border-hairline bg-canvas-soft p-5 shadow-xs hover:shadow-md hover:border-hairline-strong transition-all duration-300 group hover:-translate-y-0.5"
+        >
+          <!-- Top Gradient Accent Bar -->
+          <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-slate-600 to-slate-800 dark:from-slate-400 dark:to-slate-600"></div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <!-- Icon Box -->
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-500/5 text-slate-700 dark:bg-slate-500/10 dark:text-slate-300 border border-slate-500/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="h-4 w-4">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </div>
+
+              <!-- Text -->
+              <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-mute">Twitter / X</span>
+                <span class="text-sm font-bold text-ink mt-0.5">@Oye_hasmi</span>
+                <span class="text-xs text-mute mt-0.5">Tweet or message us</span>
+              </div>
+            </div>
+
+            <!-- Arrow Icon -->
+            <div class="text-mute group-hover:text-primary group-hover:translate-x-1 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-4 w-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Additional Operational Info Box -->
+        <div class="rounded-2xl border border-hairline bg-canvas-soft/50 p-5 space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-ink uppercase tracking-wider">Operational Hours</h3>
+              <p class="mt-1 text-xs text-body leading-relaxed">
+                Monday to Friday: 9:00 AM to 6:00 PM (IST)<br>
+                We typically respond within 24-48 business hours.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-hairline my-3"></div>
+
+          <div class="flex items-start gap-3">
+            <div class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary mt-0.5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.982-11.795H13.44l1.34-5.205L6.5 15.904h3.313z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-ink uppercase tracking-wider">Feedback & Suggestions</h3>
+              <p class="mt-1 text-[11px] text-mute leading-relaxed">
+                We are dedicated to building free tools for Indian CAs and taxpayers. If there's an interest rule, penalty structure, or filing check you want us to add, let us know!
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-ink">Operational Hours</h2>
-          <p class="mt-2 text-sm text-body">
-            Monday to Friday: 9:00 AM to 6:00 PM (IST)<br>
-            We typically respond to inquiries within 24-48 business hours.
-          </p>
-        </div>
-
-        <div>
-          <h2 class="text-sm font-semibold uppercase tracking-wider text-ink">Feedback & Suggestions</h2>
-          <p class="mt-2 text-xs text-mute">
-            We are dedicated to building free tools for Indian CAs and taxpayers. If there's an interest rule, penalty structure, or filing check you want us to add, let us know!
-          </p>
-        </div>
       </div>
 
-      <!-- Contact Form -->
-      <div class="md:col-span-7 bg-canvas rounded-xl border border-hairline p-6 shadow-xs">
-        <form id="contact-form" class="space-y-4">
+      <!-- Contact Form Card -->
+      <div class="relative overflow-hidden lg:col-span-7 bg-canvas-soft rounded-2xl border border-hairline p-6 sm:p-8 shadow-xs">
+        <!-- Top Gradient Accent Bar -->
+        <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"></div>
+
+        <div class="mb-6">
+          <h2 class="text-2xl font-extrabold tracking-tight text-ink">Send a Message</h2>
+          <p class="mt-2 text-sm text-body leading-relaxed">Use the form below if you prefer to drop us a quick note.</p>
+        </div>
+
+        <form id="contact-form" class="space-y-5">
           <!-- Name -->
           <div>
-            <label for="form-name" class="block text-sm font-semibold text-ink">Full Name</label>
+            <label for="form-name" class="block text-sm font-semibold text-ink">Your Name *</label>
             <input 
               type="text" 
               name="name" 
               id="form-name" 
               required
-              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary transition-all"
-              placeholder="e.g. Rahul Sharma"
+              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              placeholder="Jane Smith"
             />
           </div>
 
           <!-- Email -->
           <div>
-            <label for="form-email" class="block text-sm font-semibold text-ink">Email Address</label>
+            <label for="form-email" class="block text-sm font-semibold text-ink">Email Address *</label>
             <input 
               type="email" 
               name="email" 
               id="form-email" 
               required
-              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary transition-all font-mono"
-              placeholder="e.g. rahul@example.com"
+              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-primary focus:ring-1 focus:ring-primary transition-all font-mono"
+              placeholder="jane@example.com"
             />
           </div>
 
@@ -77,35 +209,35 @@ const pageDesc = "Get in touch with the team at gstcalculatoronline.in. Submit f
               name="subject" 
               id="form-subject" 
               required
-              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary transition-all"
-              placeholder="e.g. Calculator suggestion / Report discrepancy"
+              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              placeholder="Tool suggestion, partnership, bug report..."
             />
           </div>
 
           <!-- Message -->
           <div>
-            <label for="form-message" class="block text-sm font-semibold text-ink">Message</label>
+            <label for="form-message" class="block text-sm font-semibold text-ink">Message *</label>
             <textarea 
               name="message" 
               id="form-message" 
-              rows="4"
+              rows="5"
               required
-              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-hairline-strong focus:ring-1 focus:ring-primary transition-all"
-              placeholder="Write your message here..."
+              class="mt-1.5 block w-full rounded-lg border border-hairline bg-canvas py-2.5 px-3.5 text-sm text-ink outline-hidden focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              placeholder="Write your message details..."
             ></textarea>
           </div>
 
           <!-- Submit Button -->
           <button 
             type="submit"
-            class="w-full flex items-center justify-center rounded-lg bg-primary py-3 px-4 text-sm font-semibold text-on-primary hover:opacity-90 transition-all cursor-pointer"
+            class="w-full flex items-center justify-center rounded-lg bg-primary py-3 px-4 text-sm font-semibold text-on-primary hover:opacity-90 transition-all cursor-pointer shadow-sm hover:shadow-md"
           >
             Send Message
           </button>
         </form>
 
         <!-- Success Message -->
-        <div id="form-success" class="hidden rounded-lg bg-brand-success/10 p-4 border border-brand-success/20 text-center text-sm font-semibold text-brand-success transition-all duration-200">
+        <div id="form-success" class="hidden rounded-xl bg-brand-success/10 p-5 border border-brand-success/20 text-center text-sm font-semibold text-brand-success transition-all duration-200">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="mx-auto h-6 w-6 mb-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>

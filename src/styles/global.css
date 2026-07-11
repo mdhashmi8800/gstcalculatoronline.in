@@ -861,8 +861,3 @@ label:has(input.sr-only:focus-visible) {
   }
 }
 
-/* Helper utility to ensure hidden class works regardless of specificity */
-.hidden {
-  display: none !important;
-}
-
