@@ -14,6 +14,8 @@ const staticPages = [
   { url: 'https://gstcalculatoronline.in/tools/late-fee-calculator', changefreq: 'weekly', priority: '0.8' },
   { url: 'https://gstcalculatoronline.in/tools/interest-calculator', changefreq: 'weekly', priority: '0.8' },
   { url: 'https://gstcalculatoronline.in/tools/composition-calculator', changefreq: 'weekly', priority: '0.8' },
+  { url: 'https://gstcalculatoronline.in/tools/invoice-builder', changefreq: 'weekly', priority: '0.8' },
+  { url: 'https://gstcalculatoronline.in/tools/gst-rate-finder', changefreq: 'weekly', priority: '0.8' },
   { url: 'https://gstcalculatoronline.in/blog', changefreq: 'weekly', priority: '0.7' },
   { url: 'https://gstcalculatoronline.in/about', changefreq: 'monthly', priority: '0.5' },
   { url: 'https://gstcalculatoronline.in/contact', changefreq: 'monthly', priority: '0.5' },

@@ -68,6 +68,19 @@ const websiteSchema = {
     "query-input": "required name=search_term_string"
   }
 };
+
+// WebPage Schema (Required by SEO standards)
+const webpageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${metadata.canonical || canonicalUrl}#webpage`,
+  "url": metadata.canonical || canonicalUrl,
+  "name": metadata.title,
+  "description": metadata.description,
+  "isPartOf": {
+    "@id": "https://gstcalculatoronline.in/#website"
+  }
+};
 ---
 
 <!-- Primary Meta Tags -->
@@ -112,3 +125,4 @@ const websiteSchema = {
 <!-- Global site-wide schemas -->
 <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(webpageSchema)} />

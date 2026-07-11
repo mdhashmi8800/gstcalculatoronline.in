@@ -3,14 +3,14 @@ import CalculatorLayout from '../../components/CalculatorLayout.astro';
 import ResultCard from '../../components/ResultCard.astro';
 import FAQ from '../../components/FAQ.astro';
 
-const pageTitle = "GST Late Fee Calculator Online — GSTR-3B Late Fee under Section 47";
-const pageDesc = "Calculate GSTR-3B late fee online using our free GST Late Fee Calculator. Computes ₹50/day for taxable returns and ₹20/day for NIL returns with turnover-based caps. Section 47 CGST Act compliant.";
+const pageTitle = "GST Late Fee Calculator – Calculate GSTR-3B Penalty Online";
+const pageDesc = "Calculate GSTR-3B late fee online. Computes daily late fees under Section 47 with aggregate turnover caps (₹500 to ₹10,000). Always updated and free.";
 
 // Schema for Late Fee Calculator Page
 const pageSchema = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "GST Late Fee Calculator Online — GSTR-3B Section 47",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "GST Late Fee Calculator – Calculate GSTR-3B Penalty Online",
   "url": "https://gstcalculatoronline.in/tools/late-fee-calculator",
   "description": "Free GST late fee calculator for GSTR-3B. Computes late fees under Section 47 of the CGST Act with turnover-based caps.",
   "applicationCategory": "BusinessApplication",
