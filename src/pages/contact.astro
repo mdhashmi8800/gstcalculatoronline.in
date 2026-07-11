@@ -174,7 +174,7 @@ const pageDesc = "Get in touch with the team at gstcalculatoronline.in. Submit f
           <p class="mt-2 text-sm text-body leading-relaxed">Use the form below if you prefer to drop us a quick note.</p>
         </div>
 
-        <form id="contact-form" class="space-y-5">
+        <form id="contact-form" action="https://formspree.io/f/mzdlnlyo" method="POST" class="space-y-5">
           <!-- Name -->
           <div>
             <label for="form-name" class="block text-sm font-semibold text-ink">Your Name *</label>
@@ -243,6 +243,14 @@ const pageDesc = "Get in touch with the team at gstcalculatoronline.in. Submit f
           </svg>
           Thank you! Your message has been sent successfully. We will review your feedback shortly.
         </div>
+
+        <!-- Error Message -->
+        <div id="form-error" class="hidden rounded-xl bg-red-500/10 p-5 border border-red-500/20 text-center text-sm font-semibold text-red-600 dark:text-red-400 transition-all duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="mx-auto h-6 w-6 mb-2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+          Oops! Something went wrong. Please try again or email us directly.
+        </div>
       </div>
     </div>
   </div>
@@ -251,12 +259,48 @@ const pageDesc = "Get in touch with the team at gstcalculatoronline.in. Submit f
 <script>
   const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
   const formSuccess = document.getElementById('form-success');
+  const formError = document.getElementById('form-error');
+  const submitBtn = contactForm?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 
-  contactForm?.addEventListener('submit', (e) => {
+  contactForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    // Simulate successful form submission
-    contactForm.classList.add('hidden');
-    formSuccess?.classList.remove('hidden');
+
+    if (!contactForm || !submitBtn) return;
+
+    // Loading state
+    const originalText = submitBtn.textContent || 'Send Message';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+    // Hide any previous messages
+    formError?.classList.add('hidden');
+
+    try {
+      const data = new FormData(contactForm);
+      const response = await fetch('https://formspree.io/f/mzdlnlyo', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' },
+      });
+
+      if (response.ok) {
+        // Success
+        contactForm.classList.add('hidden');
+        formSuccess?.classList.remove('hidden');
+      } else {
+        // Server error
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        formError?.classList.remove('hidden');
+      }
+    } catch {
+      // Network error
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      formError?.classList.remove('hidden');
+    }
   });
 </script>
