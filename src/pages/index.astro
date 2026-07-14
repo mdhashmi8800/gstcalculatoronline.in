@@ -58,18 +58,6 @@ const homepageFaqs = [
   }
 ];
 
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "GST Calculator Online",
-  "url": "https://gstcalculatoronline.in",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://gstcalculatoronline.in/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-};
-
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -94,7 +82,7 @@ const howToSchema = {
   ]
 };
 
-const pageSchemas = [websiteSchema, faqSchema, howToSchema];
+const pageSchemas = [faqSchema, howToSchema];
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }} schemas={pageSchemas}>
 
@@ -378,13 +366,13 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
   </section>
 
   <!-- Quick Tools Grid -->
-  <section class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-hairline/60">
+  <section id="all-tools" class="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-hairline/60">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
       <div>
         <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-ink">All GST Tools</h2>
         <p class="mt-1 text-sm text-body">Complete suite of Indian tax calculators and utilities.</p>
       </div>
-      <a href="/tools" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
+      <a href="#all-tools" class="text-sm font-semibold text-primary hover:underline shrink-0 inline-flex items-center gap-1">
         View All
         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
       </a>

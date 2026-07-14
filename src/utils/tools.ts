@@ -166,6 +166,106 @@ export const tools: Tool[] = [
     category: 'utilities',
     categoryName: 'Utilities',
     keywords: 'discount percentage rebate sale price discount add remove tax'
+  },
+  {
+    id: '5-percent-gst-calculator',
+    name: '5% GST Calculator',
+    desc: 'Calculate CGST and SGST splits at 2.5% each or add/remove 5% GST from any billing amount.',
+    url: '/5-percent-gst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: '5 percent rate slab goods services cgst sgst split add remove'
+  },
+  {
+    id: '12-percent-gst-calculator',
+    name: '12% GST Calculator',
+    desc: 'Compute CGST and SGST splits at 6% each or add/remove 12% GST from any billing amount.',
+    url: '/12-percent-gst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: '12 percent rate slab goods services cgst sgst split add remove'
+  },
+  {
+    id: '18-percent-gst-calculator',
+    name: '18% GST Calculator',
+    desc: 'Compute CGST and SGST splits at 9% each or add/remove 18% GST from any billing amount.',
+    url: '/18-percent-gst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: '18 percent rate slab goods services cgst sgst split add remove standard'
+  },
+  {
+    id: '28-percent-gst-calculator',
+    name: '28% GST Calculator',
+    desc: 'Compute CGST and SGST splits at 14% each or add/remove 28% GST from luxury/sin goods.',
+    url: '/28-percent-gst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: '28 percent rate slab goods services cgst sgst split add remove luxury'
+  },
+  {
+    id: 'cgst-calculator',
+    name: 'CGST Calculator',
+    desc: 'Calculate the Central Goods and Services Tax (CGST) portion for intra-state supplies.',
+    url: '/cgst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: 'cgst central tax split government local share calculation'
+  },
+  {
+    id: 'sgst-calculator',
+    name: 'SGST Calculator',
+    desc: 'Calculate the State Goods and Services Tax (SGST) portion for intra-state transactions.',
+    url: '/sgst-calculator',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: 'sgst state tax split government local share calculation'
+  },
+  {
+    id: 'add-gst-to-price',
+    name: 'Add GST to Price Calculator',
+    desc: 'Add GST to any base taxable price to calculate final gross invoice values and tax splits.',
+    url: '/add-gst-to-price',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: 'add gst price tax addition exclusive markup calculation'
+  },
+  {
+    id: 'remove-gst-from-total',
+    name: 'Remove GST from Total Calculator',
+    desc: 'Extract pre-tax taxable values and tax splits from a GST-inclusive gross amount.',
+    url: '/remove-gst-from-total',
+    icon: 'calculator',
+    category: 'tax-slabs',
+    categoryName: 'Tax Slab Calculators',
+    keywords: 'remove gst total subtract tax inclusive discount calculation base price'
+  },
+  {
+    id: 'gst-formula',
+    name: 'GST Formula & Math Guide',
+    desc: 'Explore the mathematical formulas used to calculate GST inclusion, exclusion, and split values.',
+    url: '/gst-formula',
+    icon: 'finder',
+    category: 'utilities',
+    categoryName: 'Utilities',
+    keywords: 'gst formula mathematics equation calculation percentage rate rule'
+  },
+  {
+    id: 'gst-rates',
+    name: 'GST Rates 2026 Reference',
+    desc: 'A comprehensive, searchable list of Indian GST rates, exemptions, and slabs for goods and services.',
+    url: '/gst-rates',
+    icon: 'finder',
+    category: 'utilities',
+    categoryName: 'Utilities',
+    keywords: 'gst rates 2026 database reference slabs goods services search lookup'
   }
 ];
 
