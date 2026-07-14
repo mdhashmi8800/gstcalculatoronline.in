@@ -9,8 +9,8 @@ interface Props {
 
 const { seo, schema, schemas } = Astro.props;
 
-// Determine unique canonical URL automatically, stripping trailing slash to prevent duplicates
-let cleanPath = Astro.url.pathname;
+// Determine unique canonical URL automatically, stripping trailing slash and normalising to lowercase
+let cleanPath = Astro.url.pathname.toLowerCase();
 if (cleanPath.endsWith('/') && cleanPath !== '/') {
   cleanPath = cleanPath.slice(0, -1);
 }
@@ -21,10 +21,57 @@ const metadata = getSEOMetadata({
   ...seo,
 });
 
+const cleanCanonical = metadata.canonical || canonicalUrl;
+
 // Combine all schemas into one list for rendering
 const allPageSchemas: Record<string, any>[] = [];
 if (schema) allPageSchemas.push(schema);
 if (schemas && Array.isArray(schemas)) allPageSchemas.push(...schemas);
+
+// Process page-specific schemas to stitch them to the main WebPage and Organization graph
+const webpageMainEntityIds: Record<string, any>[] = [];
+const processedPageSchemas = allPageSchemas.map(s => {
+  if (!s || typeof s !== 'object') return s;
+  
+  const originalType = s["@type"];
+  const types = Array.isArray(originalType) ? originalType : [originalType];
+  
+  // Software / Web Application matching
+  if (types.includes("SoftwareApplication") || types.includes("WebApplication") || types.includes("FinancialApplication")) {
+    const stitchedId = s["@id"] || `${cleanCanonical}#software`;
+    webpageMainEntityIds.push({ "@id": stitchedId });
+    return {
+      ...s,
+      "@id": stitchedId,
+      "isPartOf": { "@id": `${cleanCanonical}#webpage` }
+    };
+  }
+  
+  // Article / BlogPosting matching
+  if (types.includes("BlogPosting") || types.includes("Article") || types.includes("NewsArticle")) {
+    const stitchedId = s["@id"] || `${cleanCanonical}#article`;
+    webpageMainEntityIds.push({ "@id": stitchedId });
+    return {
+      ...s,
+      "@id": stitchedId,
+      "isPartOf": { "@id": `${cleanCanonical}#webpage` },
+      "publisher": { "@id": "https://gstcalculatoronline.in/#organization" }
+    };
+  }
+  
+  // FAQPage matching
+  if (types.includes("FAQPage")) {
+    const stitchedId = s["@id"] || `${cleanCanonical}#faq`;
+    webpageMainEntityIds.push({ "@id": stitchedId });
+    return {
+      ...s,
+      "@id": stitchedId,
+      "isPartOf": { "@id": `${cleanCanonical}#webpage` }
+    };
+  }
+  
+  return s;
+});
 
 // Organization Schema (Required by SEO standards & EEAT)
 const orgSchema = {
@@ -69,18 +116,28 @@ const websiteSchema = {
   }
 };
 
-// WebPage Schema (Required by SEO standards)
-const webpageSchema = {
+// WebPage Schema (Required by SEO standards) - stitched to website and children components
+const webpageSchema: Record<string, any> = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": `${metadata.canonical || canonicalUrl}#webpage`,
-  "url": metadata.canonical || canonicalUrl,
+  "@id": `${cleanCanonical}#webpage`,
+  "url": cleanCanonical,
   "name": metadata.title,
   "description": metadata.description,
   "isPartOf": {
     "@id": "https://gstcalculatoronline.in/#website"
+  },
+  "breadcrumb": {
+    "@id": `${cleanCanonical}#breadcrumb`
   }
 };
+
+// Add mainEntity linkage if we have child entities like Article, SoftwareApplication, FAQPage
+if (webpageMainEntityIds.length > 0) {
+  webpageSchema.mainEntity = webpageMainEntityIds.length === 1 
+    ? webpageMainEntityIds[0] 
+    : webpageMainEntityIds;
+}
 ---
 
 <!-- Primary Meta Tags -->
@@ -118,7 +175,7 @@ const webpageSchema = {
 
 
 <!-- Page-specific Structured Data (JSON-LD) – supports multiple schemas -->
-{allPageSchemas.map(s => (
+{processedPageSchemas.map(s => (
   <script type="application/ld+json" set:html={JSON.stringify(s)} />
 ))}
 
@@ -126,3 +183,4 @@ const webpageSchema = {
 <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 <script type="application/ld+json" set:html={JSON.stringify(webpageSchema)} />
+

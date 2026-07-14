@@ -41,7 +41,7 @@ export const GET: APIRoute = async () => {
   // Fetch blog posts dynamically during build
   const postFiles = import.meta.glob('../content/blog/*.md', { eager: true });
   const dynamicBlogPages = Object.values(postFiles).map((post: any) => ({
-    url: `https://gstcalculatoronline.in/blog/${post.frontmatter.slug}`,
+    url: `https://gstcalculatoronline.in/blog/${post.frontmatter.slug.toLowerCase()}`,
     changefreq: 'monthly',
     priority: '0.6'
   }));

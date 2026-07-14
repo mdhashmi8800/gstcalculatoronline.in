@@ -33,18 +33,53 @@ const { seo, schema, schemas } = Astro.props;
     <!-- SEO Meta & Schema -->
     <SEO seo={seo} schema={schema} schemas={schemas} />
 
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LC5EXYTHR3"></script>
+    <!-- Defer heavy third-party scripts (GTM & AdSense) until user interaction or idle to optimize Core Web Vitals (LCP, INP, TTFB) -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      (function() {
+        const scriptsLoaded = new Set();
+        const scriptsToLoad = [
+          { src: 'https://www.googletagmanager.com/gtag/js?id=G-LC5EXYTHR3', type: 'gtm' },
+          { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8763819545697765', type: 'adsense', crossorigin: 'anonymous' }
+        ];
 
-      gtag('config', 'G-LC5EXYTHR3');
+        function loadScript(config) {
+          if (scriptsLoaded.has(config.src)) return;
+          scriptsLoaded.add(config.src);
+
+          const el = document.createElement('script');
+          el.src = config.src;
+          el.async = true;
+          if (config.crossorigin) {
+            el.setAttribute('crossorigin', config.crossorigin);
+          }
+          document.head.appendChild(el);
+
+          if (config.type === 'gtm') {
+            el.onload = function() {
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-LC5EXYTHR3');
+            };
+          }
+        }
+
+        function triggerLoad() {
+          scriptsToLoad.forEach(loadScript);
+          triggerEvents.forEach(e => window.removeEventListener(e, triggerLoad, { passive: true }));
+        }
+
+        const triggerEvents = ['scroll', 'mousedown', 'mousemove', 'touchstart', 'keydown'];
+        triggerEvents.forEach(e => window.addEventListener(e, triggerLoad, { passive: true }));
+
+        // Fallback load after 3.5s to ensure tracking is recorded if no interaction occurs
+        if (document.readyState === 'complete') {
+          setTimeout(triggerLoad, 3500);
+        } else {
+          window.addEventListener('load', () => setTimeout(triggerLoad, 3500));
+        }
+      })();
     </script>
-
-    <!-- Google AdSense -->
-    <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8763819545697765" crossorigin="anonymous"></script>
 
     <!-- Theme Inline Script to avoid theme flash -->
     <script is:inline>

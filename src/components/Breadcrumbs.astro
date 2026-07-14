@@ -45,6 +45,13 @@ const items: BreadcrumbItem[] = customItems || [
     return list;
   })()
 ];
+// Inject breadcrumb schema markup
+const cleanBreadcrumbPath = Astro.url.pathname.toLowerCase();
+const cleanBreadcrumbPathNoTrailing = cleanBreadcrumbPath.endsWith('/') && cleanBreadcrumbPath !== '/'
+  ? cleanBreadcrumbPath.slice(0, -1)
+  : cleanBreadcrumbPath;
+const cleanCanonical = `https://gstcalculatoronline.in${cleanBreadcrumbPathNoTrailing}`;
+
 ---
 
 <nav aria-label="Breadcrumb" class="my-4 flex overflow-x-auto no-scrollbar">
@@ -69,14 +76,15 @@ const items: BreadcrumbItem[] = customItems || [
   </ol>
 </nav>
 
-<!-- Inject breadcrumb schema markup -->
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
+  "@id": `${cleanCanonical}#breadcrumb`,
   "itemListElement": items.map((item, index) => ({
     "@type": "ListItem",
     "position": index + 1,
     "name": item.name,
-    "item": `https://gstcalculatoronline.in${item.url}`
+    "item": `https://gstcalculatoronline.in${item.url.toLowerCase()}`
   }))
 })} />
+

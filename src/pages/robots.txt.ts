@@ -3,6 +3,8 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = async () => {
   const robotsText = `User-agent: *
 Allow: /
+Disallow: /search
+Disallow: /search?
 
 Sitemap: https://gstcalculatoronline.in/sitemap.xml
 `;

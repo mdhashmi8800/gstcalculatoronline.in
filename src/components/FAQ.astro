@@ -12,9 +12,17 @@ interface Props {
 const { items, title = "Frequently Asked Questions" } = Astro.props;
 
 // Build schema markup
+const cleanFAQPath = Astro.url.pathname.toLowerCase();
+const cleanFAQPathNoTrailing = cleanFAQPath.endsWith('/') && cleanFAQPath !== '/'
+  ? cleanFAQPath.slice(0, -1)
+  : cleanFAQPath;
+const cleanCanonical = `https://gstcalculatoronline.in${cleanFAQPathNoTrailing}`;
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${cleanCanonical}#faq`,
+  "isPartOf": { "@id": `${cleanCanonical}#webpage` },
   "mainEntity": items.map(item => ({
     "@type": "Question",
     "name": item.question,
