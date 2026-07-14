@@ -126,11 +126,16 @@ const webpageSchema: Record<string, any> = {
   "description": metadata.description,
   "isPartOf": {
     "@id": "https://gstcalculatoronline.in/#website"
-  },
-  "breadcrumb": {
-    "@id": `${cleanCanonical}#breadcrumb`
   }
 };
+
+// Only link breadcrumb schema if we are not on the homepage or 404 page
+if (cleanPath !== '/' && cleanPath !== '/404') {
+  webpageSchema.breadcrumb = {
+    "@id": `${cleanCanonical}#breadcrumb`
+  };
+}
+
 
 // Add mainEntity linkage if we have child entities like Article, SoftwareApplication, FAQPage
 if (webpageMainEntityIds.length > 0) {
