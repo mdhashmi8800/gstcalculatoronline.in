@@ -149,7 +149,7 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[10px] text-mute font-mono hidden sm:block">Press <span class="kbd">ESC</span> to reset</span>
-            <a href="/tools/gst-calculator" class="text-xs font-semibold text-primary hover:underline flex items-center gap-1">
+            <a href="/gst-calculator" class="text-xs font-semibold text-primary hover:underline flex items-center gap-1">
               Full Page
               <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
             </a>
@@ -506,15 +506,15 @@ const pageSchemas = [websiteSchema, faqSchema, howToSchema];
       <h2 class="text-xl font-extrabold tracking-tight text-ink mb-4">Related Tools</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
         {[
-          { name: 'Reverse GST Calculator', url: '/tools/reverse-gst-calculator' },
-          { name: 'GST Split Calculator', url: '/tools/gst-split-calculator' },
-          { name: 'IGST Calculator', url: '/tools/igst-calculator' },
-          { name: 'Late Fee Calculator', url: '/tools/late-fee-calculator' },
-          { name: 'Interest Calculator', url: '/tools/interest-calculator' },
-          { name: 'Composition Calculator', url: '/tools/composition-calculator' },
-          { name: 'GST Invoice Builder', url: '/tools/invoice-builder' },
-          { name: 'GST Rate Finder', url: '/tools/gst-rate-finder' },
-          { name: 'GST Refund Calculator', url: '/tools/gst-refund-calculator' },
+          { name: 'Reverse GST Calculator', url: '/reverse-gst-calculator' },
+          { name: 'GST Split Calculator', url: '/gst-split-calculator' },
+          { name: 'IGST Calculator', url: '/igst-calculator' },
+          { name: 'Late Fee Calculator', url: '/late-fee-calculator' },
+          { name: 'Interest Calculator', url: '/interest-calculator' },
+          { name: 'Composition Calculator', url: '/composition-calculator' },
+          { name: 'GST Invoice Builder', url: '/invoice-builder' },
+          { name: 'GST Rate Finder', url: '/gst-rate-finder' },
+          { name: 'GST Refund Calculator', url: '/gst-refund-calculator' },
         ].map(link => (
           <a href={link.url} class="flex items-center gap-2 p-3 rounded-xl border border-hairline bg-canvas hover:border-primary/40 hover:text-primary text-sm font-semibold text-body transition-all group">
             <svg class="w-3.5 h-3.5 text-primary shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>

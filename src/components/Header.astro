@@ -2,10 +2,11 @@
 import { tools } from '../utils/tools';
 
 const categories = [
-  { id: 'tax-slabs', name: 'Tax Slabs', desc: 'Slab calculations & splits', url: '/tools/category/tax-slabs' },
-  { id: 'late-fees', name: 'Late Fees', desc: 'Turnover-capped penalties', url: '/tools/category/late-fees' },
-  { id: 'interest-penalties', name: 'Interest', desc: 'Section 50 interest estimators', url: '/tools/category/interest-penalties' },
-  { id: 'composition-scheme', name: 'Composition', desc: 'Quarterly trader liabilities', url: '/tools/category/composition-scheme' }
+  { id: 'tax-slabs', name: 'Tax Slabs', desc: 'Slab calculations & splits', url: '/category/tax-slabs' },
+  { id: 'late-fees', name: 'Late Fees', desc: 'Turnover-capped penalties', url: '/category/late-fees' },
+  { id: 'interest-penalties', name: 'Interest', desc: 'Section 50 interest estimators', url: '/category/interest-penalties' },
+  { id: 'composition-scheme', name: 'Composition', desc: 'Quarterly trader liabilities', url: '/category/composition-scheme' },
+  { id: 'utilities', name: 'Utilities', desc: 'Invoices & HSN code lookups', url: '/category/utilities' }
 ];
 
 const blogCategories = [
@@ -51,9 +52,9 @@ const blogCategories = [
         <div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-80 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
           <div class="rounded-2xl border border-hairline bg-canvas p-4 shadow-xl">
             <div class="space-y-1.5">
-              <a href="/tools" class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
+              <a href="/" class="block p-2 rounded-xl hover:bg-canvas-soft-2 group/link">
                 <span class="text-xs font-bold text-ink group-hover/link:text-primary transition-colors">All Calculators</span>
-                <span class="block text-[10px] text-mute leading-normal mt-0.5">Browse all 11 tax tools</span>
+                <span class="block text-[10px] text-mute leading-normal mt-0.5">Browse all tax tools on Home</span>
               </a>
               <div class="border-t border-hairline my-2"></div>
               {categories.map(cat => (
@@ -202,7 +203,7 @@ const blogCategories = [
             </svg>
           </button>
           <div id="mobile-collapsible-calc-panel" class="hidden pl-4 space-y-1 border-l border-hairline/80 my-1 ml-4">
-            <a href="/tools" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">All Tools</a>
+            <a href="/" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">All Tools</a>
             {categories.map(cat => (
               <a href={cat.url} class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">{cat.name}</a>
             ))}

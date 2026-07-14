@@ -1,0 +1,389 @@
+---
+import CalculatorLayout from '../components/CalculatorLayout.astro';
+import ResultCard from '../components/ResultCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "GST Profit Margin Calculator – Estimate Net Profit & Tax Slabs";
+const pageDesc = "Free GST profit margin calculator. Compute markups, profit margins, taxable sales values, and tax splits (CGST, SGST, IGST) from cost prices.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "GST Profit Margin Calculator – Estimate Net Profit & Tax Slabs",
+  "url": "https://gstcalculatoronline.in/gst-profit-calculator",
+  "description": "Free GST profit margin calculator. Compute markups, profit margins, taxable sales values, and tax splits (CGST, SGST, IGST) from cost prices.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is a GST Profit Margin Calculator?",
+    answer: "It is a business utility that helps you calculate the selling price of an item by adding your desired profit margin (markup) to the cost price, and then calculating the GST tax amount on top."
+  },
+  {
+    question: "Why should I calculate profit margin before adding GST?",
+    answer: "GST is a tax collected from the consumer on behalf of the government. It is not part of your revenue or cost. Calculating margins on inclusive prices distorts your actual business profit numbers."
+  },
+  {
+    question: "What is the formula to calculate selling price with profit and GST?",
+    answer: "Taxable Base = Cost Price × (1 + Margin/100). Final Price = Taxable Base × (1 + GST Rate/100). For example, cost ₹1,000 + 20% margin = ₹1,200 taxable. 18% GST on ₹1,200 = ₹216. Final Selling Price = ₹1,416."
+  },
+  {
+    question: "What is the difference between markup and margin?",
+    answer: "Markup is profit as a percentage of the cost price. Margin is profit as a percentage of the selling price. Our calculator uses the markup method to add profit to your cost base."
+  },
+  {
+    question: "How does Input Tax Credit (ITC) affect my product cost?",
+    answer: "If you purchase raw materials with GST, you get ITC back. Your actual cost price is the purchase price minus the ITC received. You should calculate your profit margin on this net cost price."
+  },
+  {
+    question: "How to calculate selling price in Excel with profit and GST?",
+    answer: "If Cost is in A1, Margin (e.g. 20%) is in B1, and GST (e.g. 18%) is in C1, the formula is: `=A1 * (1 + B1/100) * (1 + C1/100)`."
+  },
+  {
+    question: "How is CGST and SGST split calculated for profits?",
+    answer: "The tax amount is calculated on the taxable selling price. For local sales, this tax amount is divided equally into CGST (Central portion) and SGST (State portion)."
+  },
+  {
+    question: "Does this calculator support the 18% tax rate?",
+    answer: "Yes. It supports all standard slabs (5%, 12%, 18%, 28%) and custom tax rates."
+  },
+  {
+    question: "Is this profit margin calculator free?",
+    answer: "Yes, it is 100% free with no registration or download required."
+  },
+  {
+    question: "How do I calculate a 15% margin on a ₹10,000 product with 18% GST?",
+    answer: "Profit = ₹1,500. Taxable Selling Price = ₹11,500. GST (18% of ₹11,500) = ₹2,070. Inclusive Selling Price = ₹13,570."
+  },
+  {
+    question: "Are calculations private?",
+    answer: "Yes. All logic runs in your browser via JavaScript. We do not save or log your profit data."
+  },
+  {
+    question: "Does the tool support decimal numbers?",
+    answer: "Yes, you can enter fractional figures for costs, margins, and custom rates."
+  },
+  {
+    question: "How do I download the profit breakdown summary?",
+    answer: "Click on the 'PDF' button on the results card to download a structured breakdown of your pricing structure."
+  },
+  {
+    question: "Can I use the tool for retail pricing lists?",
+    answer: "Yes, this tool helps wholesalers and manufacturers determine the exact retail prices to recommend to dealers."
+  },
+  {
+    question: "What is cost price exclusive of GST?",
+    answer: "It is the net purchase price of your inventory or materials after subtracting any tax credit you will claim back from the portal."
+  },
+  {
+    question: "What is selling price inclusive of GST?",
+    answer: "It is the final billing price that the end consumer pays, which includes the seller's taxable price plus the GST tax."
+  },
+  {
+    question: "Does the calculator support custom profit margins?",
+    answer: "Yes. You can enter any percentage from 0% to 500% in the profit margin field."
+  },
+  {
+    question: "How do I reset the calculator inputs?",
+    answer: "Click the 'Reset' button below the results card or press the 'ESC' key on your keyboard."
+  },
+  {
+    question: "Can I calculate margin for interstate B2B transactions?",
+    answer: "Yes. Select Interstate (IGST) in the form. The tax will be listed as IGST, which B2B buyers can claim as input credit."
+  },
+  {
+    question: "What happens if my margins are slim under GST?",
+    answer: "Filing prompt returns and claiming all eligible ITC ensures you optimize cash flow and protect your net margins."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+  
+  <form id="gst-form" class="space-y-4 md:space-y-6" autocomplete="off">
+    <!-- Cost Price -->
+    <div>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Cost Price (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="amount" 
+          id="calc-amount" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10000"
+          required
+        />
+      </div>
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Profit Margin Markup -->
+    <div>
+      <label for="calc-profit-margin" class="block text-sm font-bold text-ink">Profit Margin Markup (%)</label>
+      <div class="relative mt-2">
+        <input 
+          type="number" 
+          name="profit-margin" 
+          id="calc-profit-margin" 
+          value="20" 
+          min="0" 
+          max="500"
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-4 pr-8 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 20"
+          required
+        />
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GST Tax Slab Rates -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="rate-pill-container sm:grid sm:grid-cols-6 gap-2" role="group">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+            <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
+            {rate}%
+          </label>
+        ))}
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+          <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
+          Custom
+        </label>
+      </div>
+      <div id="custom-rate-container" class="hidden mt-3">
+        <div class="relative">
+          <input 
+            type="number" 
+            name="custom-rate" 
+            id="calc-rate-custom" 
+            min="0.1" 
+            max="100" 
+            step="any"
+            value="18"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
+          />
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supply Destination -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="segmented-control" role="group">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
+          <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="interstate" class="sr-only" />
+          <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+
+  <ResultCard slot="results" />
+
+  <div slot="content" class="prose max-w-none">
+    <h1>GST Margin & Profit Calculator</h1>
+    
+      <h2>Calculate Margins After GST Instantly</h2>
+      <p>For distributors, wholesale merchants, and retail businesses, computing profit margins while accounting for Goods and Services Tax (GST) is essential. If you calculate your margins on tax-inclusive numbers, you will end up underestimating your tax liabilities and hurting your actual profit margins. Taxes are a pass-through; they should not be counted as part of your business's profit margin or product cost.</p>
+      <h2>How the Profit Margin & GST Calculator Works</h2>
+      <p>This calculator lets you input the <strong>Cost Price (excluding tax)</strong> of an item, your desired <strong>Profit Margin / Markup (%)</strong>, and the applicable <strong>GST rate slab</strong>. The tool then calculates:</p>
+      <ul>
+        <li><strong>Gross profit amount:</strong> Your markup value added to the product cost.</li>
+        <li><strong>Taxable Selling Price:</strong> The cost plus your profit before tax is applied.</li>
+        <li><strong>GST Amount:</strong> The tax amount to collect from the buyer.</li>
+        <li><strong>Grand Total Selling Price:</strong> The tax-inclusive retail selling price (MRP) to write on the invoice.</li>
+      </ul>
+      <h2>Profit Margin Calculations & Formulas</h2>
+      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+        <p>1. Profit Amount = Cost Price × (Margin % ÷ 100)</p>
+        <p>2. Base Selling Price (Taxable) = Cost Price + Profit Amount</p>
+        <p>3. GST Amount = Base Selling Price × (GST Rate % ÷ 100)</p>
+        <p>4. Inclusive Selling Price (Grand Total) = Base Selling Price + GST Amount</p>
+      </div>
+    
+    
+    <h2>Frequently Asked Questions</h2>
+    <FAQ items={faqs} />
+    
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
+        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+      </div>
+    </div>
+  </div>
+</CalculatorLayout>
+
+
+<script>
+  const costInput = document.getElementById('calc-amount') as HTMLInputElement | null;
+  const marginInput = document.getElementById('calc-profit-margin') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('calc-rate-custom') as HTMLInputElement | null;
+  const customRateContainer = document.getElementById('custom-rate-container');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstRow = document.getElementById('res-cgst-row');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstRow = document.getElementById('res-sgst-row');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resIgstRow = document.getElementById('res-igst-row');
+  const resIgstVal = document.getElementById('res-igst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function getSelectedRate(): number {
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    if (!rateRadio) return 18;
+    if (rateRadio.value === 'custom') {
+      return parseFloat(customRateInput?.value || '0') || 0;
+    }
+    return parseFloat(rateRadio.value) || 0;
+  }
+
+  function calculate() {
+    if (!costInput || !marginInput) return;
+
+    const isCostValid = validateInput(costInput, "Enter a valid cost > 0", () => parseFloat(costInput.value) > 0);
+    const isMarginValid = validateInput(marginInput, "Enter a margin >= 0", () => parseFloat(marginInput.value) >= 0);
+
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    let isRateValid = true;
+    if (rateRadio?.value === 'custom' && customRateInput) {
+      isRateValid = validateInput(customRateInput, "Enter rate between 0.1% and 100%", () => {
+        const val = parseFloat(customRateInput.value);
+        return val >= 0.1 && val <= 100;
+      });
+    }
+
+    if (!isCostValid || !isMarginValid || !isRateValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resIgstVal) resIgstVal.innerText = "₹0.00";
+      return;
+    }
+
+    const cost = parseFloat(costInput.value) || 0;
+    const margin = parseFloat(marginInput.value) || 0;
+    const rate = getSelectedRate();
+
+    const taxTypeRadio = document.querySelector('input[name="tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = taxTypeRadio ? taxTypeRadio.value === 'intrastate' : true;
+
+    // Calculations
+    const profit = cost * (margin / 100);
+    const taxableValue = cost + profit;
+    const totalTax = taxableValue * (rate / 100);
+    const grandTotal = taxableValue + totalTax;
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(taxableValue);
+    if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
+
+    if (isIntrastate) {
+      resCgstRow?.classList.remove('hidden');
+      resSgstRow?.classList.remove('hidden');
+      resIgstRow?.classList.add('hidden');
+      const splitTax = totalTax / 2;
+      if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
+      if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
+    } else {
+      resCgstRow?.classList.add('hidden');
+      resSgstRow?.classList.add('hidden');
+      resIgstRow?.classList.remove('hidden');
+      if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
+    }
+  }
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
+  rateRadios.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.value === 'custom') {
+        customRateContainer?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateContainer?.classList.add('hidden');
+        if (customRateInput) customRateInput.classList.remove('input-error');
+      }
+      calculate();
+    });
+  });
+
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (costInput) costInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  calculate();
+</script>
+

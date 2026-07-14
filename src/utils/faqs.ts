@@ -12,7 +12,7 @@ export const faqs: FAQItem[] = [
     id: 'calculate-gst-online',
     question: "How do I calculate GST online?",
     answer: "You can calculate GST by entering the transaction amount and selecting the appropriate GST slab (5%, 12%, 18%, 28%) in our GST Calculator. It will automatically show the CGST, SGST, and IGST breakdowns for both 'Add GST' (exclusive) and 'Remove GST' (inclusive) types.",
-    url: "/tools/gst-calculator#faq",
+    url: "/gst-calculator#faq",
     category: "General GST",
     keywords: "calculate gst online cgst sgst igst split add remove rate slab"
   },
@@ -28,7 +28,7 @@ export const faqs: FAQItem[] = [
     id: 'difference-cgst-sgst-igst',
     question: "What is the difference between CGST, SGST, and IGST?",
     answer: "CGST (Central GST) and SGST (State GST) are levied on transactions within a single state (intrastate) and are shared equally between the Centre and State. IGST (Integrated GST) is levied on interstate transactions and imports, collected by the Centre and distributed to the consumption state.",
-    url: "/tools/igst-calculator#faq",
+    url: "/igst-calculator#faq",
     category: "General GST",
     keywords: "difference cgst sgst igst central state integrated supply local interstate"
   },
@@ -36,7 +36,7 @@ export const faqs: FAQItem[] = [
     id: 'interest-late-payments',
     question: "How is interest calculated on late GST payments?",
     answer: "Under Section 50 of the CGST Act, interest is levied at 18% per annum on delayed tax payments made through the Electronic Cash Ledger (net tax liability). For wrongful utilization of Input Tax Credit (ITC), interest is charged at 24% per annum.",
-    url: "/tools/interest-calculator#faq",
+    url: "/interest-calculator#faq",
     category: "Interest & RCM",
     keywords: "interest calculation late payments section 50 delay cash ledger net liability itc"
   },
@@ -44,7 +44,7 @@ export const faqs: FAQItem[] = [
     id: 'interest-net-gross',
     question: "Is interest under Section 50 calculated on gross or net tax liability?",
     answer: "Under Section 50 of the CGST Act, interest is calculated on the **net cash liability** (the portion paid via the Electronic Cash Ledger) rather than the gross liability, provided the return is filed voluntarily. However, if the return is filed after the commencement of any audit or recovery proceedings, interest is payable on the gross tax liability.",
-    url: "/tools/interest-calculator#faq",
+    url: "/interest-calculator#faq",
     category: "Interest & RCM",
     keywords: "interest net gross liability electronic cash ledger itc adjustment section 50"
   },
@@ -52,7 +52,7 @@ export const faqs: FAQItem[] = [
     id: 'daily-late-fee-gstr3b',
     question: "What is the daily late fee for filing GSTR-3B late?",
     answer: "The standard late fee for late filing of GSTR-3B is ₹50 per day for returns with tax liability (₹25 CGST + ₹25 SGST) and ₹20 per day for NIL returns. These fees are subject to turnover-based caps ranging from ₹500 to ₹10,000 per return.",
-    url: "/tools/late-fee-calculator#faq",
+    url: "/late-fee-calculator#faq",
     category: "Filing & Late Fees",
     keywords: "daily late fee filing gstr-3b standard nil return cap limit delayed"
   },
@@ -60,7 +60,7 @@ export const faqs: FAQItem[] = [
     id: 'late-fee-turnover-caps',
     question: "What are the aggregate turnover-based caps for GSTR-3B late fees?",
     answer: "Late fees are capped based on aggregate turnover: (1) NIL returns: capped at ₹500. (2) Turnover up to ₹1.5 Crores: capped at ₹2,000. (3) Turnover ₹1.5 Crores to ₹5 Crores: capped at ₹5,000. (4) Turnover above ₹5 Crores: capped at ₹10,000.",
-    url: "/tools/late-fee-calculator#faq",
+    url: "/late-fee-calculator#faq",
     category: "Filing & Late Fees",
     keywords: "turnover caps late fee limit aggregate threshold maximum penalty"
   },
@@ -68,7 +68,7 @@ export const faqs: FAQItem[] = [
     id: 'difference-inclusive-exclusive',
     question: "What is the difference between GST inclusive and exclusive prices?",
     answer: "A GST inclusive price already includes the tax component within the listed price (such as MRP retail prices). A GST exclusive price is the pre-tax base price, meaning GST will be calculated and added on top of it at checkout.",
-    url: "/tools/gst-exclusive-calculator#faq",
+    url: "/gst-exclusive-calculator#faq",
     category: "General GST",
     keywords: "inclusive exclusive tax base price total mrp price addition subtraction"
   },
@@ -76,7 +76,7 @@ export const faqs: FAQItem[] = [
     id: 'extract-base-price',
     question: "How do I extract the base price from a GST-inclusive amount?",
     answer: "To extract the base price, divide the total GST inclusive amount by (1 + GST Rate/100). For example, to remove 18% GST from ₹11,800: Base Price = 11,800 ÷ 1.18 = ₹10,000. The GST amount is the remaining ₹1,800.",
-    url: "/tools/gst-inclusive-calculator#faq",
+    url: "/gst-inclusive-calculator#faq",
     category: "General GST",
     keywords: "extract base price remove tax divide calculation formula backward"
   },
@@ -84,7 +84,7 @@ export const faqs: FAQItem[] = [
     id: 'composition-scheme-eligibility',
     question: "Who is eligible for the GST Composition Scheme?",
     answer: "Taxpayers with an annual aggregate turnover of up to ₹1.5 Crores (₹75 Lakhs for North-Eastern states) can opt for the Composition Scheme to pay tax at flat rates (1% for traders/manufacturers, 5% for restaurants). Service providers can opt for the scheme with a limit of ₹50 Lakhs at a flat rate of 6%.",
-    url: "/tools/composition-calculator#faq",
+    url: "/composition-calculator#faq",
     category: "Composition Scheme",
     keywords: "composition scheme aggregate turnover limit threshold restaurant trader service"
   },
@@ -92,7 +92,7 @@ export const faqs: FAQItem[] = [
     id: 'composition-dealer-itc',
     question: "Can a composition dealer claim Input Tax Credit (ITC)?",
     answer: "No. A taxpayer opting for the Composition Scheme is barred from claiming Input Tax Credit (ITC) on purchases. They also cannot collect GST from their customers or issue tax invoices (they issue a 'Bill of Supply' instead).",
-    url: "/tools/composition-calculator#faq",
+    url: "/composition-calculator#faq",
     category: "Composition Scheme",
     keywords: "composition dealer input tax credit itc claim collect bill supply"
   },
@@ -140,7 +140,7 @@ export const faqs: FAQItem[] = [
     id: 'rule89-refund-formula',
     question: "What is the Rule 89 refund formula for zero-rated supplies?",
     answer: "Under Rule 89(4) of the CGST Rules, the refund for zero-rated supply of goods without payment of tax is calculated as: **Refund Amount = (Turnover of zero-rated supply of goods + Turnover of zero-rated supply of services) × Net ITC ÷ Adjusted Total Turnover**.",
-    url: "/tools/gst-refund-calculator#faq",
+    url: "/gst-refund-calculator#faq",
     category: "Refund & Invoicing",
     keywords: "rule 89 refund zero rated supply exports formula inverted duty structure"
   },

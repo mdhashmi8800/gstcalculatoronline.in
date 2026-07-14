@@ -1,0 +1,455 @@
+---
+import CalculatorLayout from '../components/CalculatorLayout.astro';
+import ResultCard from '../components/ResultCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "Reverse GST Calculator Online – Deduct GST & Find Base Price";
+const pageDesc = "Reverse GST calculator to subtract GST from final inclusive prices. Back-calculate net values and tax splits (CGST, SGST, IGST) at 5%, 12%, 18%, and 28%.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "Reverse GST Calculator Online – Deduct GST & Find Base Price",
+  "url": "https://gstcalculatoronline.in/reverse-gst-calculator",
+  "description": "Reverse GST calculator to subtract GST from final inclusive prices. Back-calculate net values and tax splits (CGST, SGST, IGST) at 5%, 12%, 18%, and 28%.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is a reverse GST calculation?",
+    answer: "A reverse GST calculation is the process of finding the original base (pre-tax) value from a gross price that already includes Goods and Services Tax. It subtracts or 'backs out' the tax component from the total sum."
+  },
+  {
+    question: "What is the formula to remove GST from a total price?",
+    answer: "Base Value = Inclusive Amount ÷ (1 + GST Rate ÷ 100). The tax amount is then found by subtracting the Base Value from the Inclusive Amount: GST Amount = Inclusive Amount - Base Value."
+  },
+  {
+    question: "Why can't I just calculate the tax rate directly on the total price?",
+    answer: "If you calculate the percentage directly on the total price (e.g. multiplying ₹11,800 by 18% = ₹2,124), you will get an inflated tax amount. This is because the tax is applied to the base value (₹10,000), not the tax-inclusive sum."
+  },
+  {
+    question: "How to calculate reverse GST for 18% slab?",
+    answer: "To remove 18% GST from a total price: Divide the total price by 1.18. This gives the pre-tax base price. The remaining amount is the 18% GST tax portion. For example, ₹5,900 ÷ 1.18 = ₹5,000 base amount, and ₹900 tax."
+  },
+  {
+    question: "How to calculate reverse GST for 12% slab?",
+    answer: "To remove 12% GST from a total amount: Divide the total amount by 1.12 to get the base taxable value. The difference between the total and the base is the 12% tax amount."
+  },
+  {
+    question: "How to calculate reverse GST for 5% slab?",
+    answer: "To remove 5% GST: Divide the inclusive total by 1.05. This isolates the pre-tax base cost, and the remaining 5% is the tax portion."
+  },
+  {
+    question: "How to calculate reverse GST for 28% slab?",
+    answer: "To remove 28% GST: Divide the inclusive total amount by 1.28 to extract the base value. The remainder is the 28% luxury tax amount."
+  },
+  {
+    question: "Is reverse GST calculation the same as inclusive GST?",
+    answer: "Yes, 'reverse GST calculation' and 'inclusive GST calculation' are synonymous. Both describe the method of extracting the net base value and tax amount from a gross price."
+  },
+  {
+    question: "What is the reverse charge mechanism (RCM) in GST?",
+    answer: "RCM is a distinct tax rule where the recipient of goods/services is liable to pay GST instead of the supplier. Although 'reverse calculation' sounds similar, RCM is a legal classification, while reverse calculation is a mathematical extraction."
+  },
+  {
+    question: "How does our online reverse GST calculator help businesses?",
+    answer: "It saves time and prevents calculation errors. When filing returns (like GSTR-1 or GSTR-3B), businesses must report taxable values separate from CGST, SGST, and IGST portions. The tool generates these figures instantly."
+  },
+  {
+    question: "Can I use the reverse calculator for service bills?",
+    answer: "Yes, the calculation is identical for both goods and services. Simply select the appropriate tax slab for the service (usually 18% for professional services) and enter the invoice total."
+  },
+  {
+    question: "How do I split reverse GST into CGST and SGST?",
+    answer: "First, perform the reverse calculation to find the total GST amount. Then, split that total GST amount equally by dividing it by 2. One half is Central GST (CGST) and the other is State GST (SGST)."
+  },
+  {
+    question: "Does the reverse GST calculator support custom rates?",
+    answer: "Yes. In the rate selector, choose 'Custom' and enter the percentage (such as 3% for gold transactions or 13.5% for specific local items) to perform the back-calculation."
+  },
+  {
+    question: "Why is reverse calculation important for retail purchases?",
+    answer: "Retail price tags (MRP) are mandatory tax-inclusive values in India. The reverse calculator helps consumers understand the actual pre-tax cost of the item and the exact amount of tax they paid to the government."
+  },
+  {
+    question: "Does the calculator work for interstate purchases?",
+    answer: "Yes. Set the transaction type to Interstate (IGST) in the form. The calculator will allocate the entire tax portion to Integrated GST (IGST) instead of splitting it."
+  },
+  {
+    question: "How to calculate reverse GST in Microsoft Excel?",
+    answer: "In Excel, if cell A1 has the inclusive amount and cell B1 has the tax rate (e.g. 18%), the formula for base value is: `=A1 / (1 + B1/100)`. The tax amount formula is: `=A1 - (A1 / (1 + B1/100))`."
+  },
+  {
+    question: "Is there a limit to the transaction size in this calculator?",
+    answer: "No, there is no limit. You can input any transaction amount from small retail bills to large multi-crore corporate invoices."
+  },
+  {
+    question: "Does this reverse calculator require sign-up?",
+    answer: "No. The calculator is completely free, runs locally in your browser, and requires no registration or personal details."
+  },
+  {
+    question: "How are round-off decimals handled in reverse GST?",
+    answer: "The calculator outputs figures to two decimal places. Under tax compliance rules, businesses usually round off the final value to the nearest rupee, but maintaining exact decimals helps in bookkeeping."
+  },
+  {
+    question: "What should I do if the calculator doesn't show splits?",
+    answer: "Ensure you have selected 'Intra-State' for the transaction type. This will display the separate CGST and SGST rows. Selecting 'Interstate' shows the single IGST row."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+  <form id="gst-form" class="space-y-4 md:space-y-6" autocomplete="off">
+    <!-- Transaction Amount -->
+    <div>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Transaction Amount (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="amount" 
+          id="calc-amount" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10000"
+          required
+          aria-label="Transaction Amount in Rupees"
+        />
+      </div>
+      <!-- Quick Amount Chips -->
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group" aria-label="Quick amount presets">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Calculation Direction -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Direction</span>
+      <div class="segmented-control" role="group" aria-label="GST calculation direction">
+        <label class="segmented-btn btn-add-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="add" class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add GST
+        </label>
+        <label class="segmented-btn btn-remove-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="remove" checked class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
+          Remove GST
+        </label>
+      </div>
+    </div>
+
+    <!-- GST Tax Slab Rates -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="rate-pill-container sm:grid sm:grid-cols-6 gap-2" role="group" aria-label="GST rate selection">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+            <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
+            {rate}%
+          </label>
+        ))}
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+          <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
+          Custom
+        </label>
+      </div>
+      
+      <!-- Custom Rate Input (Hidden by default) -->
+      <div id="custom-rate-container" class="hidden mt-3">
+        <label for="calc-rate-custom" class="sr-only">Custom GST Rate (%)</label>
+        <div class="relative">
+          <input 
+            type="number" 
+            name="custom-rate" 
+            id="calc-rate-custom" 
+            min="0.1" 
+            max="100" 
+            step="any"
+            value="18"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
+            placeholder="Enter custom rate e.g. 3"
+          />
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supply Destination -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="segmented-control" role="group" aria-label="Transaction type">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
+          <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="interstate" class="sr-only" />
+          <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="flex items-center gap-3 text-[10px] text-mute font-mono pt-1">
+      <span class="kbd">ESC</span><span>Reset</span>
+      <span class="kbd ml-2">Tab</span><span>Navigate fields</span>
+    </div>
+  </form>
+
+  <ResultCard slot="results" />
+
+  <div slot="content" class="prose max-w-none">
+    <h1>Reverse GST Calculator — Deduct GST from Total Price</h1>
+    
+      <h2>Understanding Reverse GST Calculations</h2>
+      <p>A <strong>reverse GST calculator</strong> is designed for business owners, accountants, and retail buyers who need to determine the original pre-tax value (taxable base amount) of a product or service from its final, tax-inclusive price. Under the dual-GST structure in India, when you purchase goods or services, the invoice displays a total price that already incorporates tax. To properly account for transactions, you must record the net taxable price and the tax portions separately in your books of accounts.</p>
+      <h2>How the Reverse GST Calculator Works</h2>
+      <p>Our reverse GST calculator does the algebraic reverse calculation. Rather than multiplying the price by the tax rate directly (which would lead to an incorrect over-calculation), it isolates the tax percentage component first. It lets you select the rate slab — such as 5%, 12%, 18%, or 28% — and provides the net taxable cost, the total tax collected, and splits it into CGST and SGST for local transactions, or IGST for interstate transactions.</p>
+      <h2>The Mathematical Formula for Reverse GST</h2>
+      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
+        <p class="font-semibold text-brand-link">Reverse GST Formula:</p>
+        <p class="mt-2">Base Taxable Value = Inclusive Price ÷ (1 + GST Rate ÷ 100)</p>
+        <p>Total GST Amount = Inclusive Price − Base Taxable Value</p>
+        <p class="mt-2">For Intrastate supply: CGST = SGST = Total GST Amount ÷ 2</p>
+        <p>For Interstate supply: IGST = Total GST Amount</p>
+      </div>
+      <p>Example: If a product is sold for ₹11,800 (inclusive of 18% GST):</p>
+      <ul>
+        <li>Base Value = 11,800 ÷ (1 + 18/100) = 11,800 ÷ 1.18 = <strong>₹10,000</strong></li>
+        <li>GST Amount = 11,800 − 10,000 = <strong>₹1,800</strong></li>
+        <li>CGST (9%) = <strong>₹900</strong> | SGST (9%) = <strong>₹900</strong></li>
+      </ul>
+    
+    
+    <h2>Frequently Asked Questions</h2>
+    <FAQ items={faqs} />
+    
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
+        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+      </div>
+    </div>
+  </div>
+</CalculatorLayout>
+
+<script>
+  // Calculator logical implementation
+  const amountInput = document.getElementById('calc-amount') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('calc-rate-custom') as HTMLInputElement | null;
+  const customRateContainer = document.getElementById('custom-rate-container');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstRow = document.getElementById('res-cgst-row');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstRow = document.getElementById('res-sgst-row');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resIgstRow = document.getElementById('res-igst-row');
+  const resIgstVal = document.getElementById('res-igst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function getSelectedRate(): number {
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    if (!rateRadio) return 18;
+    if (rateRadio.value === 'custom') {
+      return parseFloat(customRateInput?.value || '0') || 0;
+    }
+    return parseFloat(rateRadio.value) || 0;
+  }
+
+  function calculate() {
+    if (!amountInput) return;
+
+    // Validate main amount
+    const isAmountValid = validateInput(
+      amountInput,
+      "Please enter a valid amount greater than 0",
+      () => parseFloat(amountInput.value) > 0
+    );
+
+    // Validate custom rate if selected
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    let isRateValid = true;
+    if (rateRadio?.value === 'custom' && customRateInput) {
+      isRateValid = validateInput(
+        customRateInput,
+        "Please enter a rate between 0.1% and 100%",
+        () => {
+          const val = parseFloat(customRateInput.value);
+          return val >= 0.1 && val <= 100;
+        }
+      );
+    }
+
+    if (!isAmountValid || !isRateValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resIgstVal) resIgstVal.innerText = "₹0.00";
+      return;
+    }
+
+    const amount = parseFloat(amountInput.value) || 0;
+    const rate = getSelectedRate();
+    const typeRadio = document.querySelector('input[name="calc-type"]:checked') as HTMLInputElement | null;
+    const isAdd = typeRadio ? typeRadio.value === 'add' : true;
+    
+    const taxTypeRadio = document.querySelector('input[name="tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = taxTypeRadio ? taxTypeRadio.value === 'intrastate' : true;
+
+    let taxableValue = 0;
+    let totalTax = 0;
+    let grandTotal = 0;
+
+    if (isAdd) {
+      taxableValue = amount;
+      totalTax = amount * (rate / 100);
+      grandTotal = amount + totalTax;
+    } else {
+      taxableValue = amount / (1 + (rate / 100));
+      totalTax = amount - taxableValue;
+      grandTotal = amount;
+    }
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(taxableValue);
+    if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
+
+    if (isIntrastate) {
+      resCgstRow?.classList.remove('hidden');
+      resSgstRow?.classList.remove('hidden');
+      resIgstRow?.classList.add('hidden');
+      const splitTax = totalTax / 2;
+      if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
+      if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
+    } else {
+      resCgstRow?.classList.add('hidden');
+      resSgstRow?.classList.add('hidden');
+      resIgstRow?.classList.remove('hidden');
+      if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
+    }
+  }
+
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get('amount');
+    const rate = params.get('rate');
+    const type = params.get('type');
+    const taxtype = params.get('taxtype');
+
+    if (amount && amountInput) amountInput.value = amount;
+
+    if (type) {
+      const typeRadio = document.querySelector(`input[name="calc-type"][value="${type}"]`) as HTMLInputElement | null;
+      if (typeRadio) typeRadio.checked = true;
+    }
+
+    if (taxtype) {
+      const taxRadio = document.querySelector(`input[name="tax-type"][value="${taxtype}"]`) as HTMLInputElement | null;
+      if (taxRadio) taxRadio.checked = true;
+    }
+
+    if (rate) {
+      const standardRates = ['5', '12', '18', '28'];
+      if (standardRates.includes(rate)) {
+        const rateRadio = document.querySelector(`input[name="calc-rate"][value="${rate}"]`) as HTMLInputElement | null;
+        if (rateRadio) rateRadio.checked = true;
+      } else {
+        const customRadio = document.getElementById('rate-custom-radio') as HTMLInputElement | null;
+        if (customRadio) {
+          customRadio.checked = true;
+          customRateContainer?.classList.remove('hidden');
+          if (customRateInput) customRateInput.value = rate;
+        }
+      }
+    }
+  }
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
+  rateRadios.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.value === 'custom') {
+        customRateContainer?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateContainer?.classList.add('hidden');
+        if (customRateInput) {
+          customRateInput.classList.remove('input-error');
+          document.getElementById('calc-rate-custom-error')?.remove();
+        }
+      }
+      calculate();
+    });
+  });
+
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (amountInput) amountInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  loadFromUrl();
+  calculate();
+</script>

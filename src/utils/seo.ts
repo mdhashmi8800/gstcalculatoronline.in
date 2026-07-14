@@ -26,8 +26,12 @@ export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: bo
 
 export function getSEOMetadata(metadata: SEOMetadata = {}): SEOMetadata {
   let title = metadata.title || DEFAULT_SEO.title;
-  if (metadata.title && !metadata.title.includes(SITE_NAME)) {
-    title = `${metadata.title} | ${SITE_NAME}`;
+  if (metadata.title) {
+    const hasSiteName = metadata.title.includes(SITE_NAME);
+    const hasGSTCalc = metadata.title.toLowerCase().includes("gst calculator");
+    if (!hasSiteName && !hasGSTCalc && metadata.title.length < 50) {
+      title = `${metadata.title} | ${SITE_NAME}`;
+    }
   }
 
   return {

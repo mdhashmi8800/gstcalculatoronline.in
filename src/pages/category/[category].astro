@@ -1,8 +1,8 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import ToolCard from '../../../components/ToolCard.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { tools } from '../../../utils/tools';
+import Layout from '../../layouts/Layout.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { tools } from '../../utils/tools';
 
 export async function getStaticPaths() {
   const categories = [
@@ -25,6 +25,11 @@ export async function getStaticPaths() {
       slug: 'composition-scheme',
       name: 'Composition Scheme',
       desc: 'Compute quarterly liabilities for service providers, restaurateurs, and traders.'
+    },
+    {
+      slug: 'utilities',
+      name: 'Tax Utilities & Invoice Builders',
+      desc: 'Free tools for generating GST invoices, searching HSN codes, and lookup rates.'
     }
   ];
 
@@ -40,13 +45,14 @@ const { cat } = Astro.props;
 const filteredTools = tools.filter(t => t.category === cat.slug);
 
 // Get related articles dynamically based on category
-const allPosts = Object.values(import.meta.glob('../../../content/blog/*.md', { eager: true })) as any[];
+const allPosts = Object.values(import.meta.glob('../../content/blog/*.md', { eager: true })) as any[];
 
 const categoryKeywordMap: Record<string, string[]> = {
   'tax-slabs': ['what-is-gst', 'gst-rates-india-2026', 'hsn-code-guide-india', 'place-of-supply-gst-rules', 'value-of-supply-gst-rules'],
   'late-fees': ['gst-penalties-late-fees-interest', 'gst-return-filing-checklist', 'gstr-3b-filing-step-by-step', 'eway-bill-system-guide'],
   'interest-penalties': ['gst-penalties-late-fees-interest', 'input-tax-credit-itc-rules', 'gstr-2a-vs-gstr-2b-reconciliation'],
-  'composition-scheme': ['composition-scheme-gst-guide', 'gst-small-businesses-impact', 'gst-invoice-rules-format']
+  'composition-scheme': ['composition-scheme-gst-guide', 'gst-small-businesses-impact', 'gst-invoice-rules-format'],
+  'utilities': ['gst-invoice-rules-format', 'sac-code-services-guide', 'hsn-code-guide-india']
 };
 
 const targetSlugs = categoryKeywordMap[cat.slug] || ['what-is-gst'];
@@ -134,7 +140,7 @@ const pageDesc = `${cat.desc} Fast, precise, and updated online financial tools 
               { slug: 'composition-scheme', name: 'Composition' }
             ].filter(c => c.slug !== cat.slug).map((c) => (
               <a 
-                href={`/tools/category/${c.slug}`} 
+                href={`/category/${c.slug}`} 
                 class="flex items-center justify-between p-3 rounded-xl border border-hairline bg-canvas hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all text-xs font-semibold text-body hover:text-ink"
               >
                 <span>{c.name} Tools</span>

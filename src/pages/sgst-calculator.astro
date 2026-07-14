@@ -1,0 +1,441 @@
+---
+import CalculatorLayout from '../components/CalculatorLayout.astro';
+import ResultCard from '../components/ResultCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "SGST Calculator Online – Find State GST Instantly";
+const pageDesc = "Free SGST calculator to compute the State Goods and Services Tax portion for local supplies. Simple tools with dual GST splits.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "SGST Calculator Online – Find State GST Instantly",
+  "url": "https://gstcalculatoronline.in/sgst-calculator",
+  "description": "Free SGST calculator to compute the State Goods and Services Tax portion for local supplies. Simple tools with dual GST splits.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is SGST?",
+    answer: "SGST stands for State Goods and Services Tax. It is the tax levied by the State Government of India on the intrastate (within the same state) supply of goods and services."
+  },
+  {
+    question: "What is the formula to calculate SGST?",
+    answer: "For exclusive price: SGST = [Base Price × (Total GST Rate ÷ 2)] ÷ 100. For inclusive price: SGST = (Total GST Amount ÷ 2), where Total GST = Inclusive Price - [Inclusive Price ÷ (1 + GST Rate ÷ 100)]."
+  },
+  {
+    question: "When does SGST apply?",
+    answer: "SGST applies to intrastate sales. If a business in Mumbai sells goods to a buyer in Pune, SGST (along with CGST) applies. If the buyer is in another state, IGST applies instead."
+  },
+  {
+    question: "Is SGST equal to CGST?",
+    answer: "Yes, SGST is always exactly equal to CGST in both rate and tax amount for a given transaction."
+  },
+  {
+    question: "Who gets the tax revenue from SGST?",
+    answer: "The revenue from SGST is collected by and allocated to the State Government of the destination state where the consumption of goods or services occurs."
+  },
+  {
+    question: "If the total tax slab is 12%, what is the SGST rate?",
+    answer: "If the total tax slab is 12%, the SGST rate is 6%. The remaining 6% is CGST."
+  },
+  {
+    question: "Can SGST credit be used to pay CGST?",
+    answer: "No. SGST credit can only be used to pay SGST or IGST output tax liabilities. It cannot be cross-utilized to pay CGST."
+  },
+  {
+    question: "What is the difference between SGST and UTGST?",
+    answer: "SGST applies to states with their own legislature. UTGST (Union Territory GST) is applied in Union Territories that do not have their own legislative assembly (like Chandigarh or Lakshadweep)."
+  },
+  {
+    question: "How is SGST calculated for a ₹1,000 amount at 5% GST?",
+    answer: "Total GST is 5% of ₹1,000 = ₹50. SGST is half, which is ₹25 (2.5% SGST + 2.5% CGST)."
+  },
+  {
+    question: "How is SGST extracted from a ₹1,120 inclusive price at 12% GST?",
+    answer: "Base value = 1,120 ÷ 1.12 = ₹1,000. Total GST = ₹120. SGST (6%) = ₹60."
+  },
+  {
+    question: "Does the SGST calculator work for custom rates?",
+    answer: "Yes, click 'Custom' in the rate selector, enter the full rate, and the calculator will automatically divide it to find the SGST portion."
+  },
+  {
+    question: "Is this SGST calculator free to use?",
+    answer: "Yes, our calculator is entirely free and requires no registration or personal details."
+  },
+  {
+    question: "What is the respective SGST Act?",
+    answer: "Each state in India has enacted its own State Goods and Services Tax Act, 2017 (e.g. Karnataka GST Act, Tamil Nadu GST Act) to administer and collect SGST."
+  },
+  {
+    question: "How is SGST recorded in ledger accounts?",
+    answer: "SGST is recorded as 'SGST Input Tax' (asset ledger for purchasing) and 'SGST Output Tax' (liability ledger for sales)."
+  },
+  {
+    question: "Does the calculator support decimal numbers?",
+    answer: "Yes, you can enter fractional quantities and amounts. Results are rounded to two decimal places."
+  },
+  {
+    question: "How do I share my SGST calculations?",
+    answer: "Click the 'Share' button in the results card to copy a unique, pre-loaded link of your inputs to your clipboard."
+  },
+  {
+    question: "Does the calculator save my accounting data?",
+    answer: "No. All calculations are executed client-side in your browser, guaranteeing absolute privacy."
+  },
+  {
+    question: "What happens if I select interstate transaction?",
+    answer: "If you select Interstate (IGST), the SGST and CGST rows will be hidden, and the full tax will be allocated to Integrated GST (IGST)."
+  },
+  {
+    question: "What should I do if the calculator displays ₹0.00?",
+    answer: "Ensure you enter an amount greater than 0. The calculator updates dynamically as you type."
+  },
+  {
+    question: "Can I download the breakdown sheet?",
+    answer: "Yes. Click on the 'PDF' button to save a copy of the calculation breakdown to your device."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+  <form id="gst-form" class="space-y-4 md:space-y-6" autocomplete="off">
+    <!-- Transaction Amount -->
+    <div>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Transaction Amount (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="amount" 
+          id="calc-amount" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10000"
+          required
+          aria-label="Transaction Amount in Rupees"
+        />
+      </div>
+      <!-- Quick Amount Chips -->
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group" aria-label="Quick amount presets">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Calculation Direction -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Direction</span>
+      <div class="segmented-control" role="group" aria-label="GST calculation direction">
+        <label class="segmented-btn btn-add-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="add" checked class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add GST
+        </label>
+        <label class="segmented-btn btn-remove-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="remove" class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
+          Remove GST
+        </label>
+      </div>
+    </div>
+
+    <!-- GST Tax Slab Rates -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="rate-pill-container sm:grid sm:grid-cols-6 gap-2" role="group" aria-label="GST rate selection">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+            <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
+            {rate}%
+          </label>
+        ))}
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+          <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
+          Custom
+        </label>
+      </div>
+      
+      <!-- Custom Rate Input (Hidden by default) -->
+      <div id="custom-rate-container" class="hidden mt-3">
+        <label for="calc-rate-custom" class="sr-only">Custom GST Rate (%)</label>
+        <div class="relative">
+          <input 
+            type="number" 
+            name="custom-rate" 
+            id="calc-rate-custom" 
+            min="0.1" 
+            max="100" 
+            step="any"
+            value="18"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
+            placeholder="Enter custom rate e.g. 3"
+          />
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supply Destination -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="segmented-control" role="group" aria-label="Transaction type">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
+          <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="interstate" disabled class="sr-only" />
+          <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="flex items-center gap-3 text-[10px] text-mute font-mono pt-1">
+      <span class="kbd">ESC</span><span>Reset</span>
+      <span class="kbd ml-2">Tab</span><span>Navigate fields</span>
+    </div>
+  </form>
+
+  <ResultCard slot="results" />
+
+  <div slot="content" class="prose max-w-none">
+    <h1>SGST Calculator</h1>
+    
+      <h2>SGST Calculator — Calculate State Goods and Services Tax</h2>
+      <p>Under India's Goods and Services Tax (GST) framework, transactions within a single state are subjected to a dual-tax system. The portion collected by the respective State Government is known as <strong>State Goods and Services Tax (SGST)</strong>. This tax is governed by the SGST Act of the respective state (such as the Maharashtra GST Act, Delhi GST Act, etc.).</p>
+      <h2>Role and Calculation of SGST</h2>
+      <p>SGST is levied alongside Central GST (CGST) for local transactions. The rate of SGST is always half of the total GST rate and matches the CGST rate exactly. For example, for an 18% transaction, SGST is 9% and CGST is 9%. The revenue from SGST goes directly to the destination state where the goods or services are consumed. Our SGST calculator provides an instant breakdown of the state tax portion for any transaction amount.</p>
+    
+    
+    <h2>Frequently Asked Questions</h2>
+    <FAQ items={faqs} />
+    
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
+        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+      </div>
+    </div>
+  </div>
+</CalculatorLayout>
+
+<script>
+  // Calculator logical implementation
+  const amountInput = document.getElementById('calc-amount') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('calc-rate-custom') as HTMLInputElement | null;
+  const customRateContainer = document.getElementById('custom-rate-container');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstRow = document.getElementById('res-cgst-row');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstRow = document.getElementById('res-sgst-row');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resIgstRow = document.getElementById('res-igst-row');
+  const resIgstVal = document.getElementById('res-igst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function getSelectedRate(): number {
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    if (!rateRadio) return 18;
+    if (rateRadio.value === 'custom') {
+      return parseFloat(customRateInput?.value || '0') || 0;
+    }
+    return parseFloat(rateRadio.value) || 0;
+  }
+
+  function calculate() {
+    if (!amountInput) return;
+
+    // Validate main amount
+    const isAmountValid = validateInput(
+      amountInput,
+      "Please enter a valid amount greater than 0",
+      () => parseFloat(amountInput.value) > 0
+    );
+
+    // Validate custom rate if selected
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    let isRateValid = true;
+    if (rateRadio?.value === 'custom' && customRateInput) {
+      isRateValid = validateInput(
+        customRateInput,
+        "Please enter a rate between 0.1% and 100%",
+        () => {
+          const val = parseFloat(customRateInput.value);
+          return val >= 0.1 && val <= 100;
+        }
+      );
+    }
+
+    if (!isAmountValid || !isRateValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resIgstVal) resIgstVal.innerText = "₹0.00";
+      return;
+    }
+
+    const amount = parseFloat(amountInput.value) || 0;
+    const rate = getSelectedRate();
+    const typeRadio = document.querySelector('input[name="calc-type"]:checked') as HTMLInputElement | null;
+    const isAdd = typeRadio ? typeRadio.value === 'add' : true;
+    
+    const taxTypeRadio = document.querySelector('input[name="tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = taxTypeRadio ? taxTypeRadio.value === 'intrastate' : true;
+
+    let taxableValue = 0;
+    let totalTax = 0;
+    let grandTotal = 0;
+
+    if (isAdd) {
+      taxableValue = amount;
+      totalTax = amount * (rate / 100);
+      grandTotal = amount + totalTax;
+    } else {
+      taxableValue = amount / (1 + (rate / 100));
+      totalTax = amount - taxableValue;
+      grandTotal = amount;
+    }
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(taxableValue);
+    if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
+
+    if (isIntrastate) {
+      resCgstRow?.classList.remove('hidden');
+      resSgstRow?.classList.remove('hidden');
+      resIgstRow?.classList.add('hidden');
+      const splitTax = totalTax / 2;
+      if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
+      if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
+    } else {
+      resCgstRow?.classList.add('hidden');
+      resSgstRow?.classList.add('hidden');
+      resIgstRow?.classList.remove('hidden');
+      if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
+    }
+  }
+
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get('amount');
+    const rate = params.get('rate');
+    const type = params.get('type');
+    const taxtype = params.get('taxtype');
+
+    if (amount && amountInput) amountInput.value = amount;
+
+    if (type) {
+      const typeRadio = document.querySelector(`input[name="calc-type"][value="${type}"]`) as HTMLInputElement | null;
+      if (typeRadio) typeRadio.checked = true;
+    }
+
+    if (taxtype) {
+      const taxRadio = document.querySelector(`input[name="tax-type"][value="${taxtype}"]`) as HTMLInputElement | null;
+      if (taxRadio) taxRadio.checked = true;
+    }
+
+    if (rate) {
+      const standardRates = ['5', '12', '18', '28'];
+      if (standardRates.includes(rate)) {
+        const rateRadio = document.querySelector(`input[name="calc-rate"][value="${rate}"]`) as HTMLInputElement | null;
+        if (rateRadio) rateRadio.checked = true;
+      } else {
+        const customRadio = document.getElementById('rate-custom-radio') as HTMLInputElement | null;
+        if (customRadio) {
+          customRadio.checked = true;
+          customRateContainer?.classList.remove('hidden');
+          if (customRateInput) customRateInput.value = rate;
+        }
+      }
+    }
+  }
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
+  rateRadios.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.value === 'custom') {
+        customRateContainer?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateContainer?.classList.add('hidden');
+        if (customRateInput) {
+          customRateInput.classList.remove('input-error');
+          document.getElementById('calc-rate-custom-error')?.remove();
+        }
+      }
+      calculate();
+    });
+  });
+
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (amountInput) amountInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  loadFromUrl();
+  calculate();
+</script>

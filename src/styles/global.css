@@ -487,6 +487,10 @@ input[type="number"] {
   padding: 0.5rem 0;
   transition: background 0.15s ease;
 }
+/* Ensure .hidden overrides the display:flex from .result-row */
+.result-row.hidden {
+  display: none !important;
+}
 .result-row:hover {
   background-color: var(--color-canvas-soft-2);
   margin-left: -0.75rem;

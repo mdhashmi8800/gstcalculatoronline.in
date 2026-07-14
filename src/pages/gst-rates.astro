@@ -1,0 +1,483 @@
+---
+import CalculatorLayout from '../components/CalculatorLayout.astro';
+import ResultCard from '../components/ResultCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "GST Rates List India – Rates & Slabs (2026)";
+const pageDesc = "Complete list of GST rates and tax slabs in India (5%, 12%, 18%, 28%). Search or look up goods and services categories under CBIC rules.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "GST Rates List India – Rates & Slabs (2026)",
+  "url": "https://gstcalculatoronline.in/gst-rates",
+  "description": "Complete list of GST rates and tax slabs in India (5%, 12%, 18%, 28%). Search or look up goods and services categories under CBIC rules.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+};
+
+const faqs = [
+  {
+    question: "How many GST slabs are there in India?",
+    answer: "There are four primary slabs: 5%, 12%, 18%, and 28%. Additionally, there is a 0% exempt list, a 3% slab for gold, and 0.25% for rough precious stones."
+  },
+  {
+    question: "What is the GST rate for gold?",
+    answer: "Gold, silver, and precious jewelry attract a special GST rate of 3% on the metal value, plus GST on making charges (usually 5% for job work)."
+  },
+  {
+    question: "Which items are exempt from GST (0% rate)?",
+    answer: "Essential items like fresh fruits and vegetables, fresh milk, unbranded flour, eggs, curd, books, newspapers, and healthcare/education services are exempt from GST."
+  },
+  {
+    question: "What is the GST rate on restaurant bills?",
+    answer: "GST on standalone restaurants is 5% (without Input Tax Credit). For AC restaurants inside hotels with room tariff >₹7,500/night, the rate is 18% (with ITC)."
+  },
+  {
+    question: "What is the GST rate for mobile phones?",
+    answer: "Mobile phones and phone accessories attract 18% GST in India."
+  },
+  {
+    question: "What is the GST rate on computer parts?",
+    answer: "Computers, laptops, and most computer hardware parts attract 18% GST."
+  },
+  {
+    question: "What is the GST rate on insurance premium?",
+    answer: "Life, health, and general insurance premiums are taxed at the standard rate of 18% GST."
+  },
+  {
+    question: "What items fall under the 28% luxury tax slab?",
+    answer: "Luxury cars, high-end motorbikes, tobacco products, pan masala, aerated drinks, cement, dishwashers, and air conditioners fall under the 28% slab."
+  },
+  {
+    question: "What is the Compensation Cess in GST?",
+    answer: "Compensation Cess is an additional tax levied on luxury and sin goods (like tobacco, cars, aerated water) on top of the 28% GST slab, used to compensate states for revenue losses."
+  },
+  {
+    question: "How do I find the GST rate of a specific product?",
+    answer: "You can find the rate by searching for the product HSN (Harmonized System of Nomenclature) code or SAC (Service Accounting Code) in the rate schedule."
+  },
+  {
+    question: "Are HSN codes mandatory for small businesses?",
+    answer: "Businesses with turnover up to ₹5 crore need to list 4-digit HSN codes for B2B invoices. Businesses with turnover >₹5 crore must use 6-digit codes."
+  },
+  {
+    question: "What is the GST rate for digital services (SaaS)?",
+    answer: "Software as a Service (SaaS), cloud hosting, and other digital services are classified as OIDAR services and attract 18% GST."
+  },
+  {
+    question: "Is electricity exempt from GST?",
+    answer: "Yes, electricity transmission and distribution are currently exempt from GST."
+  },
+  {
+    question: "Is petrol under GST?",
+    answer: "No, petroleum products (crude oil, natural gas, petrol, diesel, ATF) are outside the purview of GST and subject to state VAT and central excise duties."
+  },
+  {
+    question: "What is the GST rate on hotel bookings?",
+    answer: "Hotel room tariff under ₹1,000/night is exempt. Tariff between ₹1,001 and ₹7,500 attracts 12% GST. Tariff above ₹7,500 attracts 18% GST."
+  },
+  {
+    question: "What is the GST rate for freelancers in India?",
+    answer: "Freelancers providing professional services (IT, writing, design) attract 18% GST if their aggregate turnover exceeds ₹20 lakh (₹10 lakh for special states)."
+  },
+  {
+    question: "How is GST rate revised?",
+    answer: "Rates are revised by the GST Council of India, comprising state finance ministers and headed by the Union Finance Minister, during periodic council meetings."
+  },
+  {
+    question: "Are medicines taxed under GST?",
+    answer: "Most standard medicines attract 12% GST, life-saving medicines attract 5% GST, and vaccines/specific categories are taxed as notified."
+  },
+  {
+    question: "Is organic food exempt from GST?",
+    answer: "Unbranded, fresh organic food is exempt (0% GST). If packaged and branded, it attracts 5% GST."
+  },
+  {
+    question: "Can I use the rate finder on this site?",
+    answer: "Yes. Use the 'GST Rate Finder' tool from our menu to search for any item name or HSN code to check the current active rate slab."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+  <form id="gst-form" class="space-y-4 md:space-y-6" autocomplete="off">
+    <!-- Transaction Amount -->
+    <div>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Transaction Amount (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="amount" 
+          id="calc-amount" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10000"
+          required
+          aria-label="Transaction Amount in Rupees"
+        />
+      </div>
+      <!-- Quick Amount Chips -->
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group" aria-label="Quick amount presets">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Calculation Direction -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Direction</span>
+      <div class="segmented-control" role="group" aria-label="GST calculation direction">
+        <label class="segmented-btn btn-add-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="add" checked class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add GST
+        </label>
+        <label class="segmented-btn btn-remove-gst cursor-pointer">
+          <input type="radio" name="calc-type" value="remove" class="sr-only" />
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/></svg>
+          Remove GST
+        </label>
+      </div>
+    </div>
+
+    <!-- GST Tax Slab Rates -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="rate-pill-container sm:grid sm:grid-cols-6 gap-2" role="group" aria-label="GST rate selection">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+            <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
+            {rate}%
+          </label>
+        ))}
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+          <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
+          Custom
+        </label>
+      </div>
+      
+      <!-- Custom Rate Input (Hidden by default) -->
+      <div id="custom-rate-container" class="hidden mt-3">
+        <label for="calc-rate-custom" class="sr-only">Custom GST Rate (%)</label>
+        <div class="relative">
+          <input 
+            type="number" 
+            name="custom-rate" 
+            id="calc-rate-custom" 
+            min="0.1" 
+            max="100" 
+            step="any"
+            value="18"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
+            placeholder="Enter custom rate e.g. 3"
+          />
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supply Destination -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="segmented-control" role="group" aria-label="Transaction type">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
+          <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="interstate" class="sr-only" />
+          <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="flex items-center gap-3 text-[10px] text-mute font-mono pt-1">
+      <span class="kbd">ESC</span><span>Reset</span>
+      <span class="kbd ml-2">Tab</span><span>Navigate fields</span>
+    </div>
+  </form>
+
+  <ResultCard slot="results" />
+
+  <div slot="content" class="prose max-w-none">
+    <h1>GST Rates & Slabs in India</h1>
+    
+      <h2>India's Current GST Tax Slabs (2025–26)</h2>
+      <p>India's Goods and Services Tax (GST) is structured into four primary tax slabs: <strong>5%, 12%, 18%, and 28%</strong>. These slabs are designed to tax luxury items at higher rates and essential commodities at lower or zero rates (exempt). In addition to the four standard slabs, a special rate of <strong>3%</strong> applies to gold, and <strong>0.25%</strong> applies to rough precious stones.</p>
+      <h2>Comprehensive GST Slab Table</h2>
+      <div class="overflow-x-auto my-6">
+        <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
+          <thead class="bg-canvas-soft-2 text-ink font-semibold border-b border-hairline">
+            <tr>
+              <th class="p-3 text-left">GST Slab</th>
+              <th class="p-3 text-left">Category</th>
+              <th class="p-3 text-left">Common Products & Services</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-hairline/50">
+              <td class="p-3 font-mono font-bold text-primary">0% (Exempt)</td>
+              <td class="p-3">Essential items</td>
+              <td class="p-3">Fresh vegetables, fresh milk, unbranded flour, eggs, curd, books, newspapers, healthcare, education.</td>
+            </tr>
+            <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+              <td class="p-3 font-mono font-bold text-primary">3%</td>
+              <td class="p-3">Precious Metals</td>
+              <td class="p-3">Gold, silver, platinum jewelry, diamonds, precious stones.</td>
+            </tr>
+            <tr class="border-b border-hairline/50">
+              <td class="p-3 font-mono font-bold text-primary">5%</td>
+              <td class="p-3">Mass consumption</td>
+              <td class="p-3">Packaged food, tea, coffee, sugar, edible oil, domestic LPG, life-saving medicines, economy class flights, Ola/Uber.</td>
+            </tr>
+            <tr class="border-b border-hairline/50 bg-canvas-soft/30">
+              <td class="p-3 font-mono font-bold text-primary">12%</td>
+              <td class="p-3">Standard goods</td>
+              <td class="p-3">Processed food, butter, cheese, ghee, fruit juices, computer hardware, sewing machines, diagnostic kits.</td>
+            </tr>
+            <tr class="border-b border-hairline/50">
+              <td class="p-3 font-mono font-bold text-primary">18%</td>
+              <td class="p-3">Standard services & goods</td>
+              <td class="p-3">IT services, professional fees, telecom, commercial consulting, FMCG products, AC restaurants, steel, electronics, banking.</td>
+            </tr>
+            <tr class="bg-canvas-soft/30">
+              <td class="p-3 font-mono font-bold text-primary">28%</td>
+              <td class="p-3">Luxury & demerit</td>
+              <td class="p-3">Luxury cars, motorcycles >350cc, aerated beverages, tobacco, pan masala, cement, ACs, betting, casinos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+    
+    <h2>Frequently Asked Questions</h2>
+    <FAQ items={faqs} />
+    
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
+        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+      </div>
+    </div>
+  </div>
+</CalculatorLayout>
+
+<script>
+  // Calculator logical implementation
+  const amountInput = document.getElementById('calc-amount') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('calc-rate-custom') as HTMLInputElement | null;
+  const customRateContainer = document.getElementById('custom-rate-container');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstRow = document.getElementById('res-cgst-row');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstRow = document.getElementById('res-sgst-row');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resIgstRow = document.getElementById('res-igst-row');
+  const resIgstVal = document.getElementById('res-igst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function getSelectedRate(): number {
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    if (!rateRadio) return 18;
+    if (rateRadio.value === 'custom') {
+      return parseFloat(customRateInput?.value || '0') || 0;
+    }
+    return parseFloat(rateRadio.value) || 0;
+  }
+
+  function calculate() {
+    if (!amountInput) return;
+
+    // Validate main amount
+    const isAmountValid = validateInput(
+      amountInput,
+      "Please enter a valid amount greater than 0",
+      () => parseFloat(amountInput.value) > 0
+    );
+
+    // Validate custom rate if selected
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    let isRateValid = true;
+    if (rateRadio?.value === 'custom' && customRateInput) {
+      isRateValid = validateInput(
+        customRateInput,
+        "Please enter a rate between 0.1% and 100%",
+        () => {
+          const val = parseFloat(customRateInput.value);
+          return val >= 0.1 && val <= 100;
+        }
+      );
+    }
+
+    if (!isAmountValid || !isRateValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      if (resCgstVal) resCgstVal.innerText = "₹0.00";
+      if (resSgstVal) resSgstVal.innerText = "₹0.00";
+      if (resIgstVal) resIgstVal.innerText = "₹0.00";
+      return;
+    }
+
+    const amount = parseFloat(amountInput.value) || 0;
+    const rate = getSelectedRate();
+    const typeRadio = document.querySelector('input[name="calc-type"]:checked') as HTMLInputElement | null;
+    const isAdd = typeRadio ? typeRadio.value === 'add' : true;
+    
+    const taxTypeRadio = document.querySelector('input[name="tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = taxTypeRadio ? taxTypeRadio.value === 'intrastate' : true;
+
+    let taxableValue = 0;
+    let totalTax = 0;
+    let grandTotal = 0;
+
+    if (isAdd) {
+      taxableValue = amount;
+      totalTax = amount * (rate / 100);
+      grandTotal = amount + totalTax;
+    } else {
+      taxableValue = amount / (1 + (rate / 100));
+      totalTax = amount - taxableValue;
+      grandTotal = amount;
+    }
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(taxableValue);
+    if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
+
+    if (isIntrastate) {
+      resCgstRow?.classList.remove('hidden');
+      resSgstRow?.classList.remove('hidden');
+      resIgstRow?.classList.add('hidden');
+      const splitTax = totalTax / 2;
+      if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
+      if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
+    } else {
+      resCgstRow?.classList.add('hidden');
+      resSgstRow?.classList.add('hidden');
+      resIgstRow?.classList.remove('hidden');
+      if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
+    }
+  }
+
+  function loadFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const amount = params.get('amount');
+    const rate = params.get('rate');
+    const type = params.get('type');
+    const taxtype = params.get('taxtype');
+
+    if (amount && amountInput) amountInput.value = amount;
+
+    if (type) {
+      const typeRadio = document.querySelector(`input[name="calc-type"][value="${type}"]`) as HTMLInputElement | null;
+      if (typeRadio) typeRadio.checked = true;
+    }
+
+    if (taxtype) {
+      const taxRadio = document.querySelector(`input[name="tax-type"][value="${taxtype}"]`) as HTMLInputElement | null;
+      if (taxRadio) taxRadio.checked = true;
+    }
+
+    if (rate) {
+      const standardRates = ['5', '12', '18', '28'];
+      if (standardRates.includes(rate)) {
+        const rateRadio = document.querySelector(`input[name="calc-rate"][value="${rate}"]`) as HTMLInputElement | null;
+        if (rateRadio) rateRadio.checked = true;
+      } else {
+        const customRadio = document.getElementById('rate-custom-radio') as HTMLInputElement | null;
+        if (customRadio) {
+          customRadio.checked = true;
+          customRateContainer?.classList.remove('hidden');
+          if (customRateInput) customRateInput.value = rate;
+        }
+      }
+    }
+  }
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
+  rateRadios.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.value === 'custom') {
+        customRateContainer?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateContainer?.classList.add('hidden');
+        if (customRateInput) {
+          customRateInput.classList.remove('input-error');
+          document.getElementById('calc-rate-custom-error')?.remove();
+        }
+      }
+      calculate();
+    });
+  });
+
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (amountInput) amountInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  loadFromUrl();
+  calculate();
+</script>

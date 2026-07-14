@@ -1,0 +1,408 @@
+---
+import CalculatorLayout from '../components/CalculatorLayout.astro';
+import ResultCard from '../components/ResultCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const pageTitle = "GST Discount Calculator – Calculate Discount then Add GST Online";
+const pageDesc = "Free online GST and discount calculator. Compute discounted prices, tax liabilities, and splits (CGST, SGST, IGST) before or after tax inclusion.";
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "WebApplication"],
+  "name": "GST Discount Calculator – Calculate Discount then Add GST Online",
+  "url": "https://gstcalculatoronline.in/gst-discount-calculator",
+  "description": "Free online GST and discount calculator. Compute discounted prices, tax liabilities, and splits (CGST, SGST, IGST) before or after tax inclusion.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+};
+
+const faqs = [
+  {
+    question: "What is a GST Discount Calculator?",
+    answer: "It is a free online tool that calculates the final price of an item after applying a percentage discount and computing the Goods and Services Tax (GST) split."
+  },
+  {
+    question: "Should GST be calculated before or after the discount?",
+    answer: "Under Section 15 of the CGST Act, GST must be calculated on the transaction value, which is the net price after deducting trade discounts. Calculating tax on pre-discounted rates is incorrect."
+  },
+  {
+    question: "What is the formula to calculate discount and GST?",
+    answer: "For exclusive discounts: Discounted Base = Original Price - (Original Price × Discount% / 100). GST Amount = Discounted Base × (GST% / 100). Grand Total = Discounted Base + GST Amount."
+  },
+  {
+    question: "How is a discount calculated on a GST inclusive price?",
+    answer: "If the MRP is ₹1,180 (inclusive of 18% GST) and a 10% discount is offered: Discounted Total = ₹1,062. Base Price = ₹1,062 ÷ 1.18 = ₹900. GST = ₹162."
+  },
+  {
+    question: "How do I calculate a 10% discount and 18% GST on ₹10,000?",
+    answer: "10% discount = ₹1,000. Net taxable value = ₹9,000. 18% GST on ₹9,000 = ₹1,620. Grand Total = ₹10,620."
+  },
+  {
+    question: "Can I choose if the discount is applied before or after GST?",
+    answer: "Yes. Our calculator lets you toggle between applying the discount to the exclusive base price (before tax) or the inclusive retail price."
+  },
+  {
+    question: "What is the Excel formula for discount then GST?",
+    answer: "If original price is in A1, discount (10%) is in B1, and GST (18%) is in C1: `=A1 * (1 - B1/100) * (1 + C1/100)`."
+  },
+  {
+    question: "Are cash discounts exempt from GST?",
+    answer: "Yes, provided the discount is established before or at the time of supply under an agreement and is linked to the relevant invoice."
+  },
+  {
+    question: "Does the discount calculator show CGST and SGST splits?",
+    answer: "Yes, for local sales, the tax on the discounted value is split equally between CGST and SGST."
+  },
+  {
+    question: "Is this calculator free to use?",
+    answer: "Yes, completely free with no registration or usage caps."
+  },
+  {
+    question: "What happens if a discount is given after the sale?",
+    answer: "Post-supply discounts are allowed to reduce tax liability only if they were agreed upon before supply and the buyer reverses the corresponding Input Tax Credit."
+  },
+  {
+    question: "Are calculations private?",
+    answer: "Yes, calculations occur locally inside your browser and are never uploaded to any servers."
+  },
+  {
+    question: "Does the calculator support custom discount percentages?",
+    answer: "Yes, you can enter any discount rate from 0% to 100% in the discount field."
+  },
+  {
+    question: "Does the calculator support custom tax rates?",
+    answer: "Yes, click 'Custom' in the GST rate selector and input your percentage."
+  },
+  {
+    question: "How do I download the discount and GST breakdown?",
+    answer: "Click on the 'PDF' button on the results card to save a copy of the breakdown to your device."
+  },
+  {
+    question: "Does the tool support mobile browsers?",
+    answer: "Yes, the layout is mobile-responsive and works perfectly on all web browsers."
+  },
+  {
+    question: "How do I reset the calculator inputs?",
+    answer: "Click the 'Reset' button at the bottom of the results card or press the 'ESC' key."
+  },
+  {
+    question: "What is the trade discount under GST?",
+    answer: "Trade discounts are price reductions offered by manufacturers to dealers, which are fully deductible from the taxable value of supply."
+  },
+  {
+    question: "How are decimal figures handled in discounts?",
+    answer: "The calculator outputs figures to two decimal places. For invoicing, the final total is rounded off to the nearest rupee."
+  },
+  {
+    question: "Does this calculator work for B2B tax invoice audits?",
+    answer: "Yes, it helps check that vendors have correctly computed GST on the post-discount taxable value."
+  }
+];
+---
+<CalculatorLayout title={pageTitle} description={pageDesc} schema={pageSchema} faqs={faqs}>
+  
+  <form id="gst-form" class="space-y-4 md:space-y-6" autocomplete="off">
+    <!-- Original Price -->
+    <div>
+      <label for="calc-amount" class="block text-sm font-bold text-ink">Original Price (₹)</label>
+      <div class="relative mt-2">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">₹</span>
+        </div>
+        <input 
+          type="number" 
+          name="amount" 
+          id="calc-amount" 
+          value="10000" 
+          min="1" 
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-9 pr-4 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10000"
+          required
+        />
+      </div>
+      <div class="mt-3 flex flex-wrap gap-1.5" id="page-quick-chips" role="group">
+        {(['100', '500', '1K', '5K', '10K', '25K', '50K', '1L'] as const).map(chip => (
+          <button type="button" class="quick-chip" data-chip={chip}>₹{chip}</button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Discount Percentage -->
+    <div>
+      <label for="calc-discount" class="block text-sm font-bold text-ink">Discount Rate (%)</label>
+      <div class="relative mt-2">
+        <input 
+          type="number" 
+          name="discount" 
+          id="calc-discount" 
+          value="10" 
+          min="0" 
+          max="100"
+          step="any"
+          class="block w-full rounded-xl border border-hairline bg-canvas py-3.5 pl-4 pr-8 text-base text-ink outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-mono font-semibold transition-all"
+          placeholder="e.g. 10"
+          required
+        />
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-mute">
+          <span class="text-sm font-bold font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount Mode (Before or After GST) -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Discount Scheme</span>
+      <div class="segmented-control" role="group">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="discount-mode" value="before" checked class="sr-only" />
+          <span>Apply Discount Before GST</span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="discount-mode" value="after" class="sr-only" />
+          <span>Apply Discount on GST-Inclusive Price</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- GST Tax Slab Rates -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">GST Rate</span>
+      <div class="rate-pill-container sm:grid sm:grid-cols-6 gap-2" role="group">
+        {(['3', '5', '12', '18', '28'] as const).map((rate) => (
+          <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+            <input type="radio" name="calc-rate" value={rate} checked={rate === '18'} class="sr-only" />
+            {rate}%
+          </label>
+        ))}
+        <label class="rate-pill cursor-pointer [&:has(input:checked)]:border-primary [&:has(input:checked)]:bg-primary [&:has(input:checked)]:text-on-primary">
+          <input type="radio" name="calc-rate" id="rate-custom-radio" value="custom" class="sr-only" />
+          Custom
+        </label>
+      </div>
+      <div id="custom-rate-container" class="hidden mt-3">
+        <div class="relative">
+          <input 
+            type="number" 
+            name="custom-rate" 
+            id="calc-rate-custom" 
+            min="0.1" 
+            max="100" 
+            step="any"
+            value="18"
+            class="block w-full rounded-xl border border-hairline bg-canvas py-2.5 px-3 pr-8 text-sm text-ink outline-none focus:border-primary font-mono"
+          />
+          <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-mute text-xs font-mono">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supply Destination -->
+    <div>
+      <span class="block text-sm font-bold text-ink mb-2">Transaction Type</span>
+      <div class="segmented-control" role="group">
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="intrastate" checked class="sr-only" />
+          <span>Intra-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(CGST+SGST)</span></span>
+        </label>
+        <label class="segmented-btn cursor-pointer">
+          <input type="radio" name="tax-type" value="interstate" class="sr-only" />
+          <span>Inter-State <span class="text-[10px] text-mute font-mono ml-0.5 font-normal">(IGST)</span></span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+
+  <ResultCard slot="results" />
+
+  <div slot="content" class="prose max-w-none">
+    <h1>GST Discount Calculator</h1>
+    
+      <h2>Calculate Discounts and GST Slabs</h2>
+      <p>A <strong>GST discount calculator</strong> is a critical financial tool for retail shops, distributors, and online e-commerce vendors. In commercial transactions, discounts are frequently offered on products or services. According to Section 15(3) of the CGST Act, 2017, a discount should be excluded from the taxable value of supply if it is given before or at the time of supply and recorded in the invoice. This means GST must be calculated on the <em>net price after discount</em>, not the original price.</p>
+      <h2>Discount Calculation Options</h2>
+      <p>Our discount calculator supports two common merchant pricing scenarios:</p>
+      <ol>
+        <li><strong>Apply Discount first, then add GST:</strong> This is the standard B2B and e-commerce calculation. A discount is subtracted from the catalog price, and then GST is computed and added on top of the discounted rate.</li>
+        <li><strong>Discount applied to a GST-Inclusive price:</strong> The discount is calculated directly on the gross retail tag price (MRP), and then the base price and tax portions are extracted from the discounted total.</li>
+      </ol>
+    
+    
+    <h2>Frequently Asked Questions</h2>
+    <FAQ items={faqs} />
+    
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
+        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+      </div>
+    </div>
+  </div>
+</CalculatorLayout>
+
+
+<script>
+  const amtInput = document.getElementById('calc-amount') as HTMLInputElement | null;
+  const discInput = document.getElementById('calc-discount') as HTMLInputElement | null;
+  const customRateInput = document.getElementById('calc-rate-custom') as HTMLInputElement | null;
+  const customRateContainer = document.getElementById('custom-rate-container');
+  const gstForm = document.getElementById('gst-form') as HTMLFormElement | null;
+
+  // DOM Outputs
+  const resTaxable = document.getElementById('res-taxable-val');
+  const resCgstRow = document.getElementById('res-cgst-row');
+  const resCgstVal = document.getElementById('res-cgst-val');
+  const resSgstRow = document.getElementById('res-sgst-row');
+  const resSgstVal = document.getElementById('res-sgst-val');
+  const resIgstRow = document.getElementById('res-igst-row');
+  const resIgstVal = document.getElementById('res-igst-val');
+  const resTotalTax = document.getElementById('res-total-tax');
+  const resGrandTotal = document.getElementById('res-grand-total');
+
+  function validateInput(input: HTMLInputElement, message: string, check: () => boolean): boolean {
+    const isValid = check();
+    let errSpan = document.getElementById(`${input.id}-error`);
+    if (!isValid) {
+      input.classList.add('input-error');
+      if (!errSpan) {
+        errSpan = document.createElement('span');
+        errSpan.id = `${input.id}-error`;
+        errSpan.className = 'error-message';
+        errSpan.innerText = message;
+        input.parentElement?.parentElement?.appendChild(errSpan);
+      }
+    } else {
+      input.classList.remove('input-error');
+      errSpan?.remove();
+    }
+    return isValid;
+  }
+
+  function getSelectedRate(): number {
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    if (!rateRadio) return 18;
+    if (rateRadio.value === 'custom') {
+      return parseFloat(customRateInput?.value || '0') || 0;
+    }
+    return parseFloat(rateRadio.value) || 0;
+  }
+
+  function calculate() {
+    if (!amtInput || !discInput) return;
+
+    const isAmtValid = validateInput(amtInput, "Enter a valid price > 0", () => parseFloat(amtInput.value) > 0);
+    const isDiscValid = validateInput(discInput, "Discount must be between 0% and 100%", () => {
+      const val = parseFloat(discInput.value);
+      return val >= 0 && val <= 100;
+    });
+
+    const rateRadio = document.querySelector('input[name="calc-rate"]:checked') as HTMLInputElement | null;
+    let isRateValid = true;
+    if (rateRadio?.value === 'custom' && customRateInput) {
+      isRateValid = validateInput(customRateInput, "Enter rate between 0.1% and 100%", () => {
+        const val = parseFloat(customRateInput.value);
+        return val >= 0.1 && val <= 100;
+      });
+    }
+
+    if (!isAmtValid || !isDiscValid || !isRateValid) {
+      if (resTaxable) resTaxable.innerText = "₹0.00";
+      if (resTotalTax) resTotalTax.innerText = "₹0.00";
+      if (resGrandTotal) resGrandTotal.innerText = "₹0.00";
+      return;
+    }
+
+    const amt = parseFloat(amtInput.value) || 0;
+    const disc = parseFloat(discInput.value) || 0;
+    const rate = getSelectedRate();
+
+    const taxTypeRadio = document.querySelector('input[name="tax-type"]:checked') as HTMLInputElement | null;
+    const isIntrastate = taxTypeRadio ? taxTypeRadio.value === 'intrastate' : true;
+
+    const modeRadio = document.querySelector('input[name="discount-mode"]:checked') as HTMLInputElement | null;
+    const isBefore = modeRadio ? modeRadio.value === 'before' : true;
+
+    let taxableValue = 0;
+    let totalTax = 0;
+    let grandTotal = 0;
+
+    if (isBefore) {
+      // Apply discount first, then add tax
+      taxableValue = amt - (amt * (disc / 100));
+      totalTax = taxableValue * (rate / 100);
+      grandTotal = taxableValue + totalTax;
+    } else {
+      // Price is tax-inclusive, apply discount on total first, then extract tax
+      grandTotal = amt - (amt * (disc / 100));
+      taxableValue = grandTotal / (1 + (rate / 100));
+      totalTax = grandTotal - taxableValue;
+    }
+
+    const fmt = (val: number) => '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    if (resTaxable) resTaxable.innerText = fmt(taxableValue);
+    if (resTotalTax) resTotalTax.innerText = fmt(totalTax);
+    if (resGrandTotal) resGrandTotal.innerText = fmt(grandTotal);
+
+    if (isIntrastate) {
+      resCgstRow?.classList.remove('hidden');
+      resSgstRow?.classList.remove('hidden');
+      resIgstRow?.classList.add('hidden');
+      const splitTax = totalTax / 2;
+      if (resCgstVal) resCgstVal.innerText = fmt(splitTax);
+      if (resSgstVal) resSgstVal.innerText = fmt(splitTax);
+    } else {
+      resCgstRow?.classList.add('hidden');
+      resSgstRow?.classList.add('hidden');
+      resIgstRow?.classList.remove('hidden');
+      if (resIgstVal) resIgstVal.innerText = fmt(totalTax);
+    }
+  }
+
+  if (gstForm) {
+    gstForm.addEventListener('input', calculate);
+    gstForm.addEventListener('change', calculate);
+  }
+
+  const rateRadios = document.querySelectorAll('input[name="calc-rate"]');
+  rateRadios.forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.value === 'custom') {
+        customRateContainer?.classList.remove('hidden');
+        customRateInput?.focus();
+      } else {
+        customRateContainer?.classList.add('hidden');
+        if (customRateInput) customRateInput.classList.remove('input-error');
+      }
+      calculate();
+    });
+  });
+
+  // Quick Amount Chips
+  const chipValues: Record<string, number> = {
+    '100': 100, '500': 500, '1K': 1000, '5K': 5000,
+    '10K': 10000, '25K': 25000, '50K': 50000, '1L': 100000
+  };
+  document.querySelectorAll<HTMLButtonElement>('#page-quick-chips .quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chipValues[chip.dataset.chip || ''] || 0;
+      if (amtInput) amtInput.value = String(val);
+      document.querySelectorAll('#page-quick-chips .quick-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      calculate();
+    });
+  });
+
+  calculate();
+</script>
+
