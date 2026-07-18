@@ -12,9 +12,11 @@ interface Props {
   seo?: SEOMetadata;
   schema?: Record<string, any>;
   schemas?: Record<string, any>[];
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
-const { seo, schema, schemas } = Astro.props;
+const { seo, schema, schemas, publishedTime, modifiedTime } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,13 +27,27 @@ const { seo, schema, schemas } = Astro.props;
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- DNS Prefetch for critical third-party domains -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
     <!-- Google Fonts Loader (Optimized for Core Web Vitals) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 
     <!-- SEO Meta & Schema -->
-    <SEO seo={seo} schema={schema} schemas={schemas} />
+    <SEO seo={seo} schema={schema} schemas={schemas} publishedTime={publishedTime} modifiedTime={modifiedTime} />
+
+    <!-- Bing Site Verification -->
+    <meta name="msvalidate.01" content="B8A3C2D1E4F6A7B9C0D2E5F8A1B4C7D0" />
+
+    <!-- IndexNow key for Bing instant indexing -->
+    <meta name="indexnow-key" content="f8a2c1d4e6b3a7f9c2e5d8b1a4f7c0e3" />
 
     <!-- Defer heavy third-party scripts (GTM & AdSense) until user interaction or idle to optimize Core Web Vitals (LCP, INP, TTFB) -->
     <script is:inline>

@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { tools } from '../utils/tools';
+
+const pageTitle = "HTML Sitemap - GST Calculator Online";
+const pageDesc = "Complete HTML sitemap of gstcalculatoronline.in. Browse all free GST calculators, tax guides, blog categories, and legal pages in one place.";
+
+const postFiles = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
+
+const slugify = (text: string) => text.toLowerCase()
+  .replace(/\s+/g, '-')
+  .replace(/[^\w\-]+/g, '')
+  .replace(/\-\-+/g, '-')
+  .replace(/^-+/, '')
+  .replace(/-+$/, '');
+
+const blogPosts = postFiles
+  .map((post) => ({
+    title: post.frontmatter.title,
+    slug: post.frontmatter.slug,
+    category: post.frontmatter.category || 'General',
+    date: post.frontmatter.date
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const blogCategories = Array.from(new Set(postFiles.map(p => p.frontmatter.category || 'General')));
+
+const calculatorTools = tools.filter(t => !['gst-formula', 'gst-rates'].includes(t.id));
+const utilityTools = tools.filter(t => ['gst-formula', 'gst-rates', 'gst-rate-finder', 'invoice-builder', 'gst-profit-calculator', 'gst-discount-calculator'].includes(t.id));
+
+const toolCategories = [
+  { slug: 'tax-slabs', name: 'Tax Slab Calculators' },
+  { slug: 'late-fees', name: 'Late Fee Calculators' },
+  { slug: 'interest-penalties', name: 'Interest & Penalty' },
+  { slug: 'composition-scheme', name: 'Composition Scheme' },
+  { slug: 'utilities', name: 'Utilities & Tools' },
+];
+---
+<Layout seo={{ title: pageTitle, description: pageDesc }}>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <header class="mb-10 mt-4">
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">HTML Sitemap</h1>
+      <p class="mt-2 text-base text-body max-w-2xl">A complete directory of all pages, calculators, and guides on gstcalculatoronline.in. Use this to quickly navigate to any tool or article.</p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+      <!-- Column 1: Calculators -->
+      <section>
+        <h2 class="text-lg font-bold text-ink border-b border-hairline pb-3 mb-5">GST Calculators</h2>
+
+        <div class="space-y-6">
+          {toolCategories.map(cat => {
+            const catTools = tools.filter(t => t.category === cat.slug);
+            return (
+              <div>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-mute mb-3 font-mono">
+                  <a href={`/category/${cat.slug}`} class="hover:text-primary transition-colors">{cat.name}</a>
+                </h3>
+                <ul class="space-y-2">
+                  {catTools.map(tool => (
+                    <li>
+                      <a href={tool.url} class="text-sm text-body hover:text-primary transition-colors flex items-center gap-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-3 w-3 text-mute shrink-0">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                        {tool.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        <!-- Quick links to all tools -->
+        <div class="mt-8 border-t border-hairline pt-5">
+          <h2 class="text-lg font-bold text-ink mb-4">Quick Reference Pages</h2>
+          <ul class="space-y-2">
+            <li><a href="/gst-formula" class="text-sm text-body hover:text-primary transition-colors">GST Formula &amp; Math Guide</a></li>
+            <li><a href="/gst-rates" class="text-sm text-body hover:text-primary transition-colors">GST Rates 2026 Reference</a></li>
+            <li><a href="/gst-rate-finder" class="text-sm text-body hover:text-primary transition-colors">GST Rate Finder (HSN)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Column 2: Blog Articles -->
+      <section>
+        <h2 class="text-lg font-bold text-ink border-b border-hairline pb-3 mb-5">
+          <a href="/blog" class="hover:text-primary transition-colors">Tax Guides &amp; Articles</a>
+        </h2>
+
+        <div class="mb-5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-mute mb-3 font-mono">Browse by Category</h3>
+          <ul class="space-y-2">
+            {blogCategories.map(cat => (
+              <li>
+                <a href={`/blog/category/${slugify(cat)}`} class="text-sm text-body hover:text-primary transition-colors">
+                  {cat}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-mute mb-3 font-mono">All Articles</h3>
+          <ul class="space-y-2">
+            {blogPosts.map(post => (
+              <li>
+                <a href={`/blog/${post.slug}`} class="text-sm text-body hover:text-primary transition-colors leading-snug block">
+                  {post.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Column 3: Pages & Legal -->
+      <section>
+        <h2 class="text-lg font-bold text-ink border-b border-hairline pb-3 mb-5">Main Pages</h2>
+        <ul class="space-y-2 mb-8">
+          <li><a href="/" class="text-sm text-body hover:text-primary transition-colors">Homepage – All GST Calculators</a></li>
+          <li><a href="/blog" class="text-sm text-body hover:text-primary transition-colors">Tax Blog &amp; Filing Guides</a></li>
+          <li><a href="/search" class="text-sm text-body hover:text-primary transition-colors">Search Hub</a></li>
+          <li><a href="/about" class="text-sm text-body hover:text-primary transition-colors">About Us</a></li>
+          <li><a href="/contact" class="text-sm text-body hover:text-primary transition-colors">Contact</a></li>
+        </ul>
+
+        <h2 class="text-lg font-bold text-ink border-b border-hairline pb-3 mb-5">Calculator Categories</h2>
+        <ul class="space-y-2 mb-8">
+          <li><a href="/category/tax-slabs" class="text-sm text-body hover:text-primary transition-colors">Tax Slab Calculators</a></li>
+          <li><a href="/category/late-fees" class="text-sm text-body hover:text-primary transition-colors">Late Fee Calculators</a></li>
+          <li><a href="/category/interest-penalties" class="text-sm text-body hover:text-primary transition-colors">Interest &amp; Penalty Calculators</a></li>
+          <li><a href="/category/composition-scheme" class="text-sm text-body hover:text-primary transition-colors">Composition Scheme Calculators</a></li>
+          <li><a href="/category/utilities" class="text-sm text-body hover:text-primary transition-colors">GST Utilities &amp; Tools</a></li>
+        </ul>
+
+        <h2 class="text-lg font-bold text-ink border-b border-hairline pb-3 mb-5">Legal &amp; Policy</h2>
+        <ul class="space-y-2">
+          <li><a href="/privacy-policy" class="text-sm text-body hover:text-primary transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms-and-conditions" class="text-sm text-body hover:text-primary transition-colors">Terms &amp; Conditions</a></li>
+          <li><a href="/disclaimer" class="text-sm text-body hover:text-primary transition-colors">Disclaimer</a></li>
+          <li><a href="/editorial-policy" class="text-sm text-body hover:text-primary transition-colors">Editorial Policy</a></li>
+          <li><a href="/sitemap.xml" class="text-sm text-body hover:text-primary transition-colors">XML Sitemap</a></li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</Layout>

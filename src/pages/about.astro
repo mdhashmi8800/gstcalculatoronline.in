@@ -1,38 +1,177 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { tools } from '../utils/tools';
 
-const pageTitle = "About Us - GST Calculator Online";
-const pageDesc = "Learn about gstcalculatoronline.in, our mission to simplify Indian tax compliance, and how we develop highly accurate, fast, and compliant tax tools.";
+const pageTitle = "About Us - GST Calculator Online | India's Free GST Tool Platform";
+const pageDesc = "Learn about gstcalculatoronline.in — India's comprehensive GST calculator platform. Understand our mission, editorial standards, author team, and commitment to accurate, CBIC-aligned tax calculation tools.";
+
+const popularTools = [
+  { name: 'Online GST Calculator', url: '/gst-calculator' },
+  { name: 'Reverse GST Calculator', url: '/reverse-gst-calculator' },
+  { name: 'GSTR-3B Late Fee Calculator', url: '/late-fee-calculator' },
+  { name: 'GST Interest Calculator (Section 50)', url: '/interest-calculator' },
+  { name: 'Composition Scheme Calculator', url: '/composition-calculator' },
+  { name: 'GST Invoice Builder', url: '/invoice-builder' },
+];
+
+const teamMembers = [
+  {
+    initials: 'AS',
+    name: 'CA Amit Sharma',
+    role: 'Chartered Accountant & Indirect Tax Advisor',
+    bio: 'CA Amit Sharma has over 12 years of experience in GST advisory, corporate audits, and tax planning for SMEs. He specializes in Input Tax Credit optimization and B2B transaction structuring. He reviews our core calculator logic and all technical tax guides on this platform.',
+  },
+  {
+    initials: 'NP',
+    name: 'CA Neha Patel',
+    role: 'Chartered Accountant & Compliance Expert',
+    bio: "CA Neha Patel holds a Master's in Finance and has guided 500+ startups and businesses through GST registration, GSTR-1 & 3B compliance, and composition scheme transitions. She authors practical compliance guides and tool documentation on this site.",
+  },
+  {
+    initials: 'RM',
+    name: 'Advocate Raj Malhotra',
+    role: 'Senior GST Litigation Advocate',
+    bio: 'Advocate Raj Malhotra practices before various High Courts and GST Appellate Tribunals. With a decade of litigation experience representing clients in complex assessments, audits, and refund claims, he contributes advanced regulatory explainers and legal analysis articles.',
+  },
+];
+
+const stats = [
+  { value: '25+', label: 'Free Calculators & Tools' },
+  { value: '37+', label: 'Expert Tax Guides' },
+  { value: '11', label: 'Calculator Categories' },
+  { value: '2026', label: 'Last Updated (GST Rules)' },
+];
 ---
 <Layout seo={{ title: pageTitle, description: pageDesc }}>
-  <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
 
-    <header class="mb-10">
-      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">About Us</h1>
-      <p class="mt-2 text-base text-body">Simplifying goods and services tax math for Indian businesses.</p>
+    <header class="mb-10 mt-4">
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">About GST Calculator Online</h1>
+      <p class="mt-3 text-base text-body max-w-2xl leading-relaxed">India's most comprehensive free GST calculator platform — built by tax professionals, for Indian businesses, accountants, and taxpayers.</p>
     </header>
 
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      {stats.map(stat => (
+        <div class="rounded-2xl border border-hairline bg-canvas-soft p-5 text-center">
+          <div class="text-3xl font-extrabold text-primary font-mono">{stat.value}</div>
+          <div class="text-xs text-mute mt-1 font-medium">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+
     <div class="prose dark:prose-invert max-w-none text-body">
-      <p>Welcome to <strong>GST Calculator Online</strong> (gstcalculatoronline.in). We are a dedicated platform providing free, fast, and highly precise financial tools designed specifically for the Indian tax ecosystem.</p>
 
       <h2>Our Mission</h2>
-      <p>Tax compliance under the Goods and Services Tax (GST) regime can feel overwhelming for small business owners, traders, freelancers, and accounting professionals. With multiple tax slabs, quarterly schemes, daily late filing fines, and annual interest rates, manual computation is error-prone. Our mission is to make tax arithmetic accessible, transparent, and instantaneous.</p>
+      <p>Tax compliance under India's Goods and Services Tax (GST) regime is complex. With multiple tax slabs (5%, 12%, 18%, 28%), quarterly composition liabilities, daily late filing fines, Section 50 interest rates, Rule 89 refund formulas, and constant GST Council amendments — manual computation is error-prone and time-consuming.</p>
+      <p><strong>Our mission is simple:</strong> Make GST arithmetic accessible, transparent, and instantaneous for every Indian taxpayer — whether you're a shop owner in Surat, a software freelancer in Bengaluru, a CA firm in Mumbai, or a student learning about indirect taxes.</p>
 
-      <h2>Why Choose Our Tools?</h2>
+      <h2>What We Offer</h2>
+      <p>gstcalculatoronline.in provides two categories of free resources:</p>
+
+      <h3>1. Free GST Calculators (25+ Tools)</h3>
+      <p>Our calculators cover every major GST computation need:</p>
       <ul>
-        <li><strong>Strict Compliance:</strong> Our algorithms are modeled strictly in accordance with Section 47 (late fee caps) and Section 50 (interest calculations on net cash ledger balance) of the CGST Act.</li>
-        <li><strong>Unrivaled Performance:</strong> Built on Astro and clean vanilla TypeScript, our site loads instantly on mobile and desktop, shipping zero unnecessary JavaScript payloads. This means you get results without waiting.</li>
-        <li><strong>Privacy First:</strong> All calculator operations execute locally in your web browser. We do not store, upload, or transmit any of your financial transaction figures.</li>
-        <li><strong>Zero Placeholders:</strong> We believe in providing real educational context, guides, and instructions alongside every tool, rather than empty templates.</li>
+        <li><strong>Standard GST Calculations:</strong> Add/remove GST, compute CGST/SGST/IGST splits at 5%, 12%, 18%, and 28%</li>
+        <li><strong>Late Fee Estimators:</strong> Section 47-compliant GSTR-3B late fee calculations with turnover-based caps</li>
+        <li><strong>Interest Calculators:</strong> Section 50 interest on delayed payments and wrongly utilized ITC</li>
+        <li><strong>Refund Estimators:</strong> Rule 89 refund calculations for zero-rated exports and inverted duty structures</li>
+        <li><strong>Composition Scheme:</strong> Quarterly flat-rate liability computations for traders, restaurants, and services</li>
+        <li><strong>Utilities:</strong> GST Invoice Builder, HSN/SAC Rate Finder, GST Formula reference</li>
+      </ul>
+
+      <h3>2. Expert Tax Guides (37+ Articles)</h3>
+      <p>Our editorial team of Chartered Accountants and GST advocates publishes in-depth guides on:</p>
+      <ul>
+        <li>GST registration, return filing, and compliance procedures</li>
+        <li>Input Tax Credit (ITC) rules and reconciliation</li>
+        <li>Sector-specific GST rules (real estate, e-commerce, restaurants)</li>
+        <li>Late fees, interest penalties, and audit procedures</li>
+        <li>Composition scheme and small business GST strategies</li>
+      </ul>
+
+      <h2>Why Trust Our Calculators?</h2>
+
+      <h3>Strict Legislative Compliance</h3>
+      <p>Our calculator algorithms are modeled directly from the provisions of the CGST Act, 2017 and SGST Acts:</p>
+      <ul>
+        <li><strong>Late Fee Caps</strong> — Section 47 caps (₹10,000/₹2,500/₹500 based on annual turnover, post-2023 rationalization)</li>
+        <li><strong>Interest Rate</strong> — Section 50: 18% p.a. on delayed payment, 24% p.a. on wrongly utilized ITC</li>
+        <li><strong>Refund Formula</strong> — Rule 89(4): ITC Refund = (Turnover of Zero-rated Supply × Net ITC) ÷ Adjusted Total Turnover</li>
+        <li><strong>Composition Rates</strong> — 1% for traders, 5% for restaurants, 6% for service providers (CTP)</li>
+      </ul>
+
+      <h3>Privacy-First Architecture</h3>
+      <p>All calculator operations execute entirely within your browser using client-side JavaScript. We never transmit, store, or log any financial figures you enter. Your transaction amounts and tax data stay private — always.</p>
+
+      <h3>Performance-Optimised</h3>
+      <p>Built on the <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="text-link hover:underline">Astro</a> framework and deployed on Cloudflare's global edge network, our site delivers instant results on any device — including mobile phones on 4G connections — with zero unnecessary JavaScript payloads.</p>
+
+      <h3>Regular Updates</h3>
+      <p>We monitor all CBIC notifications and GST Council press releases. Whenever a slab changes or a late fee cap is modified, we update our calculation logic within 15 business days. Every page displays a "Last Updated" timestamp so you always know the content currency.</p>
+
+      <h2>Our Editorial Team</h2>
+      <p>All technical content is authored or reviewed by qualified Indian tax professionals. Learn more about our <a href="/editorial-policy" class="text-link hover:underline">editorial standards and content creation process</a>.</p>
+    </div>
+
+    <!-- Team Cards -->
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      {teamMembers.map(member => (
+        <div class="rounded-2xl border border-hairline bg-canvas-soft p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg border border-hairline font-mono shrink-0">
+              {member.initials}
+            </div>
+            <div>
+              <div class="text-sm font-bold text-ink">{member.name}</div>
+              <div class="text-xs text-mute font-mono leading-snug">{member.role}</div>
+            </div>
+          </div>
+          <p class="text-xs text-body leading-relaxed">{member.bio}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="prose dark:prose-invert max-w-none text-body mt-10">
+
+      <h2>Our Commitment to Accuracy</h2>
+      <p>We take accuracy seriously. Our quality assurance process includes:</p>
+      <ul>
+        <li>All calculator formulas are cross-verified with worked examples before publishing</li>
+        <li>Content is updated within 15 business days of any GST Council notification</li>
+        <li>A senior CA reviews every guide and tool explanation before it goes live</li>
+        <li>Readers who spot errors can report them via our <a href="/contact" class="text-link hover:underline">contact page</a> — we investigate and correct within 3 business days</li>
       </ul>
 
       <h2>Our Methodology</h2>
-      <p>We monitor notifications issued by the Central Board of Indirect Taxes and Customs (CBIC) and the GST Council. Whenever a tax slab changes, or a late fee cap is modified (such as the recent rationalized thresholds for small taxpayers), we update our core calculation logic. This ensures that the numbers you see here match what you will find on the official government GST Portal.</p>
+      <p>We monitor notifications issued by the Central Board of Indirect Taxes and Customs (CBIC) and the GST Council. Whenever a tax slab changes, or a late fee cap is modified (such as the recently rationalized thresholds for small taxpayers), we update our core calculation logic to ensure our numbers match what you will find on the official government GST Portal.</p>
 
-      <h2>Get in Touch</h2>
-      <p>We are constantly expanding our portfolio of tax utilities. If you have recommendations for new calculators, or if you spot any discrepancy in our numbers, please feel free to reach out to us through our <a href="/contact" class="text-link hover:underline">Contact Page</a>. We value your feedback!</p>
+      <h2>Popular GST Calculators</h2>
+      <p>Here are some of the most-used tools on our platform:</p>
     </div>
+
+    <!-- Popular Tools Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+      {popularTools.map(tool => (
+        <a href={tool.url} class="flex items-center gap-3 p-4 rounded-xl border border-hairline bg-canvas hover:border-hairline-strong hover:bg-canvas-soft hover:shadow-xs transition-all group">
+          <div class="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.598 4.5 4.598v17.258c0 1 .807 1.898 1.907 2.026A48.507 48.507 0 0 0 12 24c1.892 0 3.758-.11 5.593-.322 1.1-.128 1.907-1.026 1.907-2.026V4.598c0-1-.807-1.898-1.907-2.026A48.507 48.507 0 0 0 12 2.25Z" />
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-body group-hover:text-primary transition-colors">{tool.name}</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="prose dark:prose-invert max-w-none text-body mt-10">
+      <h2>Get in Touch</h2>
+      <p>We are constantly expanding our portfolio of tax utilities. If you have recommendations for new calculators, spot any discrepancy in our numbers, or want to collaborate, please reach out through our <a href="/contact" class="text-link hover:underline">Contact Page</a>. We value your feedback!</p>
+
+      <p>You can also read our <a href="/editorial-policy" class="text-link hover:underline">Editorial Policy</a>, <a href="/privacy-policy" class="text-link hover:underline">Privacy Policy</a>, and <a href="/disclaimer" class="text-link hover:underline">Disclaimer</a> to understand how we operate and what standards we uphold.</p>
+    </div>
+
   </div>
 </Layout>

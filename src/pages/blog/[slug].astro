@@ -142,6 +142,8 @@ if (faqSchema) pageSchemas.push(faqSchema);
     author: post.frontmatter.author
   }} 
   schemas={pageSchemas}
+  publishedTime={post.frontmatter.date}
+  modifiedTime={post.frontmatter.lastUpdated || post.frontmatter.date}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
