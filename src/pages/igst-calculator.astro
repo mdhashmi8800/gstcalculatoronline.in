@@ -213,17 +213,109 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>IGST Calculator</h1>
+    <h2>IGST Calculator — Integrated Goods and Services Tax Guide</h2>
+    <p>Under India's indirect tax system, transactions that cross state or union territory borders are classified as interstate supplies and are governed by the <strong>Integrated Goods and Services Tax (IGST) Act, 2017</strong>. IGST also applies to all commercial imports of goods and services into India, as well as supplies made to or by Special Economic Zone (SEZ) developers and units.</p>
+    <p>Unlike local intrastate sales which split tax into equal CGST and SGST portions, interstate transactions charge the entire tax rate under a single unified line item: <strong>IGST</strong>. This free <strong>IGST Calculator</strong> enables exporters, importers, e-commerce sellers, and corporate accountants to calculate exact IGST tax liabilities for exclusive and inclusive transactions across all GST tax slabs (5%, 12%, 18%, 28%).</p>
+
+    <h2>Mathematical Formula for IGST Calculation</h2>
+    <p>Because IGST represents the full combined rate (CGST + SGST), calculating IGST uses the full tax percentage without halving:</p>
     
-      <h2>IGST Calculator — Integrated Goods and Services Tax</h2>
-      <p>In the Indian tax structure, when transactions cross state borders, they are classified as interstate supplies and are subject to <strong>Integrated Goods and Services Tax (IGST)</strong>. Governed by the IGST Act, 2017, IGST also applies to all imports of goods and services into India, as well as transactions involving Special Economic Zones (SEZ).</p>
-      <h2>How IGST Works</h2>
-      <p>Unlike local sales which split tax into CGST and SGST, interstate supplies charge the full tax rate as a single line item called IGST. The Central Government collects the IGST and then distributes the state's portion directly to the consumer state (destination state). Our online IGST calculator helps you quickly compute the Integrated tax amount for both exclusive and inclusive transaction values.</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding IGST to Exclusive Base Amount:</p>
+        <p>IGST Tax Amount = Base Taxable Price × (IGST Rate ÷ 100)</p>
+        <p>Gross Invoice Total = Base Taxable Price + IGST Tax Amount</p>
+        <p>CGST / SGST Split: ₹0 (Not applicable for interstate transactions)</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Extracting IGST from Inclusive Total Amount:</p>
+        <p>Pre-Tax Base Price = Inclusive Total Amount ÷ (1 + IGST Rate ÷ 100)</p>
+        <p>IGST Tax Amount = Inclusive Total Amount − Pre-Tax Base Price</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">3. Imports Valuation Formula (Customs Value + Basic Customs Duty):</p>
+        <p>Assessable Value = CIF Value + Landing Charges</p>
+        <p>Customs Duty = Assessable Value × Basic Customs Duty (BCD Rate)</p>
+        <p>Taxable Base for IGST = Assessable Value + Customs Duty + SWS (Social Welfare Surcharge)</p>
+        <p>Import IGST Amount = Taxable Base for IGST × IGST Rate</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Numerical Examples</h2>
     
+    <h3>Example 1: Interstate B2B Supply of Electronics at 18% IGST (Exclusive)</h3>
+    <p>A computer distributor in New Delhi sells server hardware to a software company in Bengaluru for a base taxable price of <strong>₹10,00,000</strong> (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Taxable Price:</strong> ₹10,00,000</li>
+      <li><strong>Applicable IGST Rate:</strong> 18%</li>
+      <li><strong>IGST Tax Amount:</strong> ₹10,00,000 × 18% = <strong>₹1,80,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0</li>
+      <li><strong>Grand Total Invoice Amount:</strong> ₹10,00,000 + ₹1,80,000 = <strong>₹11,80,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Commercial Import of Industrial Valves (Customs Valuation)</h3>
+    <p>A manufacturing plant in Gujarat imports machinery parts from Germany with an assessable CIF value of <strong>₹5,00,000</strong>. Basic Customs Duty (BCD) is 10% and IGST is 18%.</p>
+    <ul>
+      <li><strong>Assessable CIF Value:</strong> ₹5,00,000</li>
+      <li><strong>Basic Customs Duty (10% BCD):</strong> ₹50,000</li>
+      <li><strong>Social Welfare Surcharge (10% of BCD):</strong> ₹5,000</li>
+      <li><strong>Taxable Base for IGST:</strong> ₹5,00,000 + ₹50,000 + ₹5,000 = <strong>₹5,55,000</strong></li>
+      <li><strong>Import IGST Payable (18%):</strong> ₹5,55,000 × 18% = <strong>₹99,900</strong></li>
+      <li><strong>Total Customs + IGST Payable:</strong> ₹55,000 + ₹99,900 = <strong>₹1,54,900</strong></li>
+    </ul>
+
+    <h2>Interstate vs. Intrastate Tax Provision Summary</h2>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Transaction Type</th>
+            <th class="p-3 font-semibold text-ink">Location Criteria</th>
+            <th class="p-3 font-semibold text-ink">Tax Charged</th>
+            <th class="p-3 font-semibold text-ink">Revenue Recipient</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">Intrastate Supply</td>
+            <td class="p-3 text-body">Supplier location and Place of Supply are in the SAME State</td>
+            <td class="p-3 font-mono text-xs">CGST + SGST (50:50)</td>
+            <td class="p-3 text-body">Centre & Origin State</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Interstate Supply</td>
+            <td class="p-3 text-body">Supplier location and Place of Supply are in DIFFERENT States</td>
+            <td class="p-3 font-mono text-xs text-primary font-semibold">IGST (100%)</td>
+            <td class="p-3 text-body">Centre & Destination State</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Imports into India</td>
+            <td class="p-3 text-body">Goods/services supplied from outside India into Indian territory</td>
+            <td class="p-3 font-mono text-xs text-primary font-semibold">IGST + Customs Duty</td>
+            <td class="p-3 text-body">Central Government</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">SEZ Supplies</td>
+            <td class="p-3 text-body">Supplies to or from Special Economic Zone units/developers</td>
+            <td class="p-3 font-mono text-xs">Zero-Rated or IGST</td>
+            <td class="p-3 text-body">Zero Tax or IGST Refund</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Rule 88A: IGST Input Tax Credit Utilization Hierarchy</h2>
+    <p>Under Section 49 and Rule 88A of the CGST Rules, IGST Input Tax Credit occupies the highest priority in the credit ledger:</p>
+    <ul>
+      <li><strong>MANDATORY STEP 1:</strong> Available IGST credit MUST be 100% fully utilized first against IGST output liability.</li>
+      <li><strong>MANDATORY STEP 2:</strong> Any balance IGST credit remaining after setting off IGST liability can be utilized to set off CGST and SGST output liabilities in ANY proportion or order chosen by the taxpayer.</li>
+      <li><strong>FLEXIBILITY ADVANTAGE:</strong> Taxpayers can strategically utilize remaining IGST credit to minimize cash ledger payments for either CGST or SGST. Use our <a href="/interest-calculator" class="text-primary hover:underline">GST Interest Calculator</a> to avoid late payment interest under Section 50.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

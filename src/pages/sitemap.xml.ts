@@ -31,7 +31,6 @@ const staticPages = [
   { url: 'https://gstcalculatoronline.in/about', changefreq: 'monthly', priority: '0.6', lastmod: '2026-07-18' },
   { url: 'https://gstcalculatoronline.in/contact', changefreq: 'monthly', priority: '0.5', lastmod: '2026-07-18' },
   { url: 'https://gstcalculatoronline.in/sitemap-page', changefreq: 'monthly', priority: '0.5', lastmod: '2026-07-18' },
-  { url: 'https://gstcalculatoronline.in/search', changefreq: 'monthly', priority: '0.4', lastmod: '2026-07-18' },
   { url: 'https://gstcalculatoronline.in/privacy-policy', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-18' },
   { url: 'https://gstcalculatoronline.in/terms-and-conditions', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-18' },
   { url: 'https://gstcalculatoronline.in/disclaimer', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-18' },

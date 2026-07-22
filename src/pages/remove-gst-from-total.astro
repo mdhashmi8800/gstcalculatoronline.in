@@ -213,22 +213,93 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>Remove GST from Total Price</h1>
-    
-      <h2>How to Remove GST from Total Price Online</h2>
-      <p>Whether you are auditing business receipts, cross-checking retail billing statements, or filing tax returns, you frequently need to <strong>remove GST from a total price</strong>. Retail item tags (MRP) are legally required to display tax-inclusive pricing in India. However, to comply with CBIC guidelines, your billing and GSTR filings must declare the original taxable value and the tax portions separately.</p>
-      <h2>The Formula to Remove GST</h2>
-      <p>Isolating the base price from an inclusive sum requires reverse division, not simple subtraction. For example, if you have a bill of ₹1,180 with 18% GST, you cannot subtract 18% from ₹1,180 (which would give you a wrong figure of ₹967.60). The correct pre-tax price is ₹1,000, and the tax added was ₹180.</p>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">The Reverse Extraction Formula:</p>
-        <p class="mt-2">Base Price = Total Price ÷ (1 + GST Rate ÷ 100)</p>
-        <p>GST Amount = Total Price − Base Price</p>
+    <h2>Remove GST from Total Price — Reverse GST Extraction Guide</h2>
+    <p>In consumer retail, hospitality, e-commerce, and accounting audits, prices are frequently quoted as <strong>GST-inclusive</strong> (Maximum Retail Price - MRP or inclusive contract sum). However, to prepare tax invoices, file GSTR-1 and GSTR-3B returns, or record journal entries in Tally or Zoho Books, accountants must <strong>extract the pre-tax base price and tax amount from the inclusive total</strong>.</p>
+    <p>This free <strong>Remove GST from Total Calculator</strong> uses exact reverse division formulas to isolate net taxable amounts and tax splits (CGST, SGST, IGST) from any inclusive price across all standard GST rates (5%, 12%, 18%, 28%) and custom percentages.</p>
+
+    <h2>The Common Misconception in Removing GST</h2>
+    <p>A widespread financial error is simply subtracting the GST percentage directly from the inclusive total. This method is mathematically incorrect and produces significant tax accounting discrepancies.</p>
+
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-red-500">❌ INCORRECT METHOD (Direct Percentage Subtraction):</p>
+        <p>For an inclusive bill of ₹11,800 at 18% GST:</p>
+        <p>Wrong GST = ₹11,800 × 18% = ₹2,124</p>
+        <p>Wrong Base Price = ₹11,800 − ₹2,124 = ₹9,676 (WRONG! Undervalues base price by ₹324)</p>
       </div>
-    
-    
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">✅ CORRECT MATHEMATICAL METHOD (Reverse Division Formula):</p>
+        <p>Base Taxable Value = Inclusive Amount ÷ (1 + GST Rate / 100) = ₹11,800 ÷ 1.18 = <strong>₹10,000</strong></p>
+        <p>Actual GST Amount = Inclusive Amount − Base Taxable Value = ₹11,800 − ₹10,000 = <strong>₹1,800</strong></p>
+      </div>
+    </div>
+
+    <h2>Reverse GST Extraction Formulas Matrix</h2>
+    <p>Use these exact formulas to remove GST from inclusive bills for each tax slab:</p>
+
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">GST Slab</th>
+            <th class="p-3 font-semibold text-ink">Base Value Formula</th>
+            <th class="p-3 font-semibold text-ink">GST Amount Formula</th>
+            <th class="p-3 font-semibold text-ink">Example (₹10,000 Inclusive)</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">5% GST</td>
+            <td class="p-3 font-mono text-xs">Total ÷ 1.05</td>
+            <td class="p-3 font-mono text-xs">Total − Base</td>
+            <td class="p-3 text-body font-mono text-xs">Base: ₹9,523.81 | Tax: ₹476.19</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">12% GST</td>
+            <td class="p-3 font-mono text-xs">Total ÷ 1.12</td>
+            <td class="p-3 font-mono text-xs">Total − Base</td>
+            <td class="p-3 text-body font-mono text-xs">Base: ₹8,928.57 | Tax: ₹1,071.43</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">18% GST</td>
+            <td class="p-3 font-mono text-xs">Total ÷ 1.18</td>
+            <td class="p-3 font-mono text-xs">Total − Base</td>
+            <td class="p-3 text-body font-mono text-xs">Base: ₹8,474.58 | Tax: ₹1,525.42</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">28% GST</td>
+            <td class="p-3 font-mono text-xs">Total ÷ 1.28</td>
+            <td class="p-3 font-mono text-xs">Total − Base</td>
+            <td class="p-3 text-body font-mono text-xs">Base: ₹7,812.50 | Tax: ₹2,187.50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Step-by-Step Practical Calculation Examples</h2>
+
+    <h3>Example 1: Intrastate Retail Electronics Store MRP Bill (18% GST)</h3>
+    <p>A shopper buys a smartphone from a retail store in Bengaluru for an MRP inclusive price of <strong>₹23,600</strong>.</p>
+    <ul>
+      <li><strong>Gross Inclusive Price:</strong> ₹23,600</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹23,600 ÷ 1.18 = <strong>₹20,000</strong></li>
+      <li><strong>Total GST Component:</strong> ₹23,600 − ₹20,000 = ₹3,600</li>
+      <li><strong>CGST Portion (9%):</strong> ₹3,600 ÷ 2 = <strong>₹1,800</strong></li>
+      <li><strong>SGST Portion (9%):</strong> ₹3,600 ÷ 2 = <strong>₹1,800</strong></li>
+    </ul>
+
+    <h3>Example 2: Interstate Hotel Booking Bill (12% GST)</h3>
+    <p>A company books a hotel conference hall in Goa for an inclusive contract fee of <strong>₹1,12,000</strong> (inclusive of 12% GST).</p>
+    <ul>
+      <li><strong>Gross Inclusive Total:</strong> ₹1,12,000</li>
+      <li><strong>Pre-Tax Base Tariff:</strong> ₹1,12,000 ÷ 1.12 = <strong>₹1,00,000</strong></li>
+      <li><strong>Integrated GST (IGST 12%):</strong> ₹1,12,000 − ₹1,00,000 = <strong>₹12,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0 (Not applicable for interstate booking)</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

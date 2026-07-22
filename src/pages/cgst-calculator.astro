@@ -213,17 +213,112 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>CGST Calculator</h1>
+    <h2>CGST Calculator — Calculate Central Goods and Services Tax</h2>
+    <p>Under India's dual Goods and Services Tax (GST) architecture, every intra-state supply of goods and services is taxed under two equal components: <strong>Central Goods and Services Tax (CGST)</strong> collected by the Central Government, and <strong>State Goods and Services Tax (SGST)</strong> collected by the respective State Government.</p>
+    <p>Governed by the Central Goods and Services Tax Act, 2017, CGST ensures that the Union Government receives its constitutional revenue share directly from local business transactions. This free <strong>CGST Calculator</strong> allows taxpayers, Chartered Accountants, and business owners to compute the exact CGST portion for exclusive and inclusive transactions across all GST tax slabs (5%, 12%, 18%, 28%).</p>
+
+    <h2>Mathematical Formula for CGST Calculation</h2>
+    <p>Under the dual GST framework, CGST rate is always exactly half (50%) of the total applicable GST slab rate:</p>
     
-      <h2>CGST Calculator — Calculate Central Goods and Services Tax</h2>
-      <p>Under India's dual Goods and Services Tax (GST) model, when a transaction occurs within the same state (intrastate supply), the tax is shared equally between the Central Government and the State Government. The central portion of this tax is called <strong>Central Goods and Services Tax (CGST)</strong>, which is governed by the CGST Act, 2017.</p>
-      <h2>How CGST is Calculated</h2>
-      <p>CGST is always exactly equal to State GST (SGST) in rate and amount. Together, they make up the total GST rate. For example, if a product is taxed at an 18% slab rate, it is split into 9% CGST and 9% SGST. Our free CGST calculator helps you compute the CGST portion for both tax-exclusive and tax-inclusive amounts instantly.</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Intrastate CGST Formula (Exclusive Base Amount):</p>
+        <p>CGST Rate = Total GST Rate ÷ 2</p>
+        <p>CGST Tax Amount = Base Taxable Price × (CGST Rate ÷ 100)</p>
+        <p>SGST Tax Amount = CGST Tax Amount (Equal portion)</p>
+        <p>Total Invoice Value = Base Taxable Price + CGST Amount + SGST Amount</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Intrastate CGST Formula (Inclusive Total Amount):</p>
+        <p>Pre-Tax Base Price = Inclusive Total Amount ÷ (1 + Total GST Rate ÷ 100)</p>
+        <p>Total GST Amount = Inclusive Total Amount − Pre-Tax Base Price</p>
+        <p>CGST Tax Portion = Total GST Amount ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Numerical Scenarios</h2>
     
+    <h3>Example 1: Intrastate Retail Transaction at 18% GST (Exclusive)</h3>
+    <p>A electronics store in Chennai sells a computer printer for <strong>₹20,000</strong> (exclusive of tax) to a local customer in Tamil Nadu.</p>
+    <ul>
+      <li><strong>Base Taxable Value:</strong> ₹20,000</li>
+      <li><strong>Applicable GST Slab:</strong> 18% (CGST 9% + SGST 9%)</li>
+      <li><strong>CGST Tax Amount (9%):</strong> ₹20,000 × 9% = <strong>₹1,800</strong></li>
+      <li><strong>SGST Tax Amount (9%):</strong> ₹20,000 × 9% = <strong>₹1,800</strong></li>
+      <li><strong>Total GST Collected:</strong> ₹1,800 + ₹1,800 = ₹3,600</li>
+      <li><strong>Grand Total Invoice Amount:</strong> ₹20,000 + ₹3,600 = <strong>₹23,600</strong></li>
+    </ul>
+
+    <h3>Example 2: Restaurant Bill Extraction at 5% GST (Inclusive)</h3>
+    <p>A family dines at an AC restaurant in Mumbai and receives a total inclusive bill of <strong>₹5,250</strong> (taxed at 5% GST).</p>
+    <ul>
+      <li><strong>Gross Inclusive Invoice Amount:</strong> ₹5,250</li>
+      <li><strong>Pre-Tax Base Amount:</strong> ₹5,250 ÷ (1 + 0.05) = ₹5,250 ÷ 1.05 = <strong>₹5,000</strong></li>
+      <li><strong>Total GST Amount:</strong> ₹5,250 − ₹5,000 = ₹250</li>
+      <li><strong>CGST Component (2.5%):</strong> ₹250 ÷ 2 = <strong>₹125</strong></li>
+      <li><strong>SGST Component (2.5%):</strong> ₹250 ÷ 2 = <strong>₹125</strong></li>
+    </ul>
+
+    <h2>CGST Rate Breakdown Matrix</h2>
+    <p>The table below details how the total GST slab rate splits into Central GST (CGST) and State GST (SGST) across standard tax brackets:</p>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Total GST Slab</th>
+            <th class="p-3 font-semibold text-ink">CGST Rate (Centre)</th>
+            <th class="p-3 font-semibold text-ink">SGST Rate (State)</th>
+            <th class="p-3 font-semibold text-ink">Typical Categories</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">3% (Special)</td>
+            <td class="p-3 font-mono text-primary font-semibold">1.5%</td>
+            <td class="p-3 font-mono">1.5%</td>
+            <td class="p-3 text-body">Gold, silver, platinum jewelry</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">5% (Merit)</td>
+            <td class="p-3 font-mono text-primary font-semibold">2.5%</td>
+            <td class="p-3 font-mono">2.5%</td>
+            <td class="p-3 text-body">Packaged tea, spices, medicines, economy transport</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">12% (Standard I)</td>
+            <td class="p-3 font-mono text-primary font-semibold">6.0%</td>
+            <td class="p-3 font-mono">6.0%</td>
+            <td class="p-3 text-body">Processed food, dairy products, medical equipment</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">18% (Standard II)</td>
+            <td class="p-3 font-mono text-primary font-semibold">9.0%</td>
+            <td class="p-3 font-mono">9.0%</td>
+            <td class="p-3 text-body">IT services, electronics, consulting, FMCG soaps</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-medium text-ink">28% (Luxury)</td>
+            <td class="p-3 font-mono text-primary font-semibold">14.0%</td>
+            <td class="p-3 font-mono">14.0%</td>
+            <td class="p-3 text-body">Luxury cars, AC units, tobacco products</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Rule 88A: CGST Input Tax Credit Set-Off Order</h2>
+    <p>Under Rule 88A of the CGST Rules and Section 49 of the CGST Act, taxpayers must follow a strict statutory order when utilizing Input Tax Credit (ITC) from their Electronic Credit Ledger to offset CGST liabilities:</p>
+    <ul>
+      <li><strong>Priority 1:</strong> IGST credit MUST be fully exhausted first before using CGST credit.</li>
+      <li><strong>Priority 2:</strong> CGST credit can be used to set off CGST liability first.</li>
+      <li><strong>Priority 3:</strong> Remaining CGST credit can then be used to set off IGST liability.</li>
+      <li><strong>STRICT RESTRICTION:</strong> CGST credit CANNOT be used to pay SGST or UTGST liability under any circumstances.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

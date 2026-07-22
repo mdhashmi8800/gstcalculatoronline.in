@@ -213,29 +213,97 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>18% GST Calculator Online</h1>
+    <h2>18% GST Calculator — Comprehensive Guide to India's Primary Tax Slab</h2>
+    <p>The <strong>18% GST slab</strong> is the single most widely used tax rate under India's Goods and Services Tax (GST) system. Accounting for over 70% of commercial invoices raised in India, the 18% rate governs essential business services, IT and software, financial transactions, telecom services, capital machinery, electronics, personal care products, and industrial raw materials.</p>
+    <p>Whether you are a freelancer issuing a service invoice, an IT company billing overseas or domestic clients, a manufacturing unit purchasing raw materials, or a consumer analyzing bill details, this <strong>18% GST Calculator</strong> delivers instant, exact tax breakdowns for 9% CGST + 9% SGST intrastate supplies or 18% IGST interstate supplies across exclusive (add GST) and inclusive (remove GST) modes.</p>
+
+    <h2>Mathematical Formula for 18% GST Calculations</h2>
+    <p>Calculating 18% GST involves exact mathematical proportions depending on the invoice structure:</p>
     
-      <h2>Add or Remove 18% GST Instantly</h2>
-      <p>The <strong>18% GST slab</strong> is the most widely applied tax rate under India's Goods and Services Tax system. It applies to a vast majority of services (including banking, IT, professional consulting, and telecom) and a massive range of manufactured items and electronic products. This dedicated 18% GST calculator is pre-configured to let you add or remove 18% tax instantly.</p>
-      <h2>Common Items under the 18% GST Slab</h2>
-      <ul>
-        <li><strong>Services:</strong> IT services, professional consultancies (CAs, advocates, engineers), banking and financial transactions, AC restaurant food, hotel stays between ₹2,500 and ₹7,500 per night.</li>
-        <li><strong>Goods:</strong> Hair oil, toothpaste, soap, computers, printers, monitors, CCTV cameras, steel, aluminum, and marble blocks.</li>
-      </ul>
-      <h2>18% GST Formulas</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">1. Adding 18% GST (Exclusive Price):</p>
-        <p>GST Amount = Base Price × 0.18</p>
-        <p>Total Invoice = Base Price × 1.18</p>
-        <p class="mt-2 font-semibold text-brand-link">2. Removing 18% GST (Inclusive Price):</p>
-        <p>Base Taxable Price = Inclusive Price ÷ 1.18</p>
-        <p>GST Amount = Inclusive Price − Base Taxable Price</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding 18% GST to Exclusive Base Amount:</p>
+        <p>GST Tax Amount = Base Price × (18 / 100) = Base Price × 0.18</p>
+        <p>Gross Invoice Total = Base Price + GST Tax Amount = Base Price × 1.18</p>
+        <p>Intrastate Breakdown: CGST (9%) = GST Tax Amount ÷ 2 | SGST (9%) = GST Tax Amount ÷ 2</p>
+        <p>Interstate Breakdown: IGST (18%) = Full GST Tax Amount</p>
       </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Extracting 18% GST from Inclusive Total Amount:</p>
+        <p>Pre-Tax Base Value = Inclusive Total ÷ (1 + 0.18) = Inclusive Total ÷ 1.18</p>
+        <p>GST Tax Component = Inclusive Total − Pre-Tax Base Value</p>
+        <p>CGST (9%) = SGST (9%) = GST Tax Component ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Scenarios</h2>
     
+    <h3>Example 1: Intrastate IT Consulting Invoice (Exclusive Base Price)</h3>
+    <p>A software development agency in Bengaluru bills a local client <strong>₹2,00,000</strong> for custom Web Application development services (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Service Fee:</strong> ₹2,00,000</li>
+      <li><strong>Total GST (18%):</strong> ₹2,00,000 × 18% = ₹36,000</li>
+      <li><strong>CGST Split (9%):</strong> ₹36,000 ÷ 2 = ₹18,000</li>
+      <li><strong>SGST Split (9%):</strong> ₹36,000 ÷ 2 = ₹18,000</li>
+      <li><strong>Grand Total Invoice Value:</strong> ₹2,00,000 + ₹36,000 = <strong>₹2,36,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Interstate Purchase of Computer Hardware (Inclusive Total Price)</h3>
+    <p>A corporate office in Mumbai purchases laptop computers from a supplier in Hyderabad for a total inclusive billing amount of <strong>₹1,18,000</strong>.</p>
+    <ul>
+      <li><strong>Gross Inclusive Total:</strong> ₹1,18,000</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹1,18,000 ÷ 1.18 = <strong>₹1,00,000</strong></li>
+      <li><strong>Integrated GST (IGST 18%):</strong> ₹1,18,000 − ₹1,00,000 = <strong>₹18,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0 (Not applicable for interstate transactions)</li>
+    </ul>
+
+    <h2>Key Goods & Services Classified Under 18% GST</h2>
+    <p>The 18% rate covers major industrial and service sectors listed under HSN chapters 33, 84, 85, and SAC chapter 99:</p>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Sector</th>
+            <th class="p-3 font-semibold text-ink">Description of Goods / Services</th>
+            <th class="p-3 font-semibold text-ink">HSN / SAC Code</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">IT & Professional Services</td>
+            <td class="p-3 text-body">Software development, cloud hosting, legal advisory, CA audits, consulting, marketing</td>
+            <td class="p-3 font-mono text-xs">SAC 9983, 9982</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Electronics & Machinery</td>
+            <td class="p-3 text-body">Computers, printers, monitors, CCTV cameras, telecom equipment, lithium batteries</td>
+            <td class="p-3 font-mono text-xs">HSN 8471, 8517</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">FMCG & Consumer Care</td>
+            <td class="p-3 text-body">Soap, toothpaste, hair oil, detergents, sanitary napkins, kitchenware</td>
+            <td class="p-3 font-mono text-xs">HSN 3401, 3306</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Construction Materials</td>
+            <td class="p-3 text-body">Steel bars, aluminum sections, granite, marble blocks, paints, varnishes</td>
+            <td class="p-3 font-mono text-xs">HSN 7214, 6802</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Important Taxpayer Compliance Rules for 18% GST</h2>
+    <ul>
+      <li><strong>Blocked Credit under Section 17(5):</strong> Input Tax Credit (ITC) paid on 18% goods/services like motor vehicles, food catering, outdoor catering, membership fees, or health insurance is blocked under Section 17(5) of the CGST Act unless used for outward taxable supply of the same category. Read our guide on <a href="/blog/input-tax-credit-itc-rules" class="text-primary hover:underline">ITC Rules & Restrictions</a>.</li>
+      <li><strong>Reverse Charge Mechanism (RCM):</strong> Certain 18% services (such as legal fees paid to advocates, sponsorship services, or director remuneration) require the recipient business to pay 18% GST under RCM using our <a href="/gst-split-calculator" class="text-primary hover:underline">GST Split Calculator</a>.</li>
+      <li><strong>Mandatory E-Invoicing:</strong> Businesses with aggregate annual turnover exceeding ₹5 Crore must generate B2B e-invoices with IRN and QR code for all 18% taxable supplies. Use our <a href="/invoice-builder" class="text-primary hover:underline">GST Invoice Builder</a> to prepare compliant invoices.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

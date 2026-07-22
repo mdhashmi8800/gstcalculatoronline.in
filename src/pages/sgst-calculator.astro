@@ -213,17 +213,63 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>SGST Calculator</h1>
+    <h2>SGST Calculator — Calculate State Goods and Services Tax</h2>
+    <p>Under India's Goods and Services Tax (GST) framework, transactions occurring within a single state (intrastate supply) are subject to a dual tax system. The portion of tax collected by the respective State Government is known as <strong>State Goods and Services Tax (SGST)</strong> (or Union Territory GST - UTGST in Union Territories without a legislature).</p>
+    <p>Governed by state-specific SGST Acts (such as the Maharashtra SGST Act 2017 or Karnataka SGST Act 2017), SGST is a destination-based consumption tax ensuring that states receive their constitutional share of indirect tax revenue. This free <strong>SGST Calculator</strong> allows business owners, accounting professionals, and tax filers to compute exact SGST components for both exclusive and inclusive amounts across all GST slabs (5%, 12%, 18%, 28%).</p>
+
+    <h2>Mathematical Formula for SGST Calculation</h2>
+    <p>Under the dual GST framework, SGST rate is always equal to 50% of the total applicable GST rate, matching the CGST rate exactly:</p>
     
-      <h2>SGST Calculator — Calculate State Goods and Services Tax</h2>
-      <p>Under India's Goods and Services Tax (GST) framework, transactions within a single state are subjected to a dual-tax system. The portion collected by the respective State Government is known as <strong>State Goods and Services Tax (SGST)</strong>. This tax is governed by the SGST Act of the respective state (such as the Maharashtra GST Act, Delhi GST Act, etc.).</p>
-      <h2>Role and Calculation of SGST</h2>
-      <p>SGST is levied alongside Central GST (CGST) for local transactions. The rate of SGST is always half of the total GST rate and matches the CGST rate exactly. For example, for an 18% transaction, SGST is 9% and CGST is 9%. The revenue from SGST goes directly to the destination state where the goods or services are consumed. Our SGST calculator provides an instant breakdown of the state tax portion for any transaction amount.</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Intrastate SGST Formula (Exclusive Base Amount):</p>
+        <p>SGST Rate = Total GST Rate ÷ 2</p>
+        <p>SGST Tax Amount = Base Taxable Amount × (SGST Rate ÷ 100)</p>
+        <p>CGST Tax Amount = SGST Tax Amount (Matching central portion)</p>
+        <p>Grand Invoice Total = Base Taxable Amount + SGST Amount + CGST Amount</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Intrastate SGST Formula (Inclusive Total Amount):</p>
+        <p>Pre-Tax Base Amount = Inclusive Total Amount ÷ (1 + Total GST Rate ÷ 100)</p>
+        <p>Total GST Tax = Inclusive Total Amount − Pre-Tax Base Amount</p>
+        <p>SGST Tax Component = Total GST Tax ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Scenarios</h2>
     
-    
+    <h3>Example 1: Intrastate Wholesale Supply of Apparel at 12% GST (Exclusive)</h3>
+    <p>A garment factory in Surat supplies readymade clothing to a retail store in Ahmedabad for <strong>₹1,50,000</strong> (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Taxable Value:</strong> ₹1,50,000</li>
+      <li><strong>Total GST Rate:</strong> 12% (CGST 6% + SGST 6%)</li>
+      <li><strong>SGST Tax Amount (6%):</strong> ₹1,50,000 × 6% = <strong>₹9,000</strong></li>
+      <li><strong>CGST Tax Amount (6%):</strong> ₹1,50,000 × 6% = <strong>₹9,000</strong></li>
+      <li><strong>Total GST Amount:</strong> ₹9,000 + ₹9,000 = ₹18,000</li>
+      <li><strong>Final Billing Value:</strong> ₹1,50,000 + ₹18,000 = <strong>₹1,68,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Hotel Accommodation Extraction at 18% GST (Inclusive)</h3>
+    <p>A business traveler stays at a hotel in Jaipur and pays a final inclusive checkout bill of <strong>₹11,800</strong> (taxable at 18% GST).</p>
+    <ul>
+      <li><strong>Gross Inclusive Total:</strong> ₹11,800</li>
+      <li><strong>Pre-Tax Room Tariff:</strong> ₹11,800 ÷ 1.18 = <strong>₹10,000</strong></li>
+      <li><strong>Total GST Component:</strong> ₹11,800 − ₹10,000 = ₹1,800</li>
+      <li><strong>SGST Component (9%):</strong> ₹1,800 ÷ 2 = <strong>₹900</strong></li>
+      <li><strong>CGST Component (9%):</strong> ₹1,800 ÷ 2 = <strong>₹900</strong></li>
+    </ul>
+
+    <h2>Destination-Based Tax Principle & SGST Revenue Flow</h2>
+    <p>GST in India operates on the <strong>destination principle</strong> (consumption tax). Here is how SGST revenue flows:</p>
+    <ul>
+      <li><strong>Intrastate Sales:</strong> SGST collected by the seller is paid directly into the state tax ledger of the state where the supply occurs.</li>
+      <li><strong>Interstate Sales (IGST Settlement):</strong> When goods are sold from State A to State B under IGST, the Central Government transfers the state portion of IGST to the consuming State B.</li>
+      <li><strong>Input Tax Credit (ITC) Utilization Order:</strong> Under Section 49 of the SGST Act, SGST credit must be used to pay SGST liability first, and any remaining balance can pay IGST liability. SGST credit CANNOT be used to pay CGST liability.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

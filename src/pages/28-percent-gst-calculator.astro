@@ -213,29 +213,97 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>28% GST Calculator Online</h1>
+    <h2>28% GST Calculator — Guide to India's Peak Luxury & Demerit Slab</h2>
+    <p>The <strong>28% GST slab</strong> represents the highest tax rate under India's Goods and Services Tax (GST) system. Reserved for luxury goods, demerit items, sin goods, and high-end consumer appliances, the 28% bracket is designed to levy a higher tax burden on non-essential consumption while generating vital revenue for federal and state infrastructure.</p>
+    <p>This <strong>28% GST Calculator</strong> provides instant, accurate tax calculations for 14% CGST + 14% SGST intrastate transactions and 28% IGST interstate supplies across both exclusive (adding 28% to net price) and inclusive (extracting 28% from total price) billing scenarios.</p>
+
+    <h2>Mathematical Formula for 28% GST Calculations</h2>
+    <p>Calculating 28% GST requires applying the following mathematical equations based on invoice presentation:</p>
     
-      <h2>Add or Remove 28% GST Instantly</h2>
-      <p>The <strong>28% GST slab</strong> is the highest tax rate under India's Goods and Services Tax system. It is reserved for luxury goods, demerit items, and sin-tax goods (such as tobacco and aerated drinks). This dedicated 28% GST calculator is pre-configured to let you add or remove 28% tax instantly from any transaction amount.</p>
-      <h2>Common Items under the 28% GST Slab</h2>
-      <ul>
-        <li><strong>Goods:</strong> Luxury cars, motorcycles above 350cc, aerated water/drinks, pan masala, tobacco, cement, air conditioners, and dishwashers.</li>
-        <li><strong>Services:</strong> Services by way of admission to casinos, race clubs, gambling, and amusement parks.</li>
-      </ul>
-      <h2>28% GST Formulas</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">1. Adding 28% GST (Exclusive Price):</p>
-        <p>GST Amount = Base Price × 0.28</p>
-        <p>Total Invoice = Base Price × 1.28</p>
-        <p class="mt-2 font-semibold text-brand-link">2. Removing 28% GST (Inclusive Price):</p>
-        <p>Base Taxable Price = Inclusive Price ÷ 1.28</p>
-        <p>GST Amount = Inclusive Price − Base Taxable Price</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding 28% GST to Exclusive Base Amount:</p>
+        <p>GST Tax Amount = Base Price × (28 / 100) = Base Price × 0.28</p>
+        <p>Gross Invoice Total = Base Price + GST Tax Amount = Base Price × 1.28</p>
+        <p>Intrastate Breakdown: CGST (14%) = GST Tax Amount ÷ 2 | SGST (14%) = GST Tax Amount ÷ 2</p>
+        <p>Interstate Breakdown: IGST (28%) = Full GST Tax Amount</p>
       </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Extracting 28% GST from Inclusive Total Amount:</p>
+        <p>Pre-Tax Base Value = Inclusive Total ÷ (1 + 0.28) = Inclusive Total ÷ 1.28</p>
+        <p>GST Tax Component = Inclusive Total − Pre-Tax Base Value</p>
+        <p>CGST (14%) = SGST (14%) = GST Tax Component ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Examples</h2>
     
+    <h3>Example 1: Intrastate Billing of Air Conditioning Units (Exclusive Base Price)</h3>
+    <p>An appliance dealer in Delhi sells 10 commercial air conditioning units to a corporate office in Delhi for <strong>₹5,00,000</strong> (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Taxable Price:</strong> ₹5,00,000</li>
+      <li><strong>Total GST (28%):</strong> ₹5,00,000 × 28% = ₹1,40,000</li>
+      <li><strong>CGST Split (14%):</strong> ₹1,40,000 ÷ 2 = ₹70,000</li>
+      <li><strong>SGST Split (14%):</strong> ₹1,40,000 ÷ 2 = ₹70,000</li>
+      <li><strong>Grand Total Billing Amount:</strong> ₹5,00,000 + ₹1,40,000 = <strong>₹6,40,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Interstate Purchase of Luxury Automobile (Inclusive Price)</h3>
+    <p>A business executive in Chennai purchases a premium motor vehicle from a distributor in Bengaluru for a total inclusive billing amount of <strong>₹38,40,000</strong> (excluding additional Compensation Cess).</p>
+    <ul>
+      <li><strong>Gross Inclusive Total:</strong> ₹38,40,000</li>
+      <li><strong>Pre-Tax Base Vehicle Value:</strong> ₹38,40,000 ÷ 1.28 = <strong>₹30,00,000</strong></li>
+      <li><strong>Integrated GST (IGST 28%):</strong> ₹38,40,000 − ₹30,00,000 = <strong>₹8,40,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0 (Not applicable for interstate sales)</li>
+    </ul>
+
+    <h2>Key Goods & Services Subject to 28% GST</h2>
+    <p>The 28% slab covers specific luxury and demerit goods listed under Schedule IV of the CGST Act:</p>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Category</th>
+            <th class="p-3 font-semibold text-ink">Description of Goods / Services</th>
+            <th class="p-3 font-semibold text-ink">HSN / SAC Code</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">Automobiles & Motorcycles</td>
+            <td class="p-3 text-body">Luxury motor cars, SUV vehicles, racing cars, motorcycles above 350cc engine capacity</td>
+            <td class="p-3 font-mono text-xs">HSN 8703, 8711</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Sin Goods & Tobacco</td>
+            <td class="p-3 text-body">Cigarettes, cigars, chewing tobacco, pan masala, aerated waters with added sugar</td>
+            <td class="p-3 font-mono text-xs">HSN 2402, 2202</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Consumer Durables</td>
+            <td class="p-3 text-body">Air conditioners, dishwashing machines, slot machines, gaming consoles</td>
+            <td class="p-3 font-mono text-xs">HSN 8415, 8422</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Entertainment & Gambling</td>
+            <td class="p-3 text-body">Admission to casinos, race courses, online real-money gaming, betting activities</td>
+            <td class="p-3 font-mono text-xs">SAC 9996</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Compensation Cess & Special Compliance Rules</h2>
+    <ul>
+      <li><strong>GST Compensation Cess:</strong> Certain 28% luxury and sin goods (like automobiles, aerated drinks, and tobacco products) attract an additional Compensation Cess ranging from 1% to 290% on top of the 28% GST rate.</li>
+      <li><strong>Input Tax Credit Blocking on Luxury Goods:</strong> Under Section 17(5)(a) of the CGST Act, Input Tax Credit (ITC) for motor vehicles purchased for personal or executive transport is blocked and cannot be claimed against business liabilities.</li>
+      <li><strong>High Penalty Risk:</strong> Under-reporting 28% GST or misclassifying luxury goods into lower slabs like 18% or 12% triggers audit scrutiny, 100% tax penalties, and Section 50 interest calculated via our <a href="/interest-calculator" class="text-primary hover:underline">GST Interest Calculator</a>.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

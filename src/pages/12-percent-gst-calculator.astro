@@ -213,29 +213,97 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>12% GST Calculator Online</h1>
+    <h2>12% GST Calculator — Comprehensive Guide to India's Standard Slab</h2>
+    <p>The <strong>12% GST slab</strong> in India serves as one of the primary standard tax brackets under the Goods and Services Tax (GST) regime. Designed to balance revenue generation with essential industrial growth, the 12% slab applies to processed food items, dairy derivatives, agricultural machinery, printing equipment, medical devices, and specific works contracts.</p>
+    <p>Using this <strong>12% GST Calculator</strong>, manufacturers, traders, CAs, and consumers can compute exact 6% CGST + 6% SGST splits for local intrastate transactions or full 12% IGST for interstate supplies across both exclusive (add tax) and inclusive (extract tax) modes.</p>
+
+    <h2>Mathematical Formula for 12% GST Calculations</h2>
+    <p>Calculating 12% GST requires distinct mathematical formulas depending on whether tax is added to an exclusive price or extracted from an inclusive total.</p>
     
-      <h2>Add or Remove 12% GST Instantly</h2>
-      <p>The <strong>12% GST rate slab</strong> is one of the standard slabs under India's Goods and Services Tax system. It is designed for moderately essential consumer goods, specific food items, and certain business services. This dedicated 12% GST calculator is pre-configured to let you add or remove 12% tax instantly from any transaction amount.</p>
-      <h2>Common Items under the 12% GST Slab</h2>
-      <ul>
-        <li><strong>Goods:</strong> Processed food items, cheese, butter, ghee, sewing machines, brass kerosene burners, umbrellas, and mathematical instruments.</li>
-        <li><strong>Services:</strong> Work contracts for construction, business class air travel, and state-run lottery tickets.</li>
-      </ul>
-      <h2>12% GST Formulas</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">1. Adding 12% GST (Exclusive Price):</p>
-        <p>GST Amount = Base Price × 0.12</p>
-        <p>Total Invoice = Base Price × 1.12</p>
-        <p class="mt-2 font-semibold text-brand-link">2. Removing 12% GST (Inclusive Price):</p>
-        <p>Base Taxable Price = Inclusive Price ÷ 1.12</p>
-        <p>GST Amount = Inclusive Price − Base Taxable Price</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding 12% GST to Exclusive Base Price:</p>
+        <p>GST Tax Amount = Base Price × (12 / 100) = Base Price × 0.12</p>
+        <p>Gross Invoice Amount = Base Price + GST Tax Amount = Base Price × 1.12</p>
+        <p>Intrastate Breakdown: CGST (6%) = GST Tax Amount ÷ 2 | SGST (6%) = GST Tax Amount ÷ 2</p>
+        <p>Interstate Breakdown: IGST (12%) = Full GST Tax Amount</p>
       </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Extracting 12% GST from Inclusive Total Price:</p>
+        <p>Pre-Tax Base Value = Inclusive Total ÷ (1 + 0.12) = Inclusive Total ÷ 1.12</p>
+        <p>GST Tax Component = Inclusive Total − Pre-Tax Base Value</p>
+        <p>CGST (6%) = SGST (6%) = GST Tax Component ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Scenarios</h2>
     
+    <h3>Example 1: Intrastate Billing of Processed Dairy Products (Exclusive Base Price)</h3>
+    <p>A dairy processing plant in Maharashtra supplies 1,000 kg of ghee and processed cheese to a retail chain in Pune for <strong>₹4,00,000</strong> (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Taxable Value:</strong> ₹4,00,000</li>
+      <li><strong>Total GST (12%):</strong> ₹4,00,000 × 12% = ₹48,000</li>
+      <li><strong>CGST Split (6%):</strong> ₹48,000 ÷ 2 = ₹24,000</li>
+      <li><strong>SGST Split (6%):</strong> ₹48,000 ÷ 2 = ₹24,000</li>
+      <li><strong>Grand Total Invoice Value:</strong> ₹4,00,000 + ₹48,000 = <strong>₹4,48,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Interstate Purchase of Printing Machinery (Inclusive Total)</h3>
+    <p>A publishing firm in Bengaluru orders offset printing machinery from a manufacturer in Chennai for a total inclusive invoice price of <strong>₹5,60,000</strong>.</p>
+    <ul>
+      <li><strong>Gross Inclusive Invoice Total:</strong> ₹5,60,000</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹5,60,000 ÷ 1.12 = <strong>₹5,00,000</strong></li>
+      <li><strong>Integrated GST (IGST 12%):</strong> ₹5,60,000 − ₹5,00,000 = <strong>₹60,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0 (Not applicable for interstate transactions)</li>
+    </ul>
+
+    <h2>Key Goods & Services Classified Under 12% GST</h2>
+    <p>The 12% GST slab governs specific categories under HSN chapters 04, 20, 48, 84, and 99:</p>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Category</th>
+            <th class="p-3 font-semibold text-ink">Description of Goods / Services</th>
+            <th class="p-3 font-semibold text-ink">HSN / SAC Code</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">Processed Dairy & Food</td>
+            <td class="p-3 text-body">Ghee, butter, cheese, frozen meat products, fruit juices, sausage, preserved vegetables</td>
+            <td class="p-3 font-mono text-xs">HSN 0405, 2009</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Industrial & Printing</td>
+            <td class="p-3 text-body">Printing ink, exercise books, drawing books, paper products, offset printing presses</td>
+            <td class="p-3 font-mono text-xs">HSN 3215, 4820, 8443</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Medical Devices</td>
+            <td class="p-3 text-body">Diagnostic test kits, blood glucose monitors, corrective spectacles, surgical tools</td>
+            <td class="p-3 font-mono text-xs">HSN 9018, 9021</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Works Contracts</td>
+            <td class="p-3 text-body">Specified construction works contracts for government infrastructure projects</td>
+            <td class="p-3 font-mono text-xs">SAC 9954</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Common Compliance Errors in 12% GST Filings</h2>
+    <ul>
+      <li><strong>Misinterpreting Dairy & Fat Rates:</strong> While fresh unflavored milk is exempt (0%) and packaged curd/paneer is 5%, clarified butter (ghee) and butter strictly attract 12% GST.</li>
+      <li><strong>Subcontractor Works Contract Rates:</strong> Construction works contracts for private residential buildings attract 18% GST, whereas specific government works contracts qualify for the 12% concessional rate. Applying 12% on private construction leads to demand notices under Section 73/74.</li>
+      <li><strong>Input Tax Credit Matching (GSTR-2B):</strong> Buyers claiming 12% ITC must verify that their suppliers have correctly filed GSTR-1, as mismatched credit claims attract Section 50 interest penalties (calculated using our <a href="/interest-calculator" class="text-primary hover:underline">GST Interest Calculator</a>).</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>

@@ -13,6 +13,8 @@ export default defineConfig({
     defaultStrategy: 'hover'
   },
 
+  trailingSlash: 'never',
+
   redirects: {
     '/tools': '/',
     '/tools/gst-calculator': '/gst-calculator',

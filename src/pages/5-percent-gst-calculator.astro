@@ -213,29 +213,103 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>5% GST Calculator Online</h1>
+    <h2>5% GST Calculator — Comprehensive Guide to India's Merit Tax Slab</h2>
+    <p>The <strong>5% GST slab</strong> in India is designed as a merit rate under the Goods and Services Tax (GST) framework. It primarily covers essential consumer items, basic food products, life-saving pharmaceutical drugs, renewable energy equipment, and low-cost mass transportation services. Applying a low 5% rate ensures that essential goods remain affordable for Indian households while bringing essential trade into the formal tax system.</p>
+    <p>Whether you are a retailer billing packaged food supplies, a pharmaceutical distributor calculating invoice tax, or a consumer seeking to extract pre-tax prices from inclusive totals, this <strong>5% GST Calculator</strong> provides instant, 100% accurate tax breakdowns for intrastate (CGST + SGST) and interstate (IGST) transactions.</p>
+
+    <h2>Mathematical Formula for 5% GST Calculation</h2>
+    <p>Calculating 5% GST involves two fundamental scenarios: adding tax to an exclusive base price (forward calculation) or extracting pre-tax net amounts from an inclusive price (reverse calculation).</p>
     
-      <h2>Add or Remove 5% GST Instantly</h2>
-      <p>The <strong>5% GST slab</strong> represents the lowest standard positive tax rate under India's Goods and Services Tax system. It is reserved for basic necessities, essential commodities, and mass consumption items. This dedicated 5% GST calculator is pre-configured to let you add or remove 5% tax instantly from any transaction amount.</p>
-      <h2>Common Items under the 5% GST Slab</h2>
-      <ul>
-        <li><strong>Goods:</strong> Packaged food grains, milk (branded), tea, coffee, edible oils, life-saving medicines, coal, LPG for domestic use, and apparel under ₹1,000.</li>
-        <li><strong>Services:</strong> Economy class flight tickets, transport services (Ola, Uber cabs), railway freight, and tour operator services.</li>
-      </ul>
-      <h2>5% GST Formulas</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">1. Adding 5% GST (Exclusive Price):</p>
-        <p>GST Amount = Base Price × 0.05</p>
-        <p>Total Invoice = Base Price × 1.05</p>
-        <p class="mt-2 font-semibold text-brand-link">2. Removing 5% GST (Inclusive Price):</p>
-        <p>Base Taxable Price = Inclusive Price ÷ 1.05</p>
-        <p>GST Amount = Inclusive Price − Base Taxable Price</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding 5% GST to Exclusive Base Price:</p>
+        <p>GST Amount = Base Price × (5 / 100) = Base Price × 0.05</p>
+        <p>Gross Invoice Total = Base Price + GST Amount = Base Price × 1.05</p>
+        <p>Intrastate Breakdown: CGST (2.5%) = GST Amount ÷ 2 | SGST (2.5%) = GST Amount ÷ 2</p>
+        <p>Interstate Breakdown: IGST (5%) = Full GST Amount</p>
       </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Removing 5% GST from Inclusive Total Price:</p>
+        <p>Base Taxable Value = Inclusive Total ÷ (1 + 0.05) = Inclusive Total ÷ 1.05</p>
+        <p>GST Tax Amount = Inclusive Total − Base Taxable Value</p>
+        <p>CGST (2.5%) = SGST (2.5%) = GST Tax Amount ÷ 2</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Calculation Examples</h2>
     
+    <h3>Example 1: Intrastate Wholesale Supply of Spices (Exclusive Base Price)</h3>
+    <p>Suppose a spice merchant in Gujarat sells 500 kg of packaged cumin seeds to a distributor in Ahmedabad for a base price of <strong>₹50,000</strong> (exclusive of GST).</p>
+    <ul>
+      <li><strong>Base Taxable Value:</strong> ₹50,000</li>
+      <li><strong>Total GST (5%):</strong> ₹50,000 × 5% = ₹2,500</li>
+      <li><strong>CGST Portion (2.5%):</strong> ₹2,500 ÷ 2 = ₹1,250</li>
+      <li><strong>SGST Portion (2.5%):</strong> ₹2,500 ÷ 2 = ₹1,250</li>
+      <li><strong>Final Invoice Amount:</strong> ₹50,000 + ₹2,500 = <strong>₹52,500</strong></li>
+    </ul>
+
+    <h3>Example 2: Interstate Sale of Renewable Solar Equipment (Inclusive Price)</h3>
+    <p>A solar panel supplier in Rajasthan sells residential solar water heater kits to a customer in New Delhi for a final inclusive contract amount of <strong>₹1,05,000</strong>.</p>
+    <ul>
+      <li><strong>Inclusive Contract Total:</strong> ₹1,05,000</li>
+      <li><strong>Base Taxable Base Amount:</strong> ₹1,05,000 ÷ 1.05 = <strong>₹1,00,000</strong></li>
+      <li><strong>Total IGST Amount (5%):</strong> ₹1,05,000 − ₹1,00,000 = <strong>₹5,000</strong></li>
+      <li><strong>CGST / SGST Split:</strong> ₹0 (Not applicable for interstate sales)</li>
+    </ul>
+
+    <h2>Major Goods & Services Under the 5% GST Rate Slab</h2>
+    <p>The 5% GST rate applies to specific goods and services categorized by HSN and SAC codes under the Central Tax notifications:</p>
     
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Category</th>
+            <th class="p-3 font-semibold text-ink">Items & Description</th>
+            <th class="p-3 font-semibold text-ink">HSN / SAC Code</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">Packaged Foods</td>
+            <td class="p-3 text-body">Branded packaged tea, coffee beans, spices, edible oils, sugar, curd, paneer</td>
+            <td class="p-3 font-mono text-xs">HSN 0902, 1507, 0406</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Apparel & Footwear</td>
+            <td class="p-3 text-body">Readymade garments, apparel, and footwear priced up to ₹1,000 per piece</td>
+            <td class="p-3 font-mono text-xs">HSN 61, 62, 64</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Pharmaceuticals</td>
+            <td class="p-3 text-body">Life-saving drugs, diagnostic kits, insulin, vaccines, oral rehydration salts (ORS)</td>
+            <td class="p-3 font-mono text-xs">HSN 3004</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Energy & Fuel</td>
+            <td class="p-3 text-body">Domestic LPG cylinders, coal, briquettes, solar power generating systems</td>
+            <td class="p-3 font-mono text-xs">HSN 2701, 8419</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Transport Services</td>
+            <td class="p-3 text-body">Economy class air travel, railway goods transport, cab aggregators (without ITC)</td>
+            <td class="p-3 font-mono text-xs">SAC 9964, 9965</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Common Taxpayer Mistakes in 5% GST Compliance</h2>
+    <ul>
+      <li><strong>Confusing Packaged vs. Loose Goods:</strong> Unpackaged, loose food items (like loose rice or fresh milk) are exempt (0% GST), whereas pre-packaged, labelled versions attract 5% GST.</li>
+      <li><strong>Apparel Price Threshold Errors:</strong> Clothing items selling for ₹1,000 or less attract 5% GST, whereas garments priced above ₹1,000 attract 12% GST. Misclassifying garment prices leads to tax underpayment penalties.</li>
+      <li><strong>Inverted Duty Structure Claims:</strong> Manufacturers purchasing raw materials at 12% or 18% GST but selling finished goods at 5% GST accumulate unutilized Input Tax Credit (ITC). They must file refund claims under Rule 89 using our <a href="/gst-refund-calculator" class="text-primary hover:underline">GST Refund Calculator</a>.</li>
+      <li><strong>Input Tax Credit Restrictions on Services:</strong> Restaurants and passenger transport service providers opting for the flat 5% GST rate cannot claim Input Tax Credit on business purchases.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
