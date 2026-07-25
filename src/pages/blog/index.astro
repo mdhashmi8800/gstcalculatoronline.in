@@ -2,22 +2,21 @@
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { tools } from '../../utils/tools';
+import { getCollection } from 'astro:content';
 
 const pageTitle = "GST Tax Blog & Filing Guides – India's Expert GST Knowledge Hub";
 const pageDesc = "Read current articles and educational guides about GST regulations in India, tax slabs, GSTR filings, late fee capping rules, interest rates, and compliance updates. Written by Chartered Accountants and GST advocates.";
 
-// Dynamically fetch all blog articles from src/content/blog using Vite import.meta.glob
-const posts = Object.values(import.meta.glob('../../content/blog/*.md', { eager: true })) as any[];
+// Dynamically fetch all blog articles via Astro Content Collections
+const allPosts = await getCollection('blog');
+const now = Date.now();
 
-// Format date helper (e.g. "2026-06-01" to "June 1, 2026")
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
+const publishedPosts = allPosts.filter(p => {
+  if (import.meta.env.DEV) return true;
+  if (p.data.draft) return false;
+  if (p.data.date && new Date(p.data.date).getTime() > now) return false;
+  return true;
+});
 
 const slugify = (text: string) => text.toLowerCase()
   .replace(/\s+/g, '-')
@@ -27,14 +26,14 @@ const slugify = (text: string) => text.toLowerCase()
   .replace(/-+$/, '');
 
 // Map and sort blog posts by date descending
-const blogPosts = posts.map((post) => ({
-  title: post.frontmatter.title,
-  slug: post.frontmatter.slug,
-  date: post.frontmatter.date,
-  author: post.frontmatter.author,
-  readTime: post.frontmatter.readTime,
-  category: post.frontmatter.category || 'General',
-  desc: post.frontmatter.metaDescription || post.frontmatter.description
+const blogPosts = publishedPosts.map((post) => ({
+  title: post.data.title,
+  slug: post.data.slug || post.slug,
+  date: post.data.date,
+  author: post.data.author,
+  readTime: post.data.readTime,
+  category: post.data.category || 'General',
+  desc: post.data.metaDescription || post.data.description || post.data.title
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 // Get unique categories for filter
@@ -73,7 +72,7 @@ const popularTools = [
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <!-- Blog Posts Grid (9 cols) -->
+      <!-- Blog Posts Grid (8 cols) -->
       <main class="lg:col-span-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {blogPosts.map((post) => (

@@ -4,8 +4,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Article from '../../components/Article.astro';
 import FAQ from '../../components/FAQ.astro';
 import { tools } from '../../utils/tools';
+import { getCollection, render } from 'astro:content';
 
-// CA & Advocate profiles mapping for author details
 const AUTHORS: Record<string, { name: string; designation: string; bio: string }> = {
   "CA Amit Sharma": {
     name: "CA Amit Sharma",
@@ -25,29 +25,38 @@ const AUTHORS: Record<string, { name: string; designation: string; bio: string }
 };
 
 export async function getStaticPaths() {
-  const posts = import.meta.glob('../../content/blog/*.md', { eager: true });
-  return Object.values(posts).map((post: any) => ({
-    params: { slug: post.frontmatter.slug },
-    props: { post }
+  const allPosts = await getCollection('blog');
+  const now = Date.now();
+  const publishedPosts = allPosts.filter(p => {
+    if (import.meta.env.DEV) return true;
+    if (p.data.draft) return false;
+    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
+    return true;
+  });
+
+  return publishedPosts.map((entry) => ({
+    params: { slug: entry.data.slug || entry.slug },
+    props: { entry, allPosts: publishedPosts }
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = post;
-const headings = post.getHeadings();
+const { entry, allPosts } = Astro.props;
+const { Content, headings } = await render(entry);
+const postData = entry.data;
+const postSlug = postData.slug || entry.slug;
 
 // Dynamic SEO and Schemas
-const articleUrl = `https://gstcalculatoronline.in/blog/${post.frontmatter.slug}`;
+const articleUrl = `https://gstcalculatoronline.in/blog/${postSlug}`;
 const enrichedSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": post.frontmatter.metaTitle || post.frontmatter.title,
-  "description": post.frontmatter.metaDescription || post.frontmatter.description,
-  "datePublished": post.frontmatter.date,
-  "dateModified": post.frontmatter.lastUpdated || post.frontmatter.date,
+  "headline": postData.metaTitle || postData.title,
+  "description": postData.metaDescription || postData.description || postData.title,
+  "datePublished": postData.date,
+  "dateModified": postData.lastUpdated || postData.date,
   "author": {
     "@type": "Person",
-    "name": post.frontmatter.author
+    "name": postData.author
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -64,28 +73,25 @@ const enrichedSchema = {
   "image": "https://gstcalculatoronline.in/og-image.png"
 };
 
-const authorDetails = AUTHORS[post.frontmatter.author] || null;
-
-// Fetch all posts for dynamic links
-const posts = Object.values(import.meta.glob('../../content/blog/*.md', { eager: true })) as any[];
+const authorDetails = AUTHORS[postData.author] || null;
 
 // Get latest 4 posts (excluding current post)
-const latestPosts = posts
-  .filter((p: any) => p.frontmatter.slug !== post.frontmatter.slug)
-  .map((p: any) => ({
-    title: p.frontmatter.title,
-    slug: p.frontmatter.slug,
-    date: p.frontmatter.date,
-    readTime: p.frontmatter.readTime,
-    category: p.frontmatter.category || 'Guides'
+const latestPosts = allPosts
+  .filter((p) => (p.data.slug || p.slug) !== postSlug)
+  .map((p) => ({
+    title: p.data.title,
+    slug: p.data.slug || p.slug,
+    date: p.data.date,
+    readTime: p.data.readTime,
+    category: p.data.category || 'Guides'
   }))
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, 4);
 
-// Dynamic Related Calculators: Use frontmatter definition or fallback to category-relevant ones
-let relatedCalculators = post.frontmatter.relatedCalculators || [];
+// Dynamic Related Calculators
+let relatedCalculators = postData.relatedCalculators || [];
 if (relatedCalculators.length === 0) {
-  const blogCategory = post.frontmatter.category || '';
+  const blogCategory = postData.category || '';
   let targetCalcCategory: 'tax-slabs' | 'late-fees' | 'interest-penalties' | 'composition-scheme' = 'tax-slabs';
   if (blogCategory.includes('Compliance') || blogCategory.includes('Audit')) {
     targetCalcCategory = 'late-fees';
@@ -101,32 +107,32 @@ if (relatedCalculators.length === 0) {
     .map(t => ({ name: t.name, url: t.url }));
 }
 
-// Dynamic Related Articles: Use frontmatter definition or fallback to category posts
-let relatedArticles = post.frontmatter.relatedArticles || [];
+// Dynamic Related Articles
+let relatedArticles = postData.relatedArticles || [];
 if (relatedArticles.length === 0) {
-  relatedArticles = posts
-    .filter((p: any) => p.frontmatter.category === post.frontmatter.category && p.frontmatter.slug !== post.frontmatter.slug)
+  relatedArticles = allPosts
+    .filter((p) => p.data.category === postData.category && (p.data.slug || p.slug) !== postSlug)
     .slice(0, 2)
-    .map((p: any) => ({ title: p.frontmatter.title, slug: p.frontmatter.slug }));
+    .map((p) => ({ title: p.data.title, slug: p.data.slug || p.slug }));
 }
 if (relatedArticles.length < 2) {
   const existingSlugs = relatedArticles.map((a: any) => a.slug);
-  const fallbacks = posts
-    .filter((p: any) => p.frontmatter.slug !== post.frontmatter.slug && !existingSlugs.includes(p.frontmatter.slug) && p.frontmatter.category === 'GST Basics')
+  const fallbacks = allPosts
+    .filter((p) => (p.data.slug || p.slug) !== postSlug && !existingSlugs.includes(p.data.slug || p.slug) && p.data.category === 'GST Basics')
     .slice(0, 2 - relatedArticles.length)
-    .map((p: any) => ({ title: p.frontmatter.title, slug: p.frontmatter.slug }));
+    .map((p) => ({ title: p.data.title, slug: p.data.slug || p.slug }));
   relatedArticles = [...relatedArticles, ...fallbacks];
 }
 
-const faqSchema = post.frontmatter.faqs && post.frontmatter.faqs.length > 0 ? {
+const faqSchema = postData.faqs && postData.faqs.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": post.frontmatter.faqs.map((faq: any) => ({
+  "mainEntity": postData.faqs.map((faq: any) => ({
     "@type": "Question",
     "name": faq.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": faq.answer.replace(/<[^>]*>/g, '') // strip HTML for schema
+      "text": faq.answer.replace(/<[^>]*>/g, '')
     }
   }))
 } : null;
@@ -136,14 +142,14 @@ if (faqSchema) pageSchemas.push(faqSchema);
 ---
 <Layout 
   seo={{ 
-    title: post.frontmatter.metaTitle || post.frontmatter.title, 
-    description: post.frontmatter.metaDescription || post.frontmatter.description,
+    title: postData.metaTitle || postData.title, 
+    description: postData.metaDescription || postData.description || postData.title,
     ogType: 'article',
-    author: post.frontmatter.author
+    author: postData.author
   }} 
   schemas={pageSchemas}
-  publishedTime={post.frontmatter.date}
-  modifiedTime={post.frontmatter.lastUpdated || post.frontmatter.date}
+  publishedTime={postData.date}
+  modifiedTime={postData.lastUpdated || postData.date}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
@@ -152,13 +158,13 @@ if (faqSchema) pageSchemas.push(faqSchema);
       <!-- Main Content Column (8 Cols) -->
       <main class="lg:col-span-8">
         <Article 
-          title={post.frontmatter.title} 
-          date={post.frontmatter.date} 
-          author={post.frontmatter.author} 
-          readTime={post.frontmatter.readTime}
-          description={post.frontmatter.metaDescription}
+          title={postData.title} 
+          date={postData.date} 
+          author={postData.author} 
+          readTime={postData.readTime}
+          description={postData.metaDescription || postData.description}
         >
-          <!-- Table of Contents for Mobile screens (Collapsible / hidden on large desktops) -->
+          <!-- Table of Contents for Mobile screens -->
           <div class="block lg:hidden mb-8 rounded-2xl border border-hairline bg-canvas-soft p-5">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-3">Table of Contents</h2>
             <nav class="space-y-1.5 text-sm">
@@ -178,8 +184,8 @@ if (faqSchema) pageSchemas.push(faqSchema);
           <Content />
 
           <!-- FAQ Accordion section -->
-          {post.frontmatter.faqs && post.frontmatter.faqs.length > 0 && (
-            <FAQ items={post.frontmatter.faqs} />
+          {postData.faqs && postData.faqs.length > 0 && (
+            <FAQ items={postData.faqs} />
           )}
 
           <!-- Author Bio section -->
@@ -276,8 +282,6 @@ if (faqSchema) pageSchemas.push(faqSchema);
             </div>
           </div>
         )}
-
-
       </aside>
     </div>
   </div>

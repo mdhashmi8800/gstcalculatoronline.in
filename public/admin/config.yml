@@ -1,0 +1,133 @@
+backend:
+  name: github
+  repo: mdhashmi8800/gstcalculatoronline.in
+  branch: main
+  site_domain: gstcalculatoronline.in
+
+# Enable local backend proxy for offline development (npx decap-server)
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+display_url: https://gstcalculatoronline.in
+logo_url: https://gstcalculatoronline.in/favicon.png
+
+collections:
+  # --------------------------------------------------------------------------
+  # BLOG POSTS COLLECTION
+  # --------------------------------------------------------------------------
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} ({{date}})"
+    sortable_fields: ["date", "title", "lastUpdated"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Meta Title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta Description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
+      - { label: "Last Updated", name: "lastUpdated", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false, required: false }
+      - { label: "Author", name: "author", widget: "select", options: ["CA Amit Sharma", "CA Neha Patel", "Advocate Raj Malhotra"], default: "CA Amit Sharma" }
+      - { label: "Estimated Read Time", name: "readTime", widget: "string", default: "10 min read" }
+      - { label: "URL Slug", name: "slug", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["GST Basics", "Returns & Compliance", "Calculators & Rates", "Rates & Slabs", "Audit & Appeals", "Real Estate & Housing", "Sectoral GST", "Business & Startups"], default: "GST Basics" }
+      - { label: "Draft / Hide Post", name: "draft", widget: "boolean", default: false, required: false }
+
+      - label: "Related Calculators"
+        name: "relatedCalculators"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+
+      - label: "Related Articles"
+        name: "relatedArticles"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Article Title", name: "title", widget: "string" }
+          - { label: "Slug", name: "slug", widget: "string" }
+
+      - label: "Suggested Articles"
+        name: "suggestedArticles"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Article Title", name: "title", widget: "string" }
+          - { label: "Slug", name: "slug", widget: "string" }
+
+      - label: "Frequently Asked Questions (FAQs)"
+        name: "faqs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Question", name: "question", widget: "string" }
+          - { label: "Answer", name: "answer", widget: "text" }
+
+      - { label: "Post Body (Markdown)", name: "body", widget: "markdown" }
+
+  # --------------------------------------------------------------------------
+  # GUIDES COLLECTION
+  # --------------------------------------------------------------------------
+  - name: "guides"
+    label: "GST Guides & Manuals"
+    folder: "src/content/guides"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} ({{category}})"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Meta Title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta Description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false }
+      - { label: "Last Updated", name: "lastUpdated", widget: "datetime", format: "YYYY-MM-DD", dateFormat: "YYYY-MM-DD", timeFormat: false, required: false }
+      - { label: "Author", name: "author", widget: "select", options: ["CA Amit Sharma", "CA Neha Patel", "Advocate Raj Malhotra"], default: "CA Amit Sharma" }
+      - { label: "Estimated Read Time", name: "readTime", widget: "string", default: "15 min read" }
+      - { label: "URL Slug", name: "slug", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Tax Compliance", "Business Registration", "Invoicing & E-Way Bill", "Input Tax Credit"], default: "Tax Compliance" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false }
+
+      - label: "Frequently Asked Questions (FAQs)"
+        name: "faqs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Question", name: "question", widget: "string" }
+          - { label: "Answer", name: "answer", widget: "text" }
+
+      - { label: "Guide Body (Markdown)", name: "body", widget: "markdown" }
+
+  # --------------------------------------------------------------------------
+  # CALCULATORS CONTENT COLLECTION
+  # --------------------------------------------------------------------------
+  - name: "calculators"
+    label: "Calculator Pages"
+    folder: "src/content/calculators"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Meta Title", name: "metaTitle", widget: "string", required: false }
+      - { label: "Meta Description", name: "metaDescription", widget: "text", required: false }
+      - { label: "Calculator ID / Tool Slug", name: "calculatorId", widget: "string" }
+      - { label: "Category", name: "category", widget: "string", default: "Calculators" }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false }
+
+      - label: "Frequently Asked Questions (FAQs)"
+        name: "faqs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Question", name: "question", widget: "string" }
+          - { label: "Answer", name: "answer", widget: "text" }
+
+      - { label: "Page Content (Markdown)", name: "body", widget: "markdown" }

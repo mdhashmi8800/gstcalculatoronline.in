@@ -13,6 +13,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
     redirectNeeded = true;
   }
 
+  // Special handling for admin and tools routes
+  if (targetPath.startsWith('/admin') || targetPath.startsWith('/tools')) {
+    return next();
+  }
+
   // 2. Redirect trailing slashes to non-trailing slashes (except root '/')
   if (targetPath.length > 1 && targetPath.endsWith('/')) {
     targetPath = targetPath.slice(0, -1);

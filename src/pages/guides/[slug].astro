@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Article from '../../components/Article.astro';
+import FAQ from '../../components/FAQ.astro';
+import { getCollection, render } from 'astro:content';
+
+const AUTHORS: Record<string, { name: string; designation: string; bio: string }> = {
+  "CA Amit Sharma": {
+    name: "CA Amit Sharma",
+    designation: "Chartered Accountant & Indirect Tax Advisor",
+    bio: "CA Amit Sharma is a seasoned Chartered Accountant with over 12 years of experience in GST advisory, corporate audits, and tax planning."
+  },
+  "CA Neha Patel": {
+    name: "CA Neha Patel",
+    designation: "Chartered Accountant & Compliance Expert",
+    bio: "CA Neha Patel holds a Master's in Finance and has guided over 500 startups and small businesses through GST registrations and compliance."
+  },
+  "Advocate Raj Malhotra": {
+    name: "Advocate Raj Malhotra",
+    designation: "Senior GST Litigation Advocate",
+    bio: "Advocate Raj Malhotra practices before various High Courts and GST Appellate Tribunals, specializing in complex tax assessment disputes and audits."
+  }
+};
+
+export async function getStaticPaths() {
+  const allGuides = await getCollection('guides');
+  const now = Date.now();
+  const publishedGuides = allGuides.filter(g => {
+    if (import.meta.env.DEV) return true;
+    if (g.data.draft) return false;
+    if (g.data.date && new Date(g.data.date).getTime() > now) return false;
+    return true;
+  });
+
+  return publishedGuides.map(entry => ({
+    params: { slug: entry.data.slug || entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const guideData = entry.data;
+const guideSlug = guideData.slug || entry.slug;
+
+const guideUrl = `https://gstcalculatoronline.in/guides/${guideSlug}`;
+const enrichedSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": guideData.metaTitle || guideData.title,
+  "description": guideData.metaDescription || guideData.title,
+  "datePublished": guideData.date,
+  "dateModified": guideData.lastUpdated || guideData.date,
+  "author": {
+    "@type": "Person",
+    "name": guideData.author
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": guideUrl
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "GST Calculator Online",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://gstcalculatoronline.in/favicon.png"
+    }
+  }
+};
+
+const authorDetails = AUTHORS[guideData.author] || null;
+
+const faqSchema = guideData.faqs && guideData.faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": guideData.faqs.map((faq: any) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer.replace(/<[^>]*>/g, '')
+    }
+  }))
+} : null;
+
+const pageSchemas: Record<string, any>[] = [enrichedSchema];
+if (faqSchema) pageSchemas.push(faqSchema);
+---
+<Layout 
+  seo={{ 
+    title: guideData.metaTitle || guideData.title, 
+    description: guideData.metaDescription || guideData.title,
+    ogType: 'article',
+    author: guideData.author
+  }} 
+  schemas={pageSchemas}
+  publishedTime={guideData.date}
+  modifiedTime={guideData.lastUpdated || guideData.date}
+>
+  <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Breadcrumbs />
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
+      <main class="lg:col-span-8">
+        <Article 
+          title={guideData.title} 
+          date={guideData.date} 
+          author={guideData.author} 
+          readTime={guideData.readTime}
+          description={guideData.metaDescription}
+        >
+          <Content />
+
+          {guideData.faqs && guideData.faqs.length > 0 && (
+            <FAQ items={guideData.faqs} />
+          )}
+
+          {authorDetails && (
+            <section class="mt-12 rounded-2xl border border-hairline bg-canvas-soft p-6 flex flex-col sm:flex-row gap-4 items-start no-print">
+              <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg border border-hairline shrink-0 font-mono">
+                {authorDetails.name.split(' ').map((n) => n[0]).join('')}
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-ink">{authorDetails.name}</div>
+                <div class="text-xs text-mute font-mono">{authorDetails.designation}</div>
+                <p class="text-xs text-body mt-2 leading-relaxed">{authorDetails.bio}</p>
+              </div>
+            </section>
+          )}
+        </Article>
+      </main>
+
+      <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start no-print">
+        {headings && headings.length > 0 && (
+          <div class="hidden lg:block rounded-2xl border border-hairline bg-canvas p-5 shadow-xs">
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Table of Contents</h2>
+            <nav class="space-y-2 text-sm max-h-[300px] overflow-y-auto pr-1">
+              {headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
+                <a 
+                  href={`#${h.slug}`} 
+                  class="block text-mute hover:text-primary hover:underline transition-colors leading-relaxed"
+                  class:list={[{ "pl-4 text-xs": h.depth === 3, "font-medium text-body": h.depth === 2 }]}
+                >
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        )}
+      </aside>
+    </div>
+  </div>
+</Layout>
