@@ -11,19 +11,19 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 // CA & Advocate profiles for authors
 const AUTHORS = {
   amit: {
-    name: "CA Amit Sharma",
-    designation: "Chartered Accountant & Indirect Tax Advisor",
-    bio: "CA Amit Sharma is a seasoned Chartered Accountant with over 12 years of experience in GST advisory, corporate audits, and tax planning. He specializes in Input Tax Credit optimizations and structuring B2B transactions for SMEs."
+    name: "Hashmi Akbar",
+    designation: "Senior GST & Indirect Tax Specialist",
+    bio: "Hashmi Akbar is a seasoned tax advisor with extensive experience in GST advisory, corporate audits, and tax planning. He specializes in Input Tax Credit optimizations and structuring B2B transactions for SMEs."
   },
   neha: {
-    name: "CA Neha Patel",
-    designation: "Chartered Accountant & Compliance Expert",
-    bio: "CA Neha Patel holds a Master's in Finance and has guided over 500 startups and small businesses through GST registrations, GSTR-1 & 3B compliance, and composition scheme conversions."
+    name: "Anjum Mina",
+    designation: "GST Compliance & Financial Advisor",
+    bio: "Anjum Mina holds a Master's in Finance and has guided over 500 startups and small businesses through GST registrations, GSTR-1 & 3B compliance, and composition scheme conversions."
   },
   raj: {
-    name: "Advocate Raj Malhotra",
-    designation: "Senior GST Litigation Advocate",
-    bio: "Advocate Raj Malhotra practices before various High Courts and GST Appellate Tribunals. With a decade of litigation experience, he represents clients in complex tax assessment disputes, audits, and refund claims."
+    name: "Mehakma",
+    designation: "GST Legal & Policy Analyst",
+    bio: "Mehakma practices before tax regulatory bodies and Appellate Tribunals. With years of experience, she represents clients in complex tax assessment disputes, audits, and refund claims."
   }
 };
 

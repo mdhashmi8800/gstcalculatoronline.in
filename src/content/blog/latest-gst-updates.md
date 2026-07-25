@@ -4,7 +4,7 @@ metaTitle: "Latest GST Updates 2026: Council Decisions, Rate Changes & CBIC Amen
 metaDescription: "Comprehensive summary of the latest GST Council decisions and CBIC amendments for 2025-2026. Covers late fee rationalization, e-invoicing thresholds, ITC rule changes, rate revisions, and new compliance requirements."
 date: "2026-07-14"
 lastUpdated: "2026-07-18"
-author: "Advocate Raj Malhotra"
+author: "Mehakma"
 readTime: "12 min read"
 slug: "latest-gst-updates"
 category: "GST Compliance"

@@ -4,7 +4,7 @@ metaTitle: "GST on Gold Jewellery in India: 3% Rate, Making Charges & HSN Codes 
 metaDescription: "Complete guide to GST on gold in India. Understand the 3% GST on gold, 5% on making charges, HSN codes for jewellery, ITC eligibility, import duty structure, and GST on gold loans."
 date: "2026-07-10"
 lastUpdated: "2026-07-18"
-author: "CA Amit Sharma"
+author: "Hashmi Akbar"
 readTime: "10 min read"
 slug: "gst-on-gold"
 category: "GST Basics"
