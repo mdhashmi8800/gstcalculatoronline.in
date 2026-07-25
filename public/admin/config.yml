@@ -5,6 +5,8 @@ backend:
   base_url: https://gstcalculatoronline.in
   auth_endpoint: /api/auth
 
+publish_mode: editorial_workflow
+
 # Enable local backend proxy for offline development (npx decap-server)
 local_backend: true
 
