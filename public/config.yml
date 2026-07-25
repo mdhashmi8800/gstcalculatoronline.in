@@ -2,7 +2,8 @@ backend:
   name: github
   repo: mdhashmi8800/gstcalculatoronline.in
   branch: main
-  site_domain: gstcalculatoronline.in
+  base_url: https://gstcalculatoronline.in
+  auth_endpoint: /api/auth
 
 # Enable local backend proxy for offline development (npx decap-server)
 local_backend: true
