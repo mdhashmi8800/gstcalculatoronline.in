@@ -2,28 +2,32 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-function getEnv(locals: any): Record<string, string | undefined> {
-  const env: Record<string, string | undefined> = {};
-
+function getEnvVal(locals: any, key: string): string | undefined {
   try {
-    if (import.meta && import.meta.env) {
-      Object.assign(env, import.meta.env);
+    if (locals?.runtime?.env && locals.runtime.env[key]) {
+      return locals.runtime.env[key];
     }
   } catch {}
 
   try {
-    if (typeof process !== 'undefined' && process.env) {
-      Object.assign(env, process.env);
+    if (import.meta?.env?.[key]) {
+      return import.meta.env[key];
     }
   } catch {}
 
   try {
-    if (locals && locals.runtime && locals.runtime.env) {
-      Object.assign(env, locals.runtime.env);
+    if (typeof process !== 'undefined' && process.env && process.env[key]) {
+      return process.env[key];
     }
   } catch {}
 
-  return env;
+  try {
+    if ((globalThis as any)?.[key]) {
+      return (globalThis as any)[key];
+    }
+  } catch {}
+
+  return undefined;
 }
 
 export const GET: APIRoute = async ({ locals, url }) => {
@@ -32,9 +36,9 @@ export const GET: APIRoute = async ({ locals, url }) => {
     return new Response('Missing code parameter in authorization callback.', { status: 400 });
   }
 
-  const env = getEnv(locals);
-  const clientId = env.GITHUB_CLIENT_ID;
-  const clientSecret = env.GITHUB_CLIENT_SECRET;
+  const clientId = getEnvVal(locals, 'GITHUB_CLIENT_ID');
+  const clientSecret = getEnvVal(locals, 'GITHUB_CLIENT_SECRET');
+
 
   if (!clientId || !clientSecret) {
     return new Response('GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET is missing from server environment.', { status: 500 });
