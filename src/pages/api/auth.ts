@@ -2,8 +2,32 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
+function getEnv(locals: any): Record<string, string | undefined> {
+  const env: Record<string, string | undefined> = {};
+
+  try {
+    if (import.meta && import.meta.env) {
+      Object.assign(env, import.meta.env);
+    }
+  } catch {}
+
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      Object.assign(env, process.env);
+    }
+  } catch {}
+
+  try {
+    if (locals && locals.runtime && locals.runtime.env) {
+      Object.assign(env, locals.runtime.env);
+    }
+  } catch {}
+
+  return env;
+}
+
 export const GET: APIRoute = async ({ locals }) => {
-  const env = (locals as any).runtime?.env || (process as any).env || {};
+  const env = getEnv(locals);
   const clientId = env.GITHUB_CLIENT_ID;
 
   if (!clientId) {
@@ -24,8 +48,8 @@ export const GET: APIRoute = async ({ locals }) => {
       <body>
         <div class="card">
           <h2>Configuration Required</h2>
-          <p>Decap CMS GitHub OAuth needs <code>GITHUB_CLIENT_ID</code> and <code>GITHUB_CLIENT_SECRET</code> to be set in Cloudflare Worker secrets.</p>
-          <p>Please add these secrets in Cloudflare Dashboard or run <code>npx wrangler secret put GITHUB_CLIENT_ID</code>.</p>
+          <p>Decap CMS GitHub OAuth requires <code>GITHUB_CLIENT_ID</code> and <code>GITHUB_CLIENT_SECRET</code> to be set in Cloudflare Worker environment/secrets.</p>
+          <p>Please add these secrets in Cloudflare Dashboard (Workers &gt; Settings &gt; Variables &amp; Secrets) or run <code>npx wrangler secret put GITHUB_CLIENT_ID</code>.</p>
         </div>
       </body>
       </html>
@@ -39,3 +63,4 @@ export const GET: APIRoute = async ({ locals }) => {
   const redirectUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo`;
   return Response.redirect(redirectUrl, 302);
 };
+
