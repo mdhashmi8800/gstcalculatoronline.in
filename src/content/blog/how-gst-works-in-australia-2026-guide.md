@@ -7,7 +7,7 @@ metaDescription: Learn how GST works in Australia in 2026 — the 10% rate, the
 date: 2026-07-26
 author: Hashmi Akbar
 readTime: 10 min read
-slug: /how-gst-works-in-australia-2026-guide
+slug: how-gst-works-in-australia-2026-guide
 category: GST Basics
 draft: false
 ---

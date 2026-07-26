@@ -1,6 +1,13 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+const dateSchema = z.union([z.string(), z.date()]).transform((val) => {
+  if (val instanceof Date) {
+    return val.toISOString().split('T')[0];
+  }
+  return String(val);
+});
+
 const blogCollection = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/blog' }),
   schema: z.object({
@@ -8,8 +15,8 @@ const blogCollection = defineCollection({
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
     description: z.string().optional(),
-    date: z.string(),
-    lastUpdated: z.string().optional(),
+    date: dateSchema,
+    lastUpdated: dateSchema.optional(),
     author: z.string().default('Hashmi Akbar'),
     readTime: z.string().optional(),
     slug: z.string().optional(),
@@ -40,8 +47,8 @@ const guidesCollection = defineCollection({
     title: z.string(),
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
-    date: z.string(),
-    lastUpdated: z.string().optional(),
+    date: dateSchema,
+    lastUpdated: dateSchema.optional(),
     author: z.string().default('Hashmi Akbar'),
     readTime: z.string().optional(),
     slug: z.string().optional(),
