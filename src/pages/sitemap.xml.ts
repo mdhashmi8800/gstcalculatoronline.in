@@ -2,6 +2,25 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { getAllPosts } from '../lib/wordpress';
 
+/**
+ * Converts any date value to a YYYY-MM-DD string safe for sitemaps.
+ * WordPress can return "0000-00-00 00:00:00", Date objects, full ISO strings, etc.
+ * Falls back to today's date if the value is missing or invalid.
+ */
+function toSitemapDate(raw: string | Date | null | undefined, fallback: string): string {
+  if (!raw) return fallback;
+  try {
+    const d = raw instanceof Date ? raw : new Date(String(raw).trim());
+    if (isNaN(d.getTime())) return fallback;
+    const year = d.getUTCFullYear();
+    // Reject absurd years (WordPress "0000-00-00" parses to year 0 or negative)
+    if (year < 2000 || year > 2100) return fallback;
+    return d.toISOString().split('T')[0]; // YYYY-MM-DD
+  } catch {
+    return fallback;
+  }
+}
+
 export const GET: APIRoute = async () => {
   const today = new Date().toISOString().split('T')[0];
 
@@ -49,7 +68,7 @@ export const GET: APIRoute = async () => {
     url: `https://gstcalculatoronline.in/blog/${post.slug.toLowerCase()}`,
     changefreq: 'weekly' as const,
     priority: '0.6',
-    lastmod: post.modified || post.date || today
+    lastmod: toSitemapDate(post.modified || post.date, today)
   }));
 
   const allGuides = await getCollection('guides');
@@ -64,7 +83,7 @@ export const GET: APIRoute = async () => {
     url: `https://gstcalculatoronline.in/guides/${(guide.data.slug || guide.slug).toLowerCase()}`,
     changefreq: 'weekly' as const,
     priority: '0.6',
-    lastmod: guide.data.lastUpdated || guide.data.date || today
+    lastmod: toSitemapDate(guide.data.lastUpdated || guide.data.date, today)
   }));
 
   const toolCategoryPages = [
