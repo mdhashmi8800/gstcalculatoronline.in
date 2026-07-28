@@ -1,75 +1,38 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { getCollection } from 'astro:content';
+import { getAllPosts, formatDateShort } from '../../../lib/wordpress';
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('blog');
-  const now = Date.now();
-  const publishedPosts = allPosts.filter(p => {
-    if (import.meta.env.DEV) return true;
-    if (p.data.draft) return false;
-    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
-    return true;
-  });
-
-  const slugify = (text: string) => text.toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-
-  const categoriesMap = new Map<string, string>();
-  publishedPosts.forEach((post) => {
-    const name = post.data.category || 'General';
-    const slug = slugify(name);
-    if (!categoriesMap.has(slug)) {
-      categoriesMap.set(slug, name);
-    }
-  });
-
-  return Array.from(categoriesMap.entries()).map(([slug, name]) => ({
+  const allPosts = await getAllPosts();
+  const slugs = new Set(allPosts.flatMap(p => p.categories.map(c => c.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))));
+  return Array.from(slugs).map(slug => ({
     params: { category: slug },
-    props: { categoryName: name, allPosts: publishedPosts }
+    props: { allPosts }
   }));
 }
 
 const { category } = Astro.params;
-const { categoryName, allPosts } = Astro.props;
-
-const slugify = (text: string) => text.toLowerCase()
-  .replace(/\s+/g, '-')
-  .replace(/[^\w\-]+/g, '')
-  .replace(/\-\-+/g, '-')
-  .replace(/^-+/, '')
-  .replace(/-+$/, '');
+const { allPosts } = Astro.props;
 
 const filteredPosts = allPosts
-  .filter((post) => slugify(post.data.category || 'General') === category)
-  .map((post) => ({
-    title: post.data.title,
-    slug: post.data.slug || post.slug,
-    date: post.data.date,
-    author: post.data.author,
-    readTime: post.data.readTime,
-    desc: post.data.metaDescription || post.data.description || post.data.title
-  }))
+  .filter((post) => {
+    const catSlugs = post.categories.map(c => c.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''));
+    return catSlugs.includes(category!);
+  })
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 function formatDate(dateStr: string) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric'
   });
 }
 ---
-<Layout 
-  seo={{ 
-    title: `${categoryName} GST Guides & Tax Articles | GST Calculator Online`, 
-    description: `Explore all expert GST articles, guides, and tax filing resources under ${categoryName}. Verified by CAs and legal advisors.` 
+
+<Layout
+  seo={{
+    title: `GST Calculator Guides & Tax Articles | GST Calculator Online`,
+    description: `Explore expert GST articles, guides, and tax filing resources. Verified by CAs and legal advisors.`
   }}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -79,9 +42,9 @@ function formatDate(dateStr: string) {
       <div class="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-mono font-semibold text-primary mb-3">
         Category Archives
       </div>
-      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">{categoryName}</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">GST Calculator</h1>
       <p class="mt-2 text-base text-body max-w-2xl mx-auto">
-        Showing {filteredPosts.length} expert guides under {categoryName}.
+        Showing {filteredPosts.length} expert guides.
       </p>
     </header>
 
@@ -92,16 +55,26 @@ function formatDate(dateStr: string) {
             href={`/blog/${post.slug}`}
             class="flex flex-col justify-between overflow-hidden rounded-xl border border-hairline bg-canvas p-6 hover:border-hairline-strong hover:shadow-md hover:bg-canvas-soft transition-all duration-200 group cursor-pointer"
           >
+            {post.featuredImage && (
+              <div class="relative h-36 overflow-hidden -mx-6 -mt-6 mb-4">
+                <img
+                  src={post.featuredImage}
+                  alt={post.featuredImageAlt || post.title}
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            )}
             <div>
               <div class="flex items-center justify-between gap-2 text-xs font-mono text-mute mb-3">
-                <span class="text-primary font-semibold">{categoryName}</span>
-                <span>{post.readTime}</span>
+                <span class="text-primary font-semibold">{post.categories[0]}</span>
+                <span>{formatDateShort(post.date)}</span>
               </div>
               <h2 class="text-base font-semibold text-ink group-hover:text-link transition-colors line-clamp-2 leading-snug">
                 {post.title}
               </h2>
               <p class="mt-2 text-sm text-body leading-relaxed line-clamp-3">
-                {post.desc}
+                {post.excerpt}
               </p>
             </div>
             <div class="mt-5 border-t border-hairline pt-4 flex items-center justify-between">

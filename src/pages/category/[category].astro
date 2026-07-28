@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { tools } from '../../utils/tools';
+import { getAllPosts } from '../../lib/wordpress';
 
 export async function getStaticPaths() {
   const categories = [
@@ -44,26 +45,18 @@ const { cat } = Astro.props;
 // Filter tools belonging to this category
 const filteredTools = tools.filter(t => t.category === cat.slug);
 
-// Get related articles dynamically based on category
-const allPosts = Object.values(import.meta.glob('../../content/blog/*.md', { eager: true })) as any[];
-
-const categoryKeywordMap: Record<string, string[]> = {
-  'tax-slabs': ['what-is-gst', 'gst-rates-india-2026', 'hsn-code-guide-india', 'place-of-supply-gst-rules', 'value-of-supply-gst-rules'],
-  'late-fees': ['gst-penalties-late-fees-interest', 'gst-return-filing-checklist', 'gstr-3b-filing-step-by-step', 'eway-bill-system-guide'],
-  'interest-penalties': ['gst-penalties-late-fees-interest', 'input-tax-credit-itc-rules', 'gstr-2a-vs-gstr-2b-reconciliation'],
-  'composition-scheme': ['composition-scheme-gst-guide', 'gst-small-businesses-impact', 'gst-invoice-rules-format'],
-  'utilities': ['gst-invoice-rules-format', 'sac-code-services-guide', 'hsn-code-guide-india']
-};
-
-const targetSlugs = categoryKeywordMap[cat.slug] || ['what-is-gst'];
-const relatedArticles = allPosts
-  .filter(post => targetSlugs.includes(post.frontmatter.slug))
-  .map(post => ({
-    title: post.frontmatter.title,
-    slug: post.frontmatter.slug,
-    date: post.frontmatter.date,
-    readTime: post.frontmatter.readTime
+// Get related articles from WordPress
+let relatedArticles: Array<{ title: string; slug: string; date: string }> = [];
+try {
+  const posts = await getAllPosts();
+  relatedArticles = posts.slice(0, 4).map(p => ({
+    title: p.title,
+    slug: p.slug,
+    date: p.date,
   }));
+} catch {
+  relatedArticles = [];
+}
 
 const pageTitle = `${cat.name} - Free GST Tools`;
 const pageDesc = `${cat.desc} Fast, precise, and updated online financial tools according to the latest Indian GST rules.`;
@@ -113,7 +106,7 @@ const pageDesc = `${cat.desc} Fast, precise, and updated online financial tools 
                     {art.title}
                   </h4>
                   <div class="flex items-center gap-2 mt-1 text-[10px] text-mute font-mono">
-                    <span>{art.readTime}</span>
+                    <span>{new Date(art.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                   </div>
                 </a>
               ))}

@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+import { getAllPosts } from '../lib/wordpress';
 
 export const GET: APIRoute = async () => {
   const today = new Date().toISOString().split('T')[0];
-  const now = Date.now();
 
   const staticPages = [
     { url: 'https://gstcalculatoronline.in/', changefreq: 'daily', priority: '1.0', lastmod: today },
@@ -43,23 +43,17 @@ export const GET: APIRoute = async () => {
     { url: 'https://gstcalculatoronline.in/editorial-policy', changefreq: 'monthly', priority: '0.3', lastmod: today },
   ];
 
-  // Fetch published blog posts from content collection
-  const allBlogPosts = await getCollection('blog');
-  const publishedBlogPosts = allBlogPosts.filter(p => {
-    if (p.data.draft) return false;
-    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
-    return true;
-  });
+  const publishedBlogPosts = await getAllPosts();
 
   const dynamicBlogPages = publishedBlogPosts.map((post) => ({
-    url: `https://gstcalculatoronline.in/blog/${(post.data.slug || post.slug).toLowerCase()}`,
-    changefreq: 'weekly',
+    url: `https://gstcalculatoronline.in/blog/${post.slug.toLowerCase()}`,
+    changefreq: 'weekly' as const,
     priority: '0.6',
-    lastmod: post.data.lastUpdated || post.data.date || today
+    lastmod: post.modified || post.date || today
   }));
 
-  // Fetch published guides from content collection
   const allGuides = await getCollection('guides');
+  const now = Date.now();
   const publishedGuides = allGuides.filter(g => {
     if (g.data.draft) return false;
     if (g.data.date && new Date(g.data.date).getTime() > now) return false;
@@ -68,34 +62,11 @@ export const GET: APIRoute = async () => {
 
   const dynamicGuidePages = publishedGuides.map((guide) => ({
     url: `https://gstcalculatoronline.in/guides/${(guide.data.slug || guide.slug).toLowerCase()}`,
-    changefreq: 'weekly',
+    changefreq: 'weekly' as const,
     priority: '0.6',
     lastmod: guide.data.lastUpdated || guide.data.date || today
   }));
 
-  // Helper to slugify category names
-  const slugify = (text: string) => text.toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-
-  // Extract unique blog categories
-  const blogCategorySet = new Set<string>();
-  publishedBlogPosts.forEach((post) => {
-    const cat = post.data.category || 'General';
-    blogCategorySet.add(slugify(cat));
-  });
-
-  const dynamicBlogCategoryPages = Array.from(blogCategorySet).map((slug) => ({
-    url: `https://gstcalculatoronline.in/blog/category/${slug}`,
-    changefreq: 'weekly',
-    priority: '0.5',
-    lastmod: today
-  }));
-
-  // Static tool categories
   const toolCategoryPages = [
     { url: 'https://gstcalculatoronline.in/category/tax-slabs', changefreq: 'weekly', priority: '0.6', lastmod: today },
     { url: 'https://gstcalculatoronline.in/category/late-fees', changefreq: 'weekly', priority: '0.6', lastmod: today },
@@ -105,14 +76,12 @@ export const GET: APIRoute = async () => {
   ];
 
   const pages = [
-    ...staticPages, 
-    ...toolCategoryPages, 
-    ...dynamicBlogPages, 
-    ...dynamicGuidePages, 
-    ...dynamicBlogCategoryPages
+    ...staticPages,
+    ...toolCategoryPages,
+    ...dynamicBlogPages,
+    ...dynamicGuidePages,
   ];
 
-  // Deduplicate URLs
   const seen = new Set<string>();
   const uniquePages = pages.filter(p => {
     if (seen.has(p.url)) return false;

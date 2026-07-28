@@ -1,17 +1,11 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { getAllPosts } from '../lib/wordpress';
 import type { APIRoute } from 'astro';
 
 export const GET: APIRoute = async (context) => {
-  const blogPosts = await getCollection('blog');
   const guides = await getCollection('guides');
   const now = Date.now();
-
-  const publishedBlog = blogPosts.filter(p => {
-    if (p.data.draft) return false;
-    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
-    return true;
-  });
 
   const publishedGuides = guides.filter(g => {
     if (g.data.draft) return false;
@@ -19,13 +13,21 @@ export const GET: APIRoute = async (context) => {
     return true;
   });
 
+  let wpPosts: Array<{ title: string; pubDate: Date; description: string; link: string }> = [];
+  try {
+    const published = await getAllPosts();
+    wpPosts = published.map(p => ({
+      title: p.title,
+      pubDate: new Date(p.date),
+      description: p.excerpt || p.title,
+      link: `/blog/${p.slug}`,
+    }));
+  } catch {
+    // WordPress API unavailable; skip WP posts
+  }
+
   const items = [
-    ...publishedBlog.map(p => ({
-      title: p.data.title,
-      pubDate: new Date(p.data.date),
-      description: p.data.metaDescription || p.data.description || p.data.title,
-      link: `/blog/${p.data.slug || p.slug}`,
-    })),
+    ...wpPosts,
     ...publishedGuides.map(g => ({
       title: g.data.title,
       pubDate: new Date(g.data.date),

@@ -3,20 +3,24 @@ import Layout from '../layouts/Layout.astro';
 import ToolCard from '../components/ToolCard.astro';
 import FAQ from '../components/FAQ.astro';
 import { tools } from '../utils/tools';
+import { getAllPosts } from '../lib/wordpress';
 
 const pageTitle = "GST Calculator Online — Free CGST, SGST & IGST Calculator India";
 const pageDesc = "India's fastest GST calculator. Add or remove GST at 5%, 12%, 18%, 28% rates. Get CGST, SGST and IGST splits instantly. Free, accurate, and updated with latest GST rules. No login required.";
 
-// Load latest 3 articles from blog content
-const posts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
-const latestArticles = posts.map(post => ({
-  title: post.frontmatter.title,
-  slug: post.frontmatter.slug,
-  date: post.frontmatter.date,
-  readTime: post.frontmatter.readTime,
-  category: post.frontmatter.category || 'Guides',
-  desc: post.frontmatter.metaDescription || post.frontmatter.description
-})).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3);
+let latestArticles: Array<{ title: string; slug: string; date: string; category: string; desc: string }> = [];
+try {
+  const posts = await getAllPosts();
+  latestArticles = posts.slice(0, 3).map(p => ({
+    title: p.title,
+    slug: p.slug,
+    date: p.date,
+    category: p.categories[0] || 'Guides',
+    desc: p.excerpt || p.title,
+  }));
+} catch {
+  latestArticles = [];
+}
 
 function formatDate(dateStr: string) {
   const date = new Date(dateStr);

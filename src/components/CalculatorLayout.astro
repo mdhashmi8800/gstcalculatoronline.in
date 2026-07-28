@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import type { SEOMetadata } from '../utils/seo';
 import { tools } from '../utils/tools';
+import { getAllPosts } from '../lib/wordpress';
 
 interface FaqItem {
   question: string;
@@ -19,44 +20,43 @@ interface Props {
 
 const { title, description, seo, schema, faqs } = Astro.props;
 
-// Infer the current tool from the pathname
 const currentPath = Astro.url.pathname;
 const currentTool = tools.find(t => t.url === currentPath || `${t.url}/` === currentPath);
 
-// Related Calculators: other calculators in the same category, or fallback to popular tools
-const relatedCalculators = currentTool 
+const relatedCalculators = currentTool
   ? tools.filter(t => t.category === currentTool.category && t.id !== currentTool.id)
   : tools.slice(0, 3);
 
-// Fetch all articles to find matching tax guides
-const allPosts = Object.values(import.meta.glob('../content/blog/*.md', { eager: true })) as any[];
-
-// Filter blog posts that explicitly reference this calculator or fall back to category posts
-let relatedArticles = currentTool
-  ? allPosts.filter(post => {
-      const postCalcs = post.frontmatter.relatedCalculators || [];
-      return postCalcs.some((c: any) => c.url === currentTool.url || c.name.toLowerCase() === currentTool.name.toLowerCase());
-    })
-  : [];
-
-// If we don't have enough matching guides, fill with posts matching similar keywords or GST Basics
-if (relatedArticles.length < 3) {
-  const existingSlugs = relatedArticles.map(p => p.frontmatter.slug);
-  const fallbackCategory = currentTool?.category === 'late-fees' || currentTool?.category === 'interest-penalties' 
-    ? 'GST Compliance' 
-    : 'GST Basics';
-
-  const fallbacks = allPosts.filter(post => 
-    !existingSlugs.includes(post.frontmatter.slug) && 
-    (post.frontmatter.category === fallbackCategory || post.frontmatter.category === 'GST Basics')
-  );
-
-  relatedArticles = [...relatedArticles, ...fallbacks].slice(0, 3);
-} else {
-  relatedArticles = relatedArticles.slice(0, 3);
+interface RelatedArticle {
+  frontmatter: {
+    slug: string;
+    title: string;
+    category: string;
+  };
 }
 
-// Build FAQPage schema if faqs are provided
+let relatedArticles: RelatedArticle[] = [];
+try {
+  const posts = await getAllPosts();
+  const matching = currentTool
+    ? posts.filter(p => p.slug && p.title.toLowerCase().includes(currentTool.name.toLowerCase()))
+    : [];
+
+  const fallback = posts
+    .filter(p => !matching.some(m => m.slug === p.slug))
+    .slice(0, 3);
+
+  relatedArticles = [...matching, ...fallback].slice(0, 3).map(p => ({
+    frontmatter: {
+      slug: p.slug,
+      title: p.title,
+      category: p.categories[0] || 'Guide',
+    }
+  }));
+} catch {
+  relatedArticles = [];
+}
+
 const faqPageSchema = faqs && faqs.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -65,48 +65,40 @@ const faqPageSchema = faqs && faqs.length > 0 ? {
     "name": faq.question,
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": faq.answer.replace(/<[^>]*>/g, '') // strip HTML for schema
+      "text": faq.answer.replace(/<[^>]*>/g, '')
     }
   }))
 } : null;
 
-// Combine all page-level schemas into array
 const pageSchemas: Record<string, any>[] = [];
 if (schema) pageSchemas.push(schema);
 if (faqPageSchema) pageSchemas.push(faqPageSchema);
 ---
 <Layout seo={seo || { title, description }} schemas={pageSchemas}>
   <div class="mx-auto max-w-7xl px-4 py-4 md:py-8 sm:px-6 lg:px-8">
-    <!-- Breadcrumbs -->
     <Breadcrumbs />
 
-    <!-- Page Header -->
     <header class="mb-5 mt-2 md:mb-8 md:mt-6">
       <h1 class="text-2xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
       <p class="mt-2 text-base text-body max-w-3xl leading-relaxed">{description}</p>
     </header>
 
-    <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 items-start">
-      <!-- Inputs block (Order 1 on mobile, 7 cols on desktop) -->
       <div class="order-1 lg:col-span-7 bg-canvas rounded-2xl border border-hairline p-4 sm:p-6 shadow-xs">
         <slot />
       </div>
 
-      <!-- Results block (Order 2 on mobile, 5 cols and sticky on desktop) -->
       <div class="order-2 lg:col-span-5 lg:row-span-3 lg:sticky lg:top-24 space-y-6">
         <slot name="results" />
 
-        <!-- Related Widgets (Desktop Only) -->
         <div class="hidden lg:block space-y-6">
-          <!-- Related Calculators Widget -->
           {relatedCalculators.length > 0 && (
             <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
               <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Calculators</h2>
               <div class="space-y-3">
                 {relatedCalculators.slice(0, 4).map((calc) => (
-                  <a 
-                    href={calc.url} 
+                  <a
+                    href={calc.url}
                     class="flex items-center justify-between p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
                   >
                     <div class="shrink">
@@ -122,13 +114,12 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
             </div>
           )}
 
-          <!-- Related Guides Widget -->
           {relatedArticles.length > 0 && (
             <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
               <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Tax Guides</h2>
               <div class="space-y-3">
                 {relatedArticles.map((art) => (
-                  <a 
+                  <a
                     href={`/blog/${art.frontmatter.slug}`}
                     class="block p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
                   >
@@ -142,7 +133,6 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
         </div>
       </div>
 
-      <!-- Educational Content (Order 3 on mobile, 7 cols below inputs on desktop) -->
       {Astro.slots.has('content') && (
         <div class="order-3 lg:col-span-7 border-t border-hairline pt-6 md:pt-8">
           <div class="prose dark:prose-invert max-w-none">
@@ -151,16 +141,14 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
         </div>
       )}
 
-      <!-- Related Widgets (Mobile Only, Order 4) -->
       <div class="order-4 lg:hidden w-full space-y-6">
-        <!-- Related Calculators Widget -->
         {relatedCalculators.length > 0 && (
           <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Calculators</h2>
             <div class="space-y-3">
               {relatedCalculators.slice(0, 4).map((calc) => (
-                <a 
-                  href={calc.url} 
+                <a
+                  href={calc.url}
                   class="flex items-center justify-between p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
                 >
                   <div class="shrink">
@@ -176,13 +164,12 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
           </div>
         )}
 
-        <!-- Related Guides Widget -->
         {relatedArticles.length > 0 && (
           <div class="rounded-2xl border border-hairline bg-canvas p-4 sm:p-6 shadow-xs no-print">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Related Tax Guides</h2>
             <div class="space-y-3">
               {relatedArticles.map((art) => (
-                <a 
+                <a
                   href={`/blog/${art.frontmatter.slug}`}
                   class="block p-3.5 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 transition-all group"
                 >

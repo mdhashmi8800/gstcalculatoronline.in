@@ -1,16 +1,10 @@
 import { tools } from '../utils/tools';
 import { faqs } from '../utils/faqs';
 import { getCollection } from 'astro:content';
+import { getAllPosts } from '../lib/wordpress';
 
 export async function GET() {
   const now = Date.now();
-
-  const blogPosts = await getCollection('blog');
-  const publishedBlog = blogPosts.filter(p => {
-    if (p.data.draft) return false;
-    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
-    return true;
-  });
 
   const guides = await getCollection('guides');
   const publishedGuides = guides.filter(g => {
@@ -19,8 +13,23 @@ export async function GET() {
     return true;
   });
 
+  let wpPosts: Array<{ title: string; desc: string; url: string; category: string; type: 'article'; keywords: string; badge: string }> = [];
+  try {
+    const published = await getAllPosts();
+    wpPosts = published.map(p => ({
+      title: p.title,
+      desc: p.excerpt || p.title,
+      url: `/blog/${p.slug}`,
+      category: p.categories[0] || 'Tax Guides',
+      type: 'article' as const,
+      keywords: `${p.title} ${p.categories.join(' ')} ${p.excerpt}`.toLowerCase(),
+      badge: ''
+    }));
+  } catch {
+    // WordPress API unavailable
+  }
+
   const searchItems = [
-    // Tools
     ...tools.map(t => ({
       title: t.name,
       desc: t.desc,
@@ -31,18 +40,8 @@ export async function GET() {
       badge: t.badge || ''
     })),
 
-    // Blog posts
-    ...publishedBlog.map(p => ({
-      title: p.data.title,
-      desc: p.data.metaDescription || p.data.description || p.data.title,
-      url: `/blog/${p.data.slug || p.slug}`,
-      category: p.data.category || 'Tax Guides',
-      type: 'article' as const,
-      keywords: `${p.data.title} ${p.data.category || ''} ${p.data.metaDescription || ''}`.toLowerCase(),
-      badge: p.data.readTime || ''
-    })),
+    ...wpPosts,
 
-    // Guides
     ...publishedGuides.map(g => ({
       title: g.data.title,
       desc: g.data.metaDescription || g.data.title,
@@ -53,7 +52,6 @@ export async function GET() {
       badge: g.data.readTime || ''
     })),
 
-    // FAQs
     ...faqs.map(f => ({
       title: f.question,
       desc: f.answer,

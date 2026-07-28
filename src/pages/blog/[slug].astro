@@ -2,9 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Article from '../../components/Article.astro';
-import FAQ from '../../components/FAQ.astro';
-import { tools } from '../../utils/tools';
-import { getCollection, render } from 'astro:content';
+import { getAllPosts, getPost, getRelatedPosts, formatDate } from '../../lib/wordpress';
 
 const AUTHORS: Record<string, { name: string; designation: string; bio: string }> = {
   "Hashmi Akbar": {
@@ -25,38 +23,34 @@ const AUTHORS: Record<string, { name: string; designation: string; bio: string }
 };
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection('blog');
-  const now = Date.now();
-  const publishedPosts = allPosts.filter(p => {
-    if (import.meta.env.DEV) return true;
-    if (p.data.draft) return false;
-    if (p.data.date && new Date(p.data.date).getTime() > now) return false;
-    return true;
-  });
-
-  return publishedPosts.map((entry) => ({
-    params: { slug: entry.data.slug || entry.slug },
-    props: { entry, allPosts: publishedPosts }
+  const allPosts = await getAllPosts();
+  if (allPosts.length === 0) return [];
+  return allPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { slug: post.slug }
   }));
 }
 
-const { entry, allPosts } = Astro.props;
-const { Content, headings } = await render(entry);
-const postData = entry.data;
-const postSlug = postData.slug || entry.slug;
+const { slug } = Astro.params;
+const post = await getPost(slug!);
+const allPosts = await getAllPosts();
 
-// Dynamic SEO and Schemas
-const articleUrl = `https://gstcalculatoronline.in/blog/${postSlug}`;
+if (!post) {
+  return Astro.redirect('/404', 404);
+}
+
+const articleUrl = `https://gstcalculatoronline.in/blog/${post.slug}`;
+
 const enrichedSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": postData.metaTitle || postData.title,
-  "description": postData.metaDescription || postData.description || postData.title,
-  "datePublished": postData.date,
-  "dateModified": postData.lastUpdated || postData.date,
+  "headline": post.title,
+  "description": post.excerpt || post.title,
+  "datePublished": post.date,
+  "dateModified": post.modified,
   "author": {
     "@type": "Person",
-    "name": postData.author
+    "name": post.author
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -70,125 +64,75 @@ const enrichedSchema = {
       "url": "https://gstcalculatoronline.in/favicon.png"
     }
   },
-  "image": "https://gstcalculatoronline.in/og-image.png"
+  "image": post.featuredImage || "https://gstcalculatoronline.in/og-image.png"
 };
 
-const authorDetails = AUTHORS[postData.author] || null;
+const authorDetails = AUTHORS[post.author] || null;
 
-// Get latest 4 posts (excluding current post)
 const latestPosts = allPosts
-  .filter((p) => (p.data.slug || p.slug) !== postSlug)
-  .map((p) => ({
-    title: p.data.title,
-    slug: p.data.slug || p.slug,
-    date: p.data.date,
-    readTime: p.data.readTime,
-    category: p.data.category || 'Guides'
-  }))
+  .filter((p) => p.slug !== post.slug)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, 4);
 
-// Dynamic Related Calculators
-let relatedCalculators = postData.relatedCalculators || [];
-if (relatedCalculators.length === 0) {
-  const blogCategory = postData.category || '';
-  let targetCalcCategory: 'tax-slabs' | 'late-fees' | 'interest-penalties' | 'composition-scheme' = 'tax-slabs';
-  if (blogCategory.includes('Compliance') || blogCategory.includes('Audit')) {
-    targetCalcCategory = 'late-fees';
-  } else if (blogCategory.includes('Credit') || blogCategory.includes('Refund')) {
-    targetCalcCategory = 'interest-penalties';
-  } else if (blogCategory.includes('Business')) {
-    targetCalcCategory = 'composition-scheme';
-  }
-
-  relatedCalculators = tools
-    .filter(t => t.category === targetCalcCategory)
-    .slice(0, 3)
-    .map(t => ({ name: t.name, url: t.url }));
-}
-
-// Dynamic Related Articles
-let relatedArticles = postData.relatedArticles || [];
-if (relatedArticles.length === 0) {
-  relatedArticles = allPosts
-    .filter((p) => p.data.category === postData.category && (p.data.slug || p.slug) !== postSlug)
-    .slice(0, 2)
-    .map((p) => ({ title: p.data.title, slug: p.data.slug || p.slug }));
-}
-if (relatedArticles.length < 2) {
-  const existingSlugs = relatedArticles.map((a: any) => a.slug);
-  const fallbacks = allPosts
-    .filter((p) => (p.data.slug || p.slug) !== postSlug && !existingSlugs.includes(p.data.slug || p.slug) && p.data.category === 'GST Basics')
-    .slice(0, 2 - relatedArticles.length)
-    .map((p) => ({ title: p.data.title, slug: p.data.slug || p.slug }));
-  relatedArticles = [...relatedArticles, ...fallbacks];
-}
-
-const faqSchema = postData.faqs && postData.faqs.length > 0 ? {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": postData.faqs.map((faq: any) => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer.replace(/<[^>]*>/g, '')
-    }
-  }))
-} : null;
-
-const pageSchemas: Record<string, any>[] = [enrichedSchema];
-if (faqSchema) pageSchemas.push(faqSchema);
+const relatedArticles = allPosts
+  .filter((p) => p.slug !== post.slug)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 2);
 ---
-<Layout 
-  seo={{ 
-    title: postData.metaTitle || postData.title, 
-    description: postData.metaDescription || postData.description || postData.title,
+
+<Layout
+  seo={{
+    title: post.title,
+    description: post.excerpt || post.title,
     ogType: 'article',
-    author: postData.author
-  }} 
-  schemas={pageSchemas}
-  publishedTime={postData.date}
-  modifiedTime={postData.lastUpdated || postData.date}
+    ogImage: post.featuredImage || undefined,
+    author: post.author
+  }}
+  schemas={[enrichedSchema]}
+  publishedTime={post.date}
+  modifiedTime={post.modified}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <Breadcrumbs />
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
-      <!-- Main Content Column (8 Cols) -->
       <main class="lg:col-span-8">
-        <Article 
-          title={postData.title} 
-          date={postData.date} 
-          author={postData.author} 
-          readTime={postData.readTime}
-          description={postData.metaDescription || postData.description}
+        <Article
+          title={post.title}
+          date={formatDate(post.date)}
+          author={post.author}
+          description={post.excerpt}
         >
-          <!-- Table of Contents for Mobile screens -->
-          <div class="block lg:hidden mb-8 rounded-2xl border border-hairline bg-canvas-soft p-5">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-3">Table of Contents</h2>
-            <nav class="space-y-1.5 text-sm">
-              {headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
-                <a 
-                  href={`#${h.slug}`} 
-                  class="block text-primary hover:underline transition-colors leading-normal" 
-                  class:list={[{ "pl-4 text-xs text-mute": h.depth === 3 }]}
-                >
-                  {h.text}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          <!-- Main Markdown Article Body -->
-          <Content />
-
-          <!-- FAQ Accordion section -->
-          {postData.faqs && postData.faqs.length > 0 && (
-            <FAQ items={postData.faqs} />
+          {post.featuredImage && (
+            <div class="mb-8 -mx-4 sm:-mx-6 lg:-mx-8 rounded-xl overflow-hidden">
+              <img
+                src={post.featuredImage}
+                alt={post.featuredImageAlt || post.title}
+                class="w-full h-auto object-cover"
+                loading="eager"
+              />
+            </div>
           )}
 
-          <!-- Author Bio section -->
+          {post.headings.length > 0 && (
+            <div class="block lg:hidden mb-8 rounded-2xl border border-hairline bg-canvas-soft p-5">
+              <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-3">Table of Contents</h2>
+              <nav class="space-y-1.5 text-sm">
+                {post.headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
+                  <a
+                    href={`#${h.slug}`}
+                    class="block text-primary hover:underline transition-colors leading-normal"
+                    class:list={[{ "pl-4 text-xs text-mute": h.depth === 3 }]}
+                  >
+                    {h.text}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          )}
+
+          <Fragment set:html={post.content} />
+
           {authorDetails && (
             <section class="mt-12 rounded-2xl border border-hairline bg-canvas-soft p-6 flex flex-col sm:flex-row gap-4 items-start no-print">
               <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg border border-hairline shrink-0 font-mono">
@@ -202,14 +146,13 @@ if (faqSchema) pageSchemas.push(faqSchema);
             </section>
           )}
 
-          <!-- Related Guides section -->
           {relatedArticles.length > 0 && (
             <section class="mt-12 border-t border-hairline pt-8 no-print">
               <h3 class="text-lg font-bold text-ink mb-4">Related Reading</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {relatedArticles.map((art: any) => (
-                  <a 
-                    href={`/blog/${art.slug}`} 
+                {relatedArticles.map((art) => (
+                  <a
+                    href={`/blog/${art.slug}`}
                     class="block p-4 rounded-xl border border-hairline bg-canvas hover:border-hairline-strong hover:bg-canvas-soft hover:shadow-xs transition-all group"
                   >
                     <span class="text-xs font-semibold text-primary font-mono uppercase tracking-wider">Guide</span>
@@ -222,17 +165,15 @@ if (faqSchema) pageSchemas.push(faqSchema);
         </Article>
       </main>
 
-      <!-- Sidebar Widget Column (4 Cols) - Sticky for Desktop -->
       <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start no-print">
-        <!-- Table of Contents Desktop Widget -->
-        {headings && headings.length > 0 && (
+        {post.headings.length > 0 && (
           <div class="hidden lg:block rounded-2xl border border-hairline bg-canvas p-5 shadow-xs">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Table of Contents</h2>
             <nav class="space-y-2 text-sm max-h-[300px] overflow-y-auto pr-1">
-              {headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
-                <a 
-                  href={`#${h.slug}`} 
-                  class="block text-mute hover:text-primary hover:underline transition-colors leading-relaxed" 
+              {post.headings.filter(h => h.depth === 2 || h.depth === 3).map((h) => (
+                <a
+                  href={`#${h.slug}`}
+                  class="block text-mute hover:text-primary hover:underline transition-colors leading-relaxed"
                   class:list={[{ "pl-4 text-xs": h.depth === 3, "font-medium text-body": h.depth === 2 }]}
                 >
                   {h.text}
@@ -242,40 +183,16 @@ if (faqSchema) pageSchemas.push(faqSchema);
           </div>
         )}
 
-        <!-- Recommended Calculators Widget -->
-        {relatedCalculators.length > 0 && (
-          <div class="rounded-2xl border border-hairline bg-canvas p-5 shadow-xs">
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Recommended Calculators</h2>
-            <div class="space-y-3">
-              {relatedCalculators.map((calc: any) => (
-                <a 
-                  href={calc.url} 
-                  class="flex items-center justify-between p-3 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 hover:shadow-xs transition-all group"
-                >
-                  <div class="shrink">
-                    <span class="text-xs font-semibold text-ink group-hover:text-primary transition-colors block">{calc.name}</span>
-                    <span class="text-[10px] text-mute font-mono">Free Online Tool</span>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="h-3.5 w-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                  </svg>
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <!-- Latest Articles Widget -->
         {latestPosts.length > 0 && (
           <div class="rounded-2xl border border-hairline bg-canvas p-5 shadow-xs">
             <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Recent Tax Guides</h2>
             <div class="space-y-3">
-              {latestPosts.map((p: any) => (
-                <a 
+              {latestPosts.map((p) => (
+                <a
                   href={`/blog/${p.slug}`}
                   class="block p-3 rounded-xl border border-hairline bg-canvas-soft hover:border-hairline-strong hover:bg-canvas-soft-2 hover:shadow-xs transition-all group"
                 >
-                  <span class="text-[9px] font-semibold text-primary font-mono uppercase tracking-wider">{p.category}</span>
+                  <span class="text-[9px] font-semibold text-primary font-mono uppercase tracking-wider">{p.categories[0]}</span>
                   <h3 class="text-xs font-semibold text-ink group-hover:text-primary transition-colors mt-1 line-clamp-1 leading-snug">{p.title}</h3>
                 </a>
               ))}
