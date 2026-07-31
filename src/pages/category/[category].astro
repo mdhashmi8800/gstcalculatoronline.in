@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import ToolCard from '../../components/ToolCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { tools } from '../../utils/tools';
-import { getAllPosts } from '../../lib/wordpress';
+import { getAllPosts } from '../../lib/blog';
 
 export async function getStaticPaths() {
   const categories = [

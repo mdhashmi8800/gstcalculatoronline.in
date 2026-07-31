@@ -3,10 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import ToolCard from '../components/ToolCard.astro';
 import FAQ from '../components/FAQ.astro';
 import { tools } from '../utils/tools';
-import { getAllPosts } from '../lib/wordpress';
+import { getAllPosts } from '../lib/blog';
 
-const pageTitle = "GST Calculator Online — Free CGST, SGST & IGST Calculator India";
-const pageDesc = "India's fastest GST calculator. Add or remove GST at 5%, 12%, 18%, 28% rates. Get CGST, SGST and IGST splits instantly. Free, accurate, and updated with latest GST rules. No login required.";
+const pageTitle = "GST Calculator Online – Free CGST SGST IGST Calculator";
+const pageDesc = "India's fastest GST calculator. Add or remove GST at 5%, 12%, 18%, 28%. Get CGST, SGST and IGST splits instantly. Free, accurate, no login required.";
 
 let latestArticles: Array<{ title: string; slug: string; date: string; category: string; desc: string }> = [];
 try {

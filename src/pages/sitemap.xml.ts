@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { getAllPosts } from '../lib/wordpress';
+import { getAllPosts } from '../lib/blog';
 
 /**
  * Converts any date value to a YYYY-MM-DD string safe for sitemaps.
@@ -71,6 +71,17 @@ export const GET: APIRoute = async () => {
     lastmod: toSitemapDate(post.modified || post.date, today)
   }));
 
+  const blogCategorySlugs = Array.from(new Set(
+    publishedBlogPosts.map((post) => post.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))
+  ));
+
+  const blogCategoryPages = blogCategorySlugs.map((slug) => ({
+    url: `https://gstcalculatoronline.in/blog/category/${slug}`,
+    changefreq: 'weekly' as const,
+    priority: '0.5',
+    lastmod: today
+  }));
+
   const allGuides = await getCollection('guides');
   const now = Date.now();
   const publishedGuides = allGuides.filter(g => {
@@ -98,6 +109,7 @@ export const GET: APIRoute = async () => {
     ...staticPages,
     ...toolCategoryPages,
     ...dynamicBlogPages,
+    ...blogCategoryPages,
     ...dynamicGuidePages,
   ];
 

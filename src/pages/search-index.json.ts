@@ -1,7 +1,7 @@
 import { tools } from '../utils/tools';
 import { faqs } from '../utils/faqs';
 import { getCollection } from 'astro:content';
-import { getAllPosts } from '../lib/wordpress';
+import { getAllPosts } from '../lib/blog';
 
 export async function GET() {
   const now = Date.now();

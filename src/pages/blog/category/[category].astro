@@ -1,11 +1,11 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-import { getAllPosts, formatDateShort } from '../../../lib/wordpress';
+import { getAllPosts, formatDateShort } from '../../../lib/blog';
 
 export async function getStaticPaths() {
   const allPosts = await getAllPosts();
-  const slugs = new Set(allPosts.flatMap(p => p.categories.map(c => c.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))));
+  const slugs = new Set(allPosts.map(p => p.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')));
   return Array.from(slugs).map(slug => ({
     params: { category: slug },
     props: { allPosts }
@@ -17,22 +17,23 @@ const { allPosts } = Astro.props;
 
 const filteredPosts = allPosts
   .filter((post) => {
-    const catSlugs = post.categories.map(c => c.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''));
-    return catSlugs.includes(category!);
+    const catSlug = post.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+    return catSlug === category;
   })
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric'
-  });
+function categoryDisplayName(slug: string) {
+  return slug
+    .split('-')
+    .map(word => word.toUpperCase() === 'GST' ? 'GST' : word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 ---
 
 <Layout
   seo={{
-    title: `GST Calculator Guides & Tax Articles | GST Calculator Online`,
-    description: `Explore expert GST articles, guides, and tax filing resources. Verified by CAs and legal advisors.`
+    title: `${categoryDisplayName(category!)} Guides – GST Tax Articles`,
+    description: `Explore expert ${categoryDisplayName(category!)} GST articles, guides, and tax filing resources. Verified by CAs and legal advisors.`
   }}
 >
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -42,7 +43,7 @@ function formatDate(dateStr: string) {
       <div class="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-mono font-semibold text-primary mb-3">
         Category Archives
       </div>
-      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">GST Calculator</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-ink sm:text-4xl">GST {categoryDisplayName(category!)} Guides</h1>
       <p class="mt-2 text-base text-body max-w-2xl mx-auto">
         Showing {filteredPosts.length} expert guides.
       </p>
@@ -55,19 +56,9 @@ function formatDate(dateStr: string) {
             href={`/blog/${post.slug}`}
             class="flex flex-col justify-between overflow-hidden rounded-xl border border-hairline bg-canvas p-6 hover:border-hairline-strong hover:shadow-md hover:bg-canvas-soft transition-all duration-200 group cursor-pointer"
           >
-            {post.featuredImage && (
-              <div class="relative h-36 overflow-hidden -mx-6 -mt-6 mb-4">
-                <img
-                  src={post.featuredImage}
-                  alt={post.featuredImageAlt || post.title}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-            )}
             <div>
               <div class="flex items-center justify-between gap-2 text-xs font-mono text-mute mb-3">
-                <span class="text-primary font-semibold">{post.categories[0]}</span>
+                <span class="text-primary font-semibold">{post.category}</span>
                 <span>{formatDateShort(post.date)}</span>
               </div>
               <h2 class="text-base font-semibold text-ink group-hover:text-link transition-colors line-clamp-2 leading-snug">

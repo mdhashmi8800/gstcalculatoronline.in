@@ -1,11 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getPosts, formatDateShort } from '../../lib/wordpress';
+import { getPosts, formatDateShort } from '../../lib/blog';
 
 const { posts, total, totalPages } = await getPosts(1, 9);
+const { posts: allPosts } = await getPosts(1, 1000);
+const allCategories = Array.from(new Set(allPosts.map((p) => p.category))).sort();
 
-const pageTitle = "GST Tax Blog & Filing Guides – India's Expert GST Knowledge Hub";
+const pageTitle = "GST Tax Blog & Filing Guides | GST Calculator Online";
 const pageDesc = "Read current articles and educational guides about GST regulations in India, tax slabs, GSTR filings, late fee capping rules, interest rates, and compliance updates. Written by Chartered Accountants and GST advocates.";
 ---
 
@@ -32,20 +34,10 @@ const pageDesc = "Read current articles and educational guides about GST regulat
                   href={`/blog/${post.slug}`}
                   class="flex flex-col justify-between overflow-hidden rounded-xl border border-hairline bg-canvas hover:border-hairline-strong hover:shadow-md hover:bg-canvas-soft transition-all duration-200 group cursor-pointer"
                 >
-                  {post.featuredImage && (
-                    <div class="relative h-40 overflow-hidden -mx-px -mt-px rounded-t-xl">
-                      <img
-                        src={post.featuredImage}
-                        alt={post.featuredImageAlt || post.title}
-                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
                   <div class="flex flex-col justify-between flex-1 p-6">
                     <div>
                       <div class="flex items-center justify-between gap-2 text-xs font-mono text-mute mb-3">
-                        <span class="text-primary font-semibold">{post.categories[0]}</span>
+                        <span class="text-primary font-semibold">{post.category}</span>
                         <span>{formatDateShort(post.date)}</span>
                       </div>
                       <h2 class="text-base font-semibold text-ink group-hover:text-link transition-colors line-clamp-2 leading-snug">
@@ -136,13 +128,13 @@ const pageDesc = "Read current articles and educational guides about GST regulat
         <div class="rounded-2xl border border-hairline bg-canvas p-5 shadow-xs">
           <h2 class="text-sm font-semibold uppercase tracking-wider text-ink mb-4 pb-2 border-b border-hairline">Browse by Topic</h2>
           <div class="space-y-2">
-            {['GST Calculator'].map(cat => (
+            {allCategories.map(cat => (
               <a
-                href="/blog/category/gst-calculator"
+                href={`/blog/category/${cat.toLowerCase().replace(/\s+/g, '-')}`}
                 class="flex items-center justify-between p-2.5 rounded-xl hover:bg-canvas-soft transition-all group"
               >
                 <span class="text-sm font-medium text-body group-hover:text-primary transition-colors">{cat}</span>
-                <span class="text-xs text-mute font-mono">{total} guides</span>
+                <span class="text-xs text-mute font-mono">{allPosts.filter(p => p.category === cat).length} guides</span>
               </a>
             ))}
           </div>

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import type { SEOMetadata } from '../utils/seo';
 import { tools } from '../utils/tools';
-import { getAllPosts } from '../lib/wordpress';
+import { getAllPosts } from '../lib/blog';
 
 interface FaqItem {
   question: string;
@@ -60,6 +60,7 @@ try {
 const faqPageSchema = faqs && faqs.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "inLanguage": "en-IN",
   "mainEntity": faqs.map(faq => ({
     "@type": "Question",
     "name": faq.question,

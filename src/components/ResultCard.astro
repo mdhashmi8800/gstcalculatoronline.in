@@ -192,8 +192,6 @@ const { title = "Calculation Summary", showEffectiveTax = true, showChart = true
 </div>
 
 <script>
-  import { generateCalculationPDF } from '../utils/pdfGenerator';
-
   const copyBtn = document.getElementById('copy-calculation-btn');
   const shareBtn = document.getElementById('share-calculation-btn');
   const pdfBtn = document.getElementById('pdf-calculation-btn');
@@ -255,6 +253,7 @@ const { title = "Calculation Summary", showEffectiveTax = true, showChart = true
 
   pdfBtn?.addEventListener('click', async () => {
     try {
+      const { generateCalculationPDF } = await import('../utils/pdfGenerator');
       await generateCalculationPDF();
       showToast(pdfToast);
     } catch (err) {

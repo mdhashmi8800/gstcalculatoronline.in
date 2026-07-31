@@ -3,7 +3,7 @@ import CalculatorLayout from '../components/CalculatorLayout.astro';
 import ResultCard from '../components/ResultCard.astro';
 import FAQ from '../components/FAQ.astro';
 
-const pageTitle = "GST Inclusive Calculator – Extract Tax from Final Price";
+const pageTitle = "GST Inclusive Calculator – Extract Tax from Total";
 const pageDesc = "Extract net values, total GST, and tax splits (CGST, SGST, IGST) from a price that already includes tax. Free, fast, and 100% accurate online tool.";
 
 const pageSchema = {
@@ -213,7 +213,7 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h1>GST Inclusive Calculator</h1>
+    <h2>GST Inclusive Calculator</h2>
     
       <h2>Extracting Tax with GST Inclusive Calculator</h2>
       <p>A <strong>GST inclusive calculator</strong> is a financial utility that helps you extract the baseline taxable value and the tax component from a transaction price that already includes GST. It is particularly useful because many consumer goods and retail services in India are sold at Maximum Retail Price (MRP), which is legally required to be inclusive of all taxes. For accurate billing, reporting, and claiming input tax credit, you must peel away the tax layer to isolate the base cost.</p>

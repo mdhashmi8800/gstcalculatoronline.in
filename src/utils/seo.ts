@@ -19,7 +19,7 @@ export const DEFAULT_SEO: Required<Omit<SEOMetadata, 'noindex'>> & { noindex: bo
   canonical: SITE_URL,
   ogTitle: 'GST Calculator Online - Fast & Accurate GST Tools',
   ogDescription: 'Calculate GST (CGST, SGST, IGST), late fees, interest, and composition scheme taxes online. Free, fast, and highly accurate tools tailored for Indian businesses and taxpayers.',
-  ogImage: `${SITE_URL}/og-image.png`,
+  ogImage: `${SITE_URL}/og-image.jpg`,
   ogType: 'website',
   noindex: false,
 };
@@ -29,8 +29,9 @@ export function getSEOMetadata(metadata: SEOMetadata = {}): SEOMetadata {
   if (metadata.title) {
     const hasSiteName = metadata.title.includes(SITE_NAME);
     const hasGSTCalc = metadata.title.toLowerCase().includes("gst calculator");
-    if (!hasSiteName && !hasGSTCalc && metadata.title.length < 50) {
-      title = `${metadata.title} | ${SITE_NAME}`;
+    const withBrand = `${metadata.title} | ${SITE_NAME}`;
+    if (!hasSiteName && !hasGSTCalc && withBrand.length <= 60) {
+      title = withBrand;
     }
   }
 

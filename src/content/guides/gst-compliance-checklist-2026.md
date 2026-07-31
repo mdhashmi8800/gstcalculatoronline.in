@@ -1,6 +1,6 @@
 ---
 title: "Ultimate GST Compliance Checklist for Indian Businesses (2026)"
-metaTitle: "GST Compliance Checklist 2026: Due Dates, Registers & Audit Rules"
+metaTitle: "GST Compliance Checklist 2026 – Due Dates & Registers"
 metaDescription: "Comprehensive step-by-step GST compliance checklist for Indian SMBs and enterprises. Cover monthly return dates, ITC reconciliation, GSTR-2B matching, and penal safeguards."
 date: "2026-07-20"
 lastUpdated: "2026-07-24"

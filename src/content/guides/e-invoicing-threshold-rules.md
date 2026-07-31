@@ -1,6 +1,6 @@
 ---
 title: "E-Invoicing Rules & Invoice Reference Number (IRN) Guide"
-metaTitle: "E-Invoicing Rules under GST: Generation, IRN & QR Code Guide"
+metaTitle: "E-Invoicing Guide: IRN & QR Codes | GST Calculator Online"
 metaDescription: "Detailed guide on GST E-invoicing system. Learn how to generate IRN via IRP portal, print dynamic QR codes, and comply with e-invoice mandates."
 date: "2026-07-15"
 lastUpdated: "2026-07-22"
