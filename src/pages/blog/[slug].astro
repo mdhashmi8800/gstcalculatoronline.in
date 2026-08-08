@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Article from '../../components/Article.astro';
 import FAQ from '../../components/FAQ.astro';
+import AdUnit from '../../components/AdUnit.astro';
 import { render } from 'astro:content';
 import { getAllPosts, getPost, formatDate } from '../../lib/blog';
 import { tools } from '../../utils/tools';
@@ -181,6 +182,8 @@ if (post.faqs && post.faqs.length > 0) {
           )}
 
           <Content />
+
+          <AdUnit class="my-8" />
 
           {post.faqs && post.faqs.length > 0 && (
             <FAQ items={post.faqs} />

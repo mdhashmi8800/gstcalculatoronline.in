@@ -49,13 +49,15 @@ const { seo, schema, schemas, publishedTime, modifiedTime } = Astro.props;
     <!-- IndexNow key for Bing instant indexing -->
     <meta name="indexnow-key" content="f8a2c1d4e6b3a7f9c2e5d8b1a4f7c0e3" />
 
-    <!-- Defer heavy third-party scripts (GTM & AdSense) until user interaction or idle to optimize Core Web Vitals (LCP, INP, TTFB) -->
+    <!-- Google AdSense Script (Required for AdSense Crawler & Site Review Verification) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8763819545697765" crossorigin="anonymous"></script>
+
+    <!-- Defer GTM until user interaction or idle -->
     <script is:inline>
       (function() {
         const scriptsLoaded = new Set();
         const scriptsToLoad = [
-          { src: 'https://www.googletagmanager.com/gtag/js?id=G-LC5EXYTHR3', type: 'gtm' },
-          { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8763819545697765', type: 'adsense', crossorigin: 'anonymous' }
+          { src: 'https://www.googletagmanager.com/gtag/js?id=G-LC5EXYTHR3', type: 'gtm' }
         ];
 
         function loadScript(config) {
@@ -88,7 +90,6 @@ const { seo, schema, schemas, publishedTime, modifiedTime } = Astro.props;
         const triggerEvents = ['scroll', 'mousedown', 'mousemove', 'touchstart', 'keydown'];
         triggerEvents.forEach(e => window.addEventListener(e, triggerLoad, { passive: true }));
 
-        // Fallback load after 3.5s to ensure tracking is recorded if no interaction occurs
         if (document.readyState === 'complete') {
           setTimeout(triggerLoad, 3500);
         } else {

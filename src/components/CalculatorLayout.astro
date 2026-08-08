@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
+import AdUnit from './AdUnit.astro';
 import type { SEOMetadata } from '../utils/seo';
 import { tools } from '../utils/tools';
 import { getAllPosts } from '../lib/blog';
@@ -131,6 +132,8 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
               </div>
             </div>
           )}
+
+          <AdUnit class="my-4" />
         </div>
       </div>
 
@@ -139,6 +142,7 @@ if (faqPageSchema) pageSchemas.push(faqPageSchema);
           <div class="prose dark:prose-invert max-w-none">
             <slot name="content" />
           </div>
+          <AdUnit class="my-8" />
         </div>
       )}
 
