@@ -23,7 +23,10 @@ const metadata = getSEOMetadata({
   ...seo,
 });
 
-const cleanCanonical = metadata.canonical || canonicalUrl;
+let cleanCanonical = (metadata.canonical || canonicalUrl).toLowerCase();
+if (cleanCanonical.endsWith('/') && cleanCanonical !== 'https://gstcalculatoronline.in/') {
+  cleanCanonical = cleanCanonical.slice(0, -1);
+}
 
 // Combine all schemas into one list for rendering
 const allPageSchemas: Record<string, any>[] = [];

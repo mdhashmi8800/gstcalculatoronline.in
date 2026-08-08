@@ -23,7 +23,8 @@ export interface BlogPost {
 
 function mapEntry(entry: CollectionEntry<'blog'>): BlogPost {
   const data = entry.data;
-  const slug = data.slug || entry.id;
+  const rawSlug = data.slug || entry.id;
+  const slug = String(rawSlug).replace(/^\/+|\/+$/g, '').toLowerCase();
   const date = String(data.date);
   const modified = String(data.lastUpdated || data.date);
   return {

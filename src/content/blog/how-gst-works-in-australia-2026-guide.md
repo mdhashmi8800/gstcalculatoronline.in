@@ -11,7 +11,7 @@ slug: how-gst-works-in-australia-2026-guide
 category: GST Basics
 draft: false
 ---
-# How GST Works in Australia (2026 Guide)
+## How GST Works in Australia (2026 Guide)
 
 If you're running a business in Australia — or planning to — understanding GST isn't optional. Whether you're a sole trader just crossing $75,000 in sales, an online seller shipping overseas, or an accountant helping clients stay compliant, this guide breaks down exactly how Australian GST works in 2026, with real examples and no jargon.
 

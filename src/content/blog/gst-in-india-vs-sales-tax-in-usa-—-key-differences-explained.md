@@ -7,7 +7,7 @@ metaDescription: >
 date: 2026-07-26
 author: Hashmi Akbar
 readTime: 10 min read
-slug: /gst-india-vs-sales-tax-usa
+slug: "gst-india-vs-sales-tax-usa"
 category: GST Basics
 draft: false
 relatedCalculators:
@@ -44,7 +44,7 @@ faqs:
 ---
 ![](/uploads/chatgpt-image-jul-26-2026-10_00_44-pm.png)
 
-# GST in India vs Sales Tax in USA — Key Differences
+## GST in India vs Sales Tax in USA — Key Differences
 
 If you're doing business internationally, selling to US customers, or just curious how tax systems differ globally, understanding **GST vs Sales Tax** is essential. While both are consumption taxes, they work in completely different ways.
 

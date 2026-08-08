@@ -4,6 +4,8 @@ export const GET: APIRoute = async () => {
   const robotsText = `User-agent: *
 Allow: /
 Disallow: /cdn-cgi/
+Disallow: /admin
+Disallow: /admin/
 Disallow: /search
 Disallow: /search-index.json
 

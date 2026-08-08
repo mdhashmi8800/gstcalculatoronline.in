@@ -64,12 +64,15 @@ export const GET: APIRoute = async () => {
 
   const publishedBlogPosts = await getAllPosts();
 
-  const dynamicBlogPages = publishedBlogPosts.map((post) => ({
-    url: `https://gstcalculatoronline.in/blog/${post.slug.toLowerCase()}`,
-    changefreq: 'weekly' as const,
-    priority: '0.6',
-    lastmod: toSitemapDate(post.modified || post.date, today)
-  }));
+  const dynamicBlogPages = publishedBlogPosts.map((post) => {
+    const cleanSlug = post.slug.toLowerCase().replace(/^\/+|\/+$/g, '');
+    return {
+      url: `https://gstcalculatoronline.in/blog/${cleanSlug}`,
+      changefreq: 'weekly' as const,
+      priority: '0.6',
+      lastmod: toSitemapDate(post.modified || post.date, today)
+    };
+  });
 
   const blogCategorySlugs = Array.from(new Set(
     publishedBlogPosts.map((post) => post.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))
@@ -90,12 +93,15 @@ export const GET: APIRoute = async () => {
     return true;
   });
 
-  const dynamicGuidePages = publishedGuides.map((guide) => ({
-    url: `https://gstcalculatoronline.in/guides/${(guide.data.slug || guide.slug).toLowerCase()}`,
-    changefreq: 'weekly' as const,
-    priority: '0.6',
-    lastmod: toSitemapDate(guide.data.lastUpdated || guide.data.date, today)
-  }));
+  const dynamicGuidePages = publishedGuides.map((guide) => {
+    const cleanGuideSlug = (guide.data.slug || guide.slug).toLowerCase().replace(/^\/+|\/+$/g, '');
+    return {
+      url: `https://gstcalculatoronline.in/guides/${cleanGuideSlug}`,
+      changefreq: 'weekly' as const,
+      priority: '0.6',
+      lastmod: toSitemapDate(guide.data.lastUpdated || guide.data.date, today)
+    };
+  });
 
   const toolCategoryPages = [
     { url: 'https://gstcalculatoronline.in/category/tax-slabs', changefreq: 'weekly', priority: '0.6', lastmod: today },

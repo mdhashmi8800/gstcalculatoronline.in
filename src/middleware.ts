@@ -1,5 +1,27 @@
 import { defineMiddleware } from 'astro:middleware';
 
+const TOOLS_REDIRECT_MAP: Record<string, string> = {
+  '/tools': '/',
+  '/tools/gst-calculator': '/gst-calculator',
+  '/tools/reverse-gst-calculator': '/reverse-gst-calculator',
+  '/tools/gst-inclusive-calculator': '/gst-inclusive-calculator',
+  '/tools/gst-exclusive-calculator': '/gst-exclusive-calculator',
+  '/tools/gst-split-calculator': '/gst-split-calculator',
+  '/tools/igst-calculator': '/igst-calculator',
+  '/tools/gst-rate-calculator': '/gst-rate-calculator',
+  '/tools/gst-refund-calculator': '/gst-refund-calculator',
+  '/tools/late-fee-calculator': '/late-fee-calculator',
+  '/tools/interest-calculator': '/interest-calculator',
+  '/tools/composition-calculator': '/composition-calculator',
+  '/tools/invoice-builder': '/invoice-builder',
+  '/tools/gst-rate-finder': '/gst-rate-finder',
+  '/tools/category/tax-slabs': '/category/tax-slabs',
+  '/tools/category/late-fees': '/category/late-fees',
+  '/tools/category/interest-penalties': '/category/interest-penalties',
+  '/tools/category/composition-scheme': '/category/composition-scheme',
+  '/tools/category/utilities': '/category/utilities',
+};
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
@@ -25,16 +47,25 @@ export const onRequest = defineMiddleware(async (context, next) => {
     redirectNeeded = true;
   }
 
-  // Admin CMS and legacy /tools routes must still get scheme/host canonicalisation,
-  // but keep their existing passthrough for everything else.
-  if (targetPath.startsWith('/admin') || targetPath.startsWith('/tools')) {
+  // 3. Handle legacy /tools paths directly in 1 hop (with or without trailing slash)
+  if (targetPath.startsWith('/tools')) {
+    const cleanToolsPath = (targetPath.length > 1 && targetPath.endsWith('/'))
+      ? targetPath.slice(0, -1)
+      : targetPath;
+
+    const mappedTarget = TOOLS_REDIRECT_MAP[cleanToolsPath] || '/';
+    return context.redirect(`https://${targetHost}${mappedTarget}${url.search}`, 301);
+  }
+
+  // 4. Admin CMS passthrough with host/scheme canonicalisation
+  if (targetPath.startsWith('/admin')) {
     if (redirectNeeded) {
       return context.redirect(`https://${targetHost}${targetPath}${url.search}`, 301);
     }
     return next();
   }
 
-  // 3. Redirect trailing slashes to non-trailing-slash URLs (except root '/').
+  // 5. Redirect trailing slashes to non-trailing-slash URLs (except root '/').
   if (targetPath.length > 1 && targetPath.endsWith('/')) {
     targetPath = targetPath.slice(0, -1);
     redirectNeeded = true;
@@ -47,3 +78,4 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next();
 });
+
