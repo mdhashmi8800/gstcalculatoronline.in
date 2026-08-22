@@ -63,9 +63,9 @@ This strategy establishes **gstcalculatoronline.in** as the definitive authority
 ## Cluster 5: Invoicing, E-Invoicing & Billing Standards (10 Topics)
 41. **GST Invoice Rules: Mandatory 16 Details Checklist** → Linked Tool: [/invoice-builder](file:///d:/gstcalculatoronline.in/src/pages/invoice-builder.astro)
 42. **E-Invoicing Mandate in India: ₹5 Crore Turnover Limit** → Linked Tool: [/invoice-builder](file:///d:/gstcalculatoronline.in/src/pages/invoice-builder.astro)
-43. **Credit Note vs Debit Note Rules & GSTR-1 Adjustment** → Linked Tool: [/remove-gst-from-total](file:///d:/gstcalculatoronline.in/src/pages/remove-gst-from-total.astro)
-44. **Bill of Supply vs Tax Invoice: Who Needs to Issue What?** → Linked Tool: [/composition-calculator](file:///d:/gstcalculatoronline.in/src/pages/composition-calculator.astro)
-45. **Continuous Supply of Services Billing & Time of Invoice** → Linked Tool: [/add-gst-to-price](file:///d:/gstcalculatoronline.in/src/pages/add-gst-to-price.astro)
+43. **Credit Note vs Debit Note Rules & GSTR-1 Adjustment** → Linked Tool: `/reverse-gst-calculator`
+44. **Bill of Supply vs Tax Invoice: Who Needs to Issue What?** → Linked Tool: `/composition-calculator`
+45. **Continuous Supply of Services Billing & Time of Invoice** → Linked Tool: `/gst-exclusive-calculator`
 46. **How to Calculate Inclusive GST on MRP Products** → Linked Tool: [/gst-inclusive-calculator](file:///d:/gstcalculatoronline.in/src/pages/gst-inclusive-calculator.astro)
 47. **Dynamic QR Code Requirement for B2C Invoices** → Linked Tool: [/invoice-builder](file:///d:/gstcalculatoronline.in/src/pages/invoice-builder.astro)
 48. **HSN Code Mandatory Digits (4 vs 6 vs 8 Digits) by Turnover** → Linked Tool: [/gst-rate-finder](file:///d:/gstcalculatoronline.in/src/pages/gst-rate-finder.astro)

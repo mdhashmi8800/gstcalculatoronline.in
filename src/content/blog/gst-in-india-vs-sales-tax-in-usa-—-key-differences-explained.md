@@ -1,9 +1,7 @@
 ---
 title: GST in India vs Sales Tax in USA — Key Differences Explained
 metaTitle: "GST vs Sales Tax (USA): Key Differences Explained (2026 Guide)"
-metaDescription: >
-  GST in India vs Sales Tax in USA — full comparison with examples, tables, and
-  FAQs. Understand how both tax systems work for business, freelancers & NRIs.
+metaDescription: "GST in India vs Sales Tax in USA — full comparison with examples, tables, and FAQs. Understand how both tax systems work for business, freelancers & NRIs."
 date: 2026-07-26
 author: Hashmi Akbar
 readTime: 10 min read

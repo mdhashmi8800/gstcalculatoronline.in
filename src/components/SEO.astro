@@ -27,6 +27,7 @@ let cleanCanonical = (metadata.canonical || canonicalUrl).toLowerCase();
 if (cleanCanonical.endsWith('/') && cleanCanonical !== 'https://gstcalculatoronline.in/') {
   cleanCanonical = cleanCanonical.slice(0, -1);
 }
+metadata.canonical = cleanCanonical;
 
 // Combine all schemas into one list for rendering
 const allPageSchemas: Record<string, any>[] = [];

@@ -228,26 +228,6 @@ export const tools: Tool[] = [
     keywords: 'sgst state tax split government local share calculation'
   },
   {
-    id: 'add-gst-to-price',
-    name: 'Add GST to Price Calculator',
-    desc: 'Add GST to any base taxable price to calculate final gross invoice values and tax splits.',
-    url: '/add-gst-to-price',
-    icon: 'calculator',
-    category: 'tax-slabs',
-    categoryName: 'Tax Slab Calculators',
-    keywords: 'add gst price tax addition exclusive markup calculation'
-  },
-  {
-    id: 'remove-gst-from-total',
-    name: 'Remove GST from Total Calculator',
-    desc: 'Extract pre-tax taxable values and tax splits from a GST-inclusive gross amount.',
-    url: '/remove-gst-from-total',
-    icon: 'calculator',
-    category: 'tax-slabs',
-    categoryName: 'Tax Slab Calculators',
-    keywords: 'remove gst total subtract tax inclusive discount calculation base price'
-  },
-  {
     id: 'gst-formula',
     name: 'GST Formula & Math Guide',
     desc: 'Explore the mathematical formulas used to calculate GST inclusion, exclusion, and split values.',

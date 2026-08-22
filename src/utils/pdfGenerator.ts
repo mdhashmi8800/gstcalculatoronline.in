@@ -615,7 +615,7 @@ export async function generateCalculationPDF(customData?: Partial<PDFData>) {
   doc.setFontSize(7.5);
   doc.setTextColor(15, 23, 42);
   doc.setFont('Roboto', 'bold');
-  doc.text('www.gstcalculatoronline.in', 195, footerY, { align: 'right' });
+  doc.text('gstcalculatoronline.in', 195, footerY, { align: 'right' });
   doc.setFont('Roboto', 'normal');
   doc.setTextColor(148, 163, 184);
   doc.text(`ID: ${reportId} | Version: 1.2.0 | Page 1 of 1`, 195, footerY + 4, { align: 'right' });
