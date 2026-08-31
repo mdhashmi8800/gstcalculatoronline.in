@@ -213,65 +213,85 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>GST Rates & Slabs in India</h2>
-    
-      <h2>India's Current GST Tax Slabs (2025–26)</h2>
-      <p>India's Goods and Services Tax (GST) is structured into four primary tax slabs: <strong>5%, 12%, 18%, and 28%</strong>. These slabs are designed to tax luxury items at higher rates and essential commodities at lower or zero rates (exempt). In addition to the four standard slabs, a special rate of <strong>3%</strong> applies to gold, and <strong>0.25%</strong> applies to rough precious stones.</p>
-      <h2>Comprehensive GST Slab Table</h2>
-      <div class="overflow-x-auto my-6">
-        <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
-          <thead class="bg-canvas-soft-2 text-ink font-semibold border-b border-hairline">
-            <tr>
-              <th class="p-3 text-left">GST Slab</th>
-              <th class="p-3 text-left">Category</th>
-              <th class="p-3 text-left">Common Products & Services</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b border-hairline/50">
-              <td class="p-3 font-mono font-bold text-primary">0% (Exempt)</td>
-              <td class="p-3">Essential items</td>
-              <td class="p-3">Fresh vegetables, fresh milk, unbranded flour, eggs, curd, books, newspapers, healthcare, education.</td>
-            </tr>
-            <tr class="border-b border-hairline/50 bg-canvas-soft/30">
-              <td class="p-3 font-mono font-bold text-primary">3%</td>
-              <td class="p-3">Precious Metals</td>
-              <td class="p-3">Gold, silver, platinum jewelry, diamonds, precious stones.</td>
-            </tr>
-            <tr class="border-b border-hairline/50">
-              <td class="p-3 font-mono font-bold text-primary">5%</td>
-              <td class="p-3">Mass consumption</td>
-              <td class="p-3">Packaged food, tea, coffee, sugar, edible oil, domestic LPG, life-saving medicines, economy class flights, Ola/Uber.</td>
-            </tr>
-            <tr class="border-b border-hairline/50 bg-canvas-soft/30">
-              <td class="p-3 font-mono font-bold text-primary">12%</td>
-              <td class="p-3">Standard goods</td>
-              <td class="p-3">Processed food, butter, cheese, ghee, fruit juices, computer hardware, sewing machines, diagnostic kits.</td>
-            </tr>
-            <tr class="border-b border-hairline/50">
-              <td class="p-3 font-mono font-bold text-primary">18%</td>
-              <td class="p-3">Standard services & goods</td>
-              <td class="p-3">IT services, professional fees, telecom, commercial consulting, FMCG products, AC restaurants, steel, electronics, banking.</td>
-            </tr>
-            <tr class="bg-canvas-soft/30">
-              <td class="p-3 font-mono font-bold text-primary">28%</td>
-              <td class="p-3">Luxury & demerit</td>
-              <td class="p-3">Luxury cars, motorcycles >350cc, aerated beverages, tobacco, pan masala, cement, ACs, betting, casinos.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    
-    
+    <h2>GST Rates and Tax Slabs in India — Complete 2026 Directory</h2>
+    <p>India's Goods and Services Tax (GST) framework classifies hundreds of goods and services into four primary statutory rate slabs: <strong>5%, 12%, 18%, and 28%</strong>. In addition, essential life supplies are placed on the <strong>0% (Exempt)</strong> schedule, precious metals (gold, silver, platinum) are taxed at <strong>3%</strong>, and rough diamonds and precious stones are taxed at <strong>0.25%</strong>.</p>
+    <p>Use our interactive calculator above to calculate tax at any statutory slab, or consult the comprehensive rate directory below to identify the applicable GST rate for your product or service.</p>
+
+    <h2>Comprehensive GST Tax Slab Classification Matrix</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">GST Slab</th>
+            <th class="p-3 font-semibold text-ink">Intrastate Split (CGST + SGST)</th>
+            <th class="p-3 font-semibold text-ink">Category Scope</th>
+            <th class="p-3 font-semibold text-ink">Representative Goods &amp; Services</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">0% (Nil / Exempt)</td>
+            <td class="p-3 font-mono">0% + 0%</td>
+            <td class="p-3 text-body font-medium">Basic Necessities</td>
+            <td class="p-3 text-body">Fresh vegetables, unbranded milk, eggs, curd, bread, salt, judicial stamps, educational institutions, basic health clinics.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">0.25% (Special)</td>
+            <td class="p-3 font-mono">0.125% + 0.125%</td>
+            <td class="p-3 text-body font-medium">Precious Raw Stones</td>
+            <td class="p-3 text-body">Rough diamonds, rough unworked precious and semi-precious gemstones.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">3% (Special)</td>
+            <td class="p-3 font-mono">1.5% + 1.5%</td>
+            <td class="p-3 text-body font-medium">Jewellery &amp; Bullion</td>
+            <td class="p-3 text-body">Gold coins, gold bars, silver, platinum jewellery, worked precious metals.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">5% (Merit Slab)</td>
+            <td class="p-3 font-mono">2.5% + 2.5%</td>
+            <td class="p-3 text-body font-medium">Mass Consumption Goods</td>
+            <td class="p-3 text-body">Packaged food, tea, coffee, edible oils, spices, life-saving medicines, domestic LPG, economy flight tickets, standalone non-AC restaurants.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">12% (Standard I)</td>
+            <td class="p-3 font-mono">6% + 6%</td>
+            <td class="p-3 text-body font-medium">Standard Commodities</td>
+            <td class="p-3 text-body">Processed food, butter, cheese, fruit juices, diagnostic kits, computers, mobile phone parts, business class air tickets.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">18% (Standard II)</td>
+            <td class="p-3 font-mono">9% + 9%</td>
+            <td class="p-3 text-body font-medium">Standard Services &amp; Tech</td>
+            <td class="p-3 text-body">IT consulting, telecom, banking, insurance, FMCG personal care, consumer electronics, AC restaurants, industrial machinery.</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">28% (Luxury / Sin)</td>
+            <td class="p-3 font-mono">14% + 14%</td>
+            <td class="p-3 text-body font-medium">Luxury &amp; Demerit Goods</td>
+            <td class="p-3 text-body">Motor cars, motorcycles &gt;350cc, air conditioners, refrigerators, aerated soft drinks, tobacco products, pan masala, casino gaming.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How GST Rates are Determined &amp; Revised</h2>
+    <p>GST rates in India are not set unilaterally by the Central Government. Instead, they are decided through consensus at the <strong>GST Council</strong>, a constitutional body headed by the Union Finance Minister and comprising Finance Ministers of all Indian States and Union Territories under Article 279A of the Constitution of India.</p>
+
+    <h2>Compensation Cess on High-End Goods</h2>
+    <p>In addition to the standard 28% GST slab, certain luxury and demerit goods attract a <strong>GST Compensation Cess</strong> ranging from 1% (small petrol cars) to 22% (SUVs) and up to 290% (tobacco products). The cess proceeds are utilized to service debt incurred during state revenue compensation periods.</p>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
-      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
-      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST calculation tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete suite of free Indian tax calculators, rate directories, and invoice builders.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Calculator Online</a>
+        <a href="/gst-rate-finder" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">HSN Rate Finder</a>
+        <a href="/gst-formula" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Formula Guide</a>
+        <a href="/invoice-builder" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Invoice Builder</a>
       </div>
     </div>
   </div>

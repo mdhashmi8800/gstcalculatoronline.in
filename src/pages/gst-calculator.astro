@@ -213,56 +213,135 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>GST Calculator Online — Free & Instant</h2>
-    
-      <h2>GST Calculator Online — Everything You Need to Know</h2>
-      <p>Whether you are a business owner raising invoices, a Chartered Accountant preparing returns, or a shopper wanting to understand how much tax you are paying, a <strong>GST calculator online</strong> makes the process simple and instant. India's Goods and Services Tax system, launched on July 1, 2017, replaced a complex web of indirect taxes with one unified framework. Understanding how to calculate GST correctly is essential for accurate billing, compliance, and financial planning.</p>
-      <p>This free online GST calculator covers all standard Indian tax slabs — 5%, 12%, 18%, and 28% — along with custom rates for special categories like gold (3%) and rough precious stones (0.25%). You can calculate both <em>GST exclusive amounts</em> (adding GST to a base price) and <em>GST inclusive amounts</em> (removing GST from a total that already includes tax).</p>
-      <h2>What Is This GST Calculator?</h2>
-      <p>This tool is a free, web-based <strong>Indian GST calculator online</strong> designed to give you an instant and accurate breakdown of your tax liability for any transaction. The calculator supports:</p>
-      <ul>
-        <li><strong>Add GST mode</strong> — Enter the base (pre-tax) price and get the gross invoice total with tax</li>
-        <li><strong>Remove GST mode</strong> — Enter the GST-inclusive final price and extract the net taxable value</li>
-        <li><strong>Intrastate supply</strong> — Auto-splits total GST into equal CGST and SGST portions</li>
-        <li><strong>Interstate supply</strong> — Calculates the full amount as IGST</li>
-        <li><strong>Custom rate support</strong> — Beyond the four main slabs, enter any percentage</li>
-      </ul>
-      <h2>GST Formula — Adding and Removing Tax</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
-        <div>
-          <p class="font-semibold text-brand-link">1. Adding GST to Base Price (Exclusive):</p>
-          <p>GST Amount = (Base Price × GST Rate) ÷ 100</p>
-          <p>Total Invoice (Gross) = Base Price + GST Amount</p>
-          <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
-          <p>IGST = GST Amount (for interstate)</p>
-        </div>
-        <div class="border-t border-hairline/50 pt-4">
-          <p class="font-semibold text-brand-link">2. Removing GST from Inclusive Price:</p>
-          <p>Base (Net) Value = Inclusive Amount ÷ (1 + GST Rate ÷ 100)</p>
-          <p>GST Amount = Inclusive Amount − Base Value</p>
-          <p>CGST = SGST = GST Amount ÷ 2 (for intrastate)</p>
-        </div>
+    <h2>Online GST Calculator — Calculate Goods &amp; Services Tax Instantly</h2>
+    <p>Whether you are a business owner raising invoices, a Chartered Accountant preparing monthly GSTR-3B returns, or a consumer checking a retail receipt, our <strong>free GST calculator online</strong> provides instant, 100% accurate tax computations as per the latest Central Goods and Services Tax (CGST) and State Goods and Services Tax (SGST) statutory provisions.</p>
+    <p>India's Goods and Services Tax system consolidates multiple indirect levies into a single destination-based consumption tax. This calculator supports all official Indian tax slabs — <strong>5%, 12%, 18%, and 28%</strong> — as well as special rates (such as 3% for gold and jewellery or 0.25% for rough precious stones) and custom percentage inputs.</p>
+
+    <h2>How GST is Calculated: Exclusive vs. Inclusive Tax Formulas</h2>
+    <p>Depending on whether your initial price is quoted before tax (exclusive) or after tax (inclusive/MRP), use the corresponding formula below:</p>
+
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding GST to Base Price (GST Exclusive Amount):</p>
+        <p>GST Tax Amount = (Base Price × GST Rate) ÷ 100</p>
+        <p>Total Invoice Value (Gross) = Base Price + GST Tax Amount</p>
+        <p>CGST Portion = GST Tax Amount ÷ 2 (for intra-state sales)</p>
+        <p>SGST Portion = GST Tax Amount ÷ 2 (for intra-state sales)</p>
+        <p>IGST Portion = Full GST Tax Amount (for inter-state sales)</p>
       </div>
-      <h2>Benefits of Using an Online GST Calculator</h2>
-      <ul>
-        <li><strong>Saves time</strong> — No manual calculations; instant results for any amount and rate</li>
-        <li><strong>Reduces errors</strong> — Eliminates arithmetic mistakes that can cause compliance issues</li>
-        <li><strong>Works for all slabs</strong> — Handles 5%, 12%, 18%, 28%, and custom rates in one tool</li>
-        <li><strong>CGST/SGST auto-split</strong> — No need to manually halve the tax amount for intrastate transactions</li>
-        <li><strong>Inclusive and exclusive modes</strong> — Handles both "add GST" and "remove GST" scenarios</li>
-        <li><strong>Free and private</strong> — No data is stored or transmitted; all calculations happen on your device</li>
-      </ul>
-    
-    
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Removing GST from Total Price (GST Inclusive / MRP Amount):</p>
+        <p>Pre-Tax Base Value = Inclusive Total Price ÷ (1 + GST Rate ÷ 100)</p>
+        <p>GST Tax Amount = Inclusive Total Price − Pre-Tax Base Value</p>
+        <p>CGST Portion = SGST Portion = GST Tax Amount ÷ 2 (for intra-state sales)</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Worked Calculation Examples</h2>
+
+    <h3>Example 1: Adding 18% GST to Professional Service Fees (Exclusive)</h3>
+    <p>A software consultant in Bengaluru bills a client within Karnataka ₹50,000 for development services:</p>
+    <ul>
+      <li><strong>Base Taxable Amount:</strong> ₹50,000</li>
+      <li><strong>Applicable GST Rate:</strong> 18% (Standard Services Slab)</li>
+      <li><strong>Total GST Amount:</strong> (₹50,000 × 18) ÷ 100 = <strong>₹9,000</strong></li>
+      <li><strong>CGST Component (9%):</strong> ₹4,500</li>
+      <li><strong>SGST Component (9%):</strong> ₹4,500</li>
+      <li><strong>Final Invoice Amount:</strong> ₹50,000 + ₹9,000 = <strong>₹59,000</strong></li>
+    </ul>
+
+    <h3>Example 2: Extracting GST from an Inclusive MRP Retail Price (Inclusive)</h3>
+    <p>A customer buys a home appliance in Delhi for ₹23,600 inclusive of 18% GST:</p>
+    <ul>
+      <li><strong>Total Inclusive Price:</strong> ₹23,600</li>
+      <li><strong>Pre-Tax Base Price:</strong> ₹23,600 ÷ (1 + 18/100) = ₹23,600 ÷ 1.18 = <strong>₹20,000</strong></li>
+      <li><strong>Total GST Extracted:</strong> ₹23,600 − ₹20,000 = <strong>₹3,600</strong></li>
+      <li><strong>CGST (9%):</strong> ₹1,800 | <strong>SGST (9%):</strong> ₹1,800</li>
+    </ul>
+
+    <h3>Example 3: Interstate Supply at 12% IGST</h3>
+    <p>A manufacturer in Gujarat ships processed goods worth ₹1,00,000 to a distributor in Maharashtra:</p>
+    <ul>
+      <li><strong>Base Amount:</strong> ₹1,00,000</li>
+      <li><strong>Transaction Type:</strong> Inter-State (Integrated GST)</li>
+      <li><strong>IGST Amount (12%):</strong> (₹1,00,000 × 12) ÷ 100 = <strong>₹12,000</strong></li>
+      <li><strong>Total Invoice Amount:</strong> ₹1,00,000 + ₹12,000 = <strong>₹1,12,000</strong></li>
+    </ul>
+
+    <h2>Understanding CGST, SGST, UTGST, and IGST</h2>
+    <p>Under India's federal constitutional structure, indirect taxes are governed by a dual-GST framework:</p>
+    <ul>
+      <li><strong>CGST (Central GST):</strong> Levied by the Central Government on intra-state supplies under the CGST Act, 2017.</li>
+      <li><strong>SGST (State GST):</strong> Levied by State Governments on intra-state supplies under respective State GST Acts. For intra-state transactions, CGST and SGST rates are always identical.</li>
+      <li><strong>UTGST (Union Territory GST):</strong> Applied in place of SGST in Union Territories without a separate state legislature (such as Ladakh, Chandigarh, Andaman &amp; Nicobar Islands).</li>
+      <li><strong>IGST (Integrated GST):</strong> Levied by the Centre under the IGST Act, 2017 on inter-state supplies (across state borders) and all imports of goods and services into India. IGST equals CGST + SGST combined.</li>
+    </ul>
+
+    <h2>Standard GST Tax Slabs in India (2025–2026)</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Rate Slab</th>
+            <th class="p-3 font-semibold text-ink">CGST + SGST Split</th>
+            <th class="p-3 font-semibold text-ink">Common Goods &amp; Services</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">0% (Nil / Exempt)</td>
+            <td class="p-3 font-mono">0% + 0%</td>
+            <td class="p-3 text-body">Fresh vegetables, unbranded milk, eggs, bread, basic healthcare, school education</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">3% (Special)</td>
+            <td class="p-3 font-mono">1.5% + 1.5%</td>
+            <td class="p-3 text-body">Gold, silver, platinum jewellery, articles of precious metals</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">5% (Merit Slab)</td>
+            <td class="p-3 font-mono">2.5% + 2.5%</td>
+            <td class="p-3 text-body">Packaged food, medicines, domestic LPG, economy flight tickets, tea, coffee, spices</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">12% (Standard I)</td>
+            <td class="p-3 font-mono">6% + 6%</td>
+            <td class="p-3 text-body">Computers, processed foods, fruit juices, dairy products, business class flights</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">18% (Standard II)</td>
+            <td class="p-3 font-mono">9% + 9%</td>
+            <td class="p-3 text-body">Most services, IT consulting, telecom, restaurants, electronics, FMCG products, banking</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">28% (Luxury / Sin)</td>
+            <td class="p-3 font-mono">14% + 14%</td>
+            <td class="p-3 text-body">Automobiles, air conditioners, aerated drinks, tobacco products, high-end luxury goods</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Who Should Use This Online GST Calculator?</h2>
+    <ul>
+      <li><strong>Small Business Owners &amp; Retailers:</strong> Fast quote generation, MRP tax extraction, and accurate billing for customers.</li>
+      <li><strong>Chartered Accountants &amp; Tax Practitioners:</strong> Instant cross-verification of taxable values and tax splits before filing GSTR-1 and GSTR-3B.</li>
+      <li><strong>Freelancers &amp; Service Providers:</strong> Correctly adding 18% GST on client invoices and separating CGST/SGST for local clients versus IGST for interstate clients.</li>
+      <li><strong>E-Commerce Sellers:</strong> Calculating net profit margins and extracting GST included in marketplace sales prices.</li>
+      <li><strong>Consumers &amp; Buyers:</strong> Verifying whether GST charged on retail receipts or restaurant bills matches the statutory rate.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
-      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
-      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <h3 class="text-lg font-bold text-ink mb-2">Explore Related GST Calculators &amp; Guides</h3>
+      <p class="text-sm text-body mb-4">Calculate specific tax components or read our comprehensive compliance guides.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/reverse-gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">Reverse GST Calculator</a>
+        <a href="/cgst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">CGST Calculator</a>
+        <a href="/igst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">IGST Calculator</a>
+        <a href="/gst-rates" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Rates 2026</a>
       </div>
     </div>
   </div>

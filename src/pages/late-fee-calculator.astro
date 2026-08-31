@@ -110,90 +110,114 @@ const faqs = [
 
   <!-- Educational content -->
   <div slot="content" class="prose max-w-none">
-    <h2>GSTR-3B Late Fee Calculation Rules & Guidelines</h2>
-    <p>Every registered person who fails to furnish returns including GSTR-3B by the due dates is liable to pay a late fee under Section 47 of the Central Goods and Services Tax (CGST) Act. The late fee is calculated from the day after the due date up to the date on which the return is filed.</p>
-        <h2>Complete Guide to GST Late Fee — Section 47 CGST Act</h2>
-    <p>Filing your GST returns late can attract significant late fees that accumulate daily. Understanding the <strong>GST late fee structure</strong> under <strong>Section 47 of the CGST Act</strong> is essential for every registered taxpayer in India. Our free <strong>GST Late Fee Calculator online</strong> computes the exact fee for any delay period, based on your return type and annual turnover.</p>
+    <h2>GSTR-3B Late Fee Calculator — Section 47 CGST Act Guidelines</h2>
+    <p>Filing your monthly or quarterly Goods and Services Tax (GST) returns after the prescribed statutory due date attracts mandatory daily late fees under <strong>Section 47 of the CGST Act, 2017</strong>. Unlike general penalties which require tax department notices, late fees are automatically computed by the GST portal and added to your subsequent GSTR-3B return liability.</p>
+    <p>Our free <strong>GST Late Fee Calculator online</strong> provides an instant computation of daily penalty accrual, turnover-based statutory caps, and the exact 50:50 split between Central GST (CGST) and State GST (SGST).</p>
 
-    <h2>GST Late Fee Rate Structure (Section 47)</h2>
-    <div class="overflow-x-auto my-4">
-      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
-        <thead class="bg-canvas-soft-2">
-          <tr>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Return Type</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">CGST/day</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">SGST/day</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Total/day</th>
+    <h2>GST Late Fee Daily Rate Structure (Section 47)</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Return Type</th>
+            <th class="p-3 font-semibold text-ink">CGST Daily Fee</th>
+            <th class="p-3 font-semibold text-ink">SGST Daily Fee</th>
+            <th class="p-3 font-semibold text-ink">Total Daily Penalty</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="border-b border-hairline/50"><td class="p-3 font-medium text-ink">NIL Return (no tax, no ITC)</td><td class="p-3 font-mono">₹10</td><td class="p-3 font-mono">₹10</td><td class="p-3 font-mono font-bold text-primary">₹20/day</td></tr>
-          <tr class="bg-canvas-soft/30"><td class="p-3 font-medium text-ink">Taxable / Liability Return</td><td class="p-3 font-mono">₹25</td><td class="p-3 font-mono">₹25</td><td class="p-3 font-mono font-bold text-primary">₹50/day</td></tr>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">NIL Return (No turnover, no purchases, zero tax liability)</td>
+            <td class="p-3 font-mono">₹10 / day</td>
+            <td class="p-3 font-mono">₹10 / day</td>
+            <td class="p-3 font-mono font-bold text-primary">₹20 / day</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Taxable / Liability Return (Any sales turnover or ITC claim)</td>
+            <td class="p-3 font-mono">₹25 / day</td>
+            <td class="p-3 font-mono">₹25 / day</td>
+            <td class="p-3 font-mono font-bold text-primary">₹50 / day</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
-    <h2>Turnover-Based Late Fee Caps</h2>
-    <p>To protect small businesses, the GST Council rationalized late fee caps based on Annual Aggregate Turnover (AATO):</p>
-    <div class="overflow-x-auto my-4">
-      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
-        <thead class="bg-canvas-soft-2">
-          <tr>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Return Category</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">AATO</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Max Late Fee</th>
+    <h2>Turnover-Based Maximum Late Fee Caps</h2>
+    <p>To reduce compliance burdens for micro, small, and medium enterprises (MSMEs), the GST Council rationalized the maximum late fee caps based on Annual Aggregate Turnover (AATO) in the preceding financial year:</p>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Return Classification</th>
+            <th class="p-3 font-semibold text-ink">Annual Aggregate Turnover (AATO)</th>
+            <th class="p-3 font-semibold text-ink">Statutory Maximum Late Fee Cap</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="border-b border-hairline/50"><td class="p-3 text-body">NIL Returns</td><td class="p-3 text-body">Any turnover</td><td class="p-3 font-mono font-bold text-primary">₹500 per return</td></tr>
-          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">Up to ₹1.5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹2,000 per return</td></tr>
-          <tr class="border-b border-hairline/50"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">₹1.5 Crore to ₹5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹5,000 per return</td></tr>
-          <tr class="bg-canvas-soft/30"><td class="p-3 text-body">Taxable Returns</td><td class="p-3 text-body">Above ₹5 Crore</td><td class="p-3 font-mono font-bold text-primary">₹10,000 per return</td></tr>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 text-body">NIL Returns (GSTR-3B / GSTR-1)</td>
+            <td class="p-3 text-body">Any Turnover Slab</td>
+            <td class="p-3 font-mono font-bold text-primary">₹500 (₹250 CGST + ₹250 SGST)</td>
+          </tr>
+          <tr>
+            <td class="p-3 text-body">Taxable Returns</td>
+            <td class="p-3 text-body">Up to ₹1.5 Crore</td>
+            <td class="p-3 font-mono font-bold text-primary">₹2,000 (₹1,000 CGST + ₹1,000 SGST)</td>
+          </tr>
+          <tr>
+            <td class="p-3 text-body">Taxable Returns</td>
+            <td class="p-3 text-body">₹1.5 Crore to ₹5 Crore</td>
+            <td class="p-3 font-mono font-bold text-primary">₹5,000 (₹2,500 CGST + ₹2,500 SGST)</td>
+          </tr>
+          <tr>
+            <td class="p-3 text-body">Taxable Returns</td>
+            <td class="p-3 text-body">Above ₹5 Crore</td>
+            <td class="p-3 font-mono font-bold text-primary">₹10,000 (₹5,000 CGST + ₹5,000 SGST)</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
-    <h2>GST Late Fee Calculation Examples</h2>
-    <h3>Example 1 — Small Trader (NIL Return, 25 Days Late)</h3>
+    <h2>Step-by-Step Worked Late Fee Scenarios</h2>
+
+    <h3>Example 1: Small Retailer Filing NIL GSTR-3B with a 40-Day Delay</h3>
+    <p>A dormant business misses the 20th deadline and files 40 days later:</p>
     <ul>
-      <li>Return Type: NIL</li>
-      <li>Delay: 25 days &times; ₹20/day = ₹500</li>
-      <li>Cap for NIL: ₹500 &rarr; Late Fee = <strong>₹500</strong> (at cap)</li>
+      <li><strong>Daily Penalty Rate:</strong> ₹20 per day (₹10 CGST + ₹10 SGST)</li>
+      <li><strong>Uncapped Computation:</strong> 40 days × ₹20 = ₹800</li>
+      <li><strong>Applicable Statutory Cap:</strong> ₹500 for NIL return</li>
+      <li><strong>Total Late Fee Payable:</strong> <strong>₹500</strong> (₹250 CGST + ₹250 SGST)</li>
     </ul>
 
-    <h3>Example 2 — Mid-Size Business (Taxable Return, AATO ₹2 Crore, 60 Days Late)</h3>
+    <h3>Example 2: Mid-Size Enterprise (Turnover ₹3 Cr) Filing 60 Days Late</h3>
+    <p>A manufacturer with ₹3 Crore annual turnover files GSTR-3B 60 days past the due date:</p>
     <ul>
-      <li>Return Type: Taxable</li>
-      <li>Delay: 60 days &times; ₹50/day = ₹3,000</li>
-      <li>Cap (₹1.5 Cr–₹5 Cr range): ₹5,000 &rarr; Late Fee = <strong>₹3,000</strong> (below cap)</li>
+      <li><strong>Daily Penalty Rate:</strong> ₹50 per day (₹25 CGST + ₹25 SGST)</li>
+      <li><strong>Uncapped Computation:</strong> 60 days × ₹50 = ₹3,000</li>
+      <li><strong>Applicable Statutory Cap:</strong> ₹5,000 (for ₹1.5 Cr to ₹5 Cr slab)</li>
+      <li><strong>Total Late Fee Payable:</strong> <strong>₹3,000</strong> (₹1,500 CGST + ₹1,500 SGST)</li>
     </ul>
 
-    <h3>Example 3 — Large Business (Taxable Return, AATO ₹10 Crore, 10 Days Late)</h3>
+    <h2>Key Compliance Rules to Prevent Penalties</h2>
     <ul>
-      <li>Return Type: Taxable</li>
-      <li>Delay: 10 days &times; ₹50/day = ₹500</li>
-      <li>Cap (Above ₹5 Crore): ₹10,000 &rarr; Late Fee = <strong>₹500</strong> (below cap)</li>
+      <li><strong>Late fee is mandatory:</strong> Even if full tax liability was paid before the due date, late fees still accrue for late filing of the return itself.</li>
+      <li><strong>Cash ledger payment only:</strong> Late fees cannot be discharged using Input Tax Credit (Electronic Credit Ledger). They must be paid via Electronic Cash Ledger.</li>
+      <li><strong>Buyer ITC block:</strong> Delay in filing GSTR-1 prevents your buyers from seeing input credits in their GSTR-2B, delaying their tax claims.</li>
     </ul>
 
-    <h2>How to Minimize GST Late Fees</h2>
-    <ul>
-      <li><strong>File on time</strong> — Set calendar reminders for the 20th of each month (GSTR-3B monthly due date)</li>
-      <li><strong>File NIL returns promptly</strong> — Even if there's no business, file NIL to avoid daily accumulation</li>
-      <li><strong>Use GST portal alerts</strong> — The GST portal sends SMS/email reminders before due dates</li>
-      <li><strong>Check for amnesty schemes</strong> — Watch for GST Council notifications that waive or reduce fees</li>
-    </ul>
-
+    <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
 
-    <h2>Related Calculators</h2>
-    <ul>
-      <li><a href="/interest-calculator">GST Interest Calculator</a> — Calculate 18% interest on delayed tax payment</li>
-      <li><a href="/gst-calculator">GST Calculator Online</a> — Calculate your GST liability</li>
-      <li><a href="/gst-refund-calculator">GST Refund Calculator</a> — Estimate excess GST refunds</li>
-    </ul>
-
-    <h2>Conclusion</h2>
-    <p>Late GST return filing results in penalties that compound daily. Our free <strong>GST Late Fee Calculator online</strong> gives you an instant, accurate view of how much fee you owe for any delay period, helping you plan your filing and budget for compliance costs. Always file on time — the late fee saved is always worth more than the effort of filing.</p>
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST calculation tool?</h3>
+      <p class="text-sm text-body mb-4">Calculate delayed payment interest or compute your monthly tax liabilities.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/interest-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Interest Calculator</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Calculator Online</a>
+        <a href="/composition-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">Composition Calculator</a>
+        <a href="/gst-refund-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Refund Calculator</a>
+      </div>
+    </div>
   </div>
 </CalculatorLayout>
 

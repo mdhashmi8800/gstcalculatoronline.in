@@ -99,83 +99,82 @@ const faqs = [
 
   <!-- Educational content -->
   <div slot="content" class="prose max-w-none">
-    <h2>How to Calculate the Applied GST Rate Percentage</h2>
-    <p>Calculating the GST rate helps consumers and auditors verify if invoices have been computed accurately. In India, products and services are mapped to specific GST slabs. Any variance in the computed tax rate could indicate billing errors or non-compliance.</p>
+    <h2>GST Rate Calculator — Determine Applied Tax % from Invoice Totals</h2>
+    <p>Have you ever received a commercial invoice or purchase bill and needed to determine the exact GST percentage that was charged? Our free <strong>GST Rate Calculator online</strong> allows you to calculate the precise GST rate percentage applied to any transaction. Simply input the pre-tax base price and the final gross amount (or the tax amount), and the tool immediately computes the exact percentage slab (5%, 12%, 18%, 28%, or custom).</p>
+
+    <h2>Why Verify the Applied GST Rate?</h2>
+    <ul>
+      <li><strong>Auditing Vendor Invoices:</strong> Cross-check supplier invoices against legal GST rate schedules to prevent overbilling.</li>
+      <li><strong>Input Tax Credit (ITC) Reconciliation:</strong> Verify that tax entries in your purchase register match what the vendor reports in GSTR-1 and GSTR-2B.</li>
+      <li><strong>HSN/SAC Code Rate Confirmation:</strong> Identify whether a supplier used the standard 18% services rate or a reduced 5%/12% rate.</li>
+      <li><strong>Bookkeeping Accuracy:</strong> Quickly extract the percentage rate when entering manual vouchers into accounting software.</li>
+    </ul>
+
+    <h2>The Mathematical Formulas for Calculating GST Rate</h2>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">Method 1 — Using Base Price &amp; Final Gross Price:</p>
+        <p>GST Tax Amount = Gross Final Price − Base Taxable Price</p>
+        <p>GST Rate (%) = (GST Tax Amount ÷ Base Taxable Price) × 100</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">Method 2 — Using Base Price &amp; Direct GST Tax Amount:</p>
+        <p>GST Rate (%) = (GST Tax Amount ÷ Base Taxable Price) × 100</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Numerical Scenarios</h2>
     
-    <h3>Calculations Formulas</h3>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
-      <div>
-        <p class="font-semibold text-brand-link">1. Using Base & Gross Final Prices:</p>
-        <p>GST Rate (%) = [(Gross Price - Base Price) / Base Price] × 100</p>
-      </div>
-      <div class="border-t border-hairline/50 pt-4">
-        <p class="font-semibold text-brand-link">2. Using Base Price & Direct GST Tax Amount:</p>
-        <p>GST Rate (%) = [GST Tax Amount / Base Price] × 100</p>
-      </div>
-    </div>
-    <h2>Find Applied GST Rate on Any Invoice</h2>
-    <p>Ever received an invoice and wondered: <em>is the GST rate correct?</em> Our free <strong>GST Rate Calculator online</strong> helps you instantly verify the applied GST percentage on any invoice. Just enter the base price and the final invoice amount (or the tax amount directly), and the calculator shows you the exact rate applied — whether it is 5%, 12%, 18%, 28%, or any custom rate.</p>
-
-    <h2>GST Rate Formulas</h2>
-    <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
-      <div>
-        <p class="font-semibold text-brand-link">Method 1 — Base Price & Final Price:</p>
-        <p>GST Amount = Final Price − Base Price</p>
-        <p>GST Rate (%) = (GST Amount ÷ Base Price) × 100</p>
-      </div>
-      <div class="border-t border-hairline/50 pt-4">
-        <p class="font-semibold text-brand-link">Method 2 — Base Price & Tax Amount:</p>
-        <p>GST Rate (%) = (Tax Amount ÷ Base Price) × 100</p>
-      </div>
-    </div>
-
-    <h2>Calculation Examples</h2>
-    <h3>Example 1 — Services Invoice (18% GST)</h3>
+    <h3>Example 1: Consulting Services Invoice (18% Rate)</h3>
+    <p>A client receives a bill for ₹11,800 where the agreed professional fee is ₹10,000:</p>
     <ul>
-      <li>Base Price: ₹10,000</li>
-      <li>Final Invoice: ₹11,800</li>
-      <li>GST Amount: 11,800 − 10,000 = <strong>₹1,800</strong></li>
-      <li>GST Rate: (1,800 ÷ 10,000) × 100 = <strong>18%</strong></li>
+      <li><strong>Base Taxable Price:</strong> ₹10,000</li>
+      <li><strong>Gross Invoice Amount:</strong> ₹11,800</li>
+      <li><strong>GST Tax Charged:</strong> ₹11,800 − ₹10,000 = ₹1,800</li>
+      <li><strong>Calculated GST Rate:</strong> (₹1,800 ÷ ₹10,000) × 100 = <strong>18%</strong> (CGST 9% + SGST 9%)</li>
     </ul>
 
-    <h3>Example 2 — Packaged Foods (5% GST)</h3>
+    <h3>Example 2: Packaged Food Products (5% Rate)</h3>
+    <p>A retailer buys food items for a base value of ₹20,000 and is charged ₹1,000 tax:</p>
     <ul>
-      <li>Base Price: ₹20,000</li>
-      <li>GST Amount: ₹1,000</li>
-      <li>GST Rate: (1,000 ÷ 20,000) × 100 = <strong>5%</strong></li>
+      <li><strong>Base Taxable Price:</strong> ₹20,000</li>
+      <li><strong>GST Tax Charged:</strong> ₹1,000</li>
+      <li><strong>Calculated GST Rate:</strong> (₹1,000 ÷ ₹20,000) × 100 = <strong>5%</strong> (CGST 2.5% + SGST 2.5%)</li>
     </ul>
 
-    <h2>Standard GST Rates in India</h2>
-    <div class="overflow-x-auto my-4">
-      <table class="w-full text-sm border border-hairline rounded-xl overflow-hidden">
-        <thead class="bg-canvas-soft-2">
-          <tr>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Rate</th>
-            <th class="text-left p-3 font-semibold text-ink border-b border-hairline">Example Categories</th>
+    <h2>Standard Indian GST Tax Slab Matrix</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Rate Slab</th>
+            <th class="p-3 font-semibold text-ink">Common Product &amp; Service Categories</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Essential food, economy transport, agricultural equipment</td></tr>
-          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, mobile phones, processed food, business services</td></tr>
-          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Most services, software, electronics, FMCG products</td></tr>
-          <tr class="border-b border-hairline/50 bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Luxury cars, cement, aerated drinks, tobacco products</td></tr>
-          <tr class="border-b border-hairline/50"><td class="p-3 font-mono font-bold text-primary">3%</td><td class="p-3 text-body">Gold, silver, precious metals</td></tr>
-          <tr class="bg-canvas-soft/30"><td class="p-3 font-mono font-bold text-primary">0%</td><td class="p-3 text-body">Fresh vegetables, milk, healthcare, education (exempt)</td></tr>
+        <tbody class="divide-y divide-hairline">
+          <tr><td class="p-3 font-mono font-bold text-primary">0%</td><td class="p-3 text-body">Fresh vegetables, unbranded milk, eggs, educational services, healthcare (Exempt)</td></tr>
+          <tr><td class="p-3 font-mono font-bold text-primary">3%</td><td class="p-3 text-body">Gold, silver, platinum jewellery, articles of precious metals</td></tr>
+          <tr><td class="p-3 font-mono font-bold text-primary">5%</td><td class="p-3 text-body">Packaged food, domestic LPG, economy flight tickets, tea, coffee, medicines</td></tr>
+          <tr><td class="p-3 font-mono font-bold text-primary">12%</td><td class="p-3 text-body">Computers, processed foods, fruit juices, dairy products, business class flights</td></tr>
+          <tr><td class="p-3 font-mono font-bold text-primary">18%</td><td class="p-3 text-body">Most services, IT consulting, telecom, electronics, FMCG products, restaurants</td></tr>
+          <tr><td class="p-3 font-mono font-bold text-primary">28%</td><td class="p-3 text-body">Automobiles, air conditioners, aerated drinks, tobacco products, luxury goods</td></tr>
         </tbody>
       </table>
     </div>
 
+    <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
 
-    <h2>Related Calculators</h2>
-    <ul>
-      <li><a href="/gst-calculator">GST Calculator Online</a> — Add or remove GST using a known rate</li>
-      <li><a href="/gst-inclusive-calculator">GST Inclusive Calculator</a> — Extract GST from MRP price</li>
-      <li><a href="/gst-exclusive-calculator">GST Exclusive Calculator</a> — Add GST to base price</li>
-    </ul>
-
-    <h2>Conclusion</h2>
-    <p>The <strong>GST Rate Calculator online</strong> is your quick verification tool for any invoice. Whether you are a buyer auditing a supplier's bill, a CA reconciling ITC claims, or a business owner reviewing invoices, this tool ensures the correct GST rate has been applied every time. Use it alongside our complete suite of free GST calculators at gstcalculatoronline.in.</p>
+    <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST calculation tool?</h3>
+      <p class="text-sm text-body mb-4">Browse our complete suite of free Indian tax calculators, rate directories, and invoice builders.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Calculator Online</a>
+        <a href="/gst-inclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Inclusive Calculator</a>
+        <a href="/gst-exclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Exclusive Calculator</a>
+        <a href="/gst-rate-finder" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">HSN Rate Finder</a>
+      </div>
+    </div>
   </div>
 </CalculatorLayout>
 

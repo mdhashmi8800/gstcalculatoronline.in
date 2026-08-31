@@ -213,23 +213,102 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>GST Inclusive Calculator</h2>
-    
-      <h2>Extracting Tax with GST Inclusive Calculator</h2>
-      <p>A <strong>GST inclusive calculator</strong> is a financial utility that helps you extract the baseline taxable value and the tax component from a transaction price that already includes GST. It is particularly useful because many consumer goods and retail services in India are sold at Maximum Retail Price (MRP), which is legally required to be inclusive of all taxes. For accurate billing, reporting, and claiming input tax credit, you must peel away the tax layer to isolate the base cost.</p>
-      <h2>Why Use an Inclusive GST Calculator?</h2>
-      <p>When you record transactions in your accounting books (like Tally or Zoho Books), you cannot book the entire gross amount as revenue or cost. The tax portion must be transferred to separate ledgers (CGST output/input, SGST output/input, or IGST). Isolating these fractions manually with a calculator can lead to rounding errors. This online tool automates the process instantly.</p>
-    
-    
+    <h2>GST Inclusive Calculator — Extract Tax &amp; Pre-Tax Base Amount</h2>
+    <p>A <strong>GST inclusive calculator</strong> is a specialized financial utility that extracts the pre-tax base cost and exact Goods and Services Tax (GST) amount from a price that already includes tax. In India, Maximum Retail Prices (MRP) displayed on consumer goods, retail packaging, and consumer service receipts are legally required to be inclusive of all taxes.</p>
+    <p>When recording transactions in accounting software (such as Tally, Zoho Books, or QuickBooks), businesses must book the pure taxable base amount separately from output and input tax ledgers. Our free <strong>GST Inclusive Calculator</strong> automates this extraction instantly across all statutory Indian tax slabs (5%, 12%, 18%, 28%) and custom tax rates.</p>
+
+    <h2>The Mathematical Formula for Inclusive GST Calculation</h2>
+    <p>To extract the base amount and tax from a tax-inclusive total, use the following algebraic formulas:</p>
+
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Baseline Taxable Value Formula:</p>
+        <p>Pre-Tax Base Amount = Gross Inclusive Price ÷ (1 + GST Rate ÷ 100)</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. GST Tax Extraction Formula:</p>
+        <p>Total GST Tax Amount = Gross Inclusive Price − Pre-Tax Base Amount</p>
+        <p>CGST Tax Portion = Total GST Tax Amount ÷ 2 (for intra-state supplies)</p>
+        <p>SGST Tax Portion = Total GST Tax Amount ÷ 2 (for intra-state supplies)</p>
+        <p>IGST Tax Portion = Full Total GST Tax Amount (for inter-state supplies)</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Worked Numerical Scenarios</h2>
+
+    <h3>Example 1: Extracting 18% GST from an Electronics Invoice of ₹59,000</h3>
+    <p>A corporate buyer purchases office IT hardware for a total invoice amount of ₹59,000 (inclusive of 18% GST):</p>
+    <ul>
+      <li><strong>Gross Inclusive Price:</strong> ₹59,000</li>
+      <li><strong>Tax Factor:</strong> 1 + (18 ÷ 100) = 1.18</li>
+      <li><strong>Pre-Tax Base Amount:</strong> ₹59,000 ÷ 1.18 = <strong>₹50,000</strong></li>
+      <li><strong>Total GST Amount:</strong> ₹59,000 − ₹50,000 = <strong>₹9,000</strong></li>
+      <li><strong>CGST (9%):</strong> ₹4,500 | <strong>SGST (9%):</strong> ₹4,500</li>
+    </ul>
+
+    <h3>Example 2: Extracting 12% GST from Commercial Goods of ₹22,400</h3>
+    <p>A shopkeeper sells packaged goods for an MRP of ₹22,400 inclusive of 12% GST:</p>
+    <ul>
+      <li><strong>Gross MRP Total:</strong> ₹22,400</li>
+      <li><strong>Pre-Tax Base Amount:</strong> ₹22,400 ÷ 1.12 = <strong>₹20,000</strong></li>
+      <li><strong>Total GST Extracted:</strong> ₹22,400 − ₹20,000 = <strong>₹2,400</strong></li>
+      <li><strong>CGST (6%):</strong> ₹1,200 | <strong>SGST (6%):</strong> ₹1,200</li>
+    </ul>
+
+    <h2>Inclusive GST Divisor Table Across Slabs</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Slab Rate</th>
+            <th class="p-3 font-semibold text-ink">Inclusive Divisor</th>
+            <th class="p-3 font-semibold text-ink">Effective Tax Fraction</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">3% (Gold)</td>
+            <td class="p-3 font-mono">1.03</td>
+            <td class="p-3 text-body">3 ÷ 103 ≈ 2.912% of total price</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">5% (Merit)</td>
+            <td class="p-3 font-mono">1.05</td>
+            <td class="p-3 text-body">5 ÷ 105 ≈ 4.762% of total price</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">12% (Standard I)</td>
+            <td class="p-3 font-mono">1.12</td>
+            <td class="p-3 text-body">12 ÷ 112 ≈ 10.714% of total price</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">18% (Standard II)</td>
+            <td class="p-3 font-mono">1.18</td>
+            <td class="p-3 text-body">18 ÷ 118 ≈ 15.254% of total price</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">28% (Luxury)</td>
+            <td class="p-3 font-mono">1.28</td>
+            <td class="p-3 text-body">28 ÷ 128 ≈ 21.875% of total price</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Why Inclusive GST Calculation Matters for Input Tax Credit (ITC)</h2>
+    <p>To claim <strong>Input Tax Credit (ITC)</strong> under Section 16 of the CGST Act, 2017, registered taxpayers must report the exact taxable value and segregated tax amounts in their monthly GSTR-3B filings. When vendors issue consolidated bills without separate line items, using an inclusive calculator ensures that credit claims match your accounting ledgers with zero discrepancy.</p>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Calculator</a>
+        <a href="/gst-exclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Exclusive Calculator</a>
+        <a href="/reverse-gst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">Reverse GST Calculator</a>
+        <a href="/gst-rates" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
       </div>
     </div>
   </div>

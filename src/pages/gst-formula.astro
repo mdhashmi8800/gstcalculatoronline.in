@@ -213,33 +213,94 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>GST Formula & Calculation Guide</h2>
-    
-      <h2>The Mathematics of Goods and Services Tax</h2>
-      <p>Understanding the mathematical formula behind Goods and Services Tax (GST) is crucial for correct accounting, spreadsheet auditing, and invoicing. The math changes depending on whether the price is <em>GST exclusive</em> (tax needs to be added) or <em>GST inclusive</em> (tax needs to be extracted).</p>
-      <h2>Formula 1: Adding GST (Exclusive Price)</h2>
-      <p>When the price of a product or service is exclusive of tax, you add the GST rate component on top of it:</p>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p>GST Amount = Base Price × (GST Rate ÷ 100)</p>
-        <p>Gross Price (Total Invoice) = Base Price + GST Amount</p>
+    <h2>GST Calculation Formulas — Complete Mathematical Reference Guide</h2>
+    <p>Understanding the exact mathematical formulas behind India's Goods and Services Tax (GST) is essential for Chartered Accountants, financial analysts, software developers building billing systems, and business owners auditing sales spreadsheets. The calculation methodology changes depending on whether your price is quoted as <strong>GST Exclusive</strong> (adding tax to base cost) or <strong>GST Inclusive</strong> (extracting tax from gross MRP).</p>
+
+    <h2>1. Mathematical Formula for Adding GST (Exclusive Price)</h2>
+    <p>When goods or services are quoted at a net base price before tax, calculate the tax and total invoice value using:</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">Exclusive GST Equations:</p>
+        <p>GST Tax Amount = Base Taxable Price × (GST Rate ÷ 100)</p>
+        <p>Gross Final Price = Base Taxable Price + GST Tax Amount = Base Taxable Price × [1 + (GST Rate ÷ 100)]</p>
+        <p>Intra-State Split: CGST = GST Tax Amount ÷ 2 | SGST = GST Tax Amount ÷ 2</p>
+        <p>Inter-State Levy: IGST = Full GST Tax Amount</p>
       </div>
-      <h2>Formula 2: Removing GST (Inclusive Price / Back-Calculation)</h2>
-      <p>When tax is already included in the final price, you extract the net taxable amount and the tax portion using reverse algebra:</p>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p>Base Taxable Price = Inclusive Price ÷ (1 + GST Rate ÷ 100)</p>
-        <p>GST Tax Amount = Inclusive Price − Base Taxable Price</p>
+    </div>
+
+    <h2>2. Mathematical Formula for Removing GST (Inclusive Price / MRP)</h2>
+    <p>When retail price tags or bills already include tax, extracting the base cost requires algebraic reverse calculation:</p>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">Inclusive GST Reverse Equations:</p>
+        <p>Pre-Tax Base Value = Gross Inclusive Price ÷ [1 + (GST Rate ÷ 100)]</p>
+        <p>GST Tax Amount = Gross Inclusive Price − Pre-Tax Base Value</p>
+        <p>Intra-State Split: CGST = GST Tax Amount ÷ 2 | SGST = GST Tax Amount ÷ 2</p>
       </div>
-    
-    
+    </div>
+
+    <h2>Algebraic Proof: Why Direct Percentage Subtraction Fails</h2>
+    <p>A frequent error made in spreadsheets is subtracting the tax percentage directly from the inclusive price (e.g. `₹118 − 18% = ₹96.76`).</p>
+    <p>Here is why that is mathematically incorrect:</p>
+    <ul>
+      <li>Let <strong>B</strong> = Pre-Tax Base Price, <strong>R</strong> = Tax Rate (18%), and <strong>T</strong> = Gross Total (₹118).</li>
+      <li>By definition: `T = B + (B × 0.18) = B × (1 + 0.18) = 1.18 × B`</li>
+      <li>Solving for <strong>B</strong> gives: `B = T ÷ 1.18`</li>
+      <li>Substituting `T = ₹118`: `B = 118 ÷ 1.18 = ₹100.00`</li>
+      <li>The actual tax paid is `₹118 − ₹100 = ₹18.00`, whereas subtracting 18% from ₹118 yields `₹21.24` (an overcharge error of ₹3.24).</li>
+    </ul>
+
+    <h2>Spreadsheet Formulas for Microsoft Excel &amp; Google Sheets</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">Calculation Goal</th>
+            <th class="p-3 font-semibold text-ink">Excel / Google Sheets Formula</th>
+            <th class="p-3 font-semibold text-ink">Example Inputs</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-medium text-ink">Add 18% GST (Total)</td>
+            <td class="p-3 font-mono text-primary font-bold">=A2 * 1.18</td>
+            <td class="p-3 text-body">A2 = 10,000 &rarr; Result: 11,800</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Add 18% GST (Tax Only)</td>
+            <td class="p-3 font-mono text-primary font-bold">=A2 * 0.18</td>
+            <td class="p-3 text-body">A2 = 10,000 &rarr; Result: 1,800</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Extract 18% Base (Net)</td>
+            <td class="p-3 font-mono text-primary font-bold">=A2 / 1.18</td>
+            <td class="p-3 text-body">A2 = 11,800 &rarr; Result: 10,000</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Extract 18% Tax Portion</td>
+            <td class="p-3 font-mono text-primary font-bold">=A2 - (A2 / 1.18)</td>
+            <td class="p-3 text-body">A2 = 11,800 &rarr; Result: 1,800</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-medium text-ink">Calculate CGST (9%)</td>
+            <td class="p-3 font-mono text-primary font-bold">=(A2 - (A2 / 1.18)) / 2</td>
+            <td class="p-3 text-body">A2 = 11,800 &rarr; Result: 900</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
-      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
+      <h3 class="text-lg font-bold text-ink mb-2">Need a dynamic calculation tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Calculator Online</a>
+        <a href="/reverse-gst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">Reverse GST Calculator</a>
+        <a href="/gst-rate-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Rate Calculator</a>
+        <a href="/gst-rates" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">View GST Slabs 2026</a>
       </div>
     </div>
   </div>

@@ -213,37 +213,116 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>Reverse GST Calculator — Deduct GST from Total Price</h2>
-    
-      <h2>Understanding Reverse GST Calculations</h2>
-      <p>A <strong>reverse GST calculator</strong> is designed for business owners, accountants, and retail buyers who need to determine the original pre-tax value (taxable base amount) of a product or service from its final, tax-inclusive price. Under the dual-GST structure in India, when you purchase goods or services, the invoice displays a total price that already incorporates tax. To properly account for transactions, you must record the net taxable price and the tax portions separately in your books of accounts.</p>
-      <h2>How the Reverse GST Calculator Works</h2>
-      <p>Our reverse GST calculator does the algebraic reverse calculation. Rather than multiplying the price by the tax rate directly (which would lead to an incorrect over-calculation), it isolates the tax percentage component first. It lets you select the rate slab — such as 5%, 12%, 18%, or 28% — and provides the net taxable cost, the total tax collected, and splits it into CGST and SGST for local transactions, or IGST for interstate transactions.</p>
-      <h2>The Mathematical Formula for Reverse GST</h2>
-      <div class="my-4 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed">
-        <p class="font-semibold text-brand-link">Reverse GST Formula:</p>
-        <p class="mt-2">Base Taxable Value = Inclusive Price ÷ (1 + GST Rate ÷ 100)</p>
-        <p>Total GST Amount = Inclusive Price − Base Taxable Value</p>
-        <p class="mt-2">For Intrastate supply: CGST = SGST = Total GST Amount ÷ 2</p>
-        <p>For Interstate supply: IGST = Total GST Amount</p>
+    <h2>Reverse GST Calculator — Deduct GST from Inclusive Total Price</h2>
+    <p>A <strong>reverse GST calculator</strong> is designed for business owners, accountants, e-commerce sellers, and consumers who need to determine the original pre-tax taxable base value from a gross, tax-inclusive amount. Under India's Goods and Services Tax (GST) system, retail price tags (MRP) and commercial invoices often state the total inclusive cost. To maintain accurate accounting books, claim Input Tax Credit (ITC), or verify tax portions, you must separate the base price from the GST tax liability.</p>
+    <p>Our free <strong>Reverse GST Calculator</strong> accurately performs the algebraic back-calculation across all active Indian tax slabs — <strong>5%, 12%, 18%, and 28%</strong> — as well as custom rates (such as 3% for gold or 0.25% for rough gemstones).</p>
+
+    <h2>Why Direct Percentage Subtraction Gives Incorrect Results</h2>
+    <p>A common error is to directly calculate the tax percentage on the gross inclusive price (e.g. subtracting 18% from ₹11,800 to get ₹2,124). This creates an incorrect, inflated tax figure because the 18% statutory tax was originally applied on top of the <em>net base cost</em> (₹10,000), not the tax-inclusive sum.</p>
+    <p>Mathematical reverse calculation solves this by dividing the total price by the tax factor `(1 + Rate/100)`, perfectly isolating the true pre-tax base value.</p>
+
+    <h2>The Mathematical Formula for Reverse GST</h2>
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">Reverse GST Formula (Extracting Base Value &amp; Tax):</p>
+        <p>Pre-Tax Base Value = Inclusive Total Amount ÷ (1 + GST Rate ÷ 100)</p>
+        <p>Total GST Tax Amount = Inclusive Total Amount − Pre-Tax Base Value</p>
+        <p>CGST Tax Portion = Total GST Tax Amount ÷ 2 (for intra-state sales)</p>
+        <p>SGST Tax Portion = Total GST Tax Amount ÷ 2 (for intra-state sales)</p>
+        <p>IGST Tax Portion = Full Total GST Tax Amount (for inter-state sales)</p>
       </div>
-      <p>Example: If a product is sold for ₹11,800 (inclusive of 18% GST):</p>
-      <ul>
-        <li>Base Value = 11,800 ÷ (1 + 18/100) = 11,800 ÷ 1.18 = <strong>₹10,000</strong></li>
-        <li>GST Amount = 11,800 − 10,000 = <strong>₹1,800</strong></li>
-        <li>CGST (9%) = <strong>₹900</strong> | SGST (9%) = <strong>₹900</strong></li>
-      </ul>
-    
-    
+    </div>
+
+    <h2>Step-by-Step Numerical Reverse Calculation Examples</h2>
+
+    <h3>Example 1: Removing 18% GST from a Service Invoice of ₹11,800</h3>
+    <p>An enterprise receives an inclusive marketing service bill of ₹11,800 from a local vendor:</p>
+    <ul>
+      <li><strong>Gross Inclusive Price:</strong> ₹11,800</li>
+      <li><strong>GST Tax Slab:</strong> 18%</li>
+      <li><strong>Tax Factor:</strong> 1 + (18 ÷ 100) = 1.18</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹11,800 ÷ 1.18 = <strong>₹10,000</strong></li>
+      <li><strong>Total GST Amount:</strong> ₹11,800 − ₹10,000 = <strong>₹1,800</strong></li>
+      <li><strong>CGST Component (9%):</strong> ₹900 | <strong>SGST Component (9%):</strong> ₹900</li>
+    </ul>
+
+    <h3>Example 2: Deducting 5% GST from a Restaurant Bill of ₹5,250</h3>
+    <p>A corporate lunch bill totals ₹5,250 inclusive of 5% restaurant GST:</p>
+    <ul>
+      <li><strong>Gross Bill Amount:</strong> ₹5,250</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹5,250 ÷ 1.05 = <strong>₹5,000</strong></li>
+      <li><strong>Total GST Extracted:</strong> ₹5,250 − ₹5,000 = <strong>₹250</strong></li>
+      <li><strong>CGST (2.5%):</strong> ₹125 | <strong>SGST (2.5%):</strong> ₹125</li>
+    </ul>
+
+    <h3>Example 3: Extracting 28% GST from a Luxury Purchase of ₹64,000</h3>
+    <p>A business purchases air conditioning equipment for ₹64,000 inclusive of 28% luxury GST:</p>
+    <ul>
+      <li><strong>Gross Inclusive Price:</strong> ₹64,000</li>
+      <li><strong>Pre-Tax Base Value:</strong> ₹64,000 ÷ 1.28 = <strong>₹50,000</strong></li>
+      <li><strong>Total GST Extracted:</strong> ₹64,000 − ₹50,000 = <strong>₹14,000</strong></li>
+      <li><strong>CGST (14%):</strong> ₹7,000 | <strong>SGST (14%):</strong> ₹7,000</li>
+    </ul>
+
+    <h2>Reverse GST Quick Reference Divisor Chart</h2>
+    <div class="overflow-x-auto my-6">
+      <table class="w-full text-left border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-hairline bg-canvas-soft">
+            <th class="p-3 font-semibold text-ink">GST Slab</th>
+            <th class="p-3 font-semibold text-ink">Reverse Calculation Factor</th>
+            <th class="p-3 font-semibold text-ink">Formula for Base Value</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-hairline">
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">3% (Gold)</td>
+            <td class="p-3 font-mono">1.03</td>
+            <td class="p-3 font-mono text-body">Total Amount ÷ 1.03</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">5% (Merit)</td>
+            <td class="p-3 font-mono">1.05</td>
+            <td class="p-3 font-mono text-body">Total Amount ÷ 1.05</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">12% (Standard I)</td>
+            <td class="p-3 font-mono">1.12</td>
+            <td class="p-3 font-mono text-body">Total Amount ÷ 1.12</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">18% (Standard II)</td>
+            <td class="p-3 font-mono">1.18</td>
+            <td class="p-3 font-mono text-body">Total Amount ÷ 1.18</td>
+          </tr>
+          <tr>
+            <td class="p-3 font-mono font-bold text-primary">28% (Luxury)</td>
+            <td class="p-3 font-mono">1.28</td>
+            <td class="p-3 font-mono text-body">Total Amount ÷ 1.28</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Who Should Use This Reverse GST Calculator?</h2>
+    <ul>
+      <li><strong>Accountants &amp; Bookkeepers:</strong> Reconciling purchase invoices, separating base taxable costs from tax ledger accounts, and filing monthly GSTR-3B summaries.</li>
+      <li><strong>Traders &amp; Distributors:</strong> Back-calculating purchasing margins from vendor inclusive price quotes.</li>
+      <li><strong>Freelancers &amp; Professionals:</strong> Deducting GST from fixed-budget project milestones to invoice correct taxable amounts.</li>
+      <li><strong>Consumers &amp; Shoppers:</strong> Finding out the actual product cost and tax paid on MRP retail products.</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
-      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
-      <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
+      <h3 class="text-lg font-bold text-ink mb-2">Need a different GST calculation tool?</h3>
+      <p class="text-sm text-body mb-4">Explore our full suite of free Indian tax calculators, rate directories, and invoice builders.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">Standard GST Calculator</a>
+        <a href="/gst-inclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Inclusive Calculator</a>
+        <a href="/gst-exclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Exclusive Calculator</a>
+        <a href="/gst-rates" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">View GST Slabs 2026</a>
       </div>
     </div>
   </div>

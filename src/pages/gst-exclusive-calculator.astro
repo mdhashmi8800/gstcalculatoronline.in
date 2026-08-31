@@ -213,23 +213,79 @@ const faqs = [
   <ResultCard slot="results" />
 
   <div slot="content" class="prose max-w-none">
-    <h2>GST Exclusive Calculator</h2>
-    
-      <h2>Calculating Tax with GST Exclusive Calculator</h2>
-      <p>A <strong>GST exclusive calculator</strong> is a financial tool used to calculate the final invoice total and tax portions by adding GST on top of a base (pre-tax) taxable price. In business-to-business (B2B) transactions, quotations and price lists are usually presented as 'exclusive of tax' to allow corporate buyers to see the pure product cost before deciding how to utilize their input tax credits.</p>
-      <h2>How to Add GST to a Net Price</h2>
-      <p>Adding GST is straightforward. You take the base exclusive price and multiply it by the applicable GST rate (5%, 12%, 18%, or 28%). The result is the tax amount. You then sum the base price and the tax amount to get the gross final price. Our calculator performs this instantly and breaks down the tax into local splits or integrated taxes based on your transaction type.</p>
-    
-    
+    <h2>GST Exclusive Calculator — Add GST to Net Base Price</h2>
+    <p>A <strong>GST exclusive calculator</strong> is a financial utility used to calculate the final invoice total and tax breakdowns by adding Goods and Services Tax (GST) on top of a net taxable base price. In business-to-business (B2B) trade and professional service proposals across India, pricing quotes are standardly presented as 'exclusive of GST'. This allows buyers to clearly view the net cost and calculate the exact Input Tax Credit (ITC) they can claim.</p>
+    <p>Our free <strong>GST Exclusive Calculator</strong> adds GST accurately across all statutory Indian tax slabs — <strong>5%, 12%, 18%, and 28%</strong> — and custom rates, automatically computing intra-state (CGST + SGST) and inter-state (IGST) splits.</p>
+
+    <h2>The Mathematical Formula for Exclusive GST Calculation</h2>
+    <p>When adding GST to a net base price, use the following standard formulas:</p>
+
+    <div class="my-6 rounded-xl border border-hairline bg-canvas-soft-2 p-5 font-mono text-sm text-ink leading-relaxed space-y-4">
+      <div>
+        <p class="font-semibold text-primary">1. Adding GST to Base Price:</p>
+        <p>GST Tax Amount = Base Taxable Price × (GST Rate ÷ 100)</p>
+        <p>Gross Final Invoice Amount = Base Taxable Price + GST Tax Amount</p>
+      </div>
+      <div class="border-t border-hairline/50 pt-4">
+        <p class="font-semibold text-primary">2. Tax Component Splits:</p>
+        <p>CGST Tax Portion = GST Tax Amount ÷ 2 (for intra-state supplies)</p>
+        <p>SGST Tax Portion = GST Tax Amount ÷ 2 (for intra-state supplies)</p>
+        <p>IGST Tax Portion = Full GST Tax Amount (for inter-state supplies)</p>
+      </div>
+    </div>
+
+    <h2>Step-by-Step Numerical Examples</h2>
+
+    <h3>Example 1: Adding 18% GST to CA Audit Services of ₹25,000</h3>
+    <p>A Chartered Accountant in Mumbai invoices a client in Maharashtra for ₹25,000 plus 18% GST:</p>
+    <ul>
+      <li><strong>Base Taxable Fee:</strong> ₹25,000</li>
+      <li><strong>GST Tax Rate:</strong> 18%</li>
+      <li><strong>GST Tax Amount:</strong> ₹25,000 × (18 ÷ 100) = <strong>₹4,500</strong></li>
+      <li><strong>CGST Component (9%):</strong> ₹2,250</li>
+      <li><strong>SGST Component (9%):</strong> ₹2,250</li>
+      <li><strong>Grand Total Invoice Amount:</strong> ₹25,000 + ₹4,500 = <strong>₹29,500</strong></li>
+    </ul>
+
+    <h3>Example 2: Adding 5% GST to Packaged Commodities of ₹80,000</h3>
+    <p>A wholesaler in Delhi sells packaged spices to a local retailer for ₹80,000 (exclusive of tax):</p>
+    <ul>
+      <li><strong>Base Taxable Price:</strong> ₹80,000</li>
+      <li><strong>GST Tax Rate:</strong> 5%</li>
+      <li><strong>GST Tax Amount:</strong> ₹80,000 × 5% = <strong>₹4,000</strong></li>
+      <li><strong>CGST (2.5%):</strong> ₹2,000 | <strong>SGST (2.5%):</strong> ₹2,000</li>
+      <li><strong>Gross Invoice Total:</strong> ₹80,000 + ₹4,000 = <strong>₹84,000</strong></li>
+    </ul>
+
+    <h3>Example 3: Interstate Supply at 28% Luxury GST of ₹2,00,000</h3>
+    <p>A dealer in Haryana ships commercial air conditioning units to a company in Punjab for ₹2,00,000:</p>
+    <ul>
+      <li><strong>Base Taxable Value:</strong> ₹2,00,000</li>
+      <li><strong>Transaction Type:</strong> Inter-State (IGST)</li>
+      <li><strong>IGST Tax Amount (28%):</strong> ₹2,00,000 × 28% = <strong>₹56,000</strong></li>
+      <li><strong>Final Billing Value:</strong> ₹2,00,000 + ₹56,000 = <strong>₹2,56,000</strong></li>
+    </ul>
+
+    <h2>B2B Invoicing Rules for Exclusive GST Pricing</h2>
+    <p>Under Section 31 of the CGST Act and Rule 46 of the CGST Rules, 2017, a valid tax invoice must show:</p>
+    <ul>
+      <li>The total taxable value of the goods or services supplied.</li>
+      <li>The applicable rate of GST (CGST, SGST, UTGST, or IGST).</li>
+      <li>The exact total tax charged on the supply.</li>
+      <li>The recipient's GSTIN (to enable Input Tax Credit auto-population in GSTR-2B).</li>
+    </ul>
+
     <h2>Frequently Asked Questions</h2>
     <FAQ items={faqs} />
-    
+
     <div class="mt-8 rounded-xl border border-hairline bg-canvas-soft p-6 shadow-xs text-center">
       <h3 class="text-lg font-bold text-ink mb-2">Need a different GST tool?</h3>
       <p class="text-sm text-body mb-4">Browse our complete list of calculators, find active GST rate slabs, or create professional invoices in seconds.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <a href="/" class="px-5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:opacity-90 transition-all">All Calculators</a>
-        <a href="/gst-rates" class="px-5 py-2.5 rounded-xl border border-hairline bg-canvas text-ink text-sm font-semibold hover:bg-canvas-soft-2 transition-all">View GST Rates</a>
+        <a href="/gst-calculator" class="px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-semibold hover:opacity-90 transition-all">GST Calculator</a>
+        <a href="/gst-inclusive-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Inclusive Calculator</a>
+        <a href="/reverse-gst-calculator" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">Reverse GST Calculator</a>
+        <a href="/invoice-builder" class="px-4 py-2 rounded-xl border border-hairline bg-canvas text-ink text-xs font-semibold hover:bg-canvas-soft-2 transition-all">GST Invoice Builder</a>
       </div>
     </div>
   </div>
