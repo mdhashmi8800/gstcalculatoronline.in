@@ -46,7 +46,7 @@ This guide covers all core GST formulas with worked examples, Excel templates, a
 
 ## Formula 1: Adding GST to a Base Price (Exclusive Calculation)
 
-When your price is **exclusive of tax** (net taxable price), you add GST on top to reach the final invoice value.
+When your price is **exclusive of tax** (net taxable price), you add GST on top to reach the final invoice value. You can run instant calculations using our dedicated [GST Exclusive Calculator](/gst-exclusive-calculator) or our master [Online GST Calculator](/gst-calculator).
 
 ### The Formula:
 ```
@@ -56,6 +56,7 @@ CGST = GST Amount ÷ 2  (intra-state)
 SGST = GST Amount ÷ 2  (intra-state)
 IGST = GST Amount       (inter-state)
 ```
+*(To split between Central and State governments, use our [GST Split Calculator](/gst-split-calculator) or [CGST Calculator](/cgst-calculator).)*
 
 ### Examples Across All GST Slabs:
 
@@ -76,7 +77,7 @@ A management consultant charges ₹50,000 for advisory services (18% GST, intra-
 
 ## Formula 2: Removing GST from an Inclusive Price (Reverse Calculation)
 
-When the price **already includes GST** (e.g., MRP on a product, restaurant bill), you need to extract the base price and GST separately.
+When the price **already includes GST** (e.g., MRP on a product, restaurant bill), you need to extract the base price and GST separately. Compute this automatically using our [Reverse GST Calculator](/reverse-gst-calculator) or [GST Inclusive Calculator](/gst-inclusive-calculator).
 
 **⚠️ Common Mistake:** Many people calculate GST from an inclusive price as: Inclusive × 18% = GST. This is **wrong** — it over-calculates the tax because you're applying the rate to the tax-inclusive amount.
 

@@ -77,16 +77,16 @@ Below is a reference guide on common limits, forms, and compliance thresholds un
 | --- | --- | --- | --- |
 | **GST Registration (Goods)** | ₹40 Lakhs (Aggregate Turnover) | Form GST REG-01 | Up to 100% of tax evaded |
 | **GST Registration (Services)** | ₹20 Lakhs (Aggregate Turnover) | Form GST REG-01 | Up to 100% of tax evaded |
-| **Composition Scheme (Regular)** | ₹1.5 Crore Turnover Limit | Form GST CMP-02 | Exclusion & interest penalties |
+| **Composition Scheme (Regular)** | ₹1.5 Crore Turnover Limit | [Composition Calculator](/composition-calculator) | Exclusion & interest penalties |
 | **Composition Scheme (Services)** | ₹50 Lakhs Turnover Limit | Form GST CMP-02 | Exclusion & interest penalties |
 | **E-Way Bill Requirement** | Consignment value > ₹50,000 | Form GST EWB-01 | ₹10,000 or tax amount fine |
-| **E-Invoicing Applicability** | Aggregate Turnover > ₹5 Crore | Scheme Schema | Invoices treated as invalid |
-| **Late Fees (GSTR-3B Taxable)** | Capped at ₹2,000 to ₹10,000 | Auto-calculated | ₹50 per day of delay |
+| **E-Invoicing Applicability** | Aggregate Turnover > ₹5 Crore | [E-Invoicing Guide](/guides/e-invoicing-threshold-rules) | Invoices treated as invalid |
+| **Late Fees (GSTR-3B Taxable)** | Capped at ₹2,000 to ₹10,000 | [Late Fee Calculator](/late-fee-calculator) | ₹50 per day of delay |
 | **Late Fees (GSTR-3B NIL)** | Capped at ₹500 | Auto-calculated | ₹20 per day of delay |
-| **Section 50 Interest Rate** | 18% per annum (Cash) | Self-assessment | Accrues daily on delay |
-| **Wrong ITC Utilized Interest** | 24% per annum | DRC-01 Notice | Accrues from date of claim |
+| **Section 50 Interest Rate** | 18% per annum (Cash) | [GST Interest Calculator](/interest-calculator) | Accrues daily on delay |
+| **Wrong ITC Utilized Interest** | 24% per annum | [Interest Calculator](/interest-calculator) | Accrues from date of claim |
 
-It is crucial to remember that these thresholds are subject to change by notifications issued by the GST Council. Taxpayers must consult their CA or tax advisor to verify current limits.
+It is crucial to remember that these thresholds are subject to change by notifications issued by the GST Council. Taxpayers must consult their CA or tax advisor to verify current limits. Review our full [GST Compliance Checklist 2026](/guides/gst-compliance-checklist-2026) for audit preparation.
 
 ## Practical Examples and Mathematical Calculations
 
@@ -96,14 +96,14 @@ To understand how GST is calculated, let us compute the tax and invoice total fo
 
 **Scenario A: Intrastate supply (same state transaction)**
 - Base Price of Service: ₹50,000
-- CGST (9%): ₹50,000 * 9% = ₹4,500
-- SGST (9%): ₹50,000 * 9% = ₹4,500
+- CGST (9%): ₹50,000 * 9% = ₹4,500 (calculate with our [CGST Calculator](/cgst-calculator))
+- SGST (9%): ₹50,000 * 9% = ₹4,500 (calculate with our [SGST Calculator](/sgst-calculator))
 - Total Invoice Price = 50,000 + 4,500 + 4,500 = **₹59,000**
 - Output GST collected = **₹9,000** (shared equally as ₹4,500 to Centre and ₹4,500 to State).
 
 **Scenario B: Interstate supply (different state transaction)**
 - Base Price of Service: ₹50,000
-- IGST (18%): ₹50,000 * 18% = ₹9,000
+- IGST (18%): ₹50,000 * 18% = ₹9,000 (calculate with our [IGST Calculator](/igst-calculator))
 - Total Invoice Price = 50,000 + 9,000 = **₹59,000**
 - Output GST collected = **₹9,000** (collected by Centre and allocated to consumer state).
 

@@ -173,6 +173,9 @@ if (fs.existsSync(redirectsFile)) {
     '/tools/gst-rate-calculator',
     '/add-gst-to-price',
     '/remove-gst-from-total',
+    '/tools',
+    '/blog/page/1',
+    '/blog/gst-in-india-vs-sales-tax-in-usa-key-differences-explained',
   ];
   sampleRedirects.forEach(src => {
     const match = redirectLines.find(l => l.startsWith(src + ' ') || l.startsWith(src + '\t'));

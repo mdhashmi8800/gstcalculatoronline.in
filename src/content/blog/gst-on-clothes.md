@@ -45,10 +45,12 @@ This guide covers every major GST rate applicable to the textile and clothing se
 
 The GST rate on readymade garments depends primarily on the **selling price per piece:**
 
-| Garment Price per Piece | GST Rate | CGST | SGST |
-|---|---|---|---|
-| Up to ₹1,000 | 5% | 2.5% | 2.5% |
-| Above ₹1,000 | 12% | 6% | 6% |
+| Garment Price per Piece | GST Rate | CGST | SGST | Quick Tool |
+|---|---|---|---|---|
+| Up to ₹1,000 | 5% | 2.5% | 2.5% | [5% GST Calculator](/5-percent-gst-calculator) |
+| Above ₹1,000 | 12% | 6% | 6% | [12% GST Calculator](/12-percent-gst-calculator) |
+
+You can also use our master [Online GST Calculator](/gst-calculator) or check the official [GST Rates 2026 Directory](/gst-rates) for updated slab notifications.
 
 **Effective Since:** January 1, 2022 (following the 46th GST Council meeting).
 
@@ -130,7 +132,7 @@ The textile supply chain is long: cotton farm → ginning → spinning → weavi
 Imported garments attract:
 1. **Basic Customs Duty (BCD):** 20% on CIF value
 2. **Social Welfare Surcharge (SWS):** 10% of BCD
-3. **IGST:** 12% on (CIF + BCD + SWS)
+3. **IGST:** 12% on (CIF + BCD + SWS) (compute cross-border taxes with our [IGST Calculator](/igst-calculator))
 
 **Example:** Importing a shirt valued at ₹2,000:
 - BCD = 20% × ₹2,000 = ₹400

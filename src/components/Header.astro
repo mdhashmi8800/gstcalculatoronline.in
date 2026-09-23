@@ -90,6 +90,15 @@ const blogCategories = [
               <a href="/blog" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-ink hover:text-primary transition-colors">
                 All Tax Articles
               </a>
+              <a href="/guides" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs font-bold text-ink hover:text-primary transition-colors">
+                Compliance Guides Hub
+              </a>
+              <a href="/guides/gst-compliance-checklist-2026" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs text-body hover:text-primary transition-colors">
+                • GST Compliance Checklist
+              </a>
+              <a href="/guides/e-invoicing-threshold-rules" class="block p-2 rounded-xl hover:bg-canvas-soft-2 text-xs text-body hover:text-primary transition-colors">
+                • E-Invoicing Threshold Rules
+              </a>
               <div class="border-t border-hairline my-1.5"></div>
               {blogCategories.map(cat => (
                 <a 
@@ -232,6 +241,9 @@ const blogCategories = [
           </button>
           <div id="mobile-collapsible-blog-panel" class="hidden pl-4 space-y-1 border-l border-hairline/80 my-1 ml-4">
             <a href="/blog" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">All Articles</a>
+            <a href="/guides" class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2 font-bold text-ink">Compliance Guides Hub</a>
+            <a href="/guides/gst-compliance-checklist-2026" class="block text-xs text-mute hover:text-primary transition-colors py-1.5 px-4 rounded-lg hover:bg-canvas-soft-2">GST Checklist 2026</a>
+            <a href="/guides/e-invoicing-threshold-rules" class="block text-xs text-mute hover:text-primary transition-colors py-1.5 px-4 rounded-lg hover:bg-canvas-soft-2">E-Invoicing Rules</a>
             {blogCategories.map(cat => (
               <a href={`/blog/category/${cat.slug}`} class="block text-sm font-semibold text-mute hover:text-primary transition-colors py-2 px-3 rounded-lg hover:bg-canvas-soft-2">{cat.name}</a>
             ))}

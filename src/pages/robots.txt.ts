@@ -6,7 +6,8 @@ Allow: /
 Disallow: /cdn-cgi/
 Disallow: /admin
 Disallow: /admin/
-Disallow: /search
+Disallow: /api/
+Disallow: /search?*
 Disallow: /search-index.json
 
 # Sitemap location

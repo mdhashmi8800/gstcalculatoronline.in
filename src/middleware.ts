@@ -2,6 +2,7 @@ import { defineMiddleware } from 'astro:middleware';
 
 const REDIRECT_MAP: Record<string, string> = {
   '/tools': '/',
+  '/tools/': '/',
   '/tools/gst-calculator': '/gst-calculator',
   '/tools/reverse-gst-calculator': '/reverse-gst-calculator',
   '/tools/gst-inclusive-calculator': '/gst-inclusive-calculator',
@@ -34,6 +35,9 @@ const REDIRECT_MAP: Record<string, string> = {
   '/tools/category/utilities': '/category/utilities',
   '/add-gst-to-price': '/gst-exclusive-calculator',
   '/remove-gst-from-total': '/reverse-gst-calculator',
+  '/blog/page/1': '/blog',
+  '/blog/gst-in-india-vs-sales-tax-in-usa-key-differences-explained': '/blog/gst-india-vs-sales-tax-usa',
+  '/blog/gst-in-india-vs-sales-tax-in-usa-—-key-differences-explained': '/blog/gst-india-vs-sales-tax-usa',
 };
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -80,8 +84,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // 5. Handle direct legacy or consolidated route mappings
+  let decodedPath = targetPath;
+  try {
+    decodedPath = decodeURIComponent(targetPath);
+  } catch {}
+
   if (REDIRECT_MAP[targetPath]) {
     targetPath = REDIRECT_MAP[targetPath];
+    redirectNeeded = true;
+  } else if (REDIRECT_MAP[decodedPath]) {
+    targetPath = REDIRECT_MAP[decodedPath];
     redirectNeeded = true;
   } else if (targetPath.startsWith('/tools')) {
     targetPath = '/';

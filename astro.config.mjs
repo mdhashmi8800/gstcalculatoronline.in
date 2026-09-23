@@ -49,6 +49,9 @@ export default defineConfig({
     '/tools/category/utilities': { status: 301, destination: '/category/utilities' },
     '/add-gst-to-price': { status: 301, destination: '/gst-exclusive-calculator' },
     '/remove-gst-from-total': { status: 301, destination: '/reverse-gst-calculator' },
+    '/blog/page/1': { status: 301, destination: '/blog' },
+    '/blog/gst-in-india-vs-sales-tax-in-usa-key-differences-explained': { status: 301, destination: '/blog/gst-india-vs-sales-tax-usa' },
+    '/blog/gst-in-india-vs-sales-tax-in-usa-—-key-differences-explained': { status: 301, destination: '/blog/gst-india-vs-sales-tax-usa' },
   },
 
   vite: {
