@@ -61,24 +61,7 @@ const guidesCollection = defineCollection({
   })
 });
 
-const calculatorsCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/calculators' }),
-  schema: z.object({
-    title: z.string(),
-    metaTitle: z.string().optional(),
-    metaDescription: z.string().optional(),
-    calculatorId: z.string().optional(),
-    category: z.string().default('Calculators'),
-    draft: z.boolean().default(false).optional(),
-    faqs: z.array(z.object({
-      question: z.string(),
-      answer: z.string()
-    })).optional()
-  })
-});
-
 export const collections = {
   blog: blogCollection,
   guides: guidesCollection,
-  calculators: calculatorsCollection,
 };
