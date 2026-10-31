@@ -1,6 +1,6 @@
 ---
 title: "Mixed Supply vs Composite Supply under GST: Definitions & Tax Rates"
-metaTitle: "Composite Supply vs Mixed Supply in GST: Key Differences & Rules"
+metaTitle: "Composite vs Mixed Supply in GST: Rules & Tax Rates"
 metaDescription: "Struggling to classify bundled goods and services? Learn the difference between naturally bundled (composite) and artificially bundled (mixed) supplies with tax rates."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

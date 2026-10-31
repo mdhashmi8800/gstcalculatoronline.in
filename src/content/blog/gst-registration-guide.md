@@ -1,6 +1,6 @@
 ---
 title: "GST Registration: Eligibility, Process, and Required Documents"
-metaTitle: "GST Registration: Step-by-Step Online Registration & Checklist"
+metaTitle: "GST Registration Guide: Online Process & Checklist"
 metaDescription: "Detailed guide on GST registration in India. Find out if your business is eligible, document checklist for all business types, and step-by-step online filing guide."
 date: "2026-06-03"
 lastUpdated: "2026-07-02"

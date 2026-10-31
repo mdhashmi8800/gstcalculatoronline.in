@@ -1,6 +1,6 @@
 ---
 title: "GST Invoicing Examples: CGST, SGST, and IGST Billing Scenarios"
-metaTitle: "GST Calculation Examples: Local vs Interstate Invoicing with CGST, SGST, IGST"
+metaTitle: "GST Calculation Examples: CGST, SGST & IGST Invoicing"
 metaDescription: "Explore 6 practical GST invoicing examples for goods and services. Learn CGST/SGST splits for intra-state sales, IGST for interstate supplies, and how to handle mixed transactions."
 date: "2026-07-14"
 lastUpdated: "2026-07-18"

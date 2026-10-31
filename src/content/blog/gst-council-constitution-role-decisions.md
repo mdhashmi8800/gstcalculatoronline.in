@@ -1,6 +1,6 @@
 ---
 title: "GST Council: Role, Meetings, Decisions, and Constitutional Framework"
-metaTitle: "GST Council: Constitutional Framework, Structure & Decision Process"
+metaTitle: "GST Council Guide: Structure, Role & Decision Rules"
 metaDescription: "Discover how the GST Council shapes taxation in India. Understand Article 279A, voting power distributions between Centre and States, and regular review procedures."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

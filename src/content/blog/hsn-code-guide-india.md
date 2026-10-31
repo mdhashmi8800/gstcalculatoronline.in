@@ -1,6 +1,6 @@
 ---
 title: "HSN Code Guide: Meaning, Importance, and Rules for B2B/B2C"
-metaTitle: "HSN Code Guide: GST Classification, Rules & Digit Requirements"
+metaTitle: "HSN Code Guide for GST: Classification & Digit Rules"
 metaDescription: "Understand HSN (Harmonized System of Nomenclature) codes in GST. Learn about 2-digit, 4-digit, 6-digit, and 8-digit rules based on annual turnover thresholds."
 date: "2026-06-16"
 lastUpdated: "2026-07-02"

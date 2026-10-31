@@ -36,6 +36,7 @@ const REDIRECT_MAP: Record<string, string> = {
   '/add-gst-to-price': '/gst-exclusive-calculator',
   '/remove-gst-from-total': '/reverse-gst-calculator',
   '/blog/page/1': '/blog',
+  '/blog/page': '/blog',
   '/blog/gst-in-india-vs-sales-tax-in-usa-key-differences-explained': '/blog/gst-india-vs-sales-tax-usa',
   '/blog/gst-in-india-vs-sales-tax-in-usa-—-key-differences-explained': '/blog/gst-india-vs-sales-tax-usa',
 };

@@ -1,6 +1,6 @@
 ---
 title: "What is GST (Goods and Services Tax) in India: The Ultimate Guide"
-metaTitle: "What is GST in India: Complete Guide to Goods & Services Tax"
+metaTitle: "What is GST in India: Complete Beginner's Guide (2026)"
 metaDescription: "Understand the fundamentals of GST in India. Learn about its structure (CGST, SGST, IGST), dual model, tax slabs, benefits, registration process, and return filing."
 date: "2026-06-01"
 lastUpdated: "2026-07-02"

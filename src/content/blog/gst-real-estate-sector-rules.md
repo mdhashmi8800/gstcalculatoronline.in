@@ -1,6 +1,6 @@
 ---
 title: "GST on Real Estate: Tax Rates, ITC Rules, and Joint Development"
-metaTitle: "GST on Real Estate 2026: Tax Rates (1% & 5%), ITC Rules & JDA"
+metaTitle: "GST on Real Estate 2026: Tax Rates (1% & 5%) & Rules"
 metaDescription: "A technical guide to GST in the construction and real estate sector. Learn about affordable vs commercial units, ITC exclusions, and JDA tax liabilities."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

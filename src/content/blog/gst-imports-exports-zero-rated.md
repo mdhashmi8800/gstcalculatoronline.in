@@ -1,6 +1,6 @@
 ---
 title: "GST on Import and Export of Goods & Services: Zero-Rated vs Exempt"
-metaTitle: "GST Export & Import Rules: LUT, Zero-Rated Supplies & IGST Refund"
+metaTitle: "GST Export & Import Rules: LUT & Zero-Rated Supplies"
 metaDescription: "Learn how imports and exports are treated under Indian GST. Discover zero-rated supplies, Letter of Undertaking (LUT) filings, customs integration, and refunds."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

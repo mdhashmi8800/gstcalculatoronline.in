@@ -22,45 +22,48 @@ function toSitemapDate(raw: string | Date | null | undefined, fallback: string):
 }
 
 export const GET: APIRoute = async () => {
-  const today = new Date().toISOString().split('T')[0];
+  const publishedBlogPosts = await getAllPosts();
+
+  // Find latest blog post date to accurately represent the blog index freshness
+  const latestBlogDate = publishedBlogPosts.length > 0
+    ? toSitemapDate(publishedBlogPosts[0].modified || publishedBlogPosts[0].date, '2026-10-31')
+    : '2026-10-31';
 
   const staticPages = [
-    { url: 'https://gstcalculatoronline.in/', changefreq: 'daily', priority: '1.0', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-calculator', changefreq: 'weekly', priority: '0.9', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/reverse-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-inclusive-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-exclusive-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-split-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/igst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-rate-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-refund-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/late-fee-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/interest-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/composition-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/invoice-builder', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-rate-finder', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-profit-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-discount-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/cgst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/sgst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/18-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/12-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/5-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/28-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-formula', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/gst-rates', changefreq: 'weekly', priority: '0.8', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/blog', changefreq: 'daily', priority: '0.7', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/guides', changefreq: 'daily', priority: '0.7', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/about', changefreq: 'monthly', priority: '0.6', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/contact', changefreq: 'monthly', priority: '0.5', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/sitemap-page', changefreq: 'weekly', priority: '0.5', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/privacy-policy', changefreq: 'monthly', priority: '0.3', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/terms-and-conditions', changefreq: 'monthly', priority: '0.3', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/disclaimer', changefreq: 'monthly', priority: '0.3', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/editorial-policy', changefreq: 'monthly', priority: '0.3', lastmod: today },
+    { url: 'https://gstcalculatoronline.in/', changefreq: 'daily', priority: '1.0', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-calculator', changefreq: 'weekly', priority: '0.9', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/reverse-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-inclusive-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-exclusive-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-split-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/igst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-rate-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-refund-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/late-fee-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/interest-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/composition-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/invoice-builder', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-rate-finder', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-profit-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-discount-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/cgst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/sgst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/18-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/12-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/5-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/28-percent-gst-calculator', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-formula', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/gst-rates', changefreq: 'weekly', priority: '0.8', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/blog', changefreq: 'daily', priority: '0.7', lastmod: latestBlogDate },
+    { url: 'https://gstcalculatoronline.in/guides', changefreq: 'daily', priority: '0.7', lastmod: '2026-08-31' },
+    { url: 'https://gstcalculatoronline.in/about', changefreq: 'monthly', priority: '0.6', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/contact', changefreq: 'monthly', priority: '0.5', lastmod: '2026-07-31' },
+    { url: 'https://gstcalculatoronline.in/sitemap-page', changefreq: 'weekly', priority: '0.5', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/privacy-policy', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-31' },
+    { url: 'https://gstcalculatoronline.in/terms-and-conditions', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-31' },
+    { url: 'https://gstcalculatoronline.in/disclaimer', changefreq: 'monthly', priority: '0.3', lastmod: '2026-07-31' },
+    { url: 'https://gstcalculatoronline.in/editorial-policy', changefreq: 'monthly', priority: '0.3', lastmod: '2026-10-31' },
   ];
-
-  const publishedBlogPosts = await getAllPosts();
 
   const dynamicBlogPages = publishedBlogPosts.map((post) => {
     const cleanSlug = post.slug.toLowerCase().replace(/^\/+|\/+$/g, '');
@@ -68,7 +71,7 @@ export const GET: APIRoute = async () => {
       url: `https://gstcalculatoronline.in/blog/${cleanSlug}`,
       changefreq: 'weekly' as const,
       priority: '0.6',
-      lastmod: toSitemapDate(post.modified || post.date, today)
+      lastmod: toSitemapDate(post.modified || post.date, '2026-07-26')
     };
   });
 
@@ -76,12 +79,18 @@ export const GET: APIRoute = async () => {
     publishedBlogPosts.map((post) => post.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''))
   ));
 
-  const blogCategoryPages = blogCategorySlugs.map((slug) => ({
-    url: `https://gstcalculatoronline.in/blog/category/${slug}`,
-    changefreq: 'weekly' as const,
-    priority: '0.5',
-    lastmod: today
-  }));
+  const blogCategoryPages = blogCategorySlugs.map((slug) => {
+    const postsInCat = publishedBlogPosts.filter(p => p.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '') === slug);
+    const catLastMod = postsInCat.length > 0
+      ? toSitemapDate(postsInCat[0].modified || postsInCat[0].date, '2026-07-26')
+      : '2026-07-26';
+    return {
+      url: `https://gstcalculatoronline.in/blog/category/${slug}`,
+      changefreq: 'weekly' as const,
+      priority: '0.5',
+      lastmod: catLastMod
+    };
+  });
 
   const allGuides = await getCollection('guides');
   const now = Date.now();
@@ -97,16 +106,16 @@ export const GET: APIRoute = async () => {
       url: `https://gstcalculatoronline.in/guides/${cleanGuideSlug}`,
       changefreq: 'weekly' as const,
       priority: '0.6',
-      lastmod: toSitemapDate(guide.data.lastUpdated || guide.data.date, today)
+      lastmod: toSitemapDate(guide.data.lastUpdated || guide.data.date, '2026-08-31')
     };
   });
 
   const toolCategoryPages = [
-    { url: 'https://gstcalculatoronline.in/category/tax-slabs', changefreq: 'weekly', priority: '0.6', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/category/late-fees', changefreq: 'weekly', priority: '0.6', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/category/interest-penalties', changefreq: 'weekly', priority: '0.6', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/category/composition-scheme', changefreq: 'weekly', priority: '0.6', lastmod: today },
-    { url: 'https://gstcalculatoronline.in/category/utilities', changefreq: 'weekly', priority: '0.6', lastmod: today },
+    { url: 'https://gstcalculatoronline.in/category/tax-slabs', changefreq: 'weekly', priority: '0.6', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/category/late-fees', changefreq: 'weekly', priority: '0.6', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/category/interest-penalties', changefreq: 'weekly', priority: '0.6', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/category/composition-scheme', changefreq: 'weekly', priority: '0.6', lastmod: '2026-10-31' },
+    { url: 'https://gstcalculatoronline.in/category/utilities', changefreq: 'weekly', priority: '0.6', lastmod: '2026-10-31' },
   ];
 
   const pages = [

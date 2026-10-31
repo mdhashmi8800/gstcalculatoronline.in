@@ -1,6 +1,6 @@
 ---
 title: "GST on Electronics in India: Rates, HSN Codes & ITC Rules (2026)"
-metaTitle: "GST Rates on Electronics in India: Mobiles, Laptops, TVs & More (2026)"
+metaTitle: "GST Rates on Electronics in India: Mobiles & Laptops"
 metaDescription: "Complete guide to GST rates on electronics in India. Find GST slabs for mobile phones, laptops, televisions, air conditioners, refrigerators, and other consumer electronics with HSN codes."
 date: "2026-07-10"
 lastUpdated: "2026-07-18"

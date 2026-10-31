@@ -3,8 +3,8 @@ import CalculatorLayout from '../components/CalculatorLayout.astro';
 import ResultCard from '../components/ResultCard.astro';
 import FAQ from '../components/FAQ.astro';
 
-const pageTitle = "GST Interest Calculator – Section 50 Rate Online";
-const pageDesc = "Calculate interest on late GST payment under Section 50. Computes 18% p.a. on net cash liability and 24% on wrongful ITC utilization. Free and fast.";
+const pageTitle = "GST Interest Calculator – Section 50 Late Payment Calculator";
+const pageDesc = "Calculate interest on delayed GST payments under Section 50 of CGST Act. 18% p.a. on net cash liability & 24% on wrongful ITC. Free, accurate & CA-verified.";
 
 // Schema for Interest Calculator Page
 const pageSchema = {
@@ -25,7 +25,7 @@ const faqs = [
   { question: "Is interest calculated on net or gross GST liability?", answer: "Following the 2020 amendment to Section 50(1) of the CGST Act, interest is calculated on the net tax liability paid through the Electronic Cash Ledger (i.e., cash payment only). Interest is NOT levied on the portion of tax offset using Input Tax Credit from the Electronic Credit Ledger, provided the return is filed voluntarily before any tax proceedings." },
   { question: "How is the delay period calculated for GST interest?", answer: "The delay period is counted starting from the day immediately after the official due date of filing/payment, up to (and including) the actual date on which the tax is paid. Example: If the due date is the 20th of a month and payment is made on the 30th, the delay is 10 days." },
   { question: "What is Section 50 of the CGST Act?", answer: "Section 50 of the CGST Act, 2017 is the provision that mandates interest on delayed tax payments. Section 50(1) covers interest at 18% pa on late payment of tax. Section 50(3) covers interest at 24% pa on wrongful ITC claims that have been utilized. The 2020 Finance Act amended Section 50(1) to restrict interest to net cash liability." },
-  { question: "What is the interest rate on wrong ITC claim?", answer: "If a taxpayer claims and utilizes Input Tax Credit (ITC) to which they are not entitled, interest is levied at 24% per annum under Section 50(3) of the CGST Act. This is higher than the standard 18% rate for delayed tax payments. If the wrong ITC is merely claimed but not yet utilized, recent GST Council decisions indicate no interest applies." },
+  { question: "What is the interest rate on wrong ITC claim?", answer: "Under Section 50(3) of the CGST Act, as amended retrospectively from July 1, 2017 via the Finance Act 2022 and Notification No. 13/2022-Central Tax, interest on wrongly availed and utilized Input Tax Credit (ITC) is levied at 18% per annum (previously 24%). Importantly, interest applies only if wrong ITC has been both availed AND utilized to offset tax liability. Merely claiming unutilized ITC does not attract interest." },
   { question: "When does GST interest start and stop?", answer: "GST interest starts from the day immediately following the due date of filing/payment. It stops on the date the actual tax payment is made. For example, if the due date is November 20 and you pay on December 5, interest applies for 15 days (November 21 to December 5)." },
   { question: "Is there any waiver or amnesty scheme for GST interest?", answer: "Yes. The GST Council has periodically announced amnesty schemes that waive or reduce interest and late fees for specific periods or categories of taxpayers. In 2021, Section 50 was amended to restrict interest to net cash liability. Always check the latest GST Council decisions and CBIC notifications for any current waivers." },
   { question: "How much interest is charged per day for GST?", answer: "GST interest at 18% per annum works out to approximately 0.0493% per day (18 ÷ 365). For a tax liability of ₹1,00,000, this is about ₹49.32 per day. At 24% per annum (for ITC misuse), it is about ₹65.75 per day." },

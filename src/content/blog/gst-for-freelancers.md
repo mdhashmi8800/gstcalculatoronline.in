@@ -1,6 +1,6 @@
 ---
 title: "GST for Freelancers and Consultants in India: Registration & Compliance"
-metaTitle: "GST Guide for Freelancers in India: Thresholds, Invoicing & Taxes (2026)"
+metaTitle: "GST Guide for Freelancers in India (2026 Rules)"
 metaDescription: "Are you a freelancer, developer, or consultant in India? Learn about GST registration thresholds, zero-rated export benefits, invoicing guidelines, ITC claims, and filing obligations for 2026."
 date: "2026-07-14"
 lastUpdated: "2026-07-18"

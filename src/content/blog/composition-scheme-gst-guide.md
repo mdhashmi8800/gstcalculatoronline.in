@@ -1,6 +1,6 @@
 ---
 title: "Composition Scheme under GST: Rules, Tax Rates, and Eligibility"
-metaTitle: "GST Composition Scheme Guide: Turnover Limits, Rates & Rules"
+metaTitle: "GST Composition Scheme Guide: Limits, Rates & Rules"
 metaDescription: "Complete guide to the GST Composition Scheme. Understand the ₹1.5 crore turnover threshold, flat tax rates (1%, 5%, 6%), GSTR-4 filing, and critical restrictions."
 date: "2026-06-22"
 lastUpdated: "2026-07-02"

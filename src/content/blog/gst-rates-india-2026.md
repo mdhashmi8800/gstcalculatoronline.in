@@ -1,6 +1,6 @@
 ---
 title: "GST Rates in India: Tax slabs, Exemptions, and Cess (2026)"
-metaTitle: "Latest GST Tax Slabs in India: 5%, 12%, 18% & 28% Goods List"
+metaTitle: "GST Tax Slabs in India: 5%, 12%, 18% & 28% Rates (2026)"
 metaDescription: "Explore the updated GST tax slabs in India for 2026. Learn about zero-rated items, essential goods (5%), standard items (12% & 18%), and luxury tax slabs (28% + Cess)."
 date: "2026-06-07"
 lastUpdated: "2026-07-02"

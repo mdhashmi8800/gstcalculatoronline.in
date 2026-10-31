@@ -7,6 +7,7 @@ Disallow: /cdn-cgi/
 Disallow: /admin
 Disallow: /admin/
 Disallow: /api/
+Disallow: /search
 Disallow: /search?*
 Disallow: /search-index.json
 

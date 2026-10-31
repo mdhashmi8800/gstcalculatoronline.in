@@ -62,10 +62,17 @@ const items: BreadcrumbItem[] = customItems || [
     let cumulativePath = '';
     pathSegments.forEach((segment) => {
       cumulativePath += '/' + segment;
-      if (segment === 'category') {
+      if (segment === 'category' || segment === 'page') {
         return;
       }
-      const name = segmentMap[segment] || segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      let name = segmentMap[segment];
+      if (!name) {
+        if (!isNaN(Number(segment))) {
+          name = `Page ${segment}`;
+        } else {
+          name = segment.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+      }
       list.push({ name, url: cumulativePath });
     });
     return list;

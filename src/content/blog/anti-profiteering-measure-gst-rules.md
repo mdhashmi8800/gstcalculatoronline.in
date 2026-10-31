@@ -1,6 +1,6 @@
 ---
 title: "Anti-Profiteering Measure in GST: Rules, Complaints, and NAA Role"
-metaTitle: "GST Anti-Profiteering Clause: Rules, Complaints & CCI Investigation"
+metaTitle: "GST Anti-Profiteering Rules: Legal Framework Guide"
 metaDescription: "Understand the Anti-Profiteering Clause under Section 171 of the CGST Act. Learn how businesses must pass tax cut benefits to consumers and the role of the CCI."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

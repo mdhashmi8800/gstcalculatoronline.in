@@ -1,6 +1,6 @@
 ---
 title: "Place of Supply in GST: Interstate vs Intrastate Rules"
-metaTitle: "Place of Supply in GST: Comprehensive Rules for Goods & Services"
+metaTitle: "Place of Supply Rules in GST: Goods & Services Guide"
 metaDescription: "Determine tax types accurately. A complete breakdown of Place of Supply rules under the IGST Act, covering transport, services, real estate, and imports."
 date: "2026-07-01"
 lastUpdated: "2026-07-02"

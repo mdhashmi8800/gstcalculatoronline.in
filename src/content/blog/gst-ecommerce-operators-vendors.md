@@ -1,6 +1,6 @@
 ---
 title: "GST on E-commerce: TCS Rules, Registration, and Operators"
-metaTitle: "GST Guide for E-commerce: TCS Tax Collection, Registration & Rules"
+metaTitle: "GST Guide for E-Commerce: TCS, Registration & Rules"
 metaDescription: "Selling online or running a marketplace? Learn about compulsory GST registration, Tax Collection at Source (TCS) rules under Section 52, and compliance formats."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

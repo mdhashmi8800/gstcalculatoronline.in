@@ -1,6 +1,6 @@
 ---
 title: "GST on Restaurants and Food Delivery Services: ITC and Slabs"
-metaTitle: "GST on Restaurant Bill: 5% vs 18% Slabs, E-commerce Delivery & ITC"
+metaTitle: "GST on Restaurants & Food Delivery: 5% vs 18% Slabs"
 metaDescription: "Learn about GST rates on dining, outdoor catering, and cloud kitchens. Detailed rules on Input Tax Credit exclusions and e-commerce food delivery aggregators (Sec 9(5))."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

@@ -1,6 +1,6 @@
 ---
 title: "E-Way Bill System: Applicability, Limits, Registration, and Generation"
-metaTitle: "E-Way Bill Guide: Rules, Threshold Limits & online Generation Steps"
+metaTitle: "E-Way Bill Guide: Rules, Limits & Online Generation"
 metaDescription: "Master the E-Way bill system. Understand the ₹50,000 threshold limit, sub-rules for local vs interstate movements, blockages for non-filers, and step-by-step setup."
 date: "2026-06-28"
 lastUpdated: "2026-07-02"

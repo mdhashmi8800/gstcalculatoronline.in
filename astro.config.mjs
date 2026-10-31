@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -50,12 +51,18 @@ export default defineConfig({
     '/add-gst-to-price': { status: 301, destination: '/gst-exclusive-calculator' },
     '/remove-gst-from-total': { status: 301, destination: '/reverse-gst-calculator' },
     '/blog/page/1': { status: 301, destination: '/blog' },
+    '/blog/page': { status: 301, destination: '/blog' },
     '/blog/gst-in-india-vs-sales-tax-in-usa-key-differences-explained': { status: 301, destination: '/blog/gst-india-vs-sales-tax-usa' },
     '/blog/gst-in-india-vs-sales-tax-in-usa-—-key-differences-explained': { status: 301, destination: '/blog/gst-india-vs-sales-tax-usa' },
   },
 
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        picomatch: fileURLToPath(new URL('./src/utils/picomatch-esm.mjs', import.meta.url)),
+      },
+    },
   },
 
   adapter: cloudflare(),

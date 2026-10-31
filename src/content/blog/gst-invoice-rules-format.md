@@ -1,6 +1,6 @@
 ---
 title: "GST Invoice Rules: Formats, Mandatory Fields, and E-Invoicing"
-metaTitle: "GST Invoice Guide: Legal Formats, Bill Template & E-Invoice Limits"
+metaTitle: "GST Invoice Rules: Mandatory Formats & Limits (2026)"
 metaDescription: "Comprehensive guide on GST tax invoices. Learn the 16 mandatory fields, rules for debit/credit notes, bill of supply, and the e-invoicing registration threshold."
 date: "2026-06-14"
 lastUpdated: "2026-07-02"

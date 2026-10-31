@@ -1,6 +1,6 @@
 ---
 title: "GST Return Filing: Due Dates, Forms (GSTR-1, 3B, 9), and Procedures"
-metaTitle: "GST Return Filing Guide: All Return Forms, Due Dates & Process"
+metaTitle: "GST Return Filing Checklist: Forms, Dates & Process"
 metaDescription: "Learn how to file GST returns online. Complete overview of GSTR-1, GSTR-3B, GSTR-9, monthly and quarterly return filing calendars, and step-by-step procedures."
 date: "2026-06-05"
 lastUpdated: "2026-07-02"

@@ -1,6 +1,6 @@
 ---
 title: "GSTR-3B Filing: Table-by-Table Guide and Reconciliation"
-metaTitle: "How to File GSTR-3B: Table-by-Table Online Filing & ITC Matching"
+metaTitle: "How to File GSTR-3B Online: Step-by-Step Filing Guide"
 metaDescription: "File your GSTR-3B return without errors. Learn the content of Tables 3.1, 4, 5, and 6, liability adjustments, tax payments using cash ledgers, and checks."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

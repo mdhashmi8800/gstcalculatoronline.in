@@ -1,6 +1,6 @@
 ---
 title: How GST Works in Australia (2026 Guide)
-metaTitle: How GST Works in Australia (2026 Guide) | Rate, Registration & Examples
+metaTitle: "How GST Works in Australia: Rates & Registration"
 metaDescription: Learn how GST works in Australia in 2026 — the 10% rate, the
   $75,000 registration threshold, GST-free items, BAS filing, and how to
   calculate GST with simple examples.

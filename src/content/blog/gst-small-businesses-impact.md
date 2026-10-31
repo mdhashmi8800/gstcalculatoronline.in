@@ -1,6 +1,6 @@
 ---
 title: "GST for Small Businesses: Rules, Exemptions, and Compliance Guide"
-metaTitle: "GST Guide for Small Businesses: Exemptions, Composition & Benefits"
+metaTitle: "GST Guide for Small Businesses: Schemes & Exemptions"
 metaDescription: "Are you a small business owner? Discover the threshold limits, compliance simplifications, quarterly returns, and strategies to optimize taxes under Indian GST laws."
 date: "2026-06-20"
 lastUpdated: "2026-07-02"

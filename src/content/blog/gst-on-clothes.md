@@ -1,6 +1,6 @@
 ---
 title: "GST on Clothes and Textiles in India: Rates, Exemptions & HSN Codes (2026)"
-metaTitle: "GST Rates on Clothes & Textiles in India: Full Guide with HSN Codes (2026)"
+metaTitle: "GST Rates on Clothes & Textiles in India (2026)"
 metaDescription: "Comprehensive guide to GST rates on clothes and textiles in India. Learn about 5% vs 12% slabs, HSN codes for garments, exemptions, branded vs unbranded clothing rules, and import tax rates."
 date: "2026-07-10"
 lastUpdated: "2026-07-18"

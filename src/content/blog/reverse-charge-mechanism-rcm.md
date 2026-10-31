@@ -1,6 +1,6 @@
 ---
 title: "Reverse Charge Mechanism (RCM) in GST: Rules and Complete List"
-metaTitle: "Reverse Charge Mechanism (RCM) in GST: Tax Liabilities & List"
+metaTitle: "Reverse Charge Mechanism (RCM) in GST: Rules & List"
 metaDescription: "Understand RCM (Reverse Charge Mechanism) under GST. Learn about Section 9(3) and 9(4), mandatory payment in cash, ITC claims, and list of goods & services under RCM."
 date: "2026-06-24"
 lastUpdated: "2026-07-02"

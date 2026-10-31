@@ -49,8 +49,11 @@ const articleUrl = `https://gstcalculatoronline.in/blog/${post.slug}`;
 
 function buildSeoTitle(raw: string): string {
   const brand = ' | GST Calculator Online';
-  if (raw.includes('GST Calculator Online')) return raw;
-  return `${raw}${brand}`;
+  if (raw.includes('GST Calculator Online') || raw.includes('gstcalculatoronline.in')) return raw;
+  if (raw.length + brand.length <= 60) {
+    return `${raw}${brand}`;
+  }
+  return raw;
 }
 
 const enrichedSchema = {

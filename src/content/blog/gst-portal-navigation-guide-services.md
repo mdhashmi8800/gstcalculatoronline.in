@@ -1,6 +1,6 @@
 ---
 title: "GST Portal Navigation Guide: Services, Ledgers, and Dashboard Features"
-metaTitle: "How to Use GST Portal: Dashboard, Ledgers & Online Service Tools"
+metaTitle: "How to Use GST Portal: Services, Ledgers & Filing"
 metaDescription: "A hands-on walk-through of the official gst.gov.in portal. Learn where to check electronic ledgers, search taxpayer details, and locate offline utilities."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"

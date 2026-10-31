@@ -1,6 +1,6 @@
 ---
 title: "GST Audit and Assessment: Types, Limits, and Preparation Tips"
-metaTitle: "GST Audit Guide: Threshold Limits, Departmental Audits & Process"
+metaTitle: "GST Audit & Assessment Guide: Types & Thresholds"
 metaDescription: "Prepare for GST audit and assessment. Learn about self-assessment, departmental audits under Section 65, special audits under Section 66, and documents checklist."
 date: "2026-06-30"
 lastUpdated: "2026-07-02"

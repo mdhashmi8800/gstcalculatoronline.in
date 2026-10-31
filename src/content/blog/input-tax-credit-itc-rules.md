@@ -1,6 +1,6 @@
 ---
 title: "Input Tax Credit (ITC): Rules, Eligibility, and Blocked Credits"
-metaTitle: "Input Tax Credit (ITC) Rules under GST: Claiming & Reconciliations"
+metaTitle: "Input Tax Credit (ITC) Rules under GST: Claiming Guide"
 metaDescription: "Master Input Tax Credit (ITC) rules in GST. Learn about Section 16 eligibility criteria, GSTR-2B reconciliation, and blocked credits under Section 17(5)."
 date: "2026-06-12"
 lastUpdated: "2026-07-02"

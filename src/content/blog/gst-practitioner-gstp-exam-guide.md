@@ -1,6 +1,6 @@
 ---
 title: "GST Practitioner (GSTP): Exam, Eligibility, and Role in Business"
-metaTitle: "GST Practitioner Exam Guide: Eligibility, Registration & Syllabus"
+metaTitle: "GST Practitioner (GSTP) Exam: Eligibility & Guide"
 metaDescription: "Want to become a certified GST Practitioner? Learn about qualifying degrees, registration on the GST Portal, NACIN exam syllabus, passing criteria, and career roles."
 date: "2026-07-02"
 lastUpdated: "2026-07-02"
