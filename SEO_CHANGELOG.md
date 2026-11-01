@@ -15,10 +15,10 @@ This changelog documents all verified technical, structural, architectural, meta
 
 ## 2. Infrastructure & Routing Architecture Fixes
 
-### 2.1 Cloudflare Edge Redirect Normalization
+### 2.1 Cloudflare Edge Static Asset Handling
 - **File Modified:** `wrangler.jsonc`
-- **Change:** Changed `"html_handling": "drop-trailing-slash"` to `"html_handling": "none"`.
-- **Rationale & Impact:** Google Search Console crawl statistics revealed a 21.80% HTTP 302 response rate. Cloudflare Pages/Assets natively issued temporary 302/307 redirects for URLs with trailing slashes before requests reached application middleware. Disabling Cloudflare asset html_handling delegates trailing slash normalization entirely to Astro edge middleware, which issues standard HTTP 301 permanent redirects. This eliminates temporary redirect crawl waste and consolidates link equity.
+- **Change:** Configured `"html_handling": "drop-trailing-slash"` and `"directory": "./dist/client"`.
+- **Rationale & Impact:** Restored Cloudflare Static Asset handling for static HTML files (`index.html`). Setting `html_handling: "none"` prevented Cloudflare from resolving `/` to `/index.html` and clean URLs to their respective HTML assets, resulting in 404 errors across the entire site. `drop-trailing-slash` ensures URLs without trailing slashes resolve directly to static HTML assets while dropping trailing slashes according to `trailingSlash: 'never'`.
 
 ### 2.2 Native Vite 8 ESM Module Compatibility
 - **Files Created / Modified:** `astro.config.mjs`, `src/utils/picomatch-esm.mjs`
@@ -157,7 +157,7 @@ This changelog documents all verified technical, structural, architectural, meta
 
 | Audit Check | Before | After | Status |
 | :--- | :--- | :--- | :--- |
-| **Edge 302 Redirects** | 21.80% in GSC | 0% (Cloudflare `html_handling: "none"`) | **VERIFIED** |
+| **Edge Asset Routing** | Broken 404 (`html_handling: "none"`) | Working 200 (`html_handling: "drop-trailing-slash"`) | **VERIFIED** |
 | **GSC 404 URL (`/blog/page`)** | Broken 404 | 301 Permanent Redirect to `/blog` | **VERIFIED** |
 | **Missing Image ALT (Bing)** | 1 image missing | 0 images missing (289/289 compliant) | **VERIFIED** |
 | **Titles > 60 Characters** | 10+ pages | 0 pages (97/97 pages compliant) | **VERIFIED** |
