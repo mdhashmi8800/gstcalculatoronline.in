@@ -8,7 +8,7 @@ date: 2026-07-26
 author: Hashmi Akbar
 readTime: 10 min read
 slug: how-gst-works-in-australia-2026-guide
-category: GST Basics
+category: "GST Basics"
 draft: false
 ---
 ## How GST Works in Australia (2026 Guide)

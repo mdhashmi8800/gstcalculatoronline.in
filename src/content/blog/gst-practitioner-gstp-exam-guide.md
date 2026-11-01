@@ -7,7 +7,7 @@ lastUpdated: "2026-07-02"
 author: "Anjum Mina"
 readTime: "12 min read"
 slug: "gst-practitioner-gstp-exam-guide"
-category: "GST Career"
+category: "GST Compliance"
 relatedCalculators:
   - name: "GST Calculator"
     url: "/gst-calculator"

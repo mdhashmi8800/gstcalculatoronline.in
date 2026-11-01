@@ -7,7 +7,7 @@ lastUpdated: "2026-07-02"
 author: "Hashmi Akbar"
 readTime: "11 min read"
 slug: "gst-rates-india-2026"
-category: "GST Rates"
+category: "GST Basics"
 relatedCalculators:
   - name: "GST Calculator"
     url: "/gst-calculator"

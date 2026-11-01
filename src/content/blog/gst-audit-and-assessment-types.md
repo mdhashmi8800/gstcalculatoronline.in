@@ -7,7 +7,7 @@ lastUpdated: "2026-07-02"
 author: "Mehakma"
 readTime: "14 min read"
 slug: "gst-audit-and-assessment-types"
-category: "GST Audit"
+category: "GST Compliance"
 relatedCalculators:
   - name: "GST Calculator"
     url: "/gst-calculator"

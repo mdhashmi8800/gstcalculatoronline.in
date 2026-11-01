@@ -6,7 +6,7 @@ date: 2026-07-26
 author: Hashmi Akbar
 readTime: 10 min read
 slug: "gst-india-vs-sales-tax-usa"
-category: GST Basics
+category: "GST Basics"
 draft: false
 relatedCalculators:
   - name: "- GST Calculator"
