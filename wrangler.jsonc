@@ -5,10 +5,19 @@
 	"name": "gstcalculatoronline-in",
 	"main": "@astrojs/cloudflare/entrypoints/server",
 	"assets": {
-		"directory": "./dist",
+		"directory": "./dist/client",
 		"binding": "ASSETS",
 		"html_handling": "none",
 		"not_found_handling": "404-page"
+	},
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "SESSION"
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
 	},
 	"observability": {
 		"enabled": true
